@@ -275,6 +275,7 @@ dependencies = [
 [[package]]
 name = "anchor-litesvm"
 version = "0.4.0"
+source = "git+https://github.com/cds-rs/anchor-litesvm?rev=4fd546928a9a7c3a5a85012ff6799a544fef6518#4fd546928a9a7c3a5a85012ff6799a544fef6518"
 dependencies = [
  "anchor-lang",
  "anchor-litesvm-compat",
@@ -293,6 +294,7 @@ dependencies = [
 [[package]]
 name = "anchor-litesvm-compat"
 version = "0.4.0"
+source = "git+https://github.com/cds-rs/anchor-litesvm?rev=4fd546928a9a7c3a5a85012ff6799a544fef6518#4fd546928a9a7c3a5a85012ff6799a544fef6518"
 dependencies = [
  "litesvm",
  "litesvm-cpi-tree",
@@ -308,6 +310,7 @@ dependencies = [
 [[package]]
 name = "anchor-litesvm-derive"
 version = "0.4.0"
+source = "git+https://github.com/cds-rs/anchor-litesvm?rev=4fd546928a9a7c3a5a85012ff6799a544fef6518#4fd546928a9a7c3a5a85012ff6799a544fef6518"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1768,6 +1771,7 @@ dependencies = [
 [[package]]
 name = "litesvm-utils"
 version = "0.4.0"
+source = "git+https://github.com/cds-rs/anchor-litesvm?rev=4fd546928a9a7c3a5a85012ff6799a544fef6518#4fd546928a9a7c3a5a85012ff6799a544fef6518"
 dependencies = [
  "anchor-litesvm-compat",
  "base64 0.22.1",
