@@ -897,12 +897,18 @@ impl TestCampaign {
         self.ctx.svm.expire_blockhash();
     }
 
-    /// The claim receipt for `user`, asserting it records them as the claimer.
-    pub fn assert_receipt_claimer(&self, user: &Pubkey) {
+    /// The claimer recorded in `user`'s receipt (stays bound to the original
+    /// recipient even after the position NFT is transferred away).
+    pub fn receipt_claimer(&self, user: &Pubkey) -> Pubkey {
         let receipt: crate::vesting_positions::accounts::ClaimReceipt = self
             .ctx
             .load(&receipt_pda(&self.campaign_address(), user).0);
-        assert_eq!(receipt.claimer, *user);
+        receipt.claimer
+    }
+
+    /// Assert `user`'s receipt records them as the claimer.
+    pub fn assert_receipt_claimer(&self, user: &Pubkey) {
+        assert_eq!(self.receipt_claimer(user), *user);
     }
 
     /// The schedule Attributes the program stored on the mpl-core collection.
