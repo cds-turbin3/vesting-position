@@ -6,4 +6,9 @@
 //! mirror: a builder per instruction, so tests read close to the anchor-litesvm
 //! typed form while lowering to frood's dynamic core underneath.
 
+pub mod common;
+pub mod merkle;
+pub mod pda;
+pub mod vesting;
 pub mod vesting_gen;
+pub mod world;

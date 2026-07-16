@@ -11,8 +11,7 @@ const SO: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/fixtures/vesting_position
 const MPL_CORE_SO: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/fixtures/mpl_core.so");
 const IDL: &str = include_str!("../idls/vesting_positions.codama.json");
 
-const MPL_CORE_ID: Pubkey =
-    Pubkey::from_str_const("CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d");
+const MPL_CORE_ID: Pubkey = Pubkey::from_str_const("CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d");
 
 #[test]
 fn initialize_creates_campaign() {
@@ -80,11 +79,19 @@ fn initialize_creates_campaign() {
             .unwrap_or_else(|| panic!("field {name} missing"))
     };
 
-    assert_eq!(get("totalDeposit"), Value::U64(total_deposit), "totalDeposit");
+    assert_eq!(
+        get("totalDeposit"),
+        Value::U64(total_deposit),
+        "totalDeposit"
+    );
     assert_eq!(
         get("mintToDistribute"),
         Value::Pubkey(mint.to_bytes()),
         "mintToDistribute"
     );
-    assert_eq!(get("collection"), Value::Pubkey(collection.to_bytes()), "collection");
+    assert_eq!(
+        get("collection"),
+        Value::Pubkey(collection.to_bytes()),
+        "collection"
+    );
 }
