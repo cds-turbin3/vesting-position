@@ -66,6 +66,10 @@ fn at_cliff_releases_cliff_bps() {
 fn mid_schedule_cliff_plus_linear() {
     let (merkle, mut world) = setup(CampaignConfig::default());
     let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    world.story.narrate(
+        "Halfway through the linear window, a claim releases the cliff slice plus half the \
+         linear remainder: cliff_amount + linear_amount/2.",
+    );
 
     let mid = world.linear_checkpoint(50);
     world.warp_to(mid);
@@ -76,10 +80,15 @@ fn mid_schedule_cliff_plus_linear() {
     assert_eq!(expected, cliff_amount + linear_amount / 2);
 
     fund_keypair(&mut world, &alice.keypair, LAMPORTS);
+    let before = world.claimer_token_balance(&alice.keypair.pubkey());
     world.first_claim_ok(&alice.keypair, alice.proofs.clone(), alice.allocation);
-    assert_eq!(
-        world.claimer_token_balance(&alice.keypair.pubkey()),
-        world.expected_claimable(mid, alice.allocation, 0)
+    let after = world.claimer_token_balance(&alice.keypair.pubkey());
+    assert_eq!(after, world.expected_claimable(mid, alice.allocation, 0));
+    world.story.transition(
+        "Alice's balance",
+        before,
+        after,
+        "mid-schedule claim: cliff slice + half the linear remainder",
     );
 }
 

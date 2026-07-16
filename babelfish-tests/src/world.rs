@@ -8,7 +8,7 @@
 //! a frood `Story` over the committed `.so` + Codama IDL instead of a compiled
 //! program crate, and instructions built through `frood gen`'s typed mirrors.
 
-use frood::{Actor, Outcome, ReportState, Reporter, Story};
+use frood::{render_body_blocks, Actor, Block, Outcome, ReportState, Reporter, StateRoster, Story};
 use frood_idl::types::Value;
 use solana_account_info::AccountInfo;
 use solana_clock::Clock;
@@ -235,10 +235,21 @@ pub struct VestingWorld {
     pub collection: Pubkey,
     pub config: CampaignConfig,
     report: ReportState,
+    /// Accounts `step` watches for balance movement across a transaction:
+    /// seeded with the creator's ATA and the vault at construction, grown by
+    /// `step` as each verb's actors show up.
+    roster: StateRoster,
+    /// The roster's balances as of the last `step`, so the next one can diff
+    /// against it. Starts as the construction-time snapshot (before
+    /// `initialize` even runs), so the first action's delta table is
+    /// meaningful too.
+    last_snapshot: Vec<(String, u64)>,
 }
 
 impl Drop for VestingWorld {
     fn drop(&mut self) {
+        let arc = self.story.report_blocks();
+        self.report.set_arc(arc);
         self.finish();
     }
 }
@@ -270,6 +281,16 @@ impl VestingWorld {
         let (collection, _) = collection_pda(&creator.pubkey(), &mint, &merkle.root);
         story.alias(collection, "Collection");
 
+        // Seed the roster before initialize ever runs: the vault doesn't
+        // exist yet, but its ATA address is deterministic (PDA + mint), and
+        // `token_balance` reads 0 for an absent account, so the first `step`
+        // still gets a meaningful before-snapshot.
+        let campaign_address = campaign_pda(&collection).0;
+        let mut roster = StateRoster::new();
+        roster.register("Creator", story.ata(&creator.pubkey(), &mint));
+        roster.register("Vault", story.ata(&campaign_address, &mint));
+        let last_snapshot = roster.snapshot(&story);
+
         Self {
             story,
             creator,
@@ -277,6 +298,8 @@ impl VestingWorld {
             collection,
             config,
             report: ReportState::from_manifest_toml(None),
+            roster,
+            last_snapshot,
         }
     }
 
@@ -307,7 +330,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert!(out.success, "initialize failed:\n{}", out.logs.join("\n"));
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -477,7 +500,7 @@ impl VestingWorld {
             .run_instructions(vec![budget_ix, claim_ix], &[user]);
         assert!(out.success, "first claim failed:\n{}", out.logs.join("\n"));
         self.after_tx();
-        self.record(&out);
+        self.step(&[user], &out);
         out
     }
 
@@ -495,7 +518,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(claim_ix, &[user]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[user], &out);
         out
     }
 
@@ -509,7 +532,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
-        self.record(&out);
+        self.step(&[user], &out);
         out
     }
 
@@ -519,7 +542,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(claim_ix, &[user]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[user], &out);
         out
     }
 
@@ -540,7 +563,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert!(out.success, "clawback failed:\n{}", out.logs.join("\n"));
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -550,7 +573,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -560,7 +583,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[impostor]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[impostor], &out);
         out
     }
 
@@ -601,7 +624,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -617,7 +640,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -641,7 +664,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -651,7 +674,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -673,7 +696,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -683,7 +706,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -692,7 +715,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[impostor]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[impostor], &out);
         out
     }
 
@@ -715,7 +738,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -725,7 +748,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -746,7 +769,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert!(out.success, "freeze_asset failed:\n{}", out.logs.join("\n"));
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -756,7 +779,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -771,7 +794,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[impostor]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[impostor], &out);
         out
     }
 
@@ -789,7 +812,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
-        self.record(&out);
+        self.step(&[&creator], &out);
         out
     }
 
@@ -809,7 +832,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
-        self.record(&out);
+        self.step(&[user], &out);
         out
     }
 
@@ -823,7 +846,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[user]);
         assert_err(&out, error);
         self.after_tx();
-        self.record(&out);
+        self.step(&[user], &out);
         out
     }
 
@@ -923,7 +946,7 @@ impl VestingWorld {
         let ix = self.transfer_asset_ix(&from.pubkey(), to, asset);
         let out = self.story.run_instruction(ix, &[from]);
         self.after_tx();
-        self.record(&out);
+        self.step(&[from], &out);
         self.asset_owner(asset) != owner_before
     }
 
@@ -953,6 +976,45 @@ impl VestingWorld {
     /// Expire the blockhash so back-to-back txs aren't deduplicated as replays.
     pub fn after_tx(&mut self) {
         self.story.svm.expire_blockhash();
+    }
+
+    /// Register `actors`' ATAs on the roster, snapshot it, and — if any
+    /// tracked balance moved since the last `step` — push an "Action: <ix>"
+    /// heading plus the delta table onto the story's narrative arc, followed
+    /// by a collapsed CPI tree for this transaction. Also restages the
+    /// headline diagrams from this (latest) outcome, so the report always
+    /// shows the final action's evidence. A no-op unless the report env is
+    /// set, so a plain `cargo test` run pays nothing beyond the flag read.
+    fn step(&mut self, actors: &[&Actor], out: &Outcome) {
+        if !self.report.enabled() {
+            return;
+        }
+        for a in actors {
+            let ata = self.story.ata(&a.pubkey(), &self.mint);
+            self.roster.register(&a.label, ata);
+        }
+        let after = self.roster.snapshot(&self.story);
+        if let Some(delta) = StateRoster::delta_table(&self.last_snapshot, &after) {
+            let name = out
+                .witness()
+                .frames
+                .first()
+                .and_then(|f| f.instruction_name.clone())
+                .unwrap_or_else(|| "tx".into());
+            self.story.step(&format!("Action: {name}"));
+            self.story.push_report_block(delta);
+        }
+        self.story.push_report_block(Block::Collapsible {
+            summary: "tree".into(),
+            body: vec![Block::Fenced {
+                lang: None,
+                text: out.scene("").tree(),
+            }],
+            open: false,
+        });
+        self.report
+            .set_headline(render_body_blocks(out, &self.report.config()));
+        self.last_snapshot = after;
     }
 }
 

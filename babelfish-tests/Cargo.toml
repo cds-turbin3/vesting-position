@@ -12,10 +12,11 @@ publish = false
 [workspace]
 
 [dependencies]
-# Pinned to pan-galactic/sol-babelfish main (includes BuiltIx::instruction);
+# Pinned to pan-galactic/sol-babelfish main (includes StateRoster + the
+# Story narrative block-log: narrate/step/state/transition/report_blocks);
 # swap to a crates.io release once frood is published.
-frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "1bf2b52497fe787d1b7e46a0ad744794b4f12563" }
-frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "1bf2b52497fe787d1b7e46a0ad744794b4f12563" }
+frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "5cbd7ca9bb252fc7c5175a5b99ac19dafb7d5fc2" }
+frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "5cbd7ca9bb252fc7c5175a5b99ac19dafb7d5fc2" }
 solana-pubkey = { version = "3.0", features = ["curve25519"] }
 solana-keypair = "3.1"
 solana-instruction = "3.2"

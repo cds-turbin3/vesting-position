@@ -23,6 +23,10 @@ fn vested_tokens_are_forfeited_past_the_grace_window() {
     world.story.alias(alice.keypair.pubkey(), "Alice");
     world.story.alias(world.campaign_address(), "Campaign");
     world.story.alias(PROGRAM_ID, "Vesting");
+    world.story.narrate(
+        "A recipient's vested-but-unclaimed tokens are swept to the creator once the grace \
+         window past `end` lapses: this is the design, not a defect.",
+    );
     world
         .story
         .given("Alice is whitelisted in a live campaign with a grace window past end");
@@ -56,6 +60,12 @@ fn vested_tokens_are_forfeited_past_the_grace_window() {
     world.story.then_holds(
         "the grace window let the creator reclaim Alice's fully-vested remainder",
         recovered == owed,
+    );
+    world.story.transition(
+        "Alice's remainder",
+        owed,
+        0u64,
+        "forfeited, never delivered",
     );
 
     // Alice's own claim is now refused outright.
