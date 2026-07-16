@@ -1,6 +1,6 @@
 # clawback_before_grace_fails
 
-**Source:** [`tests/clawback.rs` L64](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/clawback.rs#L64)
+**Source:** [`tests/clawback.rs` L64](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/clawback.rs#L64)
 
 ```mermaid
 sequenceDiagram

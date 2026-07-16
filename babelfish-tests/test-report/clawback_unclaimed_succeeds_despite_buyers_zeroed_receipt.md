@@ -1,20 +1,19 @@
 # clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt
 
-**Source:** [`tests/clawback.rs` L163](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/clawback.rs#L163)
+**Source:** [`tests/clawback.rs` L163](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/clawback.rs#L163)
 
 ```mermaid
 sequenceDiagram
     participant p0 as Creator
     participant p1 as VestingPositions
-    participant p2 as system
+    participant p2 as token
     p0->>p1: ClawbackUnclaimed
     activate p1
-    p1->>p2: createAccount
+    p1->>p2: transferChecked
     activate p2
-    p2-->>p1: ✓
+    p2-->>p1: ✓ 105cu
     deactivate p2
-    note over p1: 🚩 custom program error  0x1786
-    p1-->>p0: ✗ 22127cu
+    p1-->>p0: ✓ 92625cu
     deactivate p1
 ```
 
@@ -22,16 +21,18 @@ sequenceDiagram
 flowchart LR
     VestingPositions["VestingPositions"]:::program
     Creator(["Creator"]):::signer
-    6vT5(["6vT5…"]):::signer
+    6vT5[("6vT5…")]:::state
     BXgR[("BXgR…")]:::state
     CreatorATAMint[("Creator/ATA(Mint)")]:::state
-    system["system"]:::program
+    token["token"]:::program
+    2rbE(["2rbE…"]):::signer
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| 6vT5
     VestingPositions -->|writes| BXgR
     VestingPositions -->|writes| CreatorATAMint
-    Creator -->|signs| system
-    6vT5 -->|signs| system
+    token -->|writes| BXgR
+    token -->|writes| CreatorATAMint
+    2rbE -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -60,9 +61,9 @@ flowchart LR
 
 ```
 
-Creator (22127cu)
-└─ VestingPositions::ClawbackUnclaimed ✗ 22127cu
-   └─ system::createAccount ✓
+Creator (92625cu)
+└─ VestingPositions::ClawbackUnclaimed ✓ 92625cu
+   └─ token::transferChecked ✓ 105cu
 ```
 
 </details>

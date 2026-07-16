@@ -1,6 +1,6 @@
 # mid_schedule_cliff_plus_linear
 
-**Source:** [`tests/vesting_schedule.rs` L66](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/vesting_schedule.rs#L66)
+**Source:** [`tests/vesting_schedule.rs` L66](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/vesting_schedule.rs#L66)
 
 ```mermaid
 sequenceDiagram
@@ -63,17 +63,13 @@ sequenceDiagram
     activate p5
     p5-->>p6: ✓
     deactivate p5
-    p6-->>p2: ✓ 29342cu
+    p6-->>p2: ✓ 29646cu
     deactivate p6
     p2->>p4: transferChecked
     activate p4
     p4-->>p2: ✓ 105cu
     deactivate p4
-    p2->>p6: UpdatePlugin
-    activate p6
-    p6-->>p2: ✓ 13574cu
-    deactivate p6
-    p2-->>p0: ✓ 182180cu
+    p2-->>p0: ✓ 163620cu
     deactivate p2
 ```
 
@@ -113,7 +109,6 @@ flowchart LR
     system -->|writes| 4QVs
     token -->|writes| BXgR
     2rbE -->|signs| token
-    CoRE -->|writes| 4QVs
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -147,23 +142,22 @@ flowchart LR
 
 ```
 
-4wQQ… (182330cu)
+4wQQ… (163770cu)
 ├─ Comp…::? ✓
-└─ VestingPositions::Claim ✓ 182180cu
+└─ VestingPositions::Claim ✓ 163620cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu
    │  ├─ system::createAccount ✓
    │  ├─ token::initializeImmutableOwner ✓ 38cu
    │  └─ token::initializeAccount3 ✓ 235cu
    ├─ system::createAccount ✓
-   ├─ CoRE…::CreateV2 ✓ 29342cu
+   ├─ CoRE…::CreateV2 ✓ 29646cu
    │  ├─ system::createAccount ✓
    │  ├─ system::transferSol ✓
    │  ├─ system::transferSol ✓
    │  ├─ system::transferSol ✓
    │  └─ system::transferSol ✓
-   ├─ token::transferChecked ✓ 105cu
-   └─ CoRE…::UpdatePlugin ✓ 13574cu
+   └─ token::transferChecked ✓ 105cu
 ```
 
 </details>

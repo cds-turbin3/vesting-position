@@ -1,15 +1,15 @@
-# cancel_campaign_fails_after_position_burned
+# exclude_asset_fails_when_fully_claimed
 
-**Source:** [`tests/clawback.rs` L324](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/clawback.rs#L324)
+**Source:** [`tests/freeze.rs` L206](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/freeze.rs#L206)
 
 ```mermaid
 sequenceDiagram
     participant p0 as Creator
     participant p1 as VestingPositions
-    p0->>p1: CancelCampaign
+    p0->>p1: ExcludeAsset
     activate p1
-    note over p1: 🚩 custom program error  0x1788
-    p1-->>p0: ✗ 18233cu
+    note over p1: 🚩 custom program error  0x1784
+    p1-->>p0: ✗ 50561cu
     deactivate p1
 ```
 
@@ -17,15 +17,13 @@ sequenceDiagram
 flowchart LR
     VestingPositions["VestingPositions"]:::program
     Creator(["Creator"]):::signer
-    2rbE[("2rbE…")]:::state
     Collection[("Collection")]:::state
-    vGh5[("vGh5…")]:::state
+    4QVs[("4QVs…")]:::state
     BXgR[("BXgR…")]:::state
     CreatorATAMint[("Creator/ATA(Mint)")]:::state
     Creator -->|signs| VestingPositions
-    VestingPositions -->|writes| 2rbE
     VestingPositions -->|writes| Collection
-    VestingPositions -->|writes| vGh5
+    VestingPositions -->|writes| 4QVs
     VestingPositions -->|writes| BXgR
     VestingPositions -->|writes| CreatorATAMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -37,18 +35,15 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Creator[("Creator")]:::state
-    VestingPositions["VestingPositions"]:::program
-    2rbE[("2rbE…")]:::state
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
-    vGh5[("vGh5…")]:::state
+    4QVs[("4QVs…")]:::state
     token["token"]:::program
     BXgR[("BXgR…")]:::state
     CreatorATAMint[("Creator/ATA(Mint)")]:::state
     system -->|owns| Creator
-    VestingPositions -->|owns| 2rbE
     CoRE -->|owns| Collection
-    system -->|owns| vGh5
+    CoRE -->|owns| 4QVs
     token -->|owns| BXgR
     token -->|owns| CreatorATAMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -61,8 +56,8 @@ flowchart LR
 
 ```
 
-Creator (18233cu)
-└─ VestingPositions::CancelCampaign ✗ 18233cu
+Creator (50561cu)
+└─ VestingPositions::ExcludeAsset ✗ 50561cu
 ```
 
 </details>

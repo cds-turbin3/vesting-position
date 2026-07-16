@@ -1,6 +1,6 @@
 # scenario_6_not_owner_subsequent_claim_fails
 
-**Source:** [`tests/claim.rs` L156](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/claim.rs#L156)
+**Source:** [`tests/claim.rs` L156](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/claim.rs#L156)
 
 ```mermaid
 sequenceDiagram

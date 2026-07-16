@@ -1,6 +1,6 @@
 # unfreeze_collection_restores_transfer_for_non_transferable_campaign
 
-**Source:** [`tests/freeze.rs` L97](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/freeze.rs#L97)
+**Source:** [`tests/freeze.rs` L97](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/freeze.rs#L97)
 
 ```mermaid
 sequenceDiagram
@@ -8,8 +8,7 @@ sequenceDiagram
     participant p1 as CoRE…
     p0->>p1: Transfer
     activate p1
-    note over p1: 🚩 custom program error  0x9
-    p1-->>p0: ✗ 9049cu
+    p1-->>p0: ✓ 8736cu
     deactivate p1
 ```
 
@@ -43,8 +42,8 @@ flowchart LR
 
 ```
 
-4wQQ… (9049cu)
-└─ CoRE…::Transfer ✗ 9049cu
+4wQQ… (8736cu)
+└─ CoRE…::Transfer ✓ 8736cu
 ```
 
 </details>

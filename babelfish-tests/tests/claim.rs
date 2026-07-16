@@ -140,6 +140,7 @@ fn scenario_4_replay_first_claim_fails() {
 }
 
 /// Scenario 5: Carol (not whitelisted) cannot first-claim.
+// Report: ../test-report/scenario_5_unwhitelisted_user_fails.md
 #[test]
 fn scenario_5_unwhitelisted_user_fails() {
     let (_merkle, mut world) = setup();
@@ -245,6 +246,7 @@ fn scenario_9_claim_window_closes_after_grace() {
 }
 
 /// Scenario 10: No claims before `start`, even with valid proofs.
+// Report: ../test-report/scenario_10_claim_before_start_fails.md
 #[test]
 fn scenario_10_claim_before_start_fails() {
     let (merkle, mut world) = setup();

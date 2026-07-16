@@ -1,6 +1,6 @@
 # final_claim_succeeds_after_collection_unfreeze_toggle
 
-**Source:** [`tests/freeze.rs` L306](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/freeze.rs#L306)
+**Source:** [`tests/freeze.rs` L306](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/freeze.rs#L306)
 
 ```mermaid
 sequenceDiagram
@@ -17,17 +17,13 @@ sequenceDiagram
     activate p3
     p3-->>p2: ✓
     deactivate p3
-    p2-->>p1: ✓ 22492cu
+    p2-->>p1: ✓ 22029cu
     deactivate p2
     p1->>p4: transferChecked
     activate p4
     p4-->>p1: ✓ 105cu
     deactivate p4
-    p1->>p2: UpdatePlugin
-    activate p2
-    p2-->>p1: ✓ 13574cu
-    deactivate p2
-    p1-->>p0: ✓ 91478cu
+    p1-->>p0: ✓ 73718cu
     deactivate p1
 ```
 
@@ -93,12 +89,11 @@ flowchart LR
 
 ```
 
-4wQQ… (91478cu)
-└─ VestingPositions::Claim ✓ 91478cu
-   ├─ CoRE…::UpdatePlugin ✓ 22492cu
+4wQQ… (73718cu)
+└─ VestingPositions::Claim ✓ 73718cu
+   ├─ CoRE…::UpdatePlugin ✓ 22029cu
    │  └─ system::transferSol ✓
-   ├─ token::transferChecked ✓ 105cu
-   └─ CoRE…::UpdatePlugin ✓ 13574cu
+   └─ token::transferChecked ✓ 105cu
 ```
 
 </details>

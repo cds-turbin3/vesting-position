@@ -202,6 +202,7 @@ fn exclude_asset_blocks_subsequent_claims() {
 }
 
 /// Cannot exclude a fully claimed loyalty badge.
+// Report: ../test-report/exclude_asset_fails_when_fully_claimed.md
 #[test]
 fn exclude_asset_fails_when_fully_claimed() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -325,6 +326,7 @@ fn final_claim_succeeds_after_collection_unfreeze_toggle() {
 
 /// Mirror case: asset minted with the plugin (transferable campaign); admin
 /// freezes the collection afterwards. The badge freeze still goes through.
+// Report: ../test-report/final_claim_freezes_badge_even_when_collection_frozen.md
 #[test]
 fn final_claim_freezes_badge_even_when_collection_frozen() {
     let (merkle, mut world) = setup(CampaignConfig::default());

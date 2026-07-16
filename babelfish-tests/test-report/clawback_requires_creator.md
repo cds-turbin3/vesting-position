@@ -1,64 +1,31 @@
 # clawback_requires_creator
 
-**Source:** [`tests/clawback.rs` L90](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/clawback.rs#L90)
+**Source:** [`tests/clawback.rs` L90](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/clawback.rs#L90)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as H87x…
+    participant p0 as 4wQQ…
     participant p1 as VestingPositions
-    participant p2 as splAssociatedTokenAccount
-    participant p3 as token
-    participant p4 as system
-    p0->>p1: Claim
+    p0->>p1: Clawback
     activate p1
-    p1->>p2: create
-    activate p2
-    p2->>p3: getAccountDataSize
-    activate p3
-    p3-->>p2: ✓ 183cu
-    deactivate p3
-    p2->>p4: createAccount
-    activate p4
-    p4-->>p2: ✓
-    deactivate p4
-    p2->>p3: initializeImmutableOwner
-    activate p3
-    p3-->>p2: ✓ 38cu
-    deactivate p3
-    p2->>p3: initializeAccount3
-    activate p3
-    p3-->>p2: ✓ 235cu
-    deactivate p3
-    p2-->>p1: ✓ 13416cu
-    deactivate p2
-    note over p1: 🚩 custom program error  0x1789
-    p1-->>p0: ✗ 36421cu
+    note over p1: 🚩 custom program error  0x1778
+    p1-->>p0: ✗ 9358cu
     deactivate p1
 ```
 
 ```mermaid
 flowchart LR
     VestingPositions["VestingPositions"]:::program
-    H87x(["H87x…"]):::signer
+    4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
+    4QVs[("4QVs…")]:::state
     BXgR[("BXgR…")]:::state
-    7NWR(["7NWR…"]):::signer
-    3oY2[("3oY2…")]:::state
-    6vT5[("6vT5…")]:::state
-    splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
-    token["token"]:::program
-    system["system"]:::program
-    H87x -->|signs| VestingPositions
+    45PB[("45PB…")]:::state
+    4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
+    VestingPositions -->|writes| 4QVs
     VestingPositions -->|writes| BXgR
-    VestingPositions -->|writes| 7NWR
-    VestingPositions -->|writes| 3oY2
-    VestingPositions -->|writes| 6vT5
-    H87x -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| 7NWR
-    H87x -->|signs| system
-    7NWR -->|signs| system
-    token -->|writes| 7NWR
+    VestingPositions -->|writes| 45PB
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -67,21 +34,18 @@ flowchart LR
 ```mermaid
 flowchart LR
     system["system"]:::program
-    H87x[("H87x…")]:::state
+    4wQQ[("4wQQ…")]:::state
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
+    4QVs[("4QVs…")]:::state
     token["token"]:::program
     BXgR[("BXgR…")]:::state
-    7NWR[("7NWR…")]:::state
-    3oY2[("3oY2…")]:::state
-    VestingPositions["VestingPositions"]:::program
-    6vT5[("6vT5…")]:::state
-    system -->|owns| H87x
+    45PB[("45PB…")]:::state
+    system -->|owns| 4wQQ
     CoRE -->|owns| Collection
+    CoRE -->|owns| 4QVs
     token -->|owns| BXgR
-    token -->|owns| 7NWR
-    system -->|owns| 3oY2
-    VestingPositions -->|owns| 6vT5
+    token -->|owns| 45PB
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -92,13 +56,8 @@ flowchart LR
 
 ```
 
-H87x… (36421cu)
-└─ VestingPositions::Claim ✗ 36421cu
-   └─ splAssociatedTokenAccount::create ✓ 13416cu
-      ├─ token::getAccountDataSize ✓ 183cu
-      ├─ system::createAccount ✓
-      ├─ token::initializeImmutableOwner ✓ 38cu
-      └─ token::initializeAccount3 ✓ 235cu
+4wQQ… (9358cu)
+└─ VestingPositions::Clawback ✗ 9358cu
 ```
 
 </details>

@@ -1,10 +1,10 @@
 # scenario_8_wrong_asset_subsequent_claim_fails
 
-**Source:** [`tests/claim.rs` L203](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/claim.rs#L203)
+**Source:** [`tests/claim.rs` L203](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/claim.rs#L203)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as H87x…
+    participant p0 as ErV6…
     participant p1 as VestingPositions
     participant p2 as splAssociatedTokenAccount
     participant p3 as token
@@ -35,35 +35,35 @@ sequenceDiagram
     activate p4
     p4-->>p1: ✓
     deactivate p4
-    note over p1: 🚩 custom program error  0x1789
-    p1-->>p0: ✗ 39244cu
+    note over p1: 🚩 custom program error  0x177f
+    p1-->>p0: ✗ 41219cu
     deactivate p1
 ```
 
 ```mermaid
 flowchart LR
     VestingPositions["VestingPositions"]:::program
-    H87x(["H87x…"]):::signer
+    ErV6(["ErV6…"]):::signer
     Collection[("Collection")]:::state
     BXgR[("BXgR…")]:::state
-    7NWR(["7NWR…"]):::signer
-    3oY2[("3oY2…")]:::state
-    6vT5(["6vT5…"]):::signer
+    DP7c(["DP7c…"]):::signer
+    1115[("1115…")]:::state
+    C6G6(["C6G6…"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
-    H87x -->|signs| VestingPositions
+    ErV6 -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions -->|writes| BXgR
-    VestingPositions -->|writes| 7NWR
-    VestingPositions -->|writes| 3oY2
-    VestingPositions -->|writes| 6vT5
-    H87x -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| 7NWR
-    H87x -->|signs| system
-    7NWR -->|signs| system
-    token -->|writes| 7NWR
-    6vT5 -->|signs| system
+    VestingPositions -->|writes| DP7c
+    VestingPositions -->|writes| 1115
+    VestingPositions -->|writes| C6G6
+    ErV6 -->|signs| splAssociatedTokenAccount
+    splAssociatedTokenAccount -->|writes| DP7c
+    ErV6 -->|signs| system
+    DP7c -->|signs| system
+    token -->|writes| DP7c
+    C6G6 -->|signs| system
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -72,21 +72,21 @@ flowchart LR
 ```mermaid
 flowchart LR
     system["system"]:::program
-    H87x[("H87x…")]:::state
+    ErV6[("ErV6…")]:::state
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     BXgR[("BXgR…")]:::state
-    7NWR[("7NWR…")]:::state
-    3oY2[("3oY2…")]:::state
+    DP7c[("DP7c…")]:::state
+    1115[("1115…")]:::state
     VestingPositions["VestingPositions"]:::program
-    6vT5[("6vT5…")]:::state
-    system -->|owns| H87x
+    C6G6[("C6G6…")]:::state
+    system -->|owns| ErV6
     CoRE -->|owns| Collection
     token -->|owns| BXgR
-    token -->|owns| 7NWR
-    system -->|owns| 3oY2
-    VestingPositions -->|owns| 6vT5
+    token -->|owns| DP7c
+    system -->|owns| 1115
+    VestingPositions -->|owns| C6G6
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -97,8 +97,8 @@ flowchart LR
 
 ```
 
-H87x… (39244cu)
-└─ VestingPositions::Claim ✗ 39244cu
+ErV6… (41219cu)
+└─ VestingPositions::Claim ✗ 41219cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu
    │  ├─ system::createAccount ✓

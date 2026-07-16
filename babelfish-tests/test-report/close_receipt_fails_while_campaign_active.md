@@ -1,6 +1,6 @@
 # close_receipt_fails_while_campaign_active
 
-**Source:** [`tests/clawback.rs` L347](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/clawback.rs#L347)
+**Source:** [`tests/clawback.rs` L347](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/clawback.rs#L347)
 
 ```mermaid
 sequenceDiagram
@@ -8,7 +8,8 @@ sequenceDiagram
     participant p1 as VestingPositions
     p0->>p1: CloseReceipt
     activate p1
-    p1-->>p0: ✓ 3258cu
+    note over p1: 🚩 custom program error  0x178c
+    p1-->>p0: ✗ 4646cu
     deactivate p1
 ```
 
@@ -28,9 +29,10 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     4wQQ[("4wQQ…")]:::state
+    VestingPositions["VestingPositions"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| 4wQQ
-    system -->|owns| 7kmN
+    VestingPositions -->|owns| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -41,8 +43,8 @@ flowchart LR
 
 ```
 
-4wQQ… (3258cu)
-└─ VestingPositions::CloseReceipt ✓ 3258cu
+4wQQ… (4646cu)
+└─ VestingPositions::CloseReceipt ✗ 4646cu
 ```
 
 </details>

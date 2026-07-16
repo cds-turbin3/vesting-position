@@ -1,29 +1,42 @@
-# fully_claimed_non_transferable_has_no_asset_freeze
+# scenario_10_claim_before_start_fails
 
-**Source:** [`tests/freeze.rs` L147](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/freeze.rs#L147)
+**Source:** [`tests/claim.rs` L249](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/claim.rs#L249)
 
 ```mermaid
 sequenceDiagram
     participant p0 as 4wQQ…
     participant p1 as VestingPositions
-    participant p2 as CoRE…
-    participant p3 as system
-    participant p4 as token
+    participant p2 as splAssociatedTokenAccount
+    participant p3 as token
+    participant p4 as system
     p0->>p1: Claim
     activate p1
-    p1->>p2: UpdatePlugin
+    p1->>p2: create
     activate p2
-    p2->>p3: transferSol
+    p2->>p3: getAccountDataSize
     activate p3
-    p3-->>p2: ✓
+    p3-->>p2: ✓ 183cu
     deactivate p3
-    p2-->>p1: ✓ 22029cu
-    deactivate p2
-    p1->>p4: transferChecked
+    p2->>p4: createAccount
     activate p4
-    p4-->>p1: ✓ 105cu
+    p4-->>p2: ✓
     deactivate p4
-    p1-->>p0: ✓ 73719cu
+    p2->>p3: initializeImmutableOwner
+    activate p3
+    p3-->>p2: ✓ 38cu
+    deactivate p3
+    p2->>p3: initializeAccount3
+    activate p3
+    p3-->>p2: ✓ 235cu
+    deactivate p3
+    p2-->>p1: ✓ 13416cu
+    deactivate p2
+    p1->>p4: createAccount
+    activate p4
+    p4-->>p1: ✓
+    deactivate p4
+    note over p1: 🚩 custom program error  0x178a
+    p1-->>p0: ✗ 39240cu
     deactivate p1
 ```
 
@@ -33,29 +46,24 @@ flowchart LR
     4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
     BXgR[("BXgR…")]:::state
-    45PB[("45PB…")]:::state
+    45PB(["45PB…"]):::signer
     4QVs[("4QVs…")]:::state
-    7kmN[("7kmN…")]:::state
-    CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
-    system["system"]:::program
+    7kmN(["7kmN…"]):::signer
+    splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
-    2rbE(["2rbE…"]):::signer
+    system["system"]:::program
     4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions -->|writes| BXgR
     VestingPositions -->|writes| 45PB
     VestingPositions -->|writes| 4QVs
     VestingPositions -->|writes| 7kmN
-    CoRE -->|writes| 4QVs
-    CoRE -->|writes| Collection
-    4wQQ -->|signs| CoRE
-    vGh5 -->|signs| CoRE
+    4wQQ -->|signs| splAssociatedTokenAccount
+    splAssociatedTokenAccount -->|writes| 45PB
     4wQQ -->|signs| system
-    system -->|writes| 4QVs
-    token -->|writes| BXgR
+    45PB -->|signs| system
     token -->|writes| 45PB
-    2rbE -->|signs| token
+    7kmN -->|signs| system
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -77,7 +85,7 @@ flowchart LR
     CoRE -->|owns| Collection
     token -->|owns| BXgR
     token -->|owns| 45PB
-    CoRE -->|owns| 4QVs
+    system -->|owns| 4QVs
     VestingPositions -->|owns| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -89,11 +97,14 @@ flowchart LR
 
 ```
 
-4wQQ… (73719cu)
-└─ VestingPositions::Claim ✓ 73719cu
-   ├─ CoRE…::UpdatePlugin ✓ 22029cu
-   │  └─ system::transferSol ✓
-   └─ token::transferChecked ✓ 105cu
+4wQQ… (39240cu)
+└─ VestingPositions::Claim ✗ 39240cu
+   ├─ splAssociatedTokenAccount::create ✓ 13416cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   └─ system::createAccount ✓
 ```
 
 </details>

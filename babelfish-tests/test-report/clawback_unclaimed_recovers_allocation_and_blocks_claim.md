@@ -1,37 +1,64 @@
 # clawback_unclaimed_recovers_allocation_and_blocks_claim
 
-**Source:** [`tests/clawback.rs` L103](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/clawback.rs#L103)
+**Source:** [`tests/clawback.rs` L103](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/clawback.rs#L103)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as Creator
+    participant p0 as H87x…
     participant p1 as VestingPositions
-    participant p2 as system
-    p0->>p1: ClawbackUnclaimed
+    participant p2 as splAssociatedTokenAccount
+    participant p3 as token
+    participant p4 as system
+    p0->>p1: Claim
     activate p1
-    p1->>p2: createAccount
+    p1->>p2: create
     activate p2
-    p2-->>p1: ✓
+    p2->>p3: getAccountDataSize
+    activate p3
+    p3-->>p2: ✓ 183cu
+    deactivate p3
+    p2->>p4: createAccount
+    activate p4
+    p4-->>p2: ✓
+    deactivate p4
+    p2->>p3: initializeImmutableOwner
+    activate p3
+    p3-->>p2: ✓ 38cu
+    deactivate p3
+    p2->>p3: initializeAccount3
+    activate p3
+    p3-->>p2: ✓ 235cu
+    deactivate p3
+    p2-->>p1: ✓ 13416cu
     deactivate p2
-    note over p1: 🚩 custom program error  0x177d
-    p1-->>p0: ✗ 69028cu
+    note over p1: 🚩 custom program error  0x1789
+    p1-->>p0: ✗ 36421cu
     deactivate p1
 ```
 
 ```mermaid
 flowchart LR
     VestingPositions["VestingPositions"]:::program
-    Creator(["Creator"]):::signer
-    6vT5(["6vT5…"]):::signer
+    H87x(["H87x…"]):::signer
+    Collection[("Collection")]:::state
     BXgR[("BXgR…")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
+    7NWR(["7NWR…"]):::signer
+    3oY2[("3oY2…")]:::state
+    6vT5[("6vT5…")]:::state
+    splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
+    token["token"]:::program
     system["system"]:::program
-    Creator -->|signs| VestingPositions
-    VestingPositions -->|writes| 6vT5
+    H87x -->|signs| VestingPositions
+    VestingPositions -->|writes| Collection
     VestingPositions -->|writes| BXgR
-    VestingPositions -->|writes| CreatorATAMint
-    Creator -->|signs| system
-    6vT5 -->|signs| system
+    VestingPositions -->|writes| 7NWR
+    VestingPositions -->|writes| 3oY2
+    VestingPositions -->|writes| 6vT5
+    H87x -->|signs| splAssociatedTokenAccount
+    splAssociatedTokenAccount -->|writes| 7NWR
+    H87x -->|signs| system
+    7NWR -->|signs| system
+    token -->|writes| 7NWR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -40,16 +67,21 @@ flowchart LR
 ```mermaid
 flowchart LR
     system["system"]:::program
-    Creator[("Creator")]:::state
-    VestingPositions["VestingPositions"]:::program
-    6vT5[("6vT5…")]:::state
+    H87x[("H87x…")]:::state
+    CoRE["CoRE…"]:::program
+    Collection[("Collection")]:::state
     token["token"]:::program
     BXgR[("BXgR…")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
-    system -->|owns| Creator
-    VestingPositions -->|owns| 6vT5
+    7NWR[("7NWR…")]:::state
+    3oY2[("3oY2…")]:::state
+    VestingPositions["VestingPositions"]:::program
+    6vT5[("6vT5…")]:::state
+    system -->|owns| H87x
+    CoRE -->|owns| Collection
     token -->|owns| BXgR
-    token -->|owns| CreatorATAMint
+    token -->|owns| 7NWR
+    system -->|owns| 3oY2
+    VestingPositions -->|owns| 6vT5
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -60,9 +92,13 @@ flowchart LR
 
 ```
 
-Creator (69028cu)
-└─ VestingPositions::ClawbackUnclaimed ✗ 69028cu
-   └─ system::createAccount ✓
+H87x… (36421cu)
+└─ VestingPositions::Claim ✗ 36421cu
+   └─ splAssociatedTokenAccount::create ✓ 13416cu
+      ├─ token::getAccountDataSize ✓ 183cu
+      ├─ system::createAccount ✓
+      ├─ token::initializeImmutableOwner ✓ 38cu
+      └─ token::initializeAccount3 ✓ 235cu
 ```
 
 </details>

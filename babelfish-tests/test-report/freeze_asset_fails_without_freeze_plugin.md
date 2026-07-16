@@ -1,25 +1,25 @@
 # freeze_asset_fails_without_freeze_plugin
 
-**Source:** [`tests/freeze.rs` L277](https://github.com/cds-turbin3/vesting-position/blob/3f946c506628d348826d858340b4ac335a62e967/babelfish-tests/tests/freeze.rs#L277)
+**Source:** [`tests/freeze.rs` L277](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/freeze.rs#L277)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as 4wQQ…
+    participant p0 as Creator
     participant p1 as VestingPositions
     p0->>p1: FreezeAsset
     activate p1
-    note over p1: 🚩 custom program error  0x1778
-    p1-->>p0: ✗ 4227cu
+    note over p1: 🚩 custom program error  0x178b
+    p1-->>p0: ✗ 10491cu
     deactivate p1
 ```
 
 ```mermaid
 flowchart LR
     VestingPositions["VestingPositions"]:::program
-    4wQQ(["4wQQ…"]):::signer
+    Creator(["Creator"]):::signer
     Collection[("Collection")]:::state
     4QVs[("4QVs…")]:::state
-    4wQQ -->|signs| VestingPositions
+    Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions -->|writes| 4QVs
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -30,11 +30,11 @@ flowchart LR
 ```mermaid
 flowchart LR
     system["system"]:::program
-    4wQQ[("4wQQ…")]:::state
+    Creator[("Creator")]:::state
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     4QVs[("4QVs…")]:::state
-    system -->|owns| 4wQQ
+    system -->|owns| Creator
     CoRE -->|owns| Collection
     CoRE -->|owns| 4QVs
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -47,8 +47,8 @@ flowchart LR
 
 ```
 
-4wQQ… (4227cu)
-└─ VestingPositions::FreezeAsset ✗ 4227cu
+Creator (10491cu)
+└─ VestingPositions::FreezeAsset ✗ 10491cu
 ```
 
 </details>

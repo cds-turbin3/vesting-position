@@ -125,6 +125,7 @@ fn clawback_unclaimed_recovers_allocation_and_blocks_claim() {
 }
 
 /// Invalid merkle proof is rejected.
+// Report: ../test-report/clawback_unclaimed_rejects_invalid_proof.md
 #[test]
 fn clawback_unclaimed_rejects_invalid_proof() {
     let (merkle, mut world) = setup();
@@ -209,6 +210,7 @@ fn clawback_unclaimed_before_grace_fails() {
 // --- close_campaign ---------------------------------------------------------
 
 /// Vault must be empty before closing.
+// Report: ../test-report/close_campaign_fails_when_vault_not_empty.md
 #[test]
 fn close_campaign_fails_when_vault_not_empty() {
     let (_merkle, mut world) = setup();
@@ -351,6 +353,7 @@ fn close_receipt_fails_while_campaign_active() {
 }
 
 /// Once the campaign PDA is closed, claimers reclaim their receipt rent.
+// Report: ../test-report/close_receipt_returns_rent_after_close_campaign.md
 #[test]
 fn close_receipt_returns_rent_after_close_campaign() {
     // Exact-funded campaign so a full claim empties the vault.

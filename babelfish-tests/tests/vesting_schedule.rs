@@ -105,6 +105,7 @@ fn at_end_releases_full_allocation() {
 }
 
 /// cliff_release_bps = 0 → pure linear from cliff_end to end.
+// Report: ../test-report/pure_linear_starts_at_cliff_end.md
 #[test]
 fn pure_linear_starts_at_cliff_end() {
     let (merkle, mut world) = setup(CampaignConfig {
@@ -165,6 +166,7 @@ fn full_release_at_cliff() {
 }
 
 /// Incremental claims at several points through the linear window.
+// Report: ../test-report/claims_at_linear_checkpoints.md
 #[test]
 fn claims_at_linear_checkpoints() {
     let (merkle, mut world) = setup(CampaignConfig::default());
