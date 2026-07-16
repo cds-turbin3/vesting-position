@@ -995,10 +995,13 @@ impl VestingWorld {
         }
         let after = self.roster.snapshot(&self.story);
         if let Some(delta) = StateRoster::delta_table(&self.last_snapshot, &after) {
+            // The first program-level frame, skipping a ComputeBudget prefix ix
+            // (first_claim prepends one), so the beat reads "Claim" not "tx".
             let name = out
                 .witness()
                 .frames
-                .first()
+                .iter()
+                .find(|f| f.program_id != COMPUTE_BUDGET_ID)
                 .and_then(|f| f.instruction_name.clone())
                 .unwrap_or_else(|| "tx".into());
             self.story.step(&format!("Action: {name}"));
