@@ -28,11 +28,27 @@ const LAMPORTS: u64 = 100 * 1_000_000_000;
 
 /// First claim mints the position NFT (an mpl-core CreateV2 CPI); the
 /// full-allocation-plus-freeze path tops the 200k default cap, so raise it.
-const FIRST_CLAIM_CU: u32 = 250_000;
+pub const FIRST_CLAIM_CU: u32 = 250_000;
+
+/// Solana's per-transaction compute cap when no `ComputeBudget` ix is present.
+pub const DEFAULT_TX_CU: u32 = 200_000;
+
+/// Log consumed vs requested limit (run with `cargo test compute_units -- --nocapture`).
+pub fn log_tx_cu(label: &str, consumed: u64, limit: u32) {
+    let over_default = consumed > DEFAULT_TX_CU as u64;
+    println!(
+        "[CU] {label}: {consumed} consumed / {limit} limit (default cap {DEFAULT_TX_CU}){}",
+        if over_default {
+            " — exceeds default"
+        } else {
+            ""
+        }
+    );
+}
 
 /// Every claim carries the same throwaway NFT metadata; the schedule math and
 /// authorization are what the tests exercise, not the name/uri.
-fn claim_args(
+pub fn claim_args(
     proofs: Option<Vec<[u8; 33]>>,
     allocation: Option<u64>,
 ) -> vesting_positions::client::args::Claim {
@@ -107,18 +123,23 @@ impl TestCampaign {
     /// Build the world, fund the creator, and run initialize: a live campaign.
     pub fn initialized(tree: &MerkleTree, config: CampaignConfig) -> Self {
         let mut world = Self::uninitialized(tree, config);
+        world.run_initialize(tree);
+        world
+    }
+
+    /// Run the `initialize` instruction, returning its result so callers that
+    /// profile compute can read the consumed units. Blockhash is expired after.
+    pub fn run_initialize(&mut self, tree: &MerkleTree) -> TransactionResult {
         let bundle = InitializeBundle {
-            creator: world.creator.pubkey(),
-            mint: world.mint,
-            collection: world.collection,
+            creator: self.creator.pubkey(),
+            mint: self.mint,
+            collection: self.collection,
             ..Default::default()
         };
-        world
-            .ctx
-            .tx(&[&world.creator])
-            .build(bundle, config.initialize_args(tree.root, world.mint))
-            .send_ok();
-        world
+        let args = self.config.initialize_args(tree.root, self.mint);
+        let result = self.ctx.tx(&[&self.creator]).build(bundle, args).send_ok();
+        self.after_tx();
+        result
     }
 
     /// Build the world with tokens funded but initialize not yet run. Creator
@@ -169,6 +190,31 @@ impl TestCampaign {
     pub fn grace_period(&self) -> u64 {
         self.config.grace_period
     }
+    pub fn cliff_release_bps(&self) -> u16 {
+        self.config.cliff_release_bps
+    }
+
+    /// The instant the cliff ends and linear vesting begins.
+    pub fn cliff_end(&self) -> i64 {
+        self.config.start + self.config.cliff_duration as i64
+    }
+
+    /// The timestamp `pct`% through the linear window (0 = cliff_end, 100 = end).
+    pub fn linear_checkpoint(&self, pct: u64) -> i64 {
+        assert!(pct <= 100);
+        if pct == 100 {
+            return self.config.end;
+        }
+        let window = (self.config.end - self.cliff_end()) as u64;
+        self.cliff_end() + (window * pct / 100) as i64
+    }
+
+    /// The program's schedule math, mirrored so a test can assert the expected
+    /// release independently (see [`crate::vesting::compute_claimable`]).
+    pub fn expected_claimable(&self, now: i64, allocation: u64, claimed_so_far: u64) -> u64 {
+        crate::vesting::compute_claimable(&self.campaign(), now, allocation, claimed_so_far)
+            .expect("schedule math overflow")
+    }
 
     /// The position-NFT address for `user`, seeded `[asset, campaign, user]`.
     pub fn asset_for(&self, user: &Pubkey) -> Pubkey {
@@ -186,7 +232,7 @@ impl TestCampaign {
     /// the campaign, ATAs, and update-authority; `collection`/`claim_receipt`
     /// demoted to fields (arg-seeded / cross-instruction-divergent), so the
     /// world supplies them from the extracted derivations.
-    fn claim_bundle(&self, user: &Pubkey, asset: Option<Pubkey>) -> ClaimBundle {
+    pub fn claim_bundle(&self, user: &Pubkey, asset: Option<Pubkey>) -> ClaimBundle {
         let campaign = self.campaign_address();
         ClaimBundle {
             user: *user,

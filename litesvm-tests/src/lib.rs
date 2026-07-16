@@ -19,8 +19,10 @@ anchor_litesvm::bundles_from_idl!(vesting_positions);
 pub mod asset;
 pub mod campaign;
 pub mod common;
+pub mod format;
 pub mod merkle;
 pub mod pda;
+pub mod vesting;
 
 #[cfg(test)]
 mod tests {
