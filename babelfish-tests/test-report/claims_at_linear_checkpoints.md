@@ -1,6 +1,6 @@
 # claims_at_linear_checkpoints
 
-**Source:** [`tests/vesting_schedule.rs` L180](https://github.com/cds-turbin3/vesting-position/blob/4697a27f760076ccee6d3a855becaca181647236/babelfish-tests/tests/vesting_schedule.rs#L180)
+**Source:** [`tests/vesting_schedule.rs` L180](https://github.com/cds-turbin3/vesting-position/blob/b1f1485d1913faf6443e233580c9b626cfd06178/babelfish-tests/tests/vesting_schedule.rs#L180)
 
 ### Action: Initialize
 
@@ -37,7 +37,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 10000000000000 | 9900000000000 |
-| whitelisted_1 | — | 100000000000 |
+| Alice | — | 100000000000 |
 
 <details>
 <summary>tree</summary>
@@ -69,7 +69,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9900000000000 | 9891000000000 |
-| whitelisted_1 | 100000000000 | 109000000000 |
+| Alice | 100000000000 | 109000000000 |
 
 <details>
 <summary>tree</summary>
@@ -89,7 +89,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9891000000000 | 9837000000000 |
-| whitelisted_1 | 109000000000 | 163000000000 |
+| Alice | 109000000000 | 163000000000 |
 
 <details>
 <summary>tree</summary>
@@ -109,7 +109,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9837000000000 | 9783000000000 |
-| whitelisted_1 | 163000000000 | 217000000000 |
+| Alice | 163000000000 | 217000000000 |
 
 <details>
 <summary>tree</summary>
@@ -129,7 +129,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9783000000000 | 9720000000000 |
-| whitelisted_1 | 217000000000 | 280000000000 |
+| Alice | 217000000000 | 280000000000 |
 
 <details>
 <summary>tree</summary>
@@ -149,7 +149,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9720000000000 | 9603000000000 |
-| whitelisted_1 | 280000000000 | 397000000000 |
+| Alice | 280000000000 | 397000000000 |
 
 <details>
 <summary>tree</summary>
@@ -169,7 +169,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9603000000000 | 9495000000000 |
-| whitelisted_1 | 397000000000 | 505000000000 |
+| Alice | 397000000000 | 505000000000 |
 
 <details>
 <summary>tree</summary>
@@ -189,7 +189,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9495000000000 | 9450000000000 |
-| whitelisted_1 | 505000000000 | 550000000000 |
+| Alice | 505000000000 | 550000000000 |
 
 <details>
 <summary>tree</summary>
@@ -209,7 +209,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9450000000000 | 9387000000000 |
-| whitelisted_1 | 550000000000 | 613000000000 |
+| Alice | 550000000000 | 613000000000 |
 
 <details>
 <summary>tree</summary>
@@ -229,7 +229,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9387000000000 | 9297000000000 |
-| whitelisted_1 | 613000000000 | 703000000000 |
+| Alice | 613000000000 | 703000000000 |
 
 <details>
 <summary>tree</summary>
@@ -249,7 +249,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9297000000000 | 9225000000000 |
-| whitelisted_1 | 703000000000 | 775000000000 |
+| Alice | 703000000000 | 775000000000 |
 
 <details>
 <summary>tree</summary>
@@ -269,7 +269,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9225000000000 | 9153000000000 |
-| whitelisted_1 | 775000000000 | 847000000000 |
+| Alice | 775000000000 | 847000000000 |
 
 <details>
 <summary>tree</summary>
@@ -289,7 +289,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9153000000000 | 9081000000000 |
-| whitelisted_1 | 847000000000 | 919000000000 |
+| Alice | 847000000000 | 919000000000 |
 
 <details>
 <summary>tree</summary>
@@ -309,7 +309,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9081000000000 | 9009000000000 |
-| whitelisted_1 | 919000000000 | 991000000000 |
+| Alice | 919000000000 | 991000000000 |
 
 <details>
 <summary>tree</summary>
@@ -329,7 +329,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 9009000000000 | 9000000000000 |
-| whitelisted_1 | 991000000000 | 1000000000000 |
+| Alice | 991000000000 | 1000000000000 |
 
 <details>
 <summary>tree</summary>

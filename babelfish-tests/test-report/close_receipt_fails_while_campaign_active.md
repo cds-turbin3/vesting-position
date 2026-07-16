@@ -1,6 +1,6 @@
 # close_receipt_fails_while_campaign_active
 
-**Source:** [`tests/clawback.rs` L349](https://github.com/cds-turbin3/vesting-position/blob/4697a27f760076ccee6d3a855becaca181647236/babelfish-tests/tests/clawback.rs#L349)
+**Source:** [`tests/clawback.rs` L349](https://github.com/cds-turbin3/vesting-position/blob/b1f1485d1913faf6443e233580c9b626cfd06178/babelfish-tests/tests/clawback.rs#L349)
 
 ### Action: Initialize
 
@@ -36,7 +36,7 @@ Creator (85369cu)
 
 | account | before | after |
 | --- | --- | --- |
-| whitelisted_1 | — | 0 |
+| Alice | — | 0 |
 
 <details>
 <summary>tree</summary>

@@ -1,6 +1,6 @@
 # clawback_fully_claimed_badge_fails
 
-**Source:** [`tests/clawback.rs` L75](https://github.com/cds-turbin3/vesting-position/blob/4697a27f760076ccee6d3a855becaca181647236/babelfish-tests/tests/clawback.rs#L75)
+**Source:** [`tests/clawback.rs` L75](https://github.com/cds-turbin3/vesting-position/blob/b1f1485d1913faf6443e233580c9b626cfd06178/babelfish-tests/tests/clawback.rs#L75)
 
 ### Action: Initialize
 
@@ -36,7 +36,7 @@ Creator (85369cu)
 
 | account | before | after |
 | --- | --- | --- |
-| whitelisted_1 | — | 0 |
+| Alice | — | 0 |
 
 <details>
 <summary>tree</summary>
@@ -67,7 +67,7 @@ Creator (85369cu)
 | account | before | after |
 | --- | --- | --- |
 | Vault | 10000000000000 | 9000000000000 |
-| whitelisted_1 | 0 | 1000000000000 |
+| Alice | 0 | 1000000000000 |
 
 <details>
 <summary>tree</summary>

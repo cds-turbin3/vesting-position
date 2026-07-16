@@ -1,6 +1,6 @@
 # scenario_2_two_users_transfer_and_bob_claims_both
 
-**Source:** [`tests/claim.rs` L61](https://github.com/cds-turbin3/vesting-position/blob/4697a27f760076ccee6d3a855becaca181647236/babelfish-tests/tests/claim.rs#L61)
+**Source:** [`tests/claim.rs` L61](https://github.com/cds-turbin3/vesting-position/blob/b1f1485d1913faf6443e233580c9b626cfd06178/babelfish-tests/tests/claim.rs#L61)
 
 ### Action: Initialize
 
@@ -36,7 +36,7 @@ Creator (85369cu)
 
 | account | before | after |
 | --- | --- | --- |
-| whitelisted_1 | — | 0 |
+| Alice | — | 0 |
 
 <details>
 <summary>tree</summary>
@@ -66,7 +66,7 @@ Creator (85369cu)
 
 | account | before | after |
 | --- | --- | --- |
-| whitelisted_2 | — | 0 |
+| Bob | — | 0 |
 
 <details>
 <summary>tree</summary>

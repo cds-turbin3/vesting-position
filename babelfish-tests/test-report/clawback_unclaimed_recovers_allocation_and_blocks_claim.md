@@ -1,6 +1,6 @@
 # clawback_unclaimed_recovers_allocation_and_blocks_claim
 
-**Source:** [`tests/clawback.rs` L103](https://github.com/cds-turbin3/vesting-position/blob/4697a27f760076ccee6d3a855becaca181647236/babelfish-tests/tests/clawback.rs#L103)
+**Source:** [`tests/clawback.rs` L103](https://github.com/cds-turbin3/vesting-position/blob/b1f1485d1913faf6443e233580c9b626cfd06178/babelfish-tests/tests/clawback.rs#L103)
 
 ### Action: Initialize
 
@@ -56,7 +56,7 @@ Creator (95434cu)
 
 | account | before | after |
 | --- | --- | --- |
-| whitelisted_2 | — | 0 |
+| Bob | — | 0 |
 
 <details>
 <summary>tree</summary>

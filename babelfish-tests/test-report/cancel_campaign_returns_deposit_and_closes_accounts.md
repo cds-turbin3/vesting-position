@@ -1,6 +1,6 @@
 # cancel_campaign_returns_deposit_and_closes_accounts
 
-**Source:** [`tests/clawback.rs` L270](https://github.com/cds-turbin3/vesting-position/blob/4697a27f760076ccee6d3a855becaca181647236/babelfish-tests/tests/clawback.rs#L270)
+**Source:** [`tests/clawback.rs` L270](https://github.com/cds-turbin3/vesting-position/blob/b1f1485d1913faf6443e233580c9b626cfd06178/babelfish-tests/tests/clawback.rs#L270)
 
 ### Action: Initialize
 
