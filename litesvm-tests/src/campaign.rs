@@ -18,10 +18,12 @@ use mpl_core::types::{Attributes, PermanentFreezeDelegate, PluginType};
 use solana_compute_budget_interface::ComputeBudgetInstruction;
 use spl_associated_token_account::get_associated_token_address;
 
+use anchor_litesvm::{MarkdownBlock, Report};
+
 use crate::merkle::{MerkleTree, TOTAL_DEPOSIT};
 use crate::pda::{asset_pda, campaign_pda, collection_pda, receipt_pda};
 use crate::vesting_positions::{self, accounts::Campaign};
-use crate::{ClaimBundle, InitializeBundle};
+use crate::{ClaimBundle, ClawbackBundle, InitializeBundle};
 
 const MPL_CORE_ID: Pubkey = Pubkey::from_str_const("CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d");
 const LAMPORTS: u64 = 100 * 1_000_000_000;
@@ -111,12 +113,22 @@ impl CampaignConfig {
     }
 }
 
+/// One recorded transaction for [`TestCampaign::report_execution`]: its label,
+/// flattened logs, and the CPI tree the current line renders (compat rendered a
+/// mermaid sequence here; the tree carries the same call structure as text).
+struct ExecutionEntry {
+    label: String,
+    logs: String,
+    tree: String,
+}
+
 pub struct TestCampaign {
     pub ctx: AnchorContext,
     pub creator: Keypair,
     pub mint: Pubkey,
     pub collection: Pubkey,
     pub config: CampaignConfig,
+    execution: Vec<ExecutionEntry>,
 }
 
 impl TestCampaign {
@@ -166,6 +178,49 @@ impl TestCampaign {
             mint,
             collection,
             config,
+            execution: Vec::new(),
+        }
+    }
+
+    /// Record a transaction so [`Self::report_execution`] can replay its logs
+    /// and CPI structure into a report.
+    pub fn record_execution(&mut self, label: impl Into<String>, result: &TransactionResult) {
+        self.execution.push(ExecutionEntry {
+            label: label.into(),
+            logs: result.logs_string(),
+            tree: result.tree_string(),
+        });
+    }
+
+    /// Append the recorded logs and CPI trees to a report. The old world emitted
+    /// a mermaid sequence per transaction; the current line renders the CPI call
+    /// structure as a text tree, so the report carries that instead.
+    pub fn report_execution(&self, md: &mut Report) {
+        if self.execution.is_empty() {
+            return;
+        }
+        let logs = self
+            .execution
+            .iter()
+            .map(|e| format!("### {}\n```console\n{}\n```", e.label, e.logs.trim()))
+            .collect::<Vec<_>>()
+            .join("\n\n");
+        md.block(
+            "Structured logs",
+            MarkdownBlock::Fenced {
+                lang: "text".into(),
+                body: logs,
+            },
+        );
+        for e in &self.execution {
+            if e.tree.trim().is_empty() {
+                continue;
+            }
+            md.note(format!(
+                "**{} — CPI tree**\n\n```\n{}\n```",
+                e.label,
+                e.tree.trim()
+            ));
         }
     }
 
@@ -227,6 +282,32 @@ impl TestCampaign {
         self.ctx.svm.token_balance(&ata).unwrap_or(0)
     }
 
+    /// The creator's ATA balance for the distributed mint.
+    pub fn creator_token_balance(&self) -> u64 {
+        let ata = get_associated_token_address(&self.creator.pubkey(), &self.mint);
+        self.ctx.svm.token_balance(&ata).unwrap_or(0)
+    }
+
+    /// The creator claws back a position's vested-but-unclaimed remainder once
+    /// the grace window past `end` has lapsed.
+    pub fn clawback(&mut self, asset: Pubkey) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = ClawbackBundle {
+            creator: creator.pubkey(),
+            collection: self.collection,
+            mint: self.mint,
+            asset,
+            ..Default::default()
+        };
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::Clawback {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
     /// The generated claim bundle for `user`. `asset` is the NFT the claim
     /// targets; `None` uses the user's own first-claim PDA. The macro derives
     /// the campaign, ATAs, and update-authority; `collection`/`claim_receipt`
@@ -279,33 +360,44 @@ impl TestCampaign {
         proofs: Vec<[u8; 33]>,
         allocation: u64,
         error: &str,
-    ) {
+    ) -> TransactionResult {
         let bundle = self.claim_bundle(&user.pubkey(), None);
-        self.ctx
+        let result = self
+            .ctx
             .tx(&[user])
             .build(bundle, claim_args(Some(proofs), Some(allocation)))
             .send_err_named(error);
         self.after_tx();
+        result
     }
 
     /// A subsequent claim on an already-minted `asset` (no proofs).
-    pub fn subsequent_claim_ok(&mut self, user: &Keypair, asset: Pubkey) {
+    pub fn subsequent_claim_ok(&mut self, user: &Keypair, asset: Pubkey) -> TransactionResult {
         let bundle = self.claim_bundle(&user.pubkey(), Some(asset));
-        self.ctx
+        let result = self
+            .ctx
             .tx(&[user])
             .build(bundle, claim_args(None, None))
             .send_ok();
         self.after_tx();
+        result
     }
 
     /// A subsequent claim on `asset` expected to fail with `error`.
-    pub fn subsequent_claim_err(&mut self, user: &Keypair, asset: Pubkey, error: &str) {
+    pub fn subsequent_claim_err(
+        &mut self,
+        user: &Keypair,
+        asset: Pubkey,
+        error: &str,
+    ) -> TransactionResult {
         let bundle = self.claim_bundle(&user.pubkey(), Some(asset));
-        self.ctx
+        let result = self
+            .ctx
             .tx(&[user])
             .build(bundle, claim_args(None, None))
             .send_err_named(error);
         self.after_tx();
+        result
     }
 
     /// An mpl-core transfer of `asset` from one holder to another.
