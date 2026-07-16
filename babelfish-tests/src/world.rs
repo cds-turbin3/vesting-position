@@ -143,10 +143,15 @@ impl Default for CampaignConfig {
 /// scalars the tests read. A projection, not the full account: the schedule
 /// math and the `is_transferable` flag are all the suites need.
 pub struct CampaignView {
+    pub creator: Pubkey,
+    pub merkle_root: Vec<u8>,
     pub start: i64,
     pub end: i64,
     pub cliff_duration: u64,
     pub cliff_release_bps: u16,
+    pub grace_period: u64,
+    pub total_deposit: u64,
+    pub collection: Pubkey,
     pub is_transferable: bool,
 }
 
@@ -164,10 +169,15 @@ impl CampaignView {
                 .unwrap_or_else(|| panic!("campaign field `{name}` missing"))
         };
         CampaignView {
+            creator: as_pubkey(get("creator")),
+            merkle_root: as_bytes(get("merkleRoot")),
             start: as_i64(get("start")),
             end: as_i64(get("end")),
             cliff_duration: as_u64(get("cliffDuration")),
             cliff_release_bps: as_u16(get("cliffReleaseBps")),
+            grace_period: as_u64(get("gracePeriod")),
+            total_deposit: as_u64(get("totalDeposit")),
+            collection: as_pubkey(get("collection")),
             is_transferable: as_bool(get("isTransferable")),
         }
     }
@@ -201,6 +211,19 @@ fn as_pubkey(v: &Value) -> Pubkey {
     match v {
         Value::Pubkey(b) => Pubkey::new_from_array(*b),
         other => panic!("expected pubkey, got {other:?}"),
+    }
+}
+fn as_bytes(v: &Value) -> Vec<u8> {
+    match v {
+        Value::Bytes(b) => b.clone(),
+        Value::Seq(items) => items
+            .iter()
+            .map(|x| match x {
+                Value::U8(n) => *n,
+                other => panic!("expected byte, got {other:?}"),
+            })
+            .collect(),
+        other => panic!("expected bytes, got {other:?}"),
     }
 }
 
