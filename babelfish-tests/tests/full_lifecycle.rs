@@ -20,6 +20,7 @@ use vesting_babelfish_tests::merkle::{default_merkle, TOTAL_DEPOSIT};
 use vesting_babelfish_tests::pda::PROGRAM_ID;
 use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
 
+// Report: test-report/bob-claims-via-alice-s-transferred-position-nft.md
 #[test]
 fn full_lifecycle() {
     let merkle = default_merkle();
