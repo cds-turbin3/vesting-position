@@ -23,17 +23,29 @@ pub const NOT_WHITELISTED: &str = "tests/fixtures/keypairs/not_whitelisted.json"
 pub const LAMPORTS: u64 = 100 * 1_000_000_000;
 pub const MOCK_ALLOC: u64 = crate::merkle::MOCK_ALLOC;
 
+/// Map a fixture keypair's file stem to a crypto-convention actor name, so
+/// reports read as a cast (Alice claims, Mallory is turned away) rather than
+/// a roster of `whitelisted_1` stubs. The roster keys on the pubkey, so one
+/// stable name per identity reads consistently across every report, even where
+/// a given test locally nicknames the same key differently. Alice and Bob are
+/// the two whitelisted claimants; Mallory is the non-whitelisted adversary.
+fn actor_name(stem: &str) -> &str {
+    match stem {
+        "whitelisted_1" => "Alice",
+        "whitelisted_2" => "Bob",
+        "not_whitelisted" => "Mallory",
+        other => other,
+    }
+}
+
 /// Load a fixture keypair into a frood `Actor` (no airdrop). The label is the
-/// file stem, so reports name it something better than a raw base58 stub.
+/// friendly [`actor_name`] for the file stem, so reports name a cast.
 pub fn load_keypair(path: impl AsRef<Path>) -> Actor {
     let path = path.as_ref();
     let bytes: Vec<u8> = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
     let keypair = Keypair::try_from(bytes.as_slice()).expect("valid keypair bytes");
-    let label = path
-        .file_stem()
-        .and_then(|s| s.to_str())
-        .unwrap_or("user")
-        .to_string();
+    let stem = path.file_stem().and_then(|s| s.to_str()).unwrap_or("user");
+    let label = actor_name(stem).to_string();
     Actor { keypair, label }
 }
 

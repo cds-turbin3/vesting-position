@@ -991,7 +991,18 @@ impl VestingWorld {
         }
         for a in actors {
             let ata = self.story.ata(&a.pubkey(), &self.mint);
-            self.roster.register(&a.label, ata);
+            // Prefer the story's narrative alias: a test may cast a key against
+            // its own plot (full_lifecycle names the NFT transferee "Bob", the
+            // sympathetic inheritor, not the adversary its default label calls
+            // "Mallory"), and the state tables must read as that same cast the
+            // diagrams draw. Fall back to the actor's default cast name.
+            let label = self
+                .story
+                .aliases
+                .get(&a.pubkey())
+                .cloned()
+                .unwrap_or_else(|| a.label.clone());
+            self.roster.register(&label, ata);
         }
         let after = self.roster.snapshot(&self.story);
         if let Some(delta) = StateRoster::delta_table(&self.last_snapshot, &after) {
