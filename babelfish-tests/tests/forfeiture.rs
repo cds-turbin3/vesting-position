@@ -118,4 +118,6 @@ fn vested_tokens_are_forfeited_past_the_grace_window() {
         report.contains("```mermaid\nsequenceDiagram"),
         "the report carries the headline diagram:\n{report}"
     );
+
+    frood::emit_link_report(&world.story, &clawback, title);
 }

@@ -298,4 +298,6 @@ fn full_lifecycle() {
         report.contains("```mermaid\nsequenceDiagram"),
         "the report carries the headline diagram:\n{report}"
     );
+
+    frood::emit_link_report(&world.story, &bob_claim, title);
 }
