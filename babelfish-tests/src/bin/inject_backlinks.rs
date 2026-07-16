@@ -98,6 +98,24 @@ fn finalize(name: &str, file: &str, fn_line: u32, base: &str, body: &str) -> Str
     )
 }
 
+/// Exact-name line lookup: scan for `fn NAME(` (same prefix rules as
+/// `enclosing_fn`, but matched by name rather than "nearest fn above a line").
+/// Used only after every back-link comment in a file has already landed, so
+/// the line it finds is the file's *final* state rather than a mid-injection
+/// snapshot.
+fn find_fn_line(src: &str, name: &str) -> Option<u32> {
+    for (i, l) in src.lines().enumerate() {
+        let t = l.trim_start();
+        if let Some(rest) = t.strip_prefix("fn ").or_else(|| t.split(" fn ").nth(1)) {
+            let found: String = rest.chars().take_while(|c| c.is_alphanumeric() || *c == '_').collect();
+            if found == name {
+                return Some((i as u32) + 1);
+            }
+        }
+    }
+    None
+}
+
 fn main() {
     let manifest = env!("CARGO_MANIFEST_DIR");
     let report_dir = Path::new(manifest).join("test-report");
@@ -107,27 +125,44 @@ fn main() {
         Ok(e) => e,
         Err(_) => { eprintln!("no {}; run `make test-report` first", raw.display()); std::process::exit(1); }
     };
-    let mut rows: Vec<Row> = Vec::new();
+    // Pass 1: inject every back-link first. Inserting a `// Report:` comment
+    // shifts every line below it in that file, including any *other* test's
+    // fn line in the same file that hasn't been processed yet (raw entries
+    // arrive in directory order, not source order) — so a fn's true final
+    // line is only knowable once every comment insertion in its file is done.
+    let mut items: Vec<(String, String, String)> = Vec::new();
     for entry in entries.flatten() {
         let p = entry.path();
         if p.extension().and_then(|e| e.to_str()) != Some("json") { continue; }
         let json: serde_json::Value = serde_json::from_str(&fs::read_to_string(&p).unwrap()).unwrap();
-        let file = json["file"].as_str().unwrap();
+        let file = json["file"].as_str().unwrap().to_string();
         let line = json["line"].as_u64().unwrap() as u32;
         let body = fs::read_to_string(p.with_extension("md")).unwrap();
-        let src_path = Path::new(manifest).join(file);
+        let src_path = Path::new(manifest).join(&file);
         let src = fs::read_to_string(&src_path).unwrap();
         let (name, fn_line) = match enclosing_fn(&src, line) {
             Some(v) => v,
             None => { eprintln!("no enclosing test fn at {file}:{line}; skipping"); continue; }
         };
-        fs::write(report_dir.join(format!("{name}.md")), finalize(&name, file, fn_line, &base, body.trim_end())).unwrap();
-        let depth = Path::new(file).parent().map_or(0, |d| d.components().count());
+        let depth = Path::new(&file).parent().map_or(0, |d| d.components().count());
         let report_rel = format!("{}test-report/{name}.md", "../".repeat(depth));
         if let Some(updated) = inject(&src, fn_line, &report_rel) {
             fs::write(&src_path, updated).unwrap();
         }
-        rows.push(Row { title: name.clone(), slug: name, file: file.to_string(), line: fn_line });
+        items.push((name, file, body));
+    }
+    // Pass 2: every file has reached its final shape, so re-locate each fn by
+    // name for good before writing its finalized report and index row.
+    let mut rows: Vec<Row> = Vec::new();
+    for (name, file, body) in items {
+        let src_path = Path::new(manifest).join(&file);
+        let src = fs::read_to_string(&src_path).unwrap();
+        let fn_line = match find_fn_line(&src, &name) {
+            Some(l) => l,
+            None => { eprintln!("lost track of fn {name} in {file} after injection; skipping"); continue; }
+        };
+        fs::write(report_dir.join(format!("{name}.md")), finalize(&name, &file, fn_line, &base, body.trim_end())).unwrap();
+        rows.push(Row { title: name.clone(), slug: name, file, line: fn_line });
         println!("finalized test-report/{}.md", rows.last().unwrap().slug);
     }
     fs::write(report_dir.join("index.md"), render_index(&mut rows, if base.is_empty() { None } else { Some(&base) })).unwrap();
