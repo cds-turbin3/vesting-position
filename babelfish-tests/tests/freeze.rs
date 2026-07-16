@@ -24,6 +24,7 @@ fn mint_alice_position(merkle: &MerkleTree, world: &mut VestingWorld) -> (Whitel
 }
 
 /// Transferable campaign: asset minted unfrozen → transfer succeeds.
+// Report: ../test-report/transfer_when_collection_unfrozen_on_transferable_campaign.md
 #[test]
 fn transfer_when_collection_unfrozen_on_transferable_campaign() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -46,6 +47,7 @@ fn transfer_when_collection_unfrozen_on_transferable_campaign() {
 }
 
 /// Non-transferable campaign: collection frozen, no asset freeze plugin → transfer blocked.
+// Report: ../test-report/transfer_blocked_when_collection_frozen.md
 #[test]
 fn transfer_blocked_when_collection_frozen() {
     let (merkle, mut world) = setup(CampaignConfig {
@@ -66,6 +68,7 @@ fn transfer_blocked_when_collection_frozen() {
 }
 
 /// MPL Core precedence: asset `frozen: false` overrides collection freeze on existing positions.
+// Report: ../test-report/collection_freeze_does_not_block_existing_transferable_positions.md
 #[test]
 fn collection_freeze_does_not_block_existing_transferable_positions() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -89,6 +92,7 @@ fn collection_freeze_does_not_block_existing_transferable_positions() {
 }
 
 /// Unfreezing a non-transferable collection restores transfer (no asset plugin to clear).
+// Report: ../test-report/unfreeze_collection_restores_transfer_for_non_transferable_campaign.md
 #[test]
 fn unfreeze_collection_restores_transfer_for_non_transferable_campaign() {
     let (merkle, mut world) = setup(CampaignConfig {
@@ -114,6 +118,7 @@ fn unfreeze_collection_restores_transfer_for_non_transferable_campaign() {
 }
 
 /// Fully claimed position on transferable campaign is frozen (loyalty badge).
+// Report: ../test-report/fully_claimed_loyalty_badge_is_permanently_frozen.md
 #[test]
 fn fully_claimed_loyalty_badge_is_permanently_frozen() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -137,6 +142,7 @@ fn fully_claimed_loyalty_badge_is_permanently_frozen() {
 }
 
 /// Fully claimed position on non-transferable campaign has no asset freeze plugin.
+// Report: ../test-report/fully_claimed_non_transferable_has_no_asset_freeze.md
 #[test]
 fn fully_claimed_non_transferable_has_no_asset_freeze() {
     let (merkle, mut world) = setup(CampaignConfig {
@@ -164,6 +170,7 @@ fn fully_claimed_non_transferable_has_no_asset_freeze() {
 
 /// Creator can burn a partially-vested position; the unclaimed remainder
 /// returns to the creator and subsequent claims fail.
+// Report: ../test-report/exclude_asset_blocks_subsequent_claims.md
 #[test]
 fn exclude_asset_blocks_subsequent_claims() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -207,6 +214,7 @@ fn exclude_asset_fails_when_fully_claimed() {
 }
 
 /// Confirms mpl-core BurnV1: asset invalidated, transfer blocked, creator refunded rent.
+// Report: ../test-report/exclude_asset_burns_position.md
 #[test]
 fn exclude_asset_burns_position() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -245,6 +253,7 @@ fn exclude_asset_burns_position() {
 // ---------------------------------------------------------------------------
 
 /// Creator can pause transfers of a single position and later restore them.
+// Report: ../test-report/freeze_asset_blocks_transfer_and_unfreeze_restores.md
 #[test]
 fn freeze_asset_blocks_transfer_and_unfreeze_restores() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -263,6 +272,7 @@ fn freeze_asset_blocks_transfer_and_unfreeze_restores() {
 }
 
 /// Positions on non-transferable campaigns carry no freeze plugin and are rejected.
+// Report: ../test-report/freeze_asset_fails_without_freeze_plugin.md
 #[test]
 fn freeze_asset_fails_without_freeze_plugin() {
     let (merkle, mut world) = setup(CampaignConfig {
@@ -275,6 +285,7 @@ fn freeze_asset_fails_without_freeze_plugin() {
 }
 
 /// Only the campaign creator can toggle a per-asset freeze.
+// Report: ../test-report/freeze_asset_requires_creator.md
 #[test]
 fn freeze_asset_requires_creator() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -290,6 +301,7 @@ fn freeze_asset_requires_creator() {
 /// Asset minted on a non-transferable campaign (no freeze plugin); admin later
 /// unfreezes the collection (is_transferable becomes true). The final claim
 /// must not attempt the loyalty-badge freeze on the missing plugin.
+// Report: ../test-report/final_claim_succeeds_after_collection_unfreeze_toggle.md
 #[test]
 fn final_claim_succeeds_after_collection_unfreeze_toggle() {
     let (merkle, mut world) = setup(CampaignConfig {

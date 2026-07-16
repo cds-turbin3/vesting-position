@@ -9,6 +9,7 @@ use vesting_babelfish_tests::world::{
     log_tx_cu, CampaignConfig, VestingWorld, DEFAULT_TX_CU, FIRST_CLAIM_CU,
 };
 
+// Report: ../test-report/compute_units_profile.md
 #[test]
 fn compute_units_profile() {
     let merkle = default_merkle();

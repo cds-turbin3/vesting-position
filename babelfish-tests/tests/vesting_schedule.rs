@@ -22,6 +22,7 @@ fn setup(config: CampaignConfig) -> (MerkleTree, VestingWorld) {
 }
 
 /// Before cliff_end nothing is claimable; the position NFT still mints.
+// Report: ../test-report/before_cliff_transfers_zero.md
 #[test]
 fn before_cliff_transfers_zero() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -41,6 +42,7 @@ fn before_cliff_transfers_zero() {
 }
 
 /// Default campaign: 10% released at cliff, linear tail after.
+// Report: ../test-report/at_cliff_releases_cliff_bps.md
 #[test]
 fn at_cliff_releases_cliff_bps() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -59,6 +61,7 @@ fn at_cliff_releases_cliff_bps() {
 }
 
 /// Halfway through the linear window: cliff slice + 50% of the linear remainder.
+// Report: ../test-report/mid_schedule_cliff_plus_linear.md
 #[test]
 fn mid_schedule_cliff_plus_linear() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -81,6 +84,7 @@ fn mid_schedule_cliff_plus_linear() {
 }
 
 /// After end, the full allocation is claimable in one shot.
+// Report: ../test-report/at_end_releases_full_allocation.md
 #[test]
 fn at_end_releases_full_allocation() {
     let (merkle, mut world) = setup(CampaignConfig::default());
@@ -129,6 +133,7 @@ fn pure_linear_starts_at_cliff_end() {
 }
 
 /// cliff_release_bps = 10000 → 100% at cliff, no linear tail.
+// Report: ../test-report/full_release_at_cliff.md
 #[test]
 fn full_release_at_cliff() {
     let (merkle, mut world) = setup(CampaignConfig {

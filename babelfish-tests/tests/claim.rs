@@ -33,6 +33,7 @@ fn setup() -> (MerkleTree, VestingWorld) {
 // ---------------------------------------------------------------------------
 
 /// Scenario 1: Alice mints her position, then claims vested tokens again.
+// Report: ../test-report/scenario_1_alice_first_and_subsequent_claim.md
 #[test]
 fn scenario_1_alice_first_and_subsequent_claim() {
     let (merkle, mut world) = setup();
@@ -55,6 +56,7 @@ fn scenario_1_alice_first_and_subsequent_claim() {
 }
 
 /// Scenario 2: Alice & Bob each mint; Bob claims both after buying Alice's position.
+// Report: ../test-report/scenario_2_two_users_transfer_and_bob_claims_both.md
 #[test]
 fn scenario_2_two_users_transfer_and_bob_claims_both() {
     let (merkle, mut world) = setup();
@@ -83,6 +85,7 @@ fn scenario_2_two_users_transfer_and_bob_claims_both() {
 }
 
 /// Scenario 3: Alice → Bob → Alice buyback; Alice claims again on the same NFT.
+// Report: ../test-report/scenario_3_buyback_alice_claims_again.md
 #[test]
 fn scenario_3_buyback_alice_claims_again() {
     let (merkle, mut world) = setup();
@@ -120,6 +123,7 @@ fn scenario_3_buyback_alice_claims_again() {
 // ---------------------------------------------------------------------------
 
 /// Scenario 4: Replay first claim with same proofs → AlreadyClaimed.
+// Report: ../test-report/scenario_4_replay_first_claim_fails.md
 #[test]
 fn scenario_4_replay_first_claim_fails() {
     let (merkle, mut world) = setup();
@@ -147,6 +151,7 @@ fn scenario_5_unwhitelisted_user_fails() {
 }
 
 /// Scenario 6: Alice cannot subsequent-claim on Bob's NFT.
+// Report: ../test-report/scenario_6_not_owner_subsequent_claim_fails.md
 #[test]
 fn scenario_6_not_owner_subsequent_claim_fails() {
     let (merkle, mut world) = setup();
@@ -163,6 +168,7 @@ fn scenario_6_not_owner_subsequent_claim_fails() {
 }
 
 /// Scenario 7: Fully claimed position → frozen, and further claims fail.
+// Report: ../test-report/scenario_7_fully_claimed_position_frozen.md
 #[test]
 fn scenario_7_fully_claimed_position_frozen() {
     let (merkle, mut world) = setup();
@@ -192,6 +198,7 @@ fn scenario_7_fully_claimed_position_frozen() {
 }
 
 /// Scenario 8: Subsequent claim with wrong asset address → InvalidAsset.
+// Report: ../test-report/scenario_8_wrong_asset_subsequent_claim_fails.md
 #[test]
 fn scenario_8_wrong_asset_subsequent_claim_fails() {
     use solana_pubkey::Pubkey;
@@ -207,6 +214,7 @@ fn scenario_8_wrong_asset_subsequent_claim_fails() {
 
 /// Scenario 9: Claim works until the last second of the grace window, then
 /// closes with ClaimWindowClosed (clawback takes over from there).
+// Report: ../test-report/scenario_9_claim_window_closes_after_grace.md
 #[test]
 fn scenario_9_claim_window_closes_after_grace() {
     let (merkle, mut world) = setup();

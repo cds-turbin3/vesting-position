@@ -31,6 +31,7 @@ fn partial_claim(world: &mut VestingWorld, user: &WhitelistUser, asset: Pubkey) 
 // --- clawback (existing position) ------------------------------------------
 
 /// Burns the asset and returns the unclaimed remainder to the creator.
+// Report: ../test-report/clawback_after_grace_burns_asset_and_recovers_remainder.md
 #[test]
 fn clawback_after_grace_burns_asset_and_recovers_remainder() {
     let (merkle, mut world) = setup();
@@ -58,6 +59,7 @@ fn clawback_after_grace_burns_asset_and_recovers_remainder() {
 }
 
 /// Cannot clawback before end + grace_period.
+// Report: ../test-report/clawback_before_grace_fails.md
 #[test]
 fn clawback_before_grace_fails() {
     let (merkle, mut world) = setup();
@@ -68,6 +70,7 @@ fn clawback_before_grace_fails() {
 }
 
 /// Fully claimed loyalty badges are inviolable.
+// Report: ../test-report/clawback_fully_claimed_badge_fails.md
 #[test]
 fn clawback_fully_claimed_badge_fails() {
     let (merkle, mut world) = setup();
@@ -82,6 +85,7 @@ fn clawback_fully_claimed_badge_fails() {
 }
 
 /// Only the campaign creator can clawback.
+// Report: ../test-report/clawback_requires_creator.md
 #[test]
 fn clawback_requires_creator() {
     let (merkle, mut world) = setup();
@@ -94,6 +98,7 @@ fn clawback_requires_creator() {
 // --- clawback_unclaimed (never-claimed allocation) --------------------------
 
 /// Recovers the full allocation and permanently blocks a late first claim.
+// Report: ../test-report/clawback_unclaimed_recovers_allocation_and_blocks_claim.md
 #[test]
 fn clawback_unclaimed_recovers_allocation_and_blocks_claim() {
     let (merkle, mut world) = setup();
@@ -135,6 +140,7 @@ fn clawback_unclaimed_rejects_invalid_proof() {
 }
 
 /// Cannot clawback_unclaimed a recipient who already claimed (receipt exists).
+// Report: ../test-report/clawback_unclaimed_fails_if_already_claimed.md
 #[test]
 fn clawback_unclaimed_fails_if_already_claimed() {
     let (merkle, mut world) = setup();
@@ -152,6 +158,7 @@ fn clawback_unclaimed_fails_if_already_claimed() {
 /// A buyer's subsequent claim creates a zeroed receipt at the buyer's PDA.
 /// That must not strand the buyer's own never-claimed allocation
 /// (regression: `init` on the receipt would fail forever).
+// Report: ../test-report/clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt.md
 #[test]
 fn clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt() {
     let (merkle, mut world) = setup();
@@ -184,6 +191,7 @@ fn clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt() {
 }
 
 /// Cannot clawback_unclaimed before end + grace_period.
+// Report: ../test-report/clawback_unclaimed_before_grace_fails.md
 #[test]
 fn clawback_unclaimed_before_grace_fails() {
     let (merkle, mut world) = setup();
@@ -209,6 +217,7 @@ fn close_campaign_fails_when_vault_not_empty() {
 }
 
 /// Empty vault → Campaign PDA and ATA closed, rent returned to creator.
+// Report: ../test-report/close_campaign_succeeds_when_vault_empty.md
 #[test]
 fn close_campaign_succeeds_when_vault_empty() {
     // Fund the campaign with exactly alice's allocation so a full claim
@@ -254,6 +263,7 @@ fn close_campaign_succeeds_when_vault_empty() {
 // --- cancel_campaign --------------------------------------------------------
 
 /// Mistake safeguard: full deposit returned, campaign + ATA + collection closed.
+// Report: ../test-report/cancel_campaign_returns_deposit_and_closes_accounts.md
 #[test]
 fn cancel_campaign_returns_deposit_and_closes_accounts() {
     let (_merkle, mut world) = setup();
@@ -299,6 +309,7 @@ fn cancel_campaign_returns_deposit_and_closes_accounts() {
 }
 
 /// Once any position was minted, cancel is no longer possible.
+// Report: ../test-report/cancel_campaign_fails_after_first_claim.md
 #[test]
 fn cancel_campaign_fails_after_first_claim() {
     let (merkle, mut world) = setup();
@@ -308,6 +319,7 @@ fn cancel_campaign_fails_after_first_claim() {
 
 /// Cancel remains blocked even after the minted position was burned
 /// (num_minted, not current_size, is the guard).
+// Report: ../test-report/cancel_campaign_fails_after_position_burned.md
 #[test]
 fn cancel_campaign_fails_after_position_burned() {
     let (merkle, mut world) = setup();
@@ -318,6 +330,7 @@ fn cancel_campaign_fails_after_position_burned() {
 }
 
 /// Only the campaign creator can cancel.
+// Report: ../test-report/cancel_campaign_requires_creator.md
 #[test]
 fn cancel_campaign_requires_creator() {
     let (merkle, mut world) = setup();
@@ -329,6 +342,7 @@ fn cancel_campaign_requires_creator() {
 // --- close_receipt ----------------------------------------------------------
 
 /// Receipts must persist while the campaign exists.
+// Report: ../test-report/close_receipt_fails_while_campaign_active.md
 #[test]
 fn close_receipt_fails_while_campaign_active() {
     let (merkle, mut world) = setup();
