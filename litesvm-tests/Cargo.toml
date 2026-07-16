@@ -1,0 +1,16 @@
+[package]
+name = "vesting-litesvm-tests"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+# Standalone workspace on purpose: this crate's modern-stack lockfile
+# (anchor 1.x, solana 3.x/4.x via anchor-litesvm) must never share a graph with
+# the vesting_positions program crate (anchor 0.31 / solana 2.x). The program is
+# driven source-free through its committed .so + IDL, so it never appears here.
+[workspace]
+
+[dependencies]
+anchor-lang = "1.0"
+# Local checkout on chore/migration. Swap to a git/crates.io pin once published.
+anchor-litesvm = { path = "/Users/amal/oss/upstream/anchor-litesvm/crates/anchor-litesvm" }
