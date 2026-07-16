@@ -1,6 +1,72 @@
 # mid_schedule_cliff_plus_linear
 
-**Source:** [`tests/vesting_schedule.rs` L66](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/vesting_schedule.rs#L66)
+**Source:** [`tests/vesting_schedule.rs` L66](https://github.com/cds-turbin3/vesting-position/blob/cbb8875460ccf5cc3d9023c540f31113adcd0573/babelfish-tests/tests/vesting_schedule.rs#L66)
+
+### Action: Initialize
+
+| account | before | after |
+| --- | --- | --- |
+| Creator | 10000000000000 | 0 |
+| Vault | 0 | 10000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (85369cu)
+└─ VestingPositions::Initialize ✓ 85369cu
+   ├─ system::createAccount ✓
+   ├─ splAssociatedTokenAccount::create ✓ 13517cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
+   │  ├─ system::createAccount ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+> Halfway through the linear window, a claim releases the cliff slice plus half the linear remainder: cliff_amount + linear_amount/2.
+
+### Action: tx
+
+| account | before | after |
+| --- | --- | --- |
+| Vault | 10000000000000 | 9450000000000 |
+| whitelisted_1 | — | 550000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+4wQQ… (163770cu)
+├─ Comp…::? ✓
+└─ VestingPositions::Claim ✓ 163620cu
+   ├─ splAssociatedTokenAccount::create ✓ 13416cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ system::createAccount ✓
+   ├─ CoRE…::CreateV2 ✓ 29646cu
+   │  ├─ system::createAccount ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+**Alice's balance:** `0` → `550000000000` — mid-schedule claim: cliff slice + half the linear remainder
 
 ```mermaid
 sequenceDiagram

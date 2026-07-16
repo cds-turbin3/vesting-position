@@ -1,6 +1,98 @@
 # final_claim_succeeds_after_collection_unfreeze_toggle
 
-**Source:** [`tests/freeze.rs` L306](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/freeze.rs#L306)
+**Source:** [`tests/freeze.rs` L307](https://github.com/cds-turbin3/vesting-position/blob/cbb8875460ccf5cc3d9023c540f31113adcd0573/babelfish-tests/tests/freeze.rs#L307)
+
+### Action: Initialize
+
+| account | before | after |
+| --- | --- | --- |
+| Creator | 10000000000000 | 0 |
+| Vault | 0 | 10000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (85370cu)
+└─ VestingPositions::Initialize ✓ 85370cu
+   ├─ system::createAccount ✓
+   ├─ splAssociatedTokenAccount::create ✓ 13517cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
+   │  ├─ system::createAccount ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+### Action: tx
+
+| account | before | after |
+| --- | --- | --- |
+| whitelisted_1 | — | 0 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+4wQQ… (156702cu)
+├─ Comp…::? ✓
+└─ VestingPositions::Claim ✓ 156552cu
+   ├─ splAssociatedTokenAccount::create ✓ 13416cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ system::createAccount ✓
+   └─ CoRE…::CreateV2 ✓ 25757cu
+      ├─ system::createAccount ✓
+      ├─ system::transferSol ✓
+      ├─ system::transferSol ✓
+      └─ system::transferSol ✓
+```
+
+</details>
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (21272cu)
+└─ VestingPositions::FreezeCollection ✓ 21272cu
+   └─ CoRE…::UpdateCollectionPlugin ✓ 11198cu
+```
+
+</details>
+
+### Action: Claim
+
+| account | before | after |
+| --- | --- | --- |
+| Vault | 10000000000000 | 9000000000000 |
+| whitelisted_1 | 0 | 1000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+4wQQ… (73718cu)
+└─ VestingPositions::Claim ✓ 73718cu
+   ├─ CoRE…::UpdatePlugin ✓ 22029cu
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
 
 ```mermaid
 sequenceDiagram

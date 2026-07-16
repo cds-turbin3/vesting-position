@@ -1,6 +1,36 @@
 # compute_units_profile
 
-**Source:** [`tests/compute_units.rs` L14](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/compute_units.rs#L14)
+**Source:** [`tests/compute_units.rs` L14](https://github.com/cds-turbin3/vesting-position/blob/cbb8875460ccf5cc3d9023c540f31113adcd0573/babelfish-tests/tests/compute_units.rs#L14)
+
+### Action: Initialize
+
+| account | before | after |
+| --- | --- | --- |
+| Creator | 10000000000000 | 0 |
+| Vault | 0 | 10000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (85369cu)
+└─ VestingPositions::Initialize ✓ 85369cu
+   ├─ system::createAccount ✓
+   ├─ splAssociatedTokenAccount::create ✓ 13517cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
+   │  ├─ system::createAccount ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
 
 ```mermaid
 sequenceDiagram

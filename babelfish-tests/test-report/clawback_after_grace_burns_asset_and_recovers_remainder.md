@@ -1,6 +1,118 @@
 # clawback_after_grace_burns_asset_and_recovers_remainder
 
-**Source:** [`tests/clawback.rs` L36](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/clawback.rs#L36)
+**Source:** [`tests/clawback.rs` L36](https://github.com/cds-turbin3/vesting-position/blob/cbb8875460ccf5cc3d9023c540f31113adcd0573/babelfish-tests/tests/clawback.rs#L36)
+
+### Action: Initialize
+
+| account | before | after |
+| --- | --- | --- |
+| Creator | 10000000000000 | 0 |
+| Vault | 0 | 10000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (85369cu)
+└─ VestingPositions::Initialize ✓ 85369cu
+   ├─ system::createAccount ✓
+   ├─ splAssociatedTokenAccount::create ✓ 13517cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
+   │  ├─ system::createAccount ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+### Action: tx
+
+| account | before | after |
+| --- | --- | --- |
+| whitelisted_1 | — | 0 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+4wQQ… (160559cu)
+├─ Comp…::? ✓
+└─ VestingPositions::Claim ✓ 160409cu
+   ├─ splAssociatedTokenAccount::create ✓ 13416cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ system::createAccount ✓
+   └─ CoRE…::CreateV2 ✓ 29413cu
+      ├─ system::createAccount ✓
+      ├─ system::transferSol ✓
+      ├─ system::transferSol ✓
+      ├─ system::transferSol ✓
+      └─ system::transferSol ✓
+```
+
+</details>
+
+### Action: Claim
+
+| account | before | after |
+| --- | --- | --- |
+| Vault | 10000000000000 | 9450000000000 |
+| whitelisted_1 | 0 | 550000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+4wQQ… (72635cu)
+└─ VestingPositions::Claim ✓ 72635cu
+   ├─ CoRE…::UpdatePlugin ✓ 22502cu
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+### Action: Clawback
+
+| account | before | after |
+| --- | --- | --- |
+| Creator | 0 | 450000000000 |
+| Vault | 9450000000000 | 9000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (76464cu)
+└─ VestingPositions::Clawback ✓ 76464cu
+   ├─ CoRE…::Burn ✓ 9904cu
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+<details>
+<summary>tree</summary>
+
+```
+
+4wQQ… (18897cu)
+└─ VestingPositions::Claim ✗ 18897cu
+```
+
+</details>
 
 ```mermaid
 sequenceDiagram

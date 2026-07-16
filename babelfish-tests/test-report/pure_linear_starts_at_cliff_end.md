@@ -1,6 +1,88 @@
 # pure_linear_starts_at_cliff_end
 
-**Source:** [`tests/vesting_schedule.rs` L109](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/vesting_schedule.rs#L109)
+**Source:** [`tests/vesting_schedule.rs` L119](https://github.com/cds-turbin3/vesting-position/blob/cbb8875460ccf5cc3d9023c540f31113adcd0573/babelfish-tests/tests/vesting_schedule.rs#L119)
+
+### Action: Initialize
+
+| account | before | after |
+| --- | --- | --- |
+| Creator | 10000000000000 | 0 |
+| Vault | 0 | 10000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (85298cu)
+└─ VestingPositions::Initialize ✓ 85298cu
+   ├─ system::createAccount ✓
+   ├─ splAssociatedTokenAccount::create ✓ 13517cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ CoRE…::CreateCollectionV2 ✓ 19934cu
+   │  ├─ system::createAccount ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+### Action: tx
+
+| account | before | after |
+| --- | --- | --- |
+| whitelisted_1 | — | 0 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+4wQQ… (161100cu)
+├─ Comp…::? ✓
+└─ VestingPositions::Claim ✓ 160950cu
+   ├─ splAssociatedTokenAccount::create ✓ 13416cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ system::createAccount ✓
+   └─ CoRE…::CreateV2 ✓ 29413cu
+      ├─ system::createAccount ✓
+      ├─ system::transferSol ✓
+      ├─ system::transferSol ✓
+      ├─ system::transferSol ✓
+      └─ system::transferSol ✓
+```
+
+</details>
+
+### Action: Claim
+
+| account | before | after |
+| --- | --- | --- |
+| Vault | 10000000000000 | 9000000000000 |
+| whitelisted_1 | 0 | 1000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+4wQQ… (91478cu)
+└─ VestingPositions::Claim ✓ 91478cu
+   ├─ CoRE…::UpdatePlugin ✓ 22492cu
+   │  └─ system::transferSol ✓
+   ├─ token::transferChecked ✓ 105cu
+   └─ CoRE…::UpdatePlugin ✓ 13574cu
+```
+
+</details>
 
 ```mermaid
 sequenceDiagram

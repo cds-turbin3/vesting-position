@@ -1,6 +1,78 @@
 # clawback_unclaimed_recovers_allocation_and_blocks_claim
 
-**Source:** [`tests/clawback.rs` L103](https://github.com/cds-turbin3/vesting-position/blob/c4f43acad0bb9f007622fb43bc19ddc3610c7688/babelfish-tests/tests/clawback.rs#L103)
+**Source:** [`tests/clawback.rs` L103](https://github.com/cds-turbin3/vesting-position/blob/cbb8875460ccf5cc3d9023c540f31113adcd0573/babelfish-tests/tests/clawback.rs#L103)
+
+### Action: Initialize
+
+| account | before | after |
+| --- | --- | --- |
+| Creator | 10000000000000 | 0 |
+| Vault | 0 | 10000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (85369cu)
+└─ VestingPositions::Initialize ✓ 85369cu
+   ├─ system::createAccount ✓
+   ├─ splAssociatedTokenAccount::create ✓ 13517cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
+   │  ├─ system::createAccount ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+### Action: ClawbackUnclaimed
+
+| account | before | after |
+| --- | --- | --- |
+| Creator | 0 | 2000000000000 |
+| Vault | 10000000000000 | 8000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (95434cu)
+└─ VestingPositions::ClawbackUnclaimed ✓ 95434cu
+   ├─ system::createAccount ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+### Action: Claim
+
+| account | before | after |
+| --- | --- | --- |
+| whitelisted_2 | — | 0 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+H87x… (36421cu)
+└─ VestingPositions::Claim ✗ 36421cu
+   └─ splAssociatedTokenAccount::create ✓ 13416cu
+      ├─ token::getAccountDataSize ✓ 183cu
+      ├─ system::createAccount ✓
+      ├─ token::initializeImmutableOwner ✓ 38cu
+      └─ token::initializeAccount3 ✓ 235cu
+```
+
+</details>
 
 ```mermaid
 sequenceDiagram
