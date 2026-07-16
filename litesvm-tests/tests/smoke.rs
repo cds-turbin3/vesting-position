@@ -1,45 +1,29 @@
-//! Step 1 smoke test: the source-free harness ingests vesting's IDL and loads
-//! the program (plus mpl-core) from committed `.so` bytes. Proves the migration
-//! scaffold works end to end before any test logic is ported.
-#![allow(unexpected_cfgs)]
+//! Step 3 vertical slice: build the world and run `initialize` end to end on the
+//! source-free harness, proving the pattern (generated bundle + account fetch +
+//! mpl-core Attributes decode) before the eight tests move over in step 4.
 
-use anchor_lang::prelude::Pubkey;
-use anchor_lang::{self};
-use anchor_litesvm::AnchorLiteSVM;
-
-anchor_lang::declare_program!(vesting_positions);
-anchor_litesvm::bundles_from_idl!(vesting_positions);
-
-const MPL_CORE_ID: Pubkey = Pubkey::from_str_const("CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d");
+use vesting_litesvm_tests::asset::{
+    get_attr_i64, get_attr_pubkey, COL_ATTR_END, COL_ATTR_MINT, COL_ATTR_START,
+};
+use vesting_litesvm_tests::campaign::{CampaignConfig, TestCampaign};
+use vesting_litesvm_tests::merkle::default_merkle;
 
 #[test]
-fn harness_ingests_idl_and_loads_the_program() {
-    // Deploy both programs from committed bytes; vesting_positions (anchor 0.31)
-    // is driven purely through its IDL, never compiled into this graph.
-    let ctx = AnchorLiteSVM::build_with_programs(&[
-        (
-            vesting_positions::ID,
-            "vesting_positions",
-            include_bytes!("fixtures/vesting_positions.so"),
-        ),
-        (MPL_CORE_ID, "mpl_core", include_bytes!("fixtures/mpl_core.so")),
-    ]);
+fn initialize_creates_campaign_and_stores_the_schedule() {
+    let tree = default_merkle();
+    let config = CampaignConfig::default();
+    let world = TestCampaign::initialized(&tree, config);
 
-    // Both programs are on-chain and executable.
-    assert!(
-        ctx.svm
-            .get_account(&vesting_positions::ID)
-            .is_some_and(|a| a.executable),
-        "vesting_positions program did not load"
-    );
-    assert!(
-        ctx.svm
-            .get_account(&MPL_CORE_ID)
-            .is_some_and(|a| a.executable),
-        "mpl_core program did not load"
-    );
+    // The Campaign account exists and carries the config's schedule.
+    let campaign = world.campaign();
+    assert_eq!(campaign.merkle_root, tree.root);
+    assert_eq!(campaign.total_deposit, config.total_deposit);
+    assert_eq!(campaign.mint_to_distribute, world.mint);
 
-    // The generated client compiled: naming a bundle forces bundles_from_idl!
-    // codegen (initialize is one of vesting's 10 instructions).
-    let _ = InitializeBundle::default();
+    // The collection carries the schedule as mpl-core Attributes, decoded via
+    // mpl-core 0.12.1's fetch_plugin and read with the ported get_attr_*.
+    let attrs = world.fetch_collection_attributes();
+    assert_eq!(get_attr_pubkey(&attrs, COL_ATTR_MINT), world.mint);
+    assert_eq!(get_attr_i64(&attrs, COL_ATTR_START), config.start);
+    assert_eq!(get_attr_i64(&attrs, COL_ATTR_END), config.end);
 }
