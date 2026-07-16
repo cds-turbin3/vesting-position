@@ -4743,6 +4743,8 @@ dependencies = [
  "serde",
  "serde_json",
  "sha3",
+ "solana-compute-budget-interface",
+ "spl-associated-token-account",
 ]
 
 [[package]]

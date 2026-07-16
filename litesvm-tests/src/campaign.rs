@@ -7,18 +7,42 @@
 //! slice; per-instruction builders and fetches grow it as tests move over.
 
 use anchor_lang::prelude::{AccountInfo, Pubkey};
-use anchor_litesvm::{AnchorContext, AnchorLiteSVM, Keypair, Signer, TestHelpers};
-use mpl_core::accounts::BaseCollectionV1;
+use anchor_lang::solana_program::{instruction::Instruction, system_program};
+use anchor_litesvm::{
+    AnchorContext, AnchorLiteSVM, Keypair, Signer, TestHelpers, TransactionResult,
+};
+use mpl_core::accounts::{BaseAssetV1, BaseCollectionV1};
 use mpl_core::fetch_plugin;
-use mpl_core::types::{Attributes, PluginType};
+use mpl_core::instructions::TransferV1Builder;
+use mpl_core::types::{Attributes, PermanentFreezeDelegate, PluginType};
+use solana_compute_budget_interface::ComputeBudgetInstruction;
+use spl_associated_token_account::get_associated_token_address;
 
 use crate::merkle::{MerkleTree, TOTAL_DEPOSIT};
-use crate::pda::{campaign_pda, collection_pda};
+use crate::pda::{asset_pda, campaign_pda, collection_pda, receipt_pda};
 use crate::vesting_positions::{self, accounts::Campaign};
-use crate::InitializeBundle;
+use crate::{ClaimBundle, InitializeBundle};
 
 const MPL_CORE_ID: Pubkey = Pubkey::from_str_const("CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d");
 const LAMPORTS: u64 = 100 * 1_000_000_000;
+
+/// First claim mints the position NFT (an mpl-core CreateV2 CPI); the
+/// full-allocation-plus-freeze path tops the 200k default cap, so raise it.
+const FIRST_CLAIM_CU: u32 = 250_000;
+
+/// Every claim carries the same throwaway NFT metadata; the schedule math and
+/// authorization are what the tests exercise, not the name/uri.
+fn claim_args(
+    proofs: Option<Vec<[u8; 33]>>,
+    allocation: Option<u64>,
+) -> vesting_positions::client::args::Claim {
+    vesting_positions::client::args::Claim {
+        proofs,
+        allocation,
+        name: "Test asset".to_string(),
+        uri: "https://example.com".to_string(),
+    }
+}
 
 #[derive(Clone, Copy)]
 pub struct CampaignConfig {
@@ -132,6 +156,185 @@ impl TestCampaign {
     /// The on-chain Campaign account, deserialized.
     pub fn campaign(&self) -> Campaign {
         self.ctx.load(&self.campaign_address())
+    }
+
+    // Schedule bounds live on `config`; expose the three the claim tests read so
+    // call sites stay `world.start()` rather than reaching through `world.config`.
+    pub fn start(&self) -> i64 {
+        self.config.start
+    }
+    pub fn end(&self) -> i64 {
+        self.config.end
+    }
+    pub fn grace_period(&self) -> u64 {
+        self.config.grace_period
+    }
+
+    /// The position-NFT address for `user`, seeded `[asset, campaign, user]`.
+    pub fn asset_for(&self, user: &Pubkey) -> Pubkey {
+        asset_pda(&self.campaign_address(), user).0
+    }
+
+    /// The claimer's ATA balance for the distributed mint (0 if never funded).
+    pub fn claimer_token_balance(&self, user: &Pubkey) -> u64 {
+        let ata = get_associated_token_address(user, &self.mint);
+        self.ctx.svm.token_balance(&ata).unwrap_or(0)
+    }
+
+    /// The generated claim bundle for `user`. `asset` is the NFT the claim
+    /// targets; `None` uses the user's own first-claim PDA. The macro derives
+    /// the campaign, ATAs, and update-authority; `collection`/`claim_receipt`
+    /// demoted to fields (arg-seeded / cross-instruction-divergent), so the
+    /// world supplies them from the extracted derivations.
+    fn claim_bundle(&self, user: &Pubkey, asset: Option<Pubkey>) -> ClaimBundle {
+        let campaign = self.campaign_address();
+        ClaimBundle {
+            user: *user,
+            collection: self.collection,
+            mint: self.mint,
+            asset: asset.unwrap_or_else(|| asset_pda(&campaign, user).0),
+            claim_receipt: receipt_pda(&campaign, user).0,
+            ..Default::default()
+        }
+    }
+
+    /// A first claim (proofs + allocation), warping to `start` if the clock is
+    /// still early. Prepends a raised CU limit for the NFT-minting CPI.
+    pub fn first_claim_ok(
+        &mut self,
+        user: &Keypair,
+        proofs: Vec<[u8; 33]>,
+        allocation: u64,
+    ) -> TransactionResult {
+        if self.ctx.svm.get_unix_timestamp() < self.config.start {
+            self.warp_to(self.config.start);
+        }
+        let bundle = self.claim_bundle(&user.pubkey(), None);
+        let claim_ix = self
+            .ctx
+            .program()
+            .build_ix(bundle, claim_args(Some(proofs), Some(allocation)));
+        let budget_ix = ComputeBudgetInstruction::set_compute_unit_limit(FIRST_CLAIM_CU);
+        let result = self
+            .ctx
+            .execute_instructions(vec![budget_ix, claim_ix], &[user])
+            .expect("first claim")
+            .with_aliases(self.ctx.aliases.clone())
+            .assert_success();
+        self.after_tx();
+        result
+    }
+
+    /// A first claim expected to fail validation before the NFT mint (so the
+    /// default CU cap suffices). The caller pins the clock; this never warps.
+    pub fn first_claim_err(
+        &mut self,
+        user: &Keypair,
+        proofs: Vec<[u8; 33]>,
+        allocation: u64,
+        error: &str,
+    ) {
+        let bundle = self.claim_bundle(&user.pubkey(), None);
+        self.ctx
+            .tx(&[user])
+            .build(bundle, claim_args(Some(proofs), Some(allocation)))
+            .send_err_named(error);
+        self.after_tx();
+    }
+
+    /// A subsequent claim on an already-minted `asset` (no proofs).
+    pub fn subsequent_claim_ok(&mut self, user: &Keypair, asset: Pubkey) {
+        let bundle = self.claim_bundle(&user.pubkey(), Some(asset));
+        self.ctx
+            .tx(&[user])
+            .build(bundle, claim_args(None, None))
+            .send_ok();
+        self.after_tx();
+    }
+
+    /// A subsequent claim on `asset` expected to fail with `error`.
+    pub fn subsequent_claim_err(&mut self, user: &Keypair, asset: Pubkey, error: &str) {
+        let bundle = self.claim_bundle(&user.pubkey(), Some(asset));
+        self.ctx
+            .tx(&[user])
+            .build(bundle, claim_args(None, None))
+            .send_err_named(error);
+        self.after_tx();
+    }
+
+    /// An mpl-core transfer of `asset` from one holder to another.
+    pub fn transfer_asset_ix(&self, from: &Pubkey, to: &Pubkey, asset: &Pubkey) -> Instruction {
+        TransferV1Builder::new()
+            .asset(*asset)
+            .collection(Some(self.collection))
+            .payer(*from)
+            .authority(Some(*from))
+            .new_owner(*to)
+            .system_program(Some(system_program::ID))
+            .instruction()
+    }
+
+    /// The permanent-freeze-delegate plugin on an asset or the collection.
+    pub fn fetch_permanent_freeze_delegate(&self, address: &Pubkey) -> PermanentFreezeDelegate {
+        let account = self.ctx.svm.get_account(address).expect("account");
+        let mut lamports = account.lamports;
+        let mut data = account.data;
+        let owner = account.owner;
+        let info = AccountInfo::new(
+            address,
+            false,
+            false,
+            &mut lamports,
+            &mut data,
+            &owner,
+            false,
+        );
+        // The collection and an asset store the plugin under different base
+        // types, so dispatch on which one this address is.
+        if *address == self.collection {
+            fetch_plugin::<BaseCollectionV1, PermanentFreezeDelegate>(
+                &info,
+                PluginType::PermanentFreezeDelegate,
+            )
+            .expect("collection PermanentFreezeDelegate plugin")
+            .1
+        } else {
+            fetch_plugin::<BaseAssetV1, PermanentFreezeDelegate>(
+                &info,
+                PluginType::PermanentFreezeDelegate,
+            )
+            .expect("asset PermanentFreezeDelegate plugin")
+            .1
+        }
+    }
+
+    /// Move the clock to `timestamp`.
+    pub fn warp_to(&mut self, timestamp: i64) {
+        self.ctx.svm.warp_to_timestamp(timestamp);
+    }
+
+    /// Warp just past the vesting end (one second in).
+    pub fn warp_past_end(&mut self) {
+        self.warp_to(self.config.end + 1);
+    }
+
+    /// Warp past the grace window's close (one second in).
+    pub fn warp_past_grace(&mut self) {
+        self.warp_to(self.config.end + self.config.grace_period as i64 + 1);
+    }
+
+    /// Expire the blockhash so back-to-back claims aren't deduplicated as
+    /// replays of one transaction.
+    pub fn after_tx(&mut self) {
+        self.ctx.svm.expire_blockhash();
+    }
+
+    /// The claim receipt for `user`, asserting it records them as the claimer.
+    pub fn assert_receipt_claimer(&self, user: &Pubkey) {
+        let receipt: crate::vesting_positions::accounts::ClaimReceipt = self
+            .ctx
+            .load(&receipt_pda(&self.campaign_address(), user).0);
+        assert_eq!(receipt.claimer, *user);
     }
 
     /// The schedule Attributes the program stored on the mpl-core collection.
