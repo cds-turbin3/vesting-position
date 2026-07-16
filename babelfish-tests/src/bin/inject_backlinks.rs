@@ -98,39 +98,35 @@ fn finalize(name: &str, file: &str, fn_line: u32, base: &str, body: &str) -> Str
     )
 }
 
-/// Exact-name line lookup: scan for `fn NAME(` (same prefix rules as
-/// `enclosing_fn`, but matched by name rather than "nearest fn above a line").
-/// Used only after every back-link comment in a file has already landed, so
-/// the line it finds is the file's *final* state rather than a mid-injection
-/// snapshot.
-fn find_fn_line(src: &str, name: &str) -> Option<u32> {
-    for (i, l) in src.lines().enumerate() {
-        let t = l.trim_start();
-        if let Some(rest) = t.strip_prefix("fn ").or_else(|| t.split(" fn ").nth(1)) {
-            let found: String = rest.chars().take_while(|c| c.is_alphanumeric() || *c == '_').collect();
-            if found == name {
-                return Some((i as u32) + 1);
-            }
-        }
-    }
-    None
+/// The 1-based line of `fn <name>(` in `src`, or None. Matched by name (not
+/// "nearest fn above a line" like `enclosing_fn`), so callers can re-find a
+/// fn after the working tree has shifted out from under an earlier line
+/// number (e.g. another back-link comment landed above it in the same file).
+fn fn_line_by_name(src: &str, name: &str) -> Option<u32> {
+    let needle = format!("fn {name}(");
+    src.lines()
+        .position(|l| l.trim_start().starts_with(&needle) || l.contains(&format!(" fn {name}(")))
+        .map(|i| (i as u32) + 1)
 }
 
 fn main() {
+    use std::collections::HashMap;
     let manifest = env!("CARGO_MANIFEST_DIR");
     let report_dir = Path::new(manifest).join("test-report");
     let raw = report_dir.join(".raw");
     let base = std::env::var("FROOD_SOURCE_BASE").unwrap_or_default();
+
     let entries = match fs::read_dir(&raw) {
         Ok(e) => e,
         Err(_) => { eprintln!("no {}; run `make test-report` first", raw.display()); std::process::exit(1); }
     };
-    // Pass 1: inject every back-link first. Inserting a `// Report:` comment
-    // shifts every line below it in that file, including any *other* test's
-    // fn line in the same file that hasn't been processed yet (raw entries
-    // arrive in directory order, not source order) — so a fn's true final
-    // line is only knowable once every comment insertion in its file is done.
-    let mut items: Vec<(String, String, String)> = Vec::new();
+
+    // First pass: read every floor, and snapshot each source file's ORIGINAL
+    // (pre-injection = committed = pinned-SHA) content so permalink lines match
+    // the commit the base URL pins to.
+    struct Item { file: String, name: String, fn_line: u32, body: String }
+    let mut items: Vec<Item> = Vec::new();
+    let mut originals: HashMap<String, String> = HashMap::new();
     for entry in entries.flatten() {
         let p = entry.path();
         if p.extension().and_then(|e| e.to_str()) != Some("json") { continue; }
@@ -138,33 +134,41 @@ fn main() {
         let file = json["file"].as_str().unwrap().to_string();
         let line = json["line"].as_u64().unwrap() as u32;
         let body = fs::read_to_string(p.with_extension("md")).unwrap();
-        let src_path = Path::new(manifest).join(&file);
+        let original = originals.entry(file.clone())
+            .or_insert_with(|| fs::read_to_string(Path::new(manifest).join(&file)).unwrap())
+            .clone();
+        match enclosing_fn(&original, line) {
+            Some((name, fn_line)) => items.push(Item { file, name, fn_line, body }),
+            None => eprintln!("no enclosing test fn at {file}:{line}; skipping"),
+        }
+    }
+
+    // Write the finalized reports (permalink at the committed fn line).
+    let mut rows: Vec<Row> = Vec::new();
+    for it in &items {
+        fs::write(
+            report_dir.join(format!("{}.md", it.name)),
+            finalize(&it.name, &it.file, it.fn_line, &base, it.body.trim_end()),
+        ).unwrap();
+        rows.push(Row { title: it.name.clone(), slug: it.name.clone(), file: it.file.clone(), line: it.fn_line });
+        println!("finalized test-report/{}.md", it.name);
+    }
+
+    // Inject back-links BY NAME in the current working tree (re-find each time,
+    // so accumulating inserts within a file don't invalidate later positions).
+    for it in &items {
+        let src_path = Path::new(manifest).join(&it.file);
         let src = fs::read_to_string(&src_path).unwrap();
-        let (name, fn_line) = match enclosing_fn(&src, line) {
-            Some(v) => v,
-            None => { eprintln!("no enclosing test fn at {file}:{line}; skipping"); continue; }
+        let Some(fn_line_now) = fn_line_by_name(&src, &it.name) else {
+            eprintln!("could not re-find fn {} in {}; skipping back-link", it.name, it.file); continue;
         };
-        let depth = Path::new(&file).parent().map_or(0, |d| d.components().count());
-        let report_rel = format!("{}test-report/{name}.md", "../".repeat(depth));
-        if let Some(updated) = inject(&src, fn_line, &report_rel) {
+        let depth = Path::new(&it.file).parent().map_or(0, |d| d.components().count());
+        let report_rel = format!("{}test-report/{}.md", "../".repeat(depth), it.name);
+        if let Some(updated) = inject(&src, fn_line_now, &report_rel) {
             fs::write(&src_path, updated).unwrap();
         }
-        items.push((name, file, body));
     }
-    // Pass 2: every file has reached its final shape, so re-locate each fn by
-    // name for good before writing its finalized report and index row.
-    let mut rows: Vec<Row> = Vec::new();
-    for (name, file, body) in items {
-        let src_path = Path::new(manifest).join(&file);
-        let src = fs::read_to_string(&src_path).unwrap();
-        let fn_line = match find_fn_line(&src, &name) {
-            Some(l) => l,
-            None => { eprintln!("lost track of fn {name} in {file} after injection; skipping"); continue; }
-        };
-        fs::write(report_dir.join(format!("{name}.md")), finalize(&name, &file, fn_line, &base, body.trim_end())).unwrap();
-        rows.push(Row { title: name.clone(), slug: name, file, line: fn_line });
-        println!("finalized test-report/{}.md", rows.last().unwrap().slug);
-    }
+
     fs::write(report_dir.join("index.md"), render_index(&mut rows, if base.is_empty() { None } else { Some(&base) })).unwrap();
     let _ = fs::remove_dir_all(&raw);
 }
@@ -219,6 +223,13 @@ fn vested_tokens_are_forfeited() {
         assert!(md.starts_with("# my_test\n"), "{md}");
         assert!(md.contains("(https://h/blob/sha/pkg/tests/x.rs#L4)"), "{md}");
         assert!(md.contains("\nBODY\n") || md.ends_with("BODY\n"), "{md}");
+    }
+
+    #[test]
+    fn fn_line_by_name_finds_the_test() {
+        let src = "use x;\n\n#[test]\nfn my_test() {\n  let a=1;\n}\n";
+        assert_eq!(super::fn_line_by_name(src, "my_test"), Some(4));
+        assert_eq!(super::fn_line_by_name(src, "nope"), None);
     }
 
     #[test]
