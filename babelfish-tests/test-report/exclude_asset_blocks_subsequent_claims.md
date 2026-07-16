@@ -1,6 +1,6 @@
 # exclude_asset_blocks_subsequent_claims
 
-**Source:** [`tests/freeze.rs` L175](https://github.com/cds-turbin3/vesting-position/blob/cbb8875460ccf5cc3d9023c540f31113adcd0573/babelfish-tests/tests/freeze.rs#L175)
+**Source:** [`tests/freeze.rs` L175](https://github.com/cds-turbin3/vesting-position/blob/4697a27f760076ccee6d3a855becaca181647236/babelfish-tests/tests/freeze.rs#L175)
 
 ### Action: Initialize
 
@@ -32,7 +32,7 @@ Creator (85369cu)
 
 </details>
 
-### Action: tx
+### Action: Claim
 
 | account | before | after |
 | --- | --- | --- |

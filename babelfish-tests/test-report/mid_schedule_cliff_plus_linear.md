@@ -1,6 +1,6 @@
 # mid_schedule_cliff_plus_linear
 
-**Source:** [`tests/vesting_schedule.rs` L66](https://github.com/cds-turbin3/vesting-position/blob/cbb8875460ccf5cc3d9023c540f31113adcd0573/babelfish-tests/tests/vesting_schedule.rs#L66)
+**Source:** [`tests/vesting_schedule.rs` L66](https://github.com/cds-turbin3/vesting-position/blob/4697a27f760076ccee6d3a855becaca181647236/babelfish-tests/tests/vesting_schedule.rs#L66)
 
 ### Action: Initialize
 
@@ -34,7 +34,7 @@ Creator (85369cu)
 
 > Halfway through the linear window, a claim releases the cliff slice plus half the linear remainder: cliff_amount + linear_amount/2.
 
-### Action: tx
+### Action: Claim
 
 | account | before | after |
 | --- | --- | --- |

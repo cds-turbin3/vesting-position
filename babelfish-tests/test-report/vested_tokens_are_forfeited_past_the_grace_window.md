@@ -1,6 +1,6 @@
 # vested_tokens_are_forfeited_past_the_grace_window
 
-**Source:** [`tests/forfeiture.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/cbb8875460ccf5cc3d9023c540f31113adcd0573/babelfish-tests/tests/forfeiture.rs#L16)
+**Source:** [`tests/forfeiture.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/4697a27f760076ccee6d3a855becaca181647236/babelfish-tests/tests/forfeiture.rs#L16)
 
 ### Action: Initialize
 
@@ -34,7 +34,7 @@ Creator (85369cu)
 
 > A recipient's vested-but-unclaimed tokens are swept to the creator once the grace window past `end` lapses: this is the design, not a defect.
 
-### Action: tx
+### Action: Claim
 
 | account | before | after |
 | --- | --- | --- |
