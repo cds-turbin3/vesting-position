@@ -14,3 +14,11 @@ publish = false
 anchor-lang = "1.0"
 # Local checkout on chore/migration. Swap to a git/crates.io pin once published.
 anchor-litesvm = { path = "/Users/amal/oss/upstream/anchor-litesvm/crates/anchor-litesvm" }
+# mpl-core 0.12.1 is the first release on solana 3.x, so it composes with the
+# modern stack; it decodes the collection's Attributes plugin (the 0.31 program's
+# `get_attr_*` reads that back). 0.11 (what the program builds against) is solana
+# 2.x and would reopen the version wall.
+mpl-core = "0.12.1"
+sha3 = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
