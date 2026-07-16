@@ -1,0 +1,4 @@
+# What each test's auto-generated report contains and how.
+blocks = ["sequence", "authority", "ownership", "tree"]
+sequence = "lifelines"
+collapse = ["tree"]

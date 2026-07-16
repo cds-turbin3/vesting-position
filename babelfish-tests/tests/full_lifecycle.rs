@@ -5,13 +5,11 @@
 //!   vested_tokens         the schedule's per-claim output
 //!
 //! Alice first-claims at cliff_end, then claims again without proofs; positions
-//! change hands and the arc tracks who can claim what. The anchor-litesvm
-//! version narrated this through a hand-built `Report`; here the most
-//! interesting transaction (Bob claiming via Alice's transferred NFT, with no
-//! merkle proofs, never having been whitelisted) is rendered through frood's
-//! native vocabulary. Run with `-- --nocapture` to see the diagrams.
+//! change hands and the arc tracks who can claim what. The most interesting
+//! transaction (Bob claiming via Alice's transferred NFT, with no merkle
+//! proofs, never having been whitelisted) is captured automatically by
+//! `VestingWorld`'s `Reporter` derive; no inline rendering needed here.
 
-use frood::RelationModel;
 use vesting_babelfish_tests::common::{
     fund_keypair, load_keypair, load_whitelist_user, LAMPORTS, NOT_WHITELISTED, WHITELISTED_1,
     WHITELISTED_2,
@@ -163,7 +161,7 @@ fn full_lifecycle() {
     // Former owners cannot claim via their old receipt or whitelist status.
     world.subsequent_claim_err(&alice.keypair, alice_position, "NotAssetOwner");
 
-    // --- Bob claims tokens using Alice's position (THE RENDERED SCENE) ----------
+    // --- Bob claims tokens using Alice's position -------------------------------
     let alice_claimed = world.claimer_token_balance(&alice.keypair.pubkey());
     let later = world.linear_checkpoint(75);
     world.warp_to(later);
@@ -171,7 +169,7 @@ fn full_lifecycle() {
     world
         .story
         .given("Bob, never whitelisted, now holds Alice's position NFT");
-    let bob_claim = world.subsequent_claim_ok(&bob, alice_position);
+    world.subsequent_claim_ok(&bob, alice_position);
     assert_eq!(
         world.claimer_token_balance(&bob.pubkey()),
         bob_expected,
@@ -251,54 +249,4 @@ fn full_lifecycle() {
         bob.pubkey(),
         "Alice's original position owner is bob"
     );
-
-    // --- Render the headline transaction: Bob claiming via Alice's NFT ---------
-    let title = "Bob claims via Alice's transferred position NFT";
-    let scene = bob_claim.scene(title);
-    let sequence = scene.sequence(true).mermaid();
-    let tree = scene.tree();
-    let authority = RelationModel::build(&scene)
-        .authority_view()
-        .map_or(String::new(), |g| g.mermaid());
-    let ownership = RelationModel::build(&scene)
-        .ownership_view()
-        .map_or(String::new(), |g| g.mermaid());
-    let report = bob_claim.report_markdown(&world.story, title);
-
-    println!("\n=== Mermaid sequence (lifelines) ===\n{sequence}");
-    println!("\n=== Console tree ===\n{tree}");
-    println!("\n=== Authority graph ===\n{authority}");
-    println!("\n=== Ownership graph ===\n{ownership}");
-    println!("\n=== Markdown report ===\n{report}");
-
-    assert!(
-        sequence.starts_with("sequenceDiagram\n"),
-        "sequence header:\n{sequence}"
-    );
-    assert!(
-        sequence.contains("as Bob\n"),
-        "the claimant lifeline (Bob owns the NFT, was never whitelisted):\n{sequence}"
-    );
-    assert!(
-        sequence.contains("as Vesting\n"),
-        "the program lifeline:\n{sequence}"
-    );
-    assert!(
-        authority.starts_with("flowchart LR\n") && authority.contains("Bob -->|signs| Vesting"),
-        "Bob signs the program:\n{authority}"
-    );
-    assert!(
-        ownership.contains("|owns|"),
-        "the ownership graph names an owner:\n{ownership}"
-    );
-    assert!(
-        report.starts_with(&format!("# {title}\n")) && report.contains("Result: ✓ success"),
-        "the forensic report headline + verdict:\n{report}"
-    );
-    assert!(
-        report.contains("```mermaid\nsequenceDiagram"),
-        "the report carries the headline diagram:\n{report}"
-    );
-
-    frood::emit_link_report(&world.story, &bob_claim, title);
 }

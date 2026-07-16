@@ -8,7 +8,7 @@
 //! a frood `Story` over the committed `.so` + Codama IDL instead of a compiled
 //! program crate, and instructions built through `frood gen`'s typed mirrors.
 
-use frood::{Actor, Outcome, Story};
+use frood::{Actor, Outcome, ReportState, Reporter, Story};
 use frood_idl::types::Value;
 use solana_account_info::AccountInfo;
 use solana_clock::Clock;
@@ -227,17 +227,28 @@ fn as_bytes(v: &Value) -> Vec<u8> {
     }
 }
 
+#[derive(Reporter)]
 pub struct VestingWorld {
     pub story: Story,
     pub creator: Actor,
     pub mint: Pubkey,
     pub collection: Pubkey,
     pub config: CampaignConfig,
+    report: ReportState,
+}
+
+impl Drop for VestingWorld {
+    fn drop(&mut self) {
+        self.finish();
+    }
 }
 
 impl VestingWorld {
     /// Load the program (and mpl-core alongside it), warp the clock, cast the
-    /// creator, mint + fund its deposit, and pin the collection PDA.
+    /// creator, mint + fund its deposit, and pin the collection PDA. Marked
+    /// `#[track_caller]` so the `ReportState` captured below chains back
+    /// through `initialized`/`uninitialized` to the test's own call site.
+    #[track_caller]
     fn base(config: CampaignConfig, merkle: &MerkleTree) -> Self {
         let mut story = Story::load(SO, IDL);
         story
@@ -265,10 +276,12 @@ impl VestingWorld {
             mint,
             collection,
             config,
+            report: ReportState::from_manifest_toml(None),
         }
     }
 
     /// Build the world, fund the creator, and run initialize: a live campaign.
+    #[track_caller]
     pub fn initialized(merkle: &MerkleTree, config: CampaignConfig) -> Self {
         let mut world = Self::base(config, merkle);
         world.run_initialize(merkle);
@@ -276,6 +289,7 @@ impl VestingWorld {
     }
 
     /// Build the world with tokens funded but initialize not yet run.
+    #[track_caller]
     pub fn uninitialized(merkle: &MerkleTree, config: CampaignConfig) -> Self {
         Self::base(config, merkle)
     }
@@ -293,6 +307,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert!(out.success, "initialize failed:\n{}", out.logs.join("\n"));
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -462,6 +477,7 @@ impl VestingWorld {
             .run_instructions(vec![budget_ix, claim_ix], &[user]);
         assert!(out.success, "first claim failed:\n{}", out.logs.join("\n"));
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -479,6 +495,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(claim_ix, &[user]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -492,6 +509,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -501,6 +519,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(claim_ix, &[user]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -521,6 +540,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert!(out.success, "clawback failed:\n{}", out.logs.join("\n"));
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -530,6 +550,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -539,6 +560,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[impostor]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -579,6 +601,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -594,6 +617,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -617,6 +641,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -626,6 +651,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -647,6 +673,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -656,6 +683,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -664,6 +692,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[impostor]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -686,6 +715,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -695,6 +725,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -715,6 +746,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert!(out.success, "freeze_asset failed:\n{}", out.logs.join("\n"));
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -724,6 +756,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[&creator]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -738,6 +771,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[impostor]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -755,6 +789,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -774,6 +809,7 @@ impl VestingWorld {
             out.logs.join("\n")
         );
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -787,6 +823,7 @@ impl VestingWorld {
         let out = self.story.run_instruction(ix, &[user]);
         assert_err(&out, error);
         self.after_tx();
+        self.record(&out);
         out
     }
 
@@ -884,8 +921,9 @@ impl VestingWorld {
     pub fn transfer_changes_owner(&mut self, from: &Actor, to: &Pubkey, asset: &Pubkey) -> bool {
         let owner_before = self.asset_owner(asset);
         let ix = self.transfer_asset_ix(&from.pubkey(), to, asset);
-        let _ = self.story.run_instruction(ix, &[from]);
+        let out = self.story.run_instruction(ix, &[from]);
         self.after_tx();
+        self.record(&out);
         self.asset_owner(asset) != owner_before
     }
 
