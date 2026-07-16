@@ -1,6 +1,6 @@
 # Bob claims via Alice's transferred position NFT
 
-**Source:** [`tests/full_lifecycle.rs` L303](https://github.com/cds-turbin3/vesting-position/blob/6858b355e82f63b7269a885b34df983c66140aa4/babelfish-tests/tests/full_lifecycle.rs#L303)
+**Source:** [`tests/full_lifecycle.rs` L303](https://github.com/cds-turbin3/vesting-position/blob/9c96983059bf383792564569d42665e361588946/babelfish-tests/tests/full_lifecycle.rs#L303)
 
 - Given: a live campaign; Alice and Charlie whitelisted, Bob not
 - Given: Bob, never whitelisted, now holds Alice's position NFT

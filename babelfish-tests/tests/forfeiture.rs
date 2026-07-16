@@ -14,7 +14,7 @@ use vesting_babelfish_tests::merkle::default_merkle;
 use vesting_babelfish_tests::pda::PROGRAM_ID;
 use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
 
-// Report: test-report/vested-tokens-forfeited-past-the-grace-window.md
+// Report: ../test-report/vested-tokens-forfeited-past-the-grace-window.md
 #[test]
 fn vested_tokens_are_forfeited_past_the_grace_window() {
     let merkle = default_merkle();

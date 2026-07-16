@@ -1,6 +1,6 @@
 # Vested tokens forfeited past the grace window
 
-**Source:** [`tests/forfeiture.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/6858b355e82f63b7269a885b34df983c66140aa4/babelfish-tests/tests/forfeiture.rs#L123)
+**Source:** [`tests/forfeiture.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/9c96983059bf383792564569d42665e361588946/babelfish-tests/tests/forfeiture.rs#L123)
 
 - Given: Alice is whitelisted in a live campaign with a grace window past end
 - Then: the cliff unlock reached Alice ✓
