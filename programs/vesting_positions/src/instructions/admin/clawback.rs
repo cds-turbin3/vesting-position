@@ -15,11 +15,6 @@ use crate::{
 };
 
 /// Recovers unclaimed tokens from a live position
-#[cfg_attr(
-    not(target_os = "solana"),
-    derive(anchor_litesvm::BundledPubkeys),
-    bundled_with(crate::test_helpers::VestingBundle)
-)]
 #[derive(Accounts)]
 pub struct Clawback<'info> {
     #[account(
@@ -103,11 +98,6 @@ impl<'info> Clawback<'info> {
 }
 
 /// Recovers the full allocation of a recipient who never claimed (no asset minted)
-#[cfg_attr(
-    not(target_os = "solana"),
-    derive(anchor_litesvm::BundledPubkeys),
-    bundled_with(crate::test_helpers::VestingBundle)
-)]
 #[derive(Accounts)]
 #[instruction(original_recipient: Pubkey)]
 pub struct ClawbackUnclaimed<'info> {

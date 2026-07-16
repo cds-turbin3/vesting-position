@@ -8,11 +8,6 @@ use crate::{error::ErrorCode, Campaign, CloseEvent, CAMPAIGN};
 /// Closes the Campaign PDA and Campaign ATA, returning rent to the creator.
 /// Requires an empty vault — every allocation must be claimed or clawed back.
 /// The mpl-core collection stays alive: loyalty badges keep it non-burnable.
-#[cfg_attr(
-    not(target_os = "solana"),
-    derive(anchor_litesvm::BundledPubkeys),
-    bundled_with(crate::test_helpers::VestingBundle)
-)]
 #[derive(Accounts)]
 pub struct CloseCampaign<'info> {
     #[account(

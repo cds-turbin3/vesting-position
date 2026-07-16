@@ -9,11 +9,6 @@ use super::clawback::{burn_position_and_recover, BurnPositionAccounts};
 use crate::{error::ErrorCode, Campaign, CAMPAIGN, UPDATE_AUTH};
 
 /// Burn position NFT and returns unclaimed remainder (`allocation - claimed_so_far`) to creator
-#[cfg_attr(
-    not(target_os = "solana"),
-    derive(anchor_litesvm::BundledPubkeys),
-    bundled_with(crate::test_helpers::VestingBundle)
-)]
 #[derive(Accounts)]
 pub struct ExcludeAsset<'info> {
     #[account(

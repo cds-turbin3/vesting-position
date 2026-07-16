@@ -19,11 +19,6 @@ use crate::{
 ///
 /// Positions on non-transferable campaigns are minted without the plugin
 /// (the collection-level freeze governs them) and are rejected here.
-#[cfg_attr(
-    not(target_os = "solana"),
-    derive(anchor_litesvm::BundledPubkeys),
-    bundled_with(crate::test_helpers::VestingBundle)
-)]
 #[derive(Accounts)]
 pub struct FreezeAsset<'info> {
     #[account(

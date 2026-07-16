@@ -9,11 +9,6 @@ use crate::{error::ErrorCode, ClaimReceipt, CLAIM};
 /// Campaign PDA itself was closed (`close_campaign` / `cancel_campaign`).
 /// The receipt seeds bind it to the campaign key, so an empty `campaign`
 /// account proves the campaign no longer exists.
-#[cfg_attr(
-    not(target_os = "solana"),
-    derive(anchor_litesvm::BundledPubkeys),
-    bundled_with(crate::test_helpers::VestingBundle)
-)]
 #[derive(Accounts)]
 pub struct CloseReceipt<'info> {
     #[account(mut)]

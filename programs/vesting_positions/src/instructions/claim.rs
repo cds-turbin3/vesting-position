@@ -18,11 +18,6 @@ use mpl_core::{
     },
 };
 
-#[cfg_attr(
-    not(target_os = "solana"), //1
-    derive(anchor_litesvm::BundledPubkeys), //2
-    bundled_with(crate::test_helpers::VestingBundle) //3
-)]
 #[derive(Accounts)]
 pub struct Claim<'info> {
     #[account(mut)]

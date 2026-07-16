@@ -9,9 +9,6 @@ pub mod instructions;
 pub mod state;
 pub mod utils;
 
-#[cfg(not(target_os = "solana"))]
-pub mod test_helpers;
-
 pub use constants::*;
 pub use events::*;
 pub use instructions::*;
