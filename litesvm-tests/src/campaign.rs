@@ -25,7 +25,8 @@ use crate::pda::{asset_pda, campaign_pda, collection_pda, receipt_pda};
 use crate::vesting_positions::{self, accounts::Campaign};
 use crate::{
     CancelCampaignBundle, ClaimBundle, ClawbackBundle, ClawbackUnclaimedBundle,
-    CloseCampaignBundle, CloseReceiptBundle, ExcludeAssetBundle, InitializeBundle,
+    CloseCampaignBundle, CloseReceiptBundle, ExcludeAssetBundle, FreezeAssetBundle,
+    FreezeCollectionBundle, InitializeBundle,
 };
 
 const MPL_CORE_ID: Pubkey = Pubkey::from_str_const("CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d");
@@ -545,6 +546,159 @@ impl TestCampaign {
             .send_ok();
         self.after_tx();
         result
+    }
+
+    /// Exclude `asset` expected to fail with `error`.
+    pub fn exclude_asset_err(&mut self, asset: Pubkey, error: &str) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = ExcludeAssetBundle {
+            creator: creator.pubkey(),
+            collection: self.collection,
+            mint: self.mint,
+            asset,
+            ..Default::default()
+        };
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::ExcludeAsset {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    // --- freeze (per-asset + per-collection admin pause) -----------------------
+
+    fn freeze_asset_bundle(&self, creator: Pubkey, asset: Pubkey) -> FreezeAssetBundle {
+        FreezeAssetBundle {
+            creator,
+            collection: self.collection,
+            asset,
+            ..Default::default()
+        }
+    }
+
+    /// Toggle a single position's transfer freeze.
+    pub fn freeze_asset(&mut self, asset: Pubkey, should_freeze: bool) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.freeze_asset_bundle(creator.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(
+                bundle,
+                vesting_positions::client::args::FreezeAsset { should_freeze },
+            )
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn freeze_asset_err(
+        &mut self,
+        asset: Pubkey,
+        should_freeze: bool,
+        error: &str,
+    ) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.freeze_asset_bundle(creator.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(
+                bundle,
+                vesting_positions::client::args::FreezeAsset { should_freeze },
+            )
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// A freeze signed by `impostor` (also filling the creator field), expected
+    /// to fail with `error`.
+    pub fn freeze_asset_by(
+        &mut self,
+        impostor: &Keypair,
+        asset: Pubkey,
+        should_freeze: bool,
+        error: &str,
+    ) -> TransactionResult {
+        let bundle = self.freeze_asset_bundle(impostor.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[impostor])
+            .build(
+                bundle,
+                vesting_positions::client::args::FreezeAsset { should_freeze },
+            )
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// Toggle the whole collection's freeze (the campaign's is_transferable).
+    pub fn freeze_collection(&mut self, should_freeze: bool) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = FreezeCollectionBundle {
+            creator: creator.pubkey(),
+            collection: self.collection,
+            ..Default::default()
+        };
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(
+                bundle,
+                vesting_positions::client::args::FreezeCollection { should_freeze },
+            )
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    // --- asset ownership + freeze-plugin inspection ----------------------------
+
+    /// The current owner of an mpl-core `asset`.
+    pub fn asset_owner(&self, asset: &Pubkey) -> Pubkey {
+        let account = self.ctx.svm.get_account(asset).expect("asset account");
+        BaseAssetV1::from_bytes(&account.data)
+            .expect("asset data")
+            .owner
+    }
+
+    /// The asset's PermanentFreezeDelegate plugin, if it carries one (a
+    /// non-transferable campaign mints positions without it).
+    pub fn try_fetch_asset_freeze_delegate(
+        &self,
+        asset: &Pubkey,
+    ) -> Option<PermanentFreezeDelegate> {
+        let account = self.ctx.svm.get_account(asset).expect("asset account");
+        let mut lamports = account.lamports;
+        let mut data = account.data;
+        let owner = account.owner;
+        let info = AccountInfo::new(asset, false, false, &mut lamports, &mut data, &owner, false);
+        fetch_plugin::<BaseAssetV1, PermanentFreezeDelegate>(
+            &info,
+            PluginType::PermanentFreezeDelegate,
+        )
+        .ok()
+        .map(|(_, delegate, _)| delegate)
+    }
+
+    /// Whether the asset carries a PermanentFreezeDelegate plugin at all.
+    pub fn asset_has_freeze_delegate(&self, asset: &Pubkey) -> bool {
+        self.try_fetch_asset_freeze_delegate(asset).is_some()
+    }
+
+    /// Attempt an mpl-core transfer of `asset` and report whether the owner
+    /// actually changed. A frozen position leaves the owner untouched; the
+    /// failed transfer is swallowed so the caller reads the outcome from state.
+    pub fn transfer_changes_owner(&mut self, from: &Keypair, to: &Pubkey, asset: &Pubkey) -> bool {
+        let owner_before = self.asset_owner(asset);
+        let ix = self.transfer_asset_ix(&from.pubkey(), to, asset);
+        let _ = self.ctx.execute_instructions(vec![ix], &[from]);
+        self.after_tx();
+        self.asset_owner(asset) != owner_before
     }
 
     fn close_receipt_bundle(&self, user: Pubkey) -> CloseReceiptBundle {
