@@ -23,7 +23,10 @@ use anchor_litesvm::{MarkdownBlock, Report};
 use crate::merkle::{MerkleTree, TOTAL_DEPOSIT};
 use crate::pda::{asset_pda, campaign_pda, collection_pda, receipt_pda};
 use crate::vesting_positions::{self, accounts::Campaign};
-use crate::{ClaimBundle, ClawbackBundle, InitializeBundle};
+use crate::{
+    CancelCampaignBundle, ClaimBundle, ClawbackBundle, ClawbackUnclaimedBundle,
+    CloseCampaignBundle, CloseReceiptBundle, ExcludeAssetBundle, InitializeBundle,
+};
 
 const MPL_CORE_ID: Pubkey = Pubkey::from_str_const("CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d");
 const LAMPORTS: u64 = 100 * 1_000_000_000;
@@ -288,11 +291,247 @@ impl TestCampaign {
         self.ctx.svm.token_balance(&ata).unwrap_or(0)
     }
 
+    // --- vault + rent inspection ------------------------------------------------
+
+    /// The campaign's token vault (its ATA on the distributed mint).
+    pub fn campaign_ata(&self) -> Pubkey {
+        get_associated_token_address(&self.campaign_address(), &self.mint)
+    }
+
+    /// The token balance held in the campaign vault.
+    pub fn vault_balance(&self) -> u64 {
+        self.ctx
+            .svm
+            .token_balance(&self.campaign_ata())
+            .unwrap_or(0)
+    }
+
+    /// Lamports at `address` (0 if the account is gone).
+    pub fn lamports(&self, address: &Pubkey) -> u64 {
+        self.ctx
+            .svm
+            .get_account(address)
+            .map(|a| a.lamports)
+            .unwrap_or(0)
+    }
+
+    /// True when `asset` exists and still deserializes as a live mpl-core asset
+    /// (a burned position fails this).
+    pub fn asset_is_valid_mpl_core(&self, asset: &Pubkey) -> bool {
+        match self.ctx.svm.get_account(asset) {
+            None => false,
+            Some(account) if account.owner != MPL_CORE_ID => false,
+            Some(account) => BaseAssetV1::from_bytes(&account.data).is_ok(),
+        }
+    }
+
+    // --- clawback + campaign-lifecycle verbs -----------------------------------
+
+    /// The generated clawback bundle. `creator` is a field, so an impostor test
+    /// can drive it with a non-creator signer to prove the authorization check.
+    fn clawback_bundle(&self, creator: Pubkey, asset: Pubkey) -> ClawbackBundle {
+        ClawbackBundle {
+            creator,
+            collection: self.collection,
+            mint: self.mint,
+            asset,
+            ..Default::default()
+        }
+    }
+
     /// The creator claws back a position's vested-but-unclaimed remainder once
     /// the grace window past `end` has lapsed.
     pub fn clawback(&mut self, asset: Pubkey) -> TransactionResult {
         let creator = self.creator.insecure_clone();
-        let bundle = ClawbackBundle {
+        let bundle = self.clawback_bundle(creator.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::Clawback {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    /// A creator-signed clawback expected to fail with `error`.
+    pub fn clawback_err(&mut self, asset: Pubkey, error: &str) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.clawback_bundle(creator.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::Clawback {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// A clawback signed by `impostor` (whose key also fills the creator field),
+    /// expected to fail with `error`: the authorization check.
+    pub fn clawback_by(
+        &mut self,
+        impostor: &Keypair,
+        asset: Pubkey,
+        error: &str,
+    ) -> TransactionResult {
+        let bundle = self.clawback_bundle(impostor.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[impostor])
+            .build(bundle, vesting_positions::client::args::Clawback {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// The creator recovers a never-claimed allocation and blocks a late first
+    /// claim. `recipient`'s receipt and asset PDAs are the clawback target.
+    fn clawback_unclaimed_bundle(&self, recipient: Pubkey) -> ClawbackUnclaimedBundle {
+        let campaign = self.campaign_address();
+        ClawbackUnclaimedBundle {
+            creator: self.creator.pubkey(),
+            collection: self.collection,
+            mint: self.mint,
+            asset: asset_pda(&campaign, &recipient).0,
+            claim_receipt: receipt_pda(&campaign, &recipient).0,
+            ..Default::default()
+        }
+    }
+
+    fn clawback_unclaimed_args(
+        recipient: Pubkey,
+        allocation: u64,
+        proofs: Vec<[u8; 33]>,
+    ) -> vesting_positions::client::args::ClawbackUnclaimed {
+        vesting_positions::client::args::ClawbackUnclaimed {
+            original_recipient: recipient,
+            allocation,
+            proofs,
+        }
+    }
+
+    pub fn clawback_unclaimed_ok(
+        &mut self,
+        recipient: Pubkey,
+        allocation: u64,
+        proofs: Vec<[u8; 33]>,
+    ) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.clawback_unclaimed_bundle(recipient);
+        let args = Self::clawback_unclaimed_args(recipient, allocation, proofs);
+        let result = self.ctx.tx(&[&creator]).build(bundle, args).send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn clawback_unclaimed_err(
+        &mut self,
+        recipient: Pubkey,
+        allocation: u64,
+        proofs: Vec<[u8; 33]>,
+        error: &str,
+    ) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.clawback_unclaimed_bundle(recipient);
+        let args = Self::clawback_unclaimed_args(recipient, allocation, proofs);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, args)
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    // Bundles for the creator-signed lifecycle instructions. `creator` is a
+    // field on each, so an impostor test overrides it; the campaign PDA still
+    // derives from the (unchanged) collection.
+    fn close_campaign_bundle(&self, creator: Pubkey) -> CloseCampaignBundle {
+        CloseCampaignBundle {
+            creator,
+            collection: self.collection,
+            mint: self.mint,
+            ..Default::default()
+        }
+    }
+
+    fn cancel_campaign_bundle(&self, creator: Pubkey) -> CancelCampaignBundle {
+        CancelCampaignBundle {
+            creator,
+            collection: self.collection,
+            mint: self.mint,
+            ..Default::default()
+        }
+    }
+
+    /// Close an empty campaign: the creator reclaims the PDA + vault rent.
+    pub fn close_campaign_ok(&mut self) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.close_campaign_bundle(creator.pubkey());
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::CloseCampaign {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn close_campaign_err(&mut self, error: &str) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.close_campaign_bundle(creator.pubkey());
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::CloseCampaign {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// Cancel a campaign that never minted a position: the full deposit returns
+    /// and the campaign, vault, and collection close.
+    pub fn cancel_campaign_ok(&mut self) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.cancel_campaign_bundle(creator.pubkey());
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::CancelCampaign {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn cancel_campaign_err(&mut self, error: &str) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.cancel_campaign_bundle(creator.pubkey());
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::CancelCampaign {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// A cancel signed by `impostor` (also filling the creator field), expected
+    /// to fail with `error`.
+    pub fn cancel_campaign_by(&mut self, impostor: &Keypair, error: &str) -> TransactionResult {
+        let bundle = self.cancel_campaign_bundle(impostor.pubkey());
+        let result = self
+            .ctx
+            .tx(&[impostor])
+            .build(bundle, vesting_positions::client::args::CancelCampaign {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// Exclude (burn) a minted `asset` from the campaign's position count.
+    pub fn exclude_asset(&mut self, asset: Pubkey) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = ExcludeAssetBundle {
             creator: creator.pubkey(),
             collection: self.collection,
             mint: self.mint,
@@ -302,10 +541,47 @@ impl TestCampaign {
         let result = self
             .ctx
             .tx(&[&creator])
-            .build(bundle, vesting_positions::client::args::Clawback {})
+            .build(bundle, vesting_positions::client::args::ExcludeAsset {})
             .send_ok();
         self.after_tx();
         result
+    }
+
+    fn close_receipt_bundle(&self, user: Pubkey) -> CloseReceiptBundle {
+        CloseReceiptBundle {
+            user,
+            campaign: self.campaign_address(),
+            claim_receipt: receipt_pda(&self.campaign_address(), &user).0,
+            ..Default::default()
+        }
+    }
+
+    /// The claimer reclaims their receipt rent once the campaign is closed.
+    pub fn close_receipt_ok(&mut self, user: &Keypair) -> TransactionResult {
+        let bundle = self.close_receipt_bundle(user.pubkey());
+        let result = self
+            .ctx
+            .tx(&[user])
+            .build(bundle, vesting_positions::client::args::CloseReceipt {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn close_receipt_err(&mut self, user: &Keypair, error: &str) -> TransactionResult {
+        let bundle = self.close_receipt_bundle(user.pubkey());
+        let result = self
+            .ctx
+            .tx(&[user])
+            .build(bundle, vesting_positions::client::args::CloseReceipt {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// The receipt PDA for `user` (to inspect its rent before/after close).
+    pub fn receipt_address(&self, user: &Pubkey) -> Pubkey {
+        receipt_pda(&self.campaign_address(), user).0
     }
 
     /// The generated claim bundle for `user`. `asset` is the NFT the claim
