@@ -1,0 +1,44 @@
+[package]
+name = "vesting-babelfish-tests"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+# Standalone workspace: this crate rides frood's pinned cds-rs/litesvm rev and
+# must not share a lockfile with the vesting_positions program crate (anchor
+# 0.31 / solana 2.x). The program is driven source-free through its committed
+# .so + Codama IDL, so it never enters this graph. Same substrate as
+# litesvm-tests/, different front end (frood Story instead of anchor-litesvm).
+[workspace]
+
+[dependencies]
+# Pinned to pan-galactic/sol-babelfish main: the client-feedback batch
+# (unaliased-participant diagnostics + cast stub tail, edge colors by
+# verb, Actor Display = label, compose_key with named_mint migrated onto
+# it — mint addresses moved once with that migration), on top of the
+# typed report standard (ReportConfig::of in world.rs) and
+# #[derive(FromValue)]. Swap to a crates.io release once frood is
+# published.
+frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "8616f22d820bda2ddc49ab7b53220868249f779a" }
+frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "8616f22d820bda2ddc49ab7b53220868249f779a" }
+# The `Account` the plugin helper rebuilds into an `AccountInfo` for
+# mpl-core's `fetch_plugin` (litesvm's `get_account` hands one back).
+solana-account = "3"
+solana-pubkey = { version = "3.0", features = ["curve25519"] }
+solana-keypair = "3.1"
+solana-instruction = "3.2"
+solana-clock = "3"
+solana-account-info = "3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha3 = "0.10"
+mpl-core = "0.12.1"
+# `world::Action`'s closed vesting-action vocabulary (`IntoStaticStr`) — a
+# regular dependency, not dev-only: `Action` is referenced from
+# `src/world.rs` (the lib target), which dev-dependencies are never
+# available to (only test/bench/example targets get those).
+strum = { version = "0.26", features = ["derive"] }
+
+[[bin]]
+name = "inject_backlinks"
+path = "src/bin/inject_backlinks.rs"

@@ -1,0 +1,30 @@
+[package]
+name = "vesting-litesvm-tests"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+# Standalone workspace on purpose: this crate's modern-stack lockfile
+# (anchor 1.x, solana 3.x/4.x via anchor-litesvm) must never share a graph with
+# the vesting_positions program crate (anchor 0.31 / solana 2.x). The program is
+# driven source-free through its committed .so + IDL, so it never appears here.
+[workspace]
+
+[dependencies]
+anchor-lang = "1.0"
+# Pinned to cds-rs/anchor-litesvm's chore/migration (the source-free line +
+# Report::transition); swap to a crates.io release once published.
+anchor-litesvm = { git = "https://github.com/cds-rs/anchor-litesvm", rev = "4fd546928a9a7c3a5a85012ff6799a544fef6518" }
+# mpl-core 0.12.1 is the first release on solana 3.x, so it composes with the
+# modern stack; it decodes the collection's Attributes plugin (the 0.31 program's
+# `get_attr_*` reads that back). 0.11 (what the program builds against) is solana
+# 2.x and would reopen the version wall.
+mpl-core = "0.12.1"
+sha3 = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# The claim flow reads a claimer's ATA balance and raises the CU limit for the
+# first claim's mpl-core CreateV2 CPI; both versions match the modern stack
+# anchor-litesvm already pulls (they resolve in this crate's lockfile).
+spl-associated-token-account = { version = "8.0.0", features = ["no-entrypoint"] }
+solana-compute-budget-interface = "3.0.0"

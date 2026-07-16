@@ -1,0 +1,953 @@
+//! Test world for a vesting campaign, rebuilt on the source-free harness.
+//!
+//! The old world wrapped one hand-written `VestingBundle` holding every account.
+//! Here the world holds the shared roots (creator, mint, collection) and builds
+//! each instruction's generated bundle from them; the macro auto-derives the
+//! rest (campaign, ATAs) from the IDL seeds. This is the `initialize` vertical
+//! slice; per-instruction builders and fetches grow it as tests move over.
+
+use anchor_lang::prelude::{AccountInfo, Pubkey};
+use anchor_lang::solana_program::{instruction::Instruction, system_program};
+use anchor_litesvm::{
+    AnchorContext, AnchorLiteSVM, Keypair, Signer, TestHelpers, TransactionResult,
+};
+use mpl_core::accounts::{BaseAssetV1, BaseCollectionV1};
+use mpl_core::fetch_plugin;
+use mpl_core::instructions::TransferV1Builder;
+use mpl_core::types::{Attributes, PermanentFreezeDelegate, PluginType};
+use solana_compute_budget_interface::ComputeBudgetInstruction;
+use spl_associated_token_account::get_associated_token_address;
+
+use anchor_litesvm::{MarkdownBlock, Report};
+
+use crate::merkle::{MerkleTree, TOTAL_DEPOSIT};
+use crate::pda::{asset_pda, campaign_pda, collection_pda, receipt_pda};
+use crate::vesting_positions::{self, accounts::Campaign};
+use crate::{
+    CancelCampaignBundle, ClaimBundle, ClawbackBundle, ClawbackUnclaimedBundle,
+    CloseCampaignBundle, CloseReceiptBundle, ExcludeAssetBundle, FreezeAssetBundle,
+    FreezeCollectionBundle, InitializeBundle,
+};
+
+const MPL_CORE_ID: Pubkey = Pubkey::from_str_const("CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d");
+const LAMPORTS: u64 = 100 * 1_000_000_000;
+
+/// First claim mints the position NFT (an mpl-core CreateV2 CPI); the
+/// full-allocation-plus-freeze path tops the 200k default cap, so raise it.
+pub const FIRST_CLAIM_CU: u32 = 250_000;
+
+/// Solana's per-transaction compute cap when no `ComputeBudget` ix is present.
+pub const DEFAULT_TX_CU: u32 = 200_000;
+
+/// Log consumed vs requested limit (run with `cargo test compute_units -- --nocapture`).
+pub fn log_tx_cu(label: &str, consumed: u64, limit: u32) {
+    let over_default = consumed > DEFAULT_TX_CU as u64;
+    println!(
+        "[CU] {label}: {consumed} consumed / {limit} limit (default cap {DEFAULT_TX_CU}){}",
+        if over_default {
+            " — exceeds default"
+        } else {
+            ""
+        }
+    );
+}
+
+/// Every claim carries the same throwaway NFT metadata; the schedule math and
+/// authorization are what the tests exercise, not the name/uri.
+pub fn claim_args(
+    proofs: Option<Vec<[u8; 33]>>,
+    allocation: Option<u64>,
+) -> vesting_positions::client::args::Claim {
+    vesting_positions::client::args::Claim {
+        proofs,
+        allocation,
+        name: "Test asset".to_string(),
+        uri: "https://example.com".to_string(),
+    }
+}
+
+#[derive(Clone, Copy)]
+pub struct CampaignConfig {
+    pub now: i64,
+    pub start: i64,
+    pub end: i64,
+    pub cliff_duration: u64,
+    pub cliff_release_bps: u16,
+    pub is_transferable: bool,
+    pub grace_period: u64,
+    pub total_deposit: u64,
+}
+
+impl Default for CampaignConfig {
+    fn default() -> Self {
+        let now = 1_700_000_000;
+        let start = now + 86_400;
+        Self {
+            now,
+            start,
+            end: start + 86_400 * 30,
+            cliff_duration: 86_400,
+            cliff_release_bps: 1_000,
+            is_transferable: true,
+            grace_period: 604_800,
+            total_deposit: TOTAL_DEPOSIT,
+        }
+    }
+}
+
+impl CampaignConfig {
+    pub fn initialize_args(
+        &self,
+        merkle_root: [u8; 32],
+        mint: Pubkey,
+    ) -> vesting_positions::client::args::Initialize {
+        vesting_positions::client::args::Initialize {
+            merkle_root,
+            start: self.start,
+            end: self.end,
+            cliff_duration: self.cliff_duration,
+            cliff_release_bps: self.cliff_release_bps,
+            mint_to_distribute: mint,
+            is_transferable: self.is_transferable,
+            grace_period: self.grace_period,
+            total_deposit: self.total_deposit,
+            name: "Vesting campaign".to_string(),
+            uri: "https://example.com/collection.json".to_string(),
+        }
+    }
+}
+
+/// One recorded transaction for [`TestCampaign::report_execution`]: its label,
+/// flattened logs, and the CPI tree the current line renders (compat rendered a
+/// mermaid sequence here; the tree carries the same call structure as text).
+struct ExecutionEntry {
+    label: String,
+    logs: String,
+    tree: String,
+}
+
+pub struct TestCampaign {
+    pub ctx: AnchorContext,
+    pub creator: Keypair,
+    pub mint: Pubkey,
+    pub collection: Pubkey,
+    pub config: CampaignConfig,
+    execution: Vec<ExecutionEntry>,
+}
+
+impl TestCampaign {
+    /// Build the world, fund the creator, and run initialize: a live campaign.
+    pub fn initialized(tree: &MerkleTree, config: CampaignConfig) -> Self {
+        let mut world = Self::uninitialized(tree, config);
+        world.run_initialize(tree);
+        world
+    }
+
+    /// Run the `initialize` instruction, returning its result so callers that
+    /// profile compute can read the consumed units. Blockhash is expired after.
+    pub fn run_initialize(&mut self, tree: &MerkleTree) -> TransactionResult {
+        let bundle = InitializeBundle {
+            creator: self.creator.pubkey(),
+            mint: self.mint,
+            collection: self.collection,
+            ..Default::default()
+        };
+        let args = self.config.initialize_args(tree.root, self.mint);
+        let result = self.ctx.tx(&[&self.creator]).build(bundle, args).send_ok();
+        self.after_tx();
+        result
+    }
+
+    /// Build the world with tokens funded but initialize not yet run. Creator
+    /// and mint are cast as deterministic aliased identities, so every PDA the
+    /// program derives downstream is pinned and reports stay reproducible.
+    pub fn uninitialized(tree: &MerkleTree, config: CampaignConfig) -> Self {
+        let mut ctx = build_ctx();
+        ctx.svm.warp_to_timestamp(config.now);
+        let creator = ctx.cast_actor_with_sol("creator", LAMPORTS);
+        let mint = ctx.cast_mint("mint", &creator, 6);
+        let (collection, _) = collection_pda(&creator.pubkey(), &mint, &tree.root);
+
+        let creator_ata = ctx
+            .svm
+            .create_associated_token_account(&mint, &creator)
+            .unwrap();
+        ctx.svm
+            .mint_to(&mint, &creator_ata, &creator, config.total_deposit)
+            .unwrap();
+
+        Self {
+            ctx,
+            creator,
+            mint,
+            collection,
+            config,
+            execution: Vec::new(),
+        }
+    }
+
+    /// Record a transaction so [`Self::report_execution`] can replay its logs
+    /// and CPI structure into a report.
+    pub fn record_execution(&mut self, label: impl Into<String>, result: &TransactionResult) {
+        self.execution.push(ExecutionEntry {
+            label: label.into(),
+            logs: result.logs_string(),
+            tree: result.tree_string(),
+        });
+    }
+
+    /// Append the recorded logs and CPI trees to a report. The old world emitted
+    /// a mermaid sequence per transaction; the current line renders the CPI call
+    /// structure as a text tree, so the report carries that instead.
+    pub fn report_execution(&self, md: &mut Report) {
+        if self.execution.is_empty() {
+            return;
+        }
+        let logs = self
+            .execution
+            .iter()
+            .map(|e| format!("### {}\n```console\n{}\n```", e.label, e.logs.trim()))
+            .collect::<Vec<_>>()
+            .join("\n\n");
+        md.block(
+            "Structured logs",
+            MarkdownBlock::Fenced {
+                lang: "text".into(),
+                body: logs,
+            },
+        );
+        for e in &self.execution {
+            if e.tree.trim().is_empty() {
+                continue;
+            }
+            md.note(format!(
+                "**{} — CPI tree**\n\n```\n{}\n```",
+                e.label,
+                e.tree.trim()
+            ));
+        }
+    }
+
+    /// The campaign PDA, seeded on the collection (generated helper).
+    pub fn campaign_address(&self) -> Pubkey {
+        campaign_pda(&self.collection).0
+    }
+
+    /// The on-chain Campaign account, deserialized.
+    pub fn campaign(&self) -> Campaign {
+        self.ctx.load(&self.campaign_address())
+    }
+
+    // Schedule bounds live on `config`; expose the three the claim tests read so
+    // call sites stay `world.start()` rather than reaching through `world.config`.
+    pub fn start(&self) -> i64 {
+        self.config.start
+    }
+    pub fn end(&self) -> i64 {
+        self.config.end
+    }
+    pub fn grace_period(&self) -> u64 {
+        self.config.grace_period
+    }
+    pub fn cliff_release_bps(&self) -> u16 {
+        self.config.cliff_release_bps
+    }
+
+    /// The instant the cliff ends and linear vesting begins.
+    pub fn cliff_end(&self) -> i64 {
+        self.config.start + self.config.cliff_duration as i64
+    }
+
+    /// The timestamp `pct`% through the linear window (0 = cliff_end, 100 = end).
+    pub fn linear_checkpoint(&self, pct: u64) -> i64 {
+        assert!(pct <= 100);
+        if pct == 100 {
+            return self.config.end;
+        }
+        let window = (self.config.end - self.cliff_end()) as u64;
+        self.cliff_end() + (window * pct / 100) as i64
+    }
+
+    /// The program's schedule math, mirrored so a test can assert the expected
+    /// release independently (see [`crate::vesting::compute_claimable`]).
+    pub fn expected_claimable(&self, now: i64, allocation: u64, claimed_so_far: u64) -> u64 {
+        crate::vesting::compute_claimable(&self.campaign(), now, allocation, claimed_so_far)
+            .expect("schedule math overflow")
+    }
+
+    /// The position-NFT address for `user`, seeded `[asset, campaign, user]`.
+    pub fn asset_for(&self, user: &Pubkey) -> Pubkey {
+        asset_pda(&self.campaign_address(), user).0
+    }
+
+    /// The claimer's ATA balance for the distributed mint (0 if never funded).
+    pub fn claimer_token_balance(&self, user: &Pubkey) -> u64 {
+        let ata = get_associated_token_address(user, &self.mint);
+        self.ctx.svm.token_balance(&ata).unwrap_or(0)
+    }
+
+    /// The creator's ATA balance for the distributed mint.
+    pub fn creator_token_balance(&self) -> u64 {
+        let ata = get_associated_token_address(&self.creator.pubkey(), &self.mint);
+        self.ctx.svm.token_balance(&ata).unwrap_or(0)
+    }
+
+    // --- vault + rent inspection ------------------------------------------------
+
+    /// The campaign's token vault (its ATA on the distributed mint).
+    pub fn campaign_ata(&self) -> Pubkey {
+        get_associated_token_address(&self.campaign_address(), &self.mint)
+    }
+
+    /// The token balance held in the campaign vault.
+    pub fn vault_balance(&self) -> u64 {
+        self.ctx
+            .svm
+            .token_balance(&self.campaign_ata())
+            .unwrap_or(0)
+    }
+
+    /// Lamports at `address` (0 if the account is gone).
+    pub fn lamports(&self, address: &Pubkey) -> u64 {
+        self.ctx
+            .svm
+            .get_account(address)
+            .map(|a| a.lamports)
+            .unwrap_or(0)
+    }
+
+    /// True when `asset` exists and still deserializes as a live mpl-core asset
+    /// (a burned position fails this).
+    pub fn asset_is_valid_mpl_core(&self, asset: &Pubkey) -> bool {
+        match self.ctx.svm.get_account(asset) {
+            None => false,
+            Some(account) if account.owner != MPL_CORE_ID => false,
+            Some(account) => BaseAssetV1::from_bytes(&account.data).is_ok(),
+        }
+    }
+
+    // --- clawback + campaign-lifecycle verbs -----------------------------------
+
+    /// The generated clawback bundle. `creator` is a field, so an impostor test
+    /// can drive it with a non-creator signer to prove the authorization check.
+    fn clawback_bundle(&self, creator: Pubkey, asset: Pubkey) -> ClawbackBundle {
+        ClawbackBundle {
+            creator,
+            collection: self.collection,
+            mint: self.mint,
+            asset,
+            ..Default::default()
+        }
+    }
+
+    /// The creator claws back a position's vested-but-unclaimed remainder once
+    /// the grace window past `end` has lapsed.
+    pub fn clawback(&mut self, asset: Pubkey) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.clawback_bundle(creator.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::Clawback {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    /// A creator-signed clawback expected to fail with `error`.
+    pub fn clawback_err(&mut self, asset: Pubkey, error: &str) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.clawback_bundle(creator.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::Clawback {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// A clawback signed by `impostor` (whose key also fills the creator field),
+    /// expected to fail with `error`: the authorization check.
+    pub fn clawback_by(
+        &mut self,
+        impostor: &Keypair,
+        asset: Pubkey,
+        error: &str,
+    ) -> TransactionResult {
+        let bundle = self.clawback_bundle(impostor.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[impostor])
+            .build(bundle, vesting_positions::client::args::Clawback {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// The creator recovers a never-claimed allocation and blocks a late first
+    /// claim. `recipient`'s receipt and asset PDAs are the clawback target.
+    fn clawback_unclaimed_bundle(&self, recipient: Pubkey) -> ClawbackUnclaimedBundle {
+        let campaign = self.campaign_address();
+        ClawbackUnclaimedBundle {
+            creator: self.creator.pubkey(),
+            collection: self.collection,
+            mint: self.mint,
+            asset: asset_pda(&campaign, &recipient).0,
+            claim_receipt: receipt_pda(&campaign, &recipient).0,
+            ..Default::default()
+        }
+    }
+
+    fn clawback_unclaimed_args(
+        recipient: Pubkey,
+        allocation: u64,
+        proofs: Vec<[u8; 33]>,
+    ) -> vesting_positions::client::args::ClawbackUnclaimed {
+        vesting_positions::client::args::ClawbackUnclaimed {
+            original_recipient: recipient,
+            allocation,
+            proofs,
+        }
+    }
+
+    pub fn clawback_unclaimed_ok(
+        &mut self,
+        recipient: Pubkey,
+        allocation: u64,
+        proofs: Vec<[u8; 33]>,
+    ) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.clawback_unclaimed_bundle(recipient);
+        let args = Self::clawback_unclaimed_args(recipient, allocation, proofs);
+        let result = self.ctx.tx(&[&creator]).build(bundle, args).send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn clawback_unclaimed_err(
+        &mut self,
+        recipient: Pubkey,
+        allocation: u64,
+        proofs: Vec<[u8; 33]>,
+        error: &str,
+    ) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.clawback_unclaimed_bundle(recipient);
+        let args = Self::clawback_unclaimed_args(recipient, allocation, proofs);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, args)
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    // Bundles for the creator-signed lifecycle instructions. `creator` is a
+    // field on each, so an impostor test overrides it; the campaign PDA still
+    // derives from the (unchanged) collection.
+    fn close_campaign_bundle(&self, creator: Pubkey) -> CloseCampaignBundle {
+        CloseCampaignBundle {
+            creator,
+            collection: self.collection,
+            mint: self.mint,
+            ..Default::default()
+        }
+    }
+
+    fn cancel_campaign_bundle(&self, creator: Pubkey) -> CancelCampaignBundle {
+        CancelCampaignBundle {
+            creator,
+            collection: self.collection,
+            mint: self.mint,
+            ..Default::default()
+        }
+    }
+
+    /// Close an empty campaign: the creator reclaims the PDA + vault rent.
+    pub fn close_campaign_ok(&mut self) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.close_campaign_bundle(creator.pubkey());
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::CloseCampaign {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn close_campaign_err(&mut self, error: &str) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.close_campaign_bundle(creator.pubkey());
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::CloseCampaign {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// Cancel a campaign that never minted a position: the full deposit returns
+    /// and the campaign, vault, and collection close.
+    pub fn cancel_campaign_ok(&mut self) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.cancel_campaign_bundle(creator.pubkey());
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::CancelCampaign {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn cancel_campaign_err(&mut self, error: &str) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.cancel_campaign_bundle(creator.pubkey());
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::CancelCampaign {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// A cancel signed by `impostor` (also filling the creator field), expected
+    /// to fail with `error`.
+    pub fn cancel_campaign_by(&mut self, impostor: &Keypair, error: &str) -> TransactionResult {
+        let bundle = self.cancel_campaign_bundle(impostor.pubkey());
+        let result = self
+            .ctx
+            .tx(&[impostor])
+            .build(bundle, vesting_positions::client::args::CancelCampaign {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// Exclude (burn) a minted `asset` from the campaign's position count.
+    pub fn exclude_asset(&mut self, asset: Pubkey) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = ExcludeAssetBundle {
+            creator: creator.pubkey(),
+            collection: self.collection,
+            mint: self.mint,
+            asset,
+            ..Default::default()
+        };
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::ExcludeAsset {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    /// Exclude `asset` expected to fail with `error`.
+    pub fn exclude_asset_err(&mut self, asset: Pubkey, error: &str) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = ExcludeAssetBundle {
+            creator: creator.pubkey(),
+            collection: self.collection,
+            mint: self.mint,
+            asset,
+            ..Default::default()
+        };
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(bundle, vesting_positions::client::args::ExcludeAsset {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    // --- freeze (per-asset + per-collection admin pause) -----------------------
+
+    fn freeze_asset_bundle(&self, creator: Pubkey, asset: Pubkey) -> FreezeAssetBundle {
+        FreezeAssetBundle {
+            creator,
+            collection: self.collection,
+            asset,
+            ..Default::default()
+        }
+    }
+
+    /// Toggle a single position's transfer freeze.
+    pub fn freeze_asset(&mut self, asset: Pubkey, should_freeze: bool) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.freeze_asset_bundle(creator.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(
+                bundle,
+                vesting_positions::client::args::FreezeAsset { should_freeze },
+            )
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn freeze_asset_err(
+        &mut self,
+        asset: Pubkey,
+        should_freeze: bool,
+        error: &str,
+    ) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = self.freeze_asset_bundle(creator.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(
+                bundle,
+                vesting_positions::client::args::FreezeAsset { should_freeze },
+            )
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// A freeze signed by `impostor` (also filling the creator field), expected
+    /// to fail with `error`.
+    pub fn freeze_asset_by(
+        &mut self,
+        impostor: &Keypair,
+        asset: Pubkey,
+        should_freeze: bool,
+        error: &str,
+    ) -> TransactionResult {
+        let bundle = self.freeze_asset_bundle(impostor.pubkey(), asset);
+        let result = self
+            .ctx
+            .tx(&[impostor])
+            .build(
+                bundle,
+                vesting_positions::client::args::FreezeAsset { should_freeze },
+            )
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// Toggle the whole collection's freeze (the campaign's is_transferable).
+    pub fn freeze_collection(&mut self, should_freeze: bool) -> TransactionResult {
+        let creator = self.creator.insecure_clone();
+        let bundle = FreezeCollectionBundle {
+            creator: creator.pubkey(),
+            collection: self.collection,
+            ..Default::default()
+        };
+        let result = self
+            .ctx
+            .tx(&[&creator])
+            .build(
+                bundle,
+                vesting_positions::client::args::FreezeCollection { should_freeze },
+            )
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    // --- asset ownership + freeze-plugin inspection ----------------------------
+
+    /// The current owner of an mpl-core `asset`.
+    pub fn asset_owner(&self, asset: &Pubkey) -> Pubkey {
+        let account = self.ctx.svm.get_account(asset).expect("asset account");
+        BaseAssetV1::from_bytes(&account.data)
+            .expect("asset data")
+            .owner
+    }
+
+    /// The asset's PermanentFreezeDelegate plugin, if it carries one (a
+    /// non-transferable campaign mints positions without it).
+    pub fn try_fetch_asset_freeze_delegate(
+        &self,
+        asset: &Pubkey,
+    ) -> Option<PermanentFreezeDelegate> {
+        let account = self.ctx.svm.get_account(asset).expect("asset account");
+        let mut lamports = account.lamports;
+        let mut data = account.data;
+        let owner = account.owner;
+        let info = AccountInfo::new(asset, false, false, &mut lamports, &mut data, &owner, false);
+        fetch_plugin::<BaseAssetV1, PermanentFreezeDelegate>(
+            &info,
+            PluginType::PermanentFreezeDelegate,
+        )
+        .ok()
+        .map(|(_, delegate, _)| delegate)
+    }
+
+    /// Whether the asset carries a PermanentFreezeDelegate plugin at all.
+    pub fn asset_has_freeze_delegate(&self, asset: &Pubkey) -> bool {
+        self.try_fetch_asset_freeze_delegate(asset).is_some()
+    }
+
+    /// Attempt an mpl-core transfer of `asset` and report whether the owner
+    /// actually changed. A frozen position leaves the owner untouched; the
+    /// failed transfer is swallowed so the caller reads the outcome from state.
+    pub fn transfer_changes_owner(&mut self, from: &Keypair, to: &Pubkey, asset: &Pubkey) -> bool {
+        let owner_before = self.asset_owner(asset);
+        let ix = self.transfer_asset_ix(&from.pubkey(), to, asset);
+        let _ = self.ctx.execute_instructions(vec![ix], &[from]);
+        self.after_tx();
+        self.asset_owner(asset) != owner_before
+    }
+
+    fn close_receipt_bundle(&self, user: Pubkey) -> CloseReceiptBundle {
+        CloseReceiptBundle {
+            user,
+            campaign: self.campaign_address(),
+            claim_receipt: receipt_pda(&self.campaign_address(), &user).0,
+            ..Default::default()
+        }
+    }
+
+    /// The claimer reclaims their receipt rent once the campaign is closed.
+    pub fn close_receipt_ok(&mut self, user: &Keypair) -> TransactionResult {
+        let bundle = self.close_receipt_bundle(user.pubkey());
+        let result = self
+            .ctx
+            .tx(&[user])
+            .build(bundle, vesting_positions::client::args::CloseReceipt {})
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    pub fn close_receipt_err(&mut self, user: &Keypair, error: &str) -> TransactionResult {
+        let bundle = self.close_receipt_bundle(user.pubkey());
+        let result = self
+            .ctx
+            .tx(&[user])
+            .build(bundle, vesting_positions::client::args::CloseReceipt {})
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// The receipt PDA for `user` (to inspect its rent before/after close).
+    pub fn receipt_address(&self, user: &Pubkey) -> Pubkey {
+        receipt_pda(&self.campaign_address(), user).0
+    }
+
+    /// The generated claim bundle for `user`. `asset` is the NFT the claim
+    /// targets; `None` uses the user's own first-claim PDA. The macro derives
+    /// the campaign, ATAs, and update-authority; `collection`/`claim_receipt`
+    /// demoted to fields (arg-seeded / cross-instruction-divergent), so the
+    /// world supplies them from the extracted derivations.
+    pub fn claim_bundle(&self, user: &Pubkey, asset: Option<Pubkey>) -> ClaimBundle {
+        let campaign = self.campaign_address();
+        ClaimBundle {
+            user: *user,
+            collection: self.collection,
+            mint: self.mint,
+            asset: asset.unwrap_or_else(|| asset_pda(&campaign, user).0),
+            claim_receipt: receipt_pda(&campaign, user).0,
+            ..Default::default()
+        }
+    }
+
+    /// A first claim (proofs + allocation), warping to `start` if the clock is
+    /// still early. Prepends a raised CU limit for the NFT-minting CPI.
+    pub fn first_claim_ok(
+        &mut self,
+        user: &Keypair,
+        proofs: Vec<[u8; 33]>,
+        allocation: u64,
+    ) -> TransactionResult {
+        if self.ctx.svm.get_unix_timestamp() < self.config.start {
+            self.warp_to(self.config.start);
+        }
+        let bundle = self.claim_bundle(&user.pubkey(), None);
+        let claim_ix = self
+            .ctx
+            .program()
+            .build_ix(bundle, claim_args(Some(proofs), Some(allocation)));
+        let budget_ix = ComputeBudgetInstruction::set_compute_unit_limit(FIRST_CLAIM_CU);
+        let result = self
+            .ctx
+            .execute_instructions(vec![budget_ix, claim_ix], &[user])
+            .expect("first claim")
+            .with_aliases(self.ctx.aliases.clone())
+            .assert_success();
+        self.after_tx();
+        result
+    }
+
+    /// A first claim expected to fail validation before the NFT mint (so the
+    /// default CU cap suffices). The caller pins the clock; this never warps.
+    pub fn first_claim_err(
+        &mut self,
+        user: &Keypair,
+        proofs: Vec<[u8; 33]>,
+        allocation: u64,
+        error: &str,
+    ) -> TransactionResult {
+        let bundle = self.claim_bundle(&user.pubkey(), None);
+        let result = self
+            .ctx
+            .tx(&[user])
+            .build(bundle, claim_args(Some(proofs), Some(allocation)))
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// A subsequent claim on an already-minted `asset` (no proofs).
+    pub fn subsequent_claim_ok(&mut self, user: &Keypair, asset: Pubkey) -> TransactionResult {
+        let bundle = self.claim_bundle(&user.pubkey(), Some(asset));
+        let result = self
+            .ctx
+            .tx(&[user])
+            .build(bundle, claim_args(None, None))
+            .send_ok();
+        self.after_tx();
+        result
+    }
+
+    /// A subsequent claim on `asset` expected to fail with `error`.
+    pub fn subsequent_claim_err(
+        &mut self,
+        user: &Keypair,
+        asset: Pubkey,
+        error: &str,
+    ) -> TransactionResult {
+        let bundle = self.claim_bundle(&user.pubkey(), Some(asset));
+        let result = self
+            .ctx
+            .tx(&[user])
+            .build(bundle, claim_args(None, None))
+            .send_err_named(error);
+        self.after_tx();
+        result
+    }
+
+    /// An mpl-core transfer of `asset` from one holder to another.
+    pub fn transfer_asset_ix(&self, from: &Pubkey, to: &Pubkey, asset: &Pubkey) -> Instruction {
+        TransferV1Builder::new()
+            .asset(*asset)
+            .collection(Some(self.collection))
+            .payer(*from)
+            .authority(Some(*from))
+            .new_owner(*to)
+            .system_program(Some(system_program::ID))
+            .instruction()
+    }
+
+    /// The permanent-freeze-delegate plugin on an asset or the collection.
+    pub fn fetch_permanent_freeze_delegate(&self, address: &Pubkey) -> PermanentFreezeDelegate {
+        let account = self.ctx.svm.get_account(address).expect("account");
+        let mut lamports = account.lamports;
+        let mut data = account.data;
+        let owner = account.owner;
+        let info = AccountInfo::new(
+            address,
+            false,
+            false,
+            &mut lamports,
+            &mut data,
+            &owner,
+            false,
+        );
+        // The collection and an asset store the plugin under different base
+        // types, so dispatch on which one this address is.
+        if *address == self.collection {
+            fetch_plugin::<BaseCollectionV1, PermanentFreezeDelegate>(
+                &info,
+                PluginType::PermanentFreezeDelegate,
+            )
+            .expect("collection PermanentFreezeDelegate plugin")
+            .1
+        } else {
+            fetch_plugin::<BaseAssetV1, PermanentFreezeDelegate>(
+                &info,
+                PluginType::PermanentFreezeDelegate,
+            )
+            .expect("asset PermanentFreezeDelegate plugin")
+            .1
+        }
+    }
+
+    /// Move the clock to `timestamp`.
+    pub fn warp_to(&mut self, timestamp: i64) {
+        self.ctx.svm.warp_to_timestamp(timestamp);
+    }
+
+    /// Warp just past the vesting end (one second in).
+    pub fn warp_past_end(&mut self) {
+        self.warp_to(self.config.end + 1);
+    }
+
+    /// Warp past the grace window's close (one second in).
+    pub fn warp_past_grace(&mut self) {
+        self.warp_to(self.config.end + self.config.grace_period as i64 + 1);
+    }
+
+    /// Expire the blockhash so back-to-back claims aren't deduplicated as
+    /// replays of one transaction.
+    pub fn after_tx(&mut self) {
+        self.ctx.svm.expire_blockhash();
+    }
+
+    /// The claimer recorded in `user`'s receipt (stays bound to the original
+    /// recipient even after the position NFT is transferred away).
+    pub fn receipt_claimer(&self, user: &Pubkey) -> Pubkey {
+        let receipt: crate::vesting_positions::accounts::ClaimReceipt = self
+            .ctx
+            .load(&receipt_pda(&self.campaign_address(), user).0);
+        receipt.claimer
+    }
+
+    /// Assert `user`'s receipt records them as the claimer.
+    pub fn assert_receipt_claimer(&self, user: &Pubkey) {
+        assert_eq!(self.receipt_claimer(user), *user);
+    }
+
+    /// The schedule Attributes the program stored on the mpl-core collection.
+    pub fn fetch_collection_attributes(&self) -> Attributes {
+        let account = self
+            .ctx
+            .svm
+            .get_account(&self.collection)
+            .expect("collection account");
+        let mut lamports = account.lamports;
+        let mut data = account.data;
+        let owner = account.owner;
+        let info = AccountInfo::new(
+            &self.collection,
+            false,
+            false,
+            &mut lamports,
+            &mut data,
+            &owner,
+            false,
+        );
+        let (_, attrs, _) =
+            fetch_plugin::<BaseCollectionV1, Attributes>(&info, PluginType::Attributes)
+                .expect("collection Attributes plugin");
+        attrs
+    }
+}
+
+fn build_ctx() -> AnchorContext {
+    AnchorLiteSVM::build_with_programs(&[
+        (
+            vesting_positions::ID,
+            "vesting_positions",
+            include_bytes!("../tests/fixtures/vesting_positions.so"),
+        ),
+        (
+            MPL_CORE_ID,
+            "mpl_core",
+            include_bytes!("../tests/fixtures/mpl_core.so"),
+        ),
+    ])
+}

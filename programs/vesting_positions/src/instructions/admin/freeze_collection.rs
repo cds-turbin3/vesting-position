@@ -6,11 +6,6 @@ use mpl_core::{
 
 use crate::{error::ErrorCode, Campaign, FreezeEvent, CAMPAIGN, UPDATE_AUTH};
 
-#[cfg_attr(
-    not(target_os = "solana"),
-    derive(anchor_litesvm::BundledPubkeys),
-    bundled_with(crate::test_helpers::VestingBundle)
-)]
 #[derive(Accounts)]
 pub struct FreezeCollection<'info> {
     #[account(

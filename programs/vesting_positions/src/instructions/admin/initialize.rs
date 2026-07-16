@@ -14,38 +14,6 @@ use crate::{
     UPDATE_AUTH,
 };
 
-// What `#[derive(BundledPubkeys)]` buys us (host/test builds only):
-//
-// 1. Host-only gate. `not(target_os = "solana")` keeps every attribute below
-//    out of the on-chain SBF binary; this is test scaffolding and never ships.
-//
-// 2. Generates two impls next to this struct:
-//      - `From<StakingBundle> for accounts::Initialize`: projects the bundle's
-//        pubkeys into the generated account-metas struct, auto-injecting
-//        well-known program IDs from the field types (here `system_program`
-//        and `token_program`), so the bundle never has to carry them.
-//      - `BuildableIx<StakingBundle> for instruction::Initialize`, with
-//        `type Accounts = accounts::Initialize`. The compile-time pairing that
-//        lets `ctx.tx(..).build(bundle, instruction::Initialize { .. })` find
-//        the matching accounts struct; a mismatched args/accounts pair is a
-//        type error, not a runtime surprise.
-//
-// 3. `bundled_with(..)` names the bundle. `StakingBundle` is a plain struct in
-//    `src/test_helpers.rs` whose fields cover every non-program account any
-//    instruction in this crate names; this instruction's impl projects only
-//    the fields it declares (`admin`/`config`/`collection`/`update_authority`/
-//    `rewards_mint`).
-//
-// N.B. `mpl_core_program` (declared by the other four instructions) is NOT
-// auto-injected: the derive recognises only `Program<System>`,
-// `Program<AssociatedToken>` and `Interface<TokenInterface>`. It rides in the
-// bundle instead, with a hand-rolled `Default` pinning it to the real
-// mpl-core ID (see test_helpers.rs).
-#[cfg_attr(
-    not(target_os = "solana"), //1
-    derive(anchor_litesvm::BundledPubkeys), //2
-    bundled_with(crate::test_helpers::VestingBundle) //3
-)]
 #[derive(Accounts)]
 #[instruction(merkle_root: [u8; 32])]
 pub struct Initialize<'info> {
