@@ -13,9 +13,9 @@ use mpl_core::fetch_plugin;
 use mpl_core::types::{Attributes, PluginType};
 
 use crate::merkle::{MerkleTree, TOTAL_DEPOSIT};
-use crate::pda::collection_pda;
+use crate::pda::{campaign_pda, collection_pda};
 use crate::vesting_positions::{self, accounts::Campaign};
-use crate::{campaign_pda, InitializeBundle};
+use crate::InitializeBundle;
 
 const MPL_CORE_ID: Pubkey = Pubkey::from_str_const("CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d");
 const LAMPORTS: u64 = 100 * 1_000_000_000;
