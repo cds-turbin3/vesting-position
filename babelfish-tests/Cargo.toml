@@ -1,0 +1,17 @@
+[package]
+name = "vesting-babelfish-tests"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+# Standalone workspace: this crate rides frood's pinned cds-rs/litesvm rev and
+# must not share a lockfile with the vesting_positions program crate (anchor
+# 0.31 / solana 2.x). The program is driven source-free through its committed
+# .so + Codama IDL, so it never enters this graph. Same substrate as
+# litesvm-tests/, different front end (frood Story instead of anchor-litesvm).
+[workspace]
+
+[dependencies]
+frood = { path = "/Users/amal/oss/mine/sol-babelfish/crates/frood" }
+frood-idl = { path = "/Users/amal/oss/mine/sol-babelfish/crates/frood-idl" }
+solana-pubkey = { version = "3.0", features = ["curve25519"] }
