@@ -12,5 +12,5 @@ test-report:
 	echo "pinning source links to $$base"; \
 	rm -rf test-report && mkdir -p test-report; \
 	FROOD_LINK_REPORT_DIR="$$(pwd)/test-report" FROOD_SOURCE_BASE="$$base" cargo test; \
-	cargo run --quiet --bin inject_backlinks
+	FROOD_SOURCE_BASE="$$base" cargo run --quiet --bin inject_backlinks
 	@echo "done: review test-report/*.md and the // Report: edits, then commit"
