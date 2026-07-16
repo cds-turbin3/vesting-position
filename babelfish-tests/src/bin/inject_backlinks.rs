@@ -71,56 +71,67 @@ fn inject(src: &str, line: u32, report_path: &str) -> Option<String> {
     Some(joined)
 }
 
+/// From 1-based `line`, scan up to the enclosing `fn NAME(`; return (NAME, its
+/// 1-based line). `None` if there is no `fn` above `line`.
+fn enclosing_fn(src: &str, line: u32) -> Option<(String, u32)> {
+    let lines: Vec<&str> = src.lines().collect();
+    let mut i = (line as usize).checked_sub(1)?.min(lines.len().saturating_sub(1));
+    loop {
+        let t = lines[i].trim_start();
+        if let Some(rest) = t.strip_prefix("fn ").or_else(|| t.split(" fn ").nth(1)) {
+            let name: String = rest.chars().take_while(|c| c.is_alphanumeric() || *c == '_').collect();
+            if !name.is_empty() {
+                return Some((name, (i as u32) + 1));
+            }
+        }
+        if i == 0 {
+            return None;
+        }
+        i -= 1;
+    }
+}
+
+/// The final report: fn-name title, a pinned source permalink at the fn line, body.
+fn finalize(name: &str, file: &str, fn_line: u32, base: &str, body: &str) -> String {
+    format!(
+        "# {name}\n\n**Source:** [`{file}` L{fn_line}]({base}{file}#L{fn_line})\n\n{body}\n"
+    )
+}
+
 fn main() {
     let manifest = env!("CARGO_MANIFEST_DIR");
-    let floors = Path::new(manifest).join("test-report/.floors");
-    let entries = match fs::read_dir(&floors) {
+    let report_dir = Path::new(manifest).join("test-report");
+    let raw = report_dir.join(".raw");
+    let base = std::env::var("FROOD_SOURCE_BASE").unwrap_or_default();
+    let entries = match fs::read_dir(&raw) {
         Ok(e) => e,
-        Err(_) => {
-            eprintln!("no floors at {}; run `make test-report` first", floors.display());
-            std::process::exit(1);
-        }
+        Err(_) => { eprintln!("no {}; run `make test-report` first", raw.display()); std::process::exit(1); }
     };
     let mut rows: Vec<Row> = Vec::new();
     for entry in entries.flatten() {
-        let path = entry.path();
-        if path.extension().and_then(|e| e.to_str()) != Some("json") {
-            continue;
-        }
-        let json: serde_json::Value =
-            serde_json::from_str(&fs::read_to_string(&path).unwrap()).unwrap();
-        let slug = json["slug"].as_str().unwrap();
-        let prov = &json["provenance"];
-        if prov.is_null() {
-            eprintln!("floor {slug} has no provenance; skipping");
-            continue;
-        }
-        let file = prov["file"].as_str().unwrap();
-        let line = prov["line"].as_u64().unwrap() as u32;
-        let title = json["title"].as_str().unwrap_or(slug);
-        rows.push(Row {
-            title: title.to_string(),
-            slug: slug.to_string(),
-            file: file.to_string(),
-            line,
-        });
+        let p = entry.path();
+        if p.extension().and_then(|e| e.to_str()) != Some("json") { continue; }
+        let json: serde_json::Value = serde_json::from_str(&fs::read_to_string(&p).unwrap()).unwrap();
+        let file = json["file"].as_str().unwrap();
+        let line = json["line"].as_u64().unwrap() as u32;
+        let body = fs::read_to_string(p.with_extension("md")).unwrap();
         let src_path = Path::new(manifest).join(file);
         let src = fs::read_to_string(&src_path).unwrap();
-        let depth = Path::new(file).parent().map_or(0, |p| p.components().count());
-        let report_path = format!("{}test-report/{slug}.md", "../".repeat(depth));
-        match inject(&src, line, &report_path) {
-            Some(updated) => {
-                fs::write(&src_path, updated).unwrap();
-                println!("linked {file} -> {report_path}");
-            }
-            None => eprintln!("could not locate a test fn at {file}:{line}; skipping {slug}"),
+        let (name, fn_line) = match enclosing_fn(&src, line) {
+            Some(v) => v,
+            None => { eprintln!("no enclosing test fn at {file}:{line}; skipping"); continue; }
+        };
+        fs::write(report_dir.join(format!("{name}.md")), finalize(&name, file, fn_line, &base, body.trim_end())).unwrap();
+        let depth = Path::new(file).parent().map_or(0, |d| d.components().count());
+        let report_rel = format!("{}test-report/{name}.md", "../".repeat(depth));
+        if let Some(updated) = inject(&src, fn_line, &report_rel) {
+            fs::write(&src_path, updated).unwrap();
         }
+        rows.push(Row { title: name.clone(), slug: name, file: file.to_string(), line: fn_line });
+        println!("finalized test-report/{}.md", rows.last().unwrap().slug);
     }
-
-    let source_base = std::env::var("FROOD_SOURCE_BASE").ok();
-    let index = render_index(&mut rows, source_base.as_deref());
-    fs::write(Path::new(manifest).join("test-report/index.md"), index).unwrap();
-    println!("wrote test-report/index.md ({} reports)", rows.len());
+    fs::write(report_dir.join("index.md"), render_index(&mut rows, if base.is_empty() { None } else { Some(&base) })).unwrap();
+    let _ = fs::remove_dir_all(&raw);
 }
 
 #[cfg(test)]
@@ -157,6 +168,22 @@ fn vested_tokens_are_forfeited() {
     #[test]
     fn skips_span_outside_any_test() {
         assert!(inject(SRC, 2, "../test-report/x.md").is_none());
+    }
+
+    #[test]
+    fn enclosing_fn_finds_name_and_line() {
+        let src = "use x;\n\n#[test]\nfn my_test() {\n    let a = 1;\n}\n";
+        // line 5 (1-based) is `let a = 1;`
+        assert_eq!(super::enclosing_fn(src, 5), Some(("my_test".to_string(), 4)));
+        assert_eq!(super::enclosing_fn(src, 1), None);
+    }
+
+    #[test]
+    fn finalize_writes_title_source_and_body() {
+        let md = super::finalize("my_test", "tests/x.rs", 4, "https://h/blob/sha/pkg/", "BODY");
+        assert!(md.starts_with("# my_test\n"), "{md}");
+        assert!(md.contains("(https://h/blob/sha/pkg/tests/x.rs#L4)"), "{md}");
+        assert!(md.contains("\nBODY\n") || md.ends_with("BODY\n"), "{md}");
     }
 
     #[test]
