@@ -14,6 +14,7 @@ use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
 const LINEAR_CHECKPOINTS: &[u64] = &[0, 1, 7, 13, 20, 33, 45, 50, 57, 67, 75, 83, 91, 99, 100];
 
 /// Default merkle fixture + an initialized campaign under `config`.
+#[track_caller]
 fn setup(config: CampaignConfig) -> (MerkleTree, VestingWorld) {
     let merkle = default_merkle();
     let world = VestingWorld::initialized(&merkle, config);

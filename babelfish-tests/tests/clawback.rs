@@ -7,6 +7,7 @@ use vesting_babelfish_tests::common::{
 use vesting_babelfish_tests::merkle::{default_merkle, random_proofs, MerkleTree};
 use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
 
+#[track_caller]
 fn setup() -> (MerkleTree, VestingWorld) {
     let merkle = default_merkle();
     let world = VestingWorld::initialized(&merkle, CampaignConfig::default());

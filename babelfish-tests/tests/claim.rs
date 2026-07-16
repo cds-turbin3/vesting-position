@@ -21,6 +21,7 @@ use vesting_babelfish_tests::merkle::{
 use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
 
 /// Default merkle fixture + an initialized campaign.
+#[track_caller]
 fn setup() -> (MerkleTree, VestingWorld) {
     let merkle = default_merkle();
     let world = VestingWorld::initialized(&merkle, CampaignConfig::default());
