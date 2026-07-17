@@ -1,6 +1,6 @@
 # freeze_asset_requires_creator
 
-**Source:** [`tests/freeze.rs` L291](https://github.com/cds-turbin3/vesting-position/blob/00f83f93df6e185e9f69ec6e9580d50bbc2a69c9/babelfish-tests/tests/freeze.rs#L291)
+**Source:** [`tests/freeze.rs` L291](https://github.com/cds-turbin3/vesting-position/blob/d7284035bc429fc5d6367f7936c0e522cc6549d8/babelfish-tests/tests/freeze.rs#L291)
 
 ### Action: Initialize
 

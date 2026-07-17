@@ -1,6 +1,6 @@
 # scenario_4_replay_first_claim_fails
 
-**Source:** [`tests/claim.rs` L128](https://github.com/cds-turbin3/vesting-position/blob/00f83f93df6e185e9f69ec6e9580d50bbc2a69c9/babelfish-tests/tests/claim.rs#L128)
+**Source:** [`tests/claim.rs` L128](https://github.com/cds-turbin3/vesting-position/blob/d7284035bc429fc5d6367f7936c0e522cc6549d8/babelfish-tests/tests/claim.rs#L128)
 
 ### Action: Initialize
 

@@ -1,6 +1,6 @@
 # final_claim_freezes_badge_even_when_collection_frozen
 
-**Source:** [`tests/freeze.rs` L331](https://github.com/cds-turbin3/vesting-position/blob/00f83f93df6e185e9f69ec6e9580d50bbc2a69c9/babelfish-tests/tests/freeze.rs#L331)
+**Source:** [`tests/freeze.rs` L331](https://github.com/cds-turbin3/vesting-position/blob/d7284035bc429fc5d6367f7936c0e522cc6549d8/babelfish-tests/tests/freeze.rs#L331)
 
 ### Action: Initialize
 

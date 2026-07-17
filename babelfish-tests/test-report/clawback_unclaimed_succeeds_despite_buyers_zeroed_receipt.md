@@ -1,6 +1,6 @@
 # clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt
 
-**Source:** [`tests/clawback.rs` L164](https://github.com/cds-turbin3/vesting-position/blob/00f83f93df6e185e9f69ec6e9580d50bbc2a69c9/babelfish-tests/tests/clawback.rs#L164)
+**Source:** [`tests/clawback.rs` L164](https://github.com/cds-turbin3/vesting-position/blob/d7284035bc429fc5d6367f7936c0e522cc6549d8/babelfish-tests/tests/clawback.rs#L164)
 
 ### Action: Initialize
 
