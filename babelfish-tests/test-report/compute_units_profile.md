@@ -1,6 +1,6 @@
 # compute_units_profile
 
-**Source:** [`tests/compute_units.rs` L14](https://github.com/cds-turbin3/vesting-position/blob/b1f1485d1913faf6443e233580c9b626cfd06178/babelfish-tests/tests/compute_units.rs#L14)
+**Source:** [`tests/compute_units.rs` L14](https://github.com/cds-turbin3/vesting-position/blob/dab04926463cdac4c16b53accb9222fcd8fbea43/babelfish-tests/tests/compute_units.rs#L14)
 
 ### Action: Initialize
 
@@ -31,6 +31,8 @@ Creator (85369cu)
 ```
 
 </details>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -94,6 +96,8 @@ sequenceDiagram
     deactivate p1
 ```
 
+### Authority
+
 ```mermaid
 flowchart LR
     VestingPositions["VestingPositions"]:::program
@@ -129,6 +133,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+### Ownership
 
 ```mermaid
 flowchart LR

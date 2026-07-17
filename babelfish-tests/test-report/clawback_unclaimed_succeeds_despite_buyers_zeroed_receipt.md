@@ -1,6 +1,6 @@
 # clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt
 
-**Source:** [`tests/clawback.rs` L164](https://github.com/cds-turbin3/vesting-position/blob/b1f1485d1913faf6443e233580c9b626cfd06178/babelfish-tests/tests/clawback.rs#L164)
+**Source:** [`tests/clawback.rs` L164](https://github.com/cds-turbin3/vesting-position/blob/dab04926463cdac4c16b53accb9222fcd8fbea43/babelfish-tests/tests/clawback.rs#L164)
 
 ### Action: Initialize
 
@@ -8,6 +8,156 @@
 | --- | --- | --- |
 | Creator | 10000000000000 | 0 |
 | Vault | 0 | 10000000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+Creator (85369cu)
+└─ VestingPositions::Initialize ✓ 85369cu
+   ├─ system::createAccount ✓
+   ├─ splAssociatedTokenAccount::create ✓ 13517cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
+   │  ├─ system::createAccount ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+### Sequence
+
+```mermaid
+sequenceDiagram
+    participant p0 as Creator
+    participant p1 as VestingPositions
+    participant p2 as system
+    participant p3 as splAssociatedTokenAccount
+    participant p4 as token
+    participant p5 as CoRE…
+    p0->>p1: Initialize
+    activate p1
+    p1->>p2: createAccount
+    activate p2
+    p2-->>p1: ✓
+    deactivate p2
+    p1->>p3: create
+    activate p3
+    p3->>p4: getAccountDataSize
+    activate p4
+    p4-->>p3: ✓ 183cu
+    deactivate p4
+    p3->>p2: createAccount
+    activate p2
+    p2-->>p3: ✓
+    deactivate p2
+    p3->>p4: initializeImmutableOwner
+    activate p4
+    p4-->>p3: ✓ 38cu
+    deactivate p4
+    p3->>p4: initializeAccount3
+    activate p4
+    p4-->>p3: ✓ 235cu
+    deactivate p4
+    p3-->>p1: ✓ 13517cu
+    deactivate p3
+    p1->>p5: CreateCollectionV2
+    activate p5
+    p5->>p2: createAccount
+    activate p2
+    p2-->>p5: ✓
+    deactivate p2
+    p5->>p2: transferSol
+    activate p2
+    p2-->>p5: ✓
+    deactivate p2
+    p5->>p2: transferSol
+    activate p2
+    p2-->>p5: ✓
+    deactivate p2
+    p5->>p2: transferSol
+    activate p2
+    p2-->>p5: ✓
+    deactivate p2
+    p5-->>p1: ✓ 19976cu
+    deactivate p5
+    p1->>p4: transferChecked
+    activate p4
+    p4-->>p1: ✓ 105cu
+    deactivate p4
+    p1-->>p0: ✓ 85369cu
+    deactivate p1
+```
+
+### Authority
+
+```mermaid
+flowchart LR
+    VestingPositions["VestingPositions"]:::program
+    Creator(["Creator"]):::signer
+    Collection(["Collection"]):::signer
+    Mint[("Mint")]:::state
+    CreatorATAMint[("Creator/ATA(Mint)")]:::state
+    2rbE(["2rbE…"]):::signer
+    BXgR(["BXgR…"]):::signer
+    system["system"]:::program
+    splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
+    token["token"]:::program
+    CoRE["CoRE…"]:::program
+    Creator -->|signs| VestingPositions
+    VestingPositions -->|writes| Collection
+    VestingPositions -->|writes| Mint
+    VestingPositions -->|writes| CreatorATAMint
+    VestingPositions -->|writes| 2rbE
+    VestingPositions -->|writes| BXgR
+    Creator -->|signs| system
+    2rbE -->|signs| system
+    Creator -->|signs| splAssociatedTokenAccount
+    splAssociatedTokenAccount -->|writes| BXgR
+    BXgR -->|signs| system
+    token -->|writes| BXgR
+    Collection -->|signs| CoRE
+    Creator -->|signs| CoRE
+    Collection -->|signs| system
+    system -->|writes| Collection
+    token -->|writes| CreatorATAMint
+    Creator -->|signs| token
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
+
+### Ownership
+
+```mermaid
+flowchart LR
+    system["system"]:::program
+    Creator[("Creator")]:::state
+    CoRE["CoRE…"]:::program
+    Collection[("Collection")]:::state
+    token["token"]:::program
+    Mint[("Mint")]:::state
+    CreatorATAMint[("Creator/ATA(Mint)")]:::state
+    VestingPositions["VestingPositions"]:::program
+    2rbE[("2rbE…")]:::state
+    BXgR[("BXgR…")]:::state
+    system -->|owns| Creator
+    CoRE -->|owns| Collection
+    token -->|owns| Mint
+    token -->|owns| CreatorATAMint
+    VestingPositions -->|owns| 2rbE
+    token -->|owns| BXgR
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
 
 <details>
 <summary>tree</summary>
@@ -62,12 +212,308 @@ Creator (85369cu)
 
 </details>
 
+### Sequence
+
+```mermaid
+sequenceDiagram
+    participant p0 as 4wQQ…
+    participant p1 as Comp…
+    participant p2 as VestingPositions
+    participant p3 as splAssociatedTokenAccount
+    participant p4 as token
+    participant p5 as system
+    participant p6 as CoRE…
+    p0->>p1: ?
+    activate p1
+    p1-->>p0: ✓
+    deactivate p1
+    p0->>p2: Claim
+    activate p2
+    p2->>p3: create
+    activate p3
+    p3->>p4: getAccountDataSize
+    activate p4
+    p4-->>p3: ✓ 183cu
+    deactivate p4
+    p3->>p5: createAccount
+    activate p5
+    p5-->>p3: ✓
+    deactivate p5
+    p3->>p4: initializeImmutableOwner
+    activate p4
+    p4-->>p3: ✓ 38cu
+    deactivate p4
+    p3->>p4: initializeAccount3
+    activate p4
+    p4-->>p3: ✓ 235cu
+    deactivate p4
+    p3-->>p2: ✓ 13416cu
+    deactivate p3
+    p2->>p5: createAccount
+    activate p5
+    p5-->>p2: ✓
+    deactivate p5
+    p2->>p6: CreateV2
+    activate p6
+    p6->>p5: createAccount
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6->>p5: transferSol
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6->>p5: transferSol
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6->>p5: transferSol
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6->>p5: transferSol
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6-->>p2: ✓ 29413cu
+    deactivate p6
+    p2-->>p0: ✓ 160409cu
+    deactivate p2
+```
+
+### Authority
+
+```mermaid
+flowchart LR
+    Comp["Comp…"]:::program
+    VestingPositions["VestingPositions"]:::program
+    4wQQ(["4wQQ…"]):::signer
+    Collection[("Collection")]:::state
+    BXgR[("BXgR…")]:::state
+    45PB(["45PB…"]):::signer
+    4QVs(["4QVs…"]):::signer
+    7kmN(["7kmN…"]):::signer
+    splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
+    token["token"]:::program
+    system["system"]:::program
+    CoRE["CoRE…"]:::program
+    vGh5(["vGh5…"]):::signer
+    4wQQ -->|signs| VestingPositions
+    VestingPositions -->|writes| Collection
+    VestingPositions -->|writes| BXgR
+    VestingPositions -->|writes| 45PB
+    VestingPositions -->|writes| 4QVs
+    VestingPositions -->|writes| 7kmN
+    4wQQ -->|signs| splAssociatedTokenAccount
+    splAssociatedTokenAccount -->|writes| 45PB
+    4wQQ -->|signs| system
+    45PB -->|signs| system
+    token -->|writes| 45PB
+    7kmN -->|signs| system
+    4QVs -->|signs| CoRE
+    CoRE -->|writes| Collection
+    vGh5 -->|signs| CoRE
+    4wQQ -->|signs| CoRE
+    4QVs -->|signs| system
+    system -->|writes| 4QVs
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
+
+### Ownership
+
+```mermaid
+flowchart LR
+    system["system"]:::program
+    4wQQ[("4wQQ…")]:::state
+    CoRE["CoRE…"]:::program
+    Collection[("Collection")]:::state
+    token["token"]:::program
+    BXgR[("BXgR…")]:::state
+    45PB[("45PB…")]:::state
+    4QVs[("4QVs…")]:::state
+    VestingPositions["VestingPositions"]:::program
+    7kmN[("7kmN…")]:::state
+    system -->|owns| 4wQQ
+    CoRE -->|owns| Collection
+    token -->|owns| BXgR
+    token -->|owns| 45PB
+    CoRE -->|owns| 4QVs
+    VestingPositions -->|owns| 7kmN
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
+
+<details>
+<summary>tree</summary>
+
+```
+
+4wQQ… (160559cu)
+├─ Comp…::? ✓
+└─ VestingPositions::Claim ✓ 160409cu
+   ├─ splAssociatedTokenAccount::create ✓ 13416cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ system::createAccount ✓
+   └─ CoRE…::CreateV2 ✓ 29413cu
+      ├─ system::createAccount ✓
+      ├─ system::transferSol ✓
+      ├─ system::transferSol ✓
+      ├─ system::transferSol ✓
+      └─ system::transferSol ✓
+```
+
+</details>
+
 ### Action: Claim
 
 | account | before | after |
 | --- | --- | --- |
 | Vault | 10000000000000 | 9450000000000 |
 | Bob | — | 550000000000 |
+
+<details>
+<summary>tree</summary>
+
+```
+
+H87x… (92804cu)
+└─ VestingPositions::Claim ✓ 92804cu
+   ├─ splAssociatedTokenAccount::create ✓ 13416cu
+   │  ├─ token::getAccountDataSize ✓ 183cu
+   │  ├─ system::createAccount ✓
+   │  ├─ token::initializeImmutableOwner ✓ 38cu
+   │  └─ token::initializeAccount3 ✓ 235cu
+   ├─ system::createAccount ✓
+   ├─ CoRE…::UpdatePlugin ✓ 22502cu
+   │  └─ system::transferSol ✓
+   └─ token::transferChecked ✓ 105cu
+```
+
+</details>
+
+### Sequence
+
+```mermaid
+sequenceDiagram
+    participant p0 as H87x…
+    participant p1 as VestingPositions
+    participant p2 as splAssociatedTokenAccount
+    participant p3 as token
+    participant p4 as system
+    participant p5 as CoRE…
+    p0->>p1: Claim
+    activate p1
+    p1->>p2: create
+    activate p2
+    p2->>p3: getAccountDataSize
+    activate p3
+    p3-->>p2: ✓ 183cu
+    deactivate p3
+    p2->>p4: createAccount
+    activate p4
+    p4-->>p2: ✓
+    deactivate p4
+    p2->>p3: initializeImmutableOwner
+    activate p3
+    p3-->>p2: ✓ 38cu
+    deactivate p3
+    p2->>p3: initializeAccount3
+    activate p3
+    p3-->>p2: ✓ 235cu
+    deactivate p3
+    p2-->>p1: ✓ 13416cu
+    deactivate p2
+    p1->>p4: createAccount
+    activate p4
+    p4-->>p1: ✓
+    deactivate p4
+    p1->>p5: UpdatePlugin
+    activate p5
+    p5->>p4: transferSol
+    activate p4
+    p4-->>p5: ✓
+    deactivate p4
+    p5-->>p1: ✓ 22502cu
+    deactivate p5
+    p1->>p3: transferChecked
+    activate p3
+    p3-->>p1: ✓ 105cu
+    deactivate p3
+    p1-->>p0: ✓ 92804cu
+    deactivate p1
+```
+
+### Authority
+
+```mermaid
+flowchart LR
+    VestingPositions["VestingPositions"]:::program
+    H87x(["H87x…"]):::signer
+    Collection[("Collection")]:::state
+    BXgR[("BXgR…")]:::state
+    7NWR(["7NWR…"]):::signer
+    4QVs[("4QVs…")]:::state
+    6vT5(["6vT5…"]):::signer
+    splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
+    token["token"]:::program
+    system["system"]:::program
+    CoRE["CoRE…"]:::program
+    vGh5(["vGh5…"]):::signer
+    2rbE(["2rbE…"]):::signer
+    H87x -->|signs| VestingPositions
+    VestingPositions -->|writes| Collection
+    VestingPositions -->|writes| BXgR
+    VestingPositions -->|writes| 7NWR
+    VestingPositions -->|writes| 4QVs
+    VestingPositions -->|writes| 6vT5
+    H87x -->|signs| splAssociatedTokenAccount
+    splAssociatedTokenAccount -->|writes| 7NWR
+    H87x -->|signs| system
+    7NWR -->|signs| system
+    token -->|writes| 7NWR
+    6vT5 -->|signs| system
+    CoRE -->|writes| 4QVs
+    CoRE -->|writes| Collection
+    H87x -->|signs| CoRE
+    vGh5 -->|signs| CoRE
+    system -->|writes| 4QVs
+    token -->|writes| BXgR
+    2rbE -->|signs| token
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
+
+### Ownership
+
+```mermaid
+flowchart LR
+    system["system"]:::program
+    H87x[("H87x…")]:::state
+    CoRE["CoRE…"]:::program
+    Collection[("Collection")]:::state
+    token["token"]:::program
+    BXgR[("BXgR…")]:::state
+    7NWR[("7NWR…")]:::state
+    4QVs[("4QVs…")]:::state
+    VestingPositions["VestingPositions"]:::program
+    6vT5[("6vT5…")]:::state
+    system -->|owns| H87x
+    CoRE -->|owns| Collection
+    token -->|owns| BXgR
+    token -->|owns| 7NWR
+    CoRE -->|owns| 4QVs
+    VestingPositions -->|owns| 6vT5
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
 
 <details>
 <summary>tree</summary>
@@ -108,6 +554,8 @@ Creator (92625cu)
 
 </details>
 
+### Sequence
+
 ```mermaid
 sequenceDiagram
     participant p0 as Creator
@@ -122,6 +570,8 @@ sequenceDiagram
     p1-->>p0: ✓ 92625cu
     deactivate p1
 ```
+
+### Authority
 
 ```mermaid
 flowchart LR
@@ -143,6 +593,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+### Ownership
 
 ```mermaid
 flowchart LR
