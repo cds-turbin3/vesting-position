@@ -8,7 +8,9 @@
 //! a frood `Story` over the committed `.so` + Codama IDL instead of a compiled
 //! program crate, and instructions built through `frood gen`'s typed mirrors.
 
-use frood::{render_body_blocks, Actor, Block, Outcome, ReportState, Reporter, StateRoster, Story};
+use frood::{
+    render_body_blocks_with, Actor, Block, Outcome, ReportState, Reporter, StateRoster, Story,
+};
 use frood_idl::types::Value;
 use solana_account_info::AccountInfo;
 use solana_clock::Clock;
@@ -981,10 +983,12 @@ impl VestingWorld {
     /// Register `actors`' ATAs on the roster, snapshot it, and — if any
     /// tracked balance moved since the last `step` — push an "Action: <ix>"
     /// heading plus the delta table onto the story's narrative arc, followed
-    /// by a collapsed CPI tree for this transaction. Also restages the
-    /// headline diagrams from this (latest) outcome, so the report always
-    /// shows the final action's evidence. A no-op unless the report env is
-    /// set, so a plain `cargo test` run pays nothing beyond the flag read.
+    /// by a collapsed CPI tree for this transaction. Then pushes this (and
+    /// only this) outcome's diagram blocks onto the arc, applying whatever
+    /// phases/notes the story queued since the last drain, so every beat
+    /// carries its own diagrams in place instead of one flattened headline
+    /// at the end. A no-op unless the report env is set, so a plain `cargo
+    /// test` run pays nothing beyond the flag read.
     fn step(&mut self, actors: &[&Actor], out: &Outcome) {
         if !self.report.enabled() {
             return;
@@ -1026,8 +1030,10 @@ impl VestingWorld {
             }],
             open: false,
         });
-        self.report
-            .set_headline(render_body_blocks(out, &self.report.config()));
+        let decoration = self.story.take_pending_decoration();
+        for b in render_body_blocks_with(out, &self.report.config(), decoration) {
+            self.story.push_report_block(b);
+        }
         self.last_snapshot = after;
     }
 }
