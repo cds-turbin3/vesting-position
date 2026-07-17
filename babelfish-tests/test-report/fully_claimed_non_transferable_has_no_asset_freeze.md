@@ -1,6 +1,6 @@
 # fully_claimed_non_transferable_has_no_asset_freeze
 
-**Source:** [`tests/freeze.rs` L147](https://github.com/cds-turbin3/vesting-position/blob/dab04926463cdac4c16b53accb9222fcd8fbea43/babelfish-tests/tests/freeze.rs#L147)
+**Source:** [`tests/freeze.rs` L147](https://github.com/cds-turbin3/vesting-position/blob/dbc37ff9165a832c5ffd326b06c7233830567b50/babelfish-tests/tests/freeze.rs#L147)
 
 ### Action: Initialize
 

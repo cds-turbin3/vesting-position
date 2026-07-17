@@ -1,6 +1,6 @@
 # scenario_5_unwhitelisted_user_fails
 
-**Source:** [`tests/claim.rs` L145](https://github.com/cds-turbin3/vesting-position/blob/dab04926463cdac4c16b53accb9222fcd8fbea43/babelfish-tests/tests/claim.rs#L145)
+**Source:** [`tests/claim.rs` L145](https://github.com/cds-turbin3/vesting-position/blob/dbc37ff9165a832c5ffd326b06c7233830567b50/babelfish-tests/tests/claim.rs#L145)
 
 ### Action: Initialize
 

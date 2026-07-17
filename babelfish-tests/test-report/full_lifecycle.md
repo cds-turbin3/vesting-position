@@ -1,6 +1,6 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L23](https://github.com/cds-turbin3/vesting-position/blob/dab04926463cdac4c16b53accb9222fcd8fbea43/babelfish-tests/tests/full_lifecycle.rs#L23)
+**Source:** [`tests/full_lifecycle.rs` L23](https://github.com/cds-turbin3/vesting-position/blob/dbc37ff9165a832c5ffd326b06c7233830567b50/babelfish-tests/tests/full_lifecycle.rs#L23)
 
 ### Action: Initialize
 
@@ -181,6 +181,8 @@ Creator (85369cu)
 ```
 
 </details>
+
+## Phase: Alice claims and vests
 
 ### Action: Claim
 
@@ -691,6 +693,8 @@ Charlie (160754cu)
 
 </details>
 
+## Phase: positions change hands
+
 <details>
 <summary>tree</summary>
 
@@ -855,6 +859,8 @@ Alice (19698cu)
 
 </details>
 
+## Phase: Bob claims Alice's position
+
 ### Action: Claim
 
 | account | before | after |
@@ -891,6 +897,7 @@ sequenceDiagram
     participant p3 as token
     participant p4 as system
     participant p5 as CoRE…
+    Note over p0: 🧐 never whitelisted  claims through Alice's transferred position
     p0->>p1: Claim
     activate p1
     p1->>p2: create

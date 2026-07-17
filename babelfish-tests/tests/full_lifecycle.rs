@@ -64,6 +64,8 @@ fn full_lifecycle() {
         "alice and charlie have different allocations"
     );
 
+    world.story.heading(2, "Phase: Alice claims and vests");
+
     // --- Alice claims her vesting tokens at end of cliff period -----------------
     world.warp_to(world.cliff_end());
     let alice_position = world.asset_for(&alice.keypair.pubkey());
@@ -121,6 +123,8 @@ fn full_lifecycle() {
     );
     world.assert_receipt_claimer(&charlie.keypair.pubkey());
 
+    world.story.heading(2, "Phase: positions change hands");
+
     // --- Alice transfers her vesting position to Bob ---------------------------
     let owner_before_transfer = world.asset_owner(&alice_position);
     let transfer_ix =
@@ -161,6 +165,8 @@ fn full_lifecycle() {
     // Former owners cannot claim via their old receipt or whitelist status.
     world.subsequent_claim_err(&alice.keypair, alice_position, "NotAssetOwner");
 
+    world.story.heading(2, "Phase: Bob claims Alice's position");
+
     // --- Bob claims tokens using Alice's position -------------------------------
     let alice_claimed = world.claimer_token_balance(&alice.keypair.pubkey());
     let later = world.linear_checkpoint(75);
@@ -169,6 +175,10 @@ fn full_lifecycle() {
     world
         .story
         .given("Bob, never whitelisted, now holds Alice's position NFT");
+    world.story.spotlight(
+        bob.pubkey(),
+        "never whitelisted; claims through Alice's transferred position",
+    );
     world.subsequent_claim_ok(&bob, alice_position);
     assert_eq!(
         world.claimer_token_balance(&bob.pubkey()),
