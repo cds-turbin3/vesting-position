@@ -1,6 +1,6 @@
 # scenario_3_buyback_alice_claims_again
 
-**Source:** [`tests/claim.rs` L90](https://github.com/cds-turbin3/vesting-position/blob/5d3efd7a1d69bfa9de185410d37d5456fbebc177/babelfish-tests/tests/claim.rs#L90)
+**Source:** [`tests/claim.rs` L90](https://github.com/cds-turbin3/vesting-position/blob/00f83f93df6e185e9f69ec6e9580d50bbc2a69c9/babelfish-tests/tests/claim.rs#L90)
 
 ### Action: Initialize
 

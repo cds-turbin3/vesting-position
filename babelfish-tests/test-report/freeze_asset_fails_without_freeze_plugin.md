@@ -1,6 +1,6 @@
 # freeze_asset_fails_without_freeze_plugin
 
-**Source:** [`tests/freeze.rs` L278](https://github.com/cds-turbin3/vesting-position/blob/5d3efd7a1d69bfa9de185410d37d5456fbebc177/babelfish-tests/tests/freeze.rs#L278)
+**Source:** [`tests/freeze.rs` L278](https://github.com/cds-turbin3/vesting-position/blob/00f83f93df6e185e9f69ec6e9580d50bbc2a69c9/babelfish-tests/tests/freeze.rs#L278)
 
 ### Action: Initialize
 

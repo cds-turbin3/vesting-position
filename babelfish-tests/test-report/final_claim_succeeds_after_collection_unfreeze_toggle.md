@@ -1,6 +1,6 @@
 # final_claim_succeeds_after_collection_unfreeze_toggle
 
-**Source:** [`tests/freeze.rs` L307](https://github.com/cds-turbin3/vesting-position/blob/5d3efd7a1d69bfa9de185410d37d5456fbebc177/babelfish-tests/tests/freeze.rs#L307)
+**Source:** [`tests/freeze.rs` L307](https://github.com/cds-turbin3/vesting-position/blob/00f83f93df6e185e9f69ec6e9580d50bbc2a69c9/babelfish-tests/tests/freeze.rs#L307)
 
 ### Action: Initialize
 
