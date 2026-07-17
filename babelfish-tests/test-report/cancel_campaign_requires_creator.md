@@ -1,6 +1,6 @@
 # cancel_campaign_requires_creator
 
-**Source:** [`tests/clawback.rs` L337](https://github.com/cds-turbin3/vesting-position/blob/dbc37ff9165a832c5ffd326b06c7233830567b50/babelfish-tests/tests/clawback.rs#L337)
+**Source:** [`tests/clawback.rs` L337](https://github.com/cds-turbin3/vesting-position/blob/5d3efd7a1d69bfa9de185410d37d5456fbebc177/babelfish-tests/tests/clawback.rs#L337)
 
 ### Action: Initialize
 

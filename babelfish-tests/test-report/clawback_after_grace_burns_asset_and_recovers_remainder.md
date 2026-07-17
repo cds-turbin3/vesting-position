@@ -1,6 +1,6 @@
 # clawback_after_grace_burns_asset_and_recovers_remainder
 
-**Source:** [`tests/clawback.rs` L36](https://github.com/cds-turbin3/vesting-position/blob/dbc37ff9165a832c5ffd326b06c7233830567b50/babelfish-tests/tests/clawback.rs#L36)
+**Source:** [`tests/clawback.rs` L36](https://github.com/cds-turbin3/vesting-position/blob/5d3efd7a1d69bfa9de185410d37d5456fbebc177/babelfish-tests/tests/clawback.rs#L36)
 
 ### Action: Initialize
 

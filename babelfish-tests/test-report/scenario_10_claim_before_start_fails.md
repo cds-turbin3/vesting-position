@@ -1,6 +1,6 @@
 # scenario_10_claim_before_start_fails
 
-**Source:** [`tests/claim.rs` L251](https://github.com/cds-turbin3/vesting-position/blob/dbc37ff9165a832c5ffd326b06c7233830567b50/babelfish-tests/tests/claim.rs#L251)
+**Source:** [`tests/claim.rs` L251](https://github.com/cds-turbin3/vesting-position/blob/5d3efd7a1d69bfa9de185410d37d5456fbebc177/babelfish-tests/tests/claim.rs#L251)
 
 ### Action: Initialize
 
