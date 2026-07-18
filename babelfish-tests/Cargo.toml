@@ -12,11 +12,12 @@ publish = false
 [workspace]
 
 [dependencies]
-# Pinned to pan-galactic/sol-babelfish main (includes StateRoster + the
-# Story narrative block-log: narrate/step/state/transition/report_blocks);
-# swap to a crates.io release once frood is published.
-frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "f1269de46963ba9553a0b716297e7d0fc5de502c" }
-frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "f1269de46963ba9553a0b716297e7d0fc5de502c" }
+# Pinned to pan-galactic/sol-babelfish main (the trajectory: Story::observe/
+# law/monotonic/latch/constant/finally, Story::project replacing the old
+# beats/report_log stitch); swap to a crates.io release once frood is
+# published.
+frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "93390019230e46cbd94bb60413ef61d65c56dea4" }
+frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "93390019230e46cbd94bb60413ef61d65c56dea4" }
 solana-pubkey = { version = "3.0", features = ["curve25519"] }
 solana-keypair = "3.1"
 solana-instruction = "3.2"
@@ -26,6 +27,11 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha3 = "0.10"
 mpl-core = "0.12.1"
+# `world::Action`'s closed vesting-action vocabulary (`IntoStaticStr`) — a
+# regular dependency, not dev-only: `Action` is referenced from
+# `src/world.rs` (the lib target), which dev-dependencies are never
+# available to (only test/bench/example targets get those).
+strum = { version = "0.26", features = ["derive"] }
 
 [[bin]]
 name = "inject_backlinks"

@@ -7,13 +7,18 @@
 //! seeds. What differs from the anchor-litesvm original is only the substrate:
 //! a frood `Story` over the committed `.so` + Codama IDL instead of a compiled
 //! program crate, and instructions built through `frood gen`'s typed mirrors.
+//!
+//! The world no longer builds report `Block`s itself: `Story` mints a
+//! `Moment` per transaction and samples every registered `observe`ation into
+//! it, so `step` (below) shrinks to registering the actors an action
+//! touched. Rendering is `Story::project`'s job, run once at `Drop` — see
+//! `VestingWorld::drop`.
 
-use frood::{
-    render_body_blocks_with, Actor, Block, Outcome, ReportState, Reporter, StateRoster, Story,
-};
+use std::collections::HashMap;
+
+use frood::{Actor, IntoBundle, Obs, Outcome, ReportState, Reporter, Story};
 use frood_idl::types::Value;
 use solana_account_info::AccountInfo;
-use solana_clock::Clock;
 use solana_instruction::Instruction;
 use solana_keypair::Keypair;
 use solana_pubkey::Pubkey;
@@ -61,20 +66,39 @@ pub fn log_tx_cu(label: &str, consumed: u64, limit: u32) {
     );
 }
 
-/// Assert an outcome failed with a named error. Anchor logs the error variant
-/// name (`AlreadyClaimed`, `Unauthorized`, ...); a pre-execution rejection puts
-/// the reason on `err` instead, so both surfaces are checked.
-pub fn assert_err(out: &Outcome, name: &str) {
-    let matched = !out.success
-        && (out.err.as_deref().unwrap_or("").contains(name)
-            || out.logs.iter().any(|l| l.contains(name)));
-    assert!(
-        matched,
-        "expected error containing `{name}`, got success={} err={:?}\nlogs:\n{}",
-        out.success,
-        out.err,
-        out.logs.join("\n"),
-    );
+/// The vesting program's closed action vocabulary — one variant per
+/// instruction the world drives through `Story::when`. `IntoStaticStr`
+/// (PascalCase, matching each ix name) gives every `when` label and every
+/// `History::count_actions` lookup the SAME string by construction, so the
+/// typo class that a hand-typed `"Clm"` literal would open never exists.
+/// `first_claim_ok`/`first_claim_err` are the one exception: they prepend a
+/// raw `ComputeBudget` instruction the frood `IntoBundle` vocabulary has no
+/// slot for, so those two still run through the unlabeled `run_instructions`
+/// path (see their doc) — a moment `Story::when` never minted has no action
+/// to name.
+#[derive(Clone, Copy, Debug, strum::IntoStaticStr)]
+#[strum(serialize_all = "PascalCase")]
+pub enum Action {
+    Initialize,
+    Claim,
+    Clawback,
+    ClawbackUnclaimed,
+    CloseCampaign,
+    CancelCampaign,
+    ExcludeAsset,
+    FreezeAsset,
+    FreezeCollection,
+    CloseReceipt,
+}
+
+impl Action {
+    /// The label `Story::when` records and `History::count_actions` matches
+    /// against. A thin wrapper over the `IntoStaticStr` projection so a call
+    /// site reads `Action::Claim.label()` instead of the less obvious
+    /// `<&str>::from(Action::Claim)`.
+    pub fn label(self) -> &'static str {
+        self.into()
+    }
 }
 
 /// Build a `ComputeBudget::SetComputeUnitLimit` instruction by hand (variant tag
@@ -237,21 +261,38 @@ pub struct VestingWorld {
     pub collection: Pubkey,
     pub config: CampaignConfig,
     report: ReportState,
-    /// Accounts `step` watches for balance movement across a transaction:
-    /// seeded with the creator's ATA and the vault at construction, grown by
-    /// `step` as each verb's actors show up.
-    roster: StateRoster,
-    /// The roster's balances as of the last `step`, so the next one can diff
-    /// against it. Starts as the construction-time snapshot (before
-    /// `initialize` even runs), so the first action's delta table is
-    /// meaningful too.
-    last_snapshot: Vec<(String, u64)>,
+    /// The campaign vault's token balance, observed at construction (before
+    /// `initialize` even runs — `token_balance` reads 0 for an absent
+    /// account) so it samples at every moment from T0 on.
+    vault_obs: Obs,
+    /// The creator's ATA balance, observed at construction alongside the
+    /// vault: the pair a conservation law (`claimed + vault == deposit`)
+    /// reads.
+    creator_obs: Obs,
+    /// Every actor's ATA balance `step` has registered so far, keyed by
+    /// pubkey so a repeat actor (the same claimer across several calls)
+    /// reuses its handle instead of re-registering — replaces the old
+    /// `StateRoster`: the trajectory samples every registered observation at
+    /// every moment on its own, so there is nothing left to snapshot/diff by
+    /// hand.
+    balance_obs: HashMap<Pubkey, Obs>,
 }
 
 impl Drop for VestingWorld {
     fn drop(&mut self) {
-        let arc = self.story.report_blocks();
-        self.report.set_arc(arc);
+        // The lifecycle's last safety net (see `Story::conclusion`'s doc):
+        // a law that broke and that nothing ever asserted on must still fail
+        // the test, even on a plain `cargo test` run with no report being
+        // written. Idempotent (cached), so `project`'s own internal call
+        // below is a no-op repeat, not a second evaluation. Guarded against
+        // firing a second time while some OTHER assertion is already
+        // unwinding this very drop (see `conclusion`'s doc).
+        self.story.conclusion();
+        if self.report.enabled() {
+            let config = self.report.config();
+            let arc = self.story.project(&config);
+            self.report.set_arc(arc);
+        }
         self.finish();
     }
 }
@@ -268,7 +309,7 @@ impl VestingWorld {
             .svm
             .add_program_from_file(MPL_CORE_ID, MPL_CORE_SO)
             .expect("load mpl_core.so");
-        set_clock(&mut story, config.now);
+        story.warp_to(config.now);
 
         let creator = story.cast("Creator");
         // cast airdrops 10 SOL; top up so the creator can pay the campaign,
@@ -283,15 +324,22 @@ impl VestingWorld {
         let (collection, _) = collection_pda(&creator.pubkey(), &mint, &merkle.root);
         story.alias(collection, "Collection");
 
-        // Seed the roster before initialize ever runs: the vault doesn't
-        // exist yet, but its ATA address is deterministic (PDA + mint), and
-        // `token_balance` reads 0 for an absent account, so the first `step`
-        // still gets a meaningful before-snapshot.
+        // Seed the vault/creator observations before initialize ever runs:
+        // the vault doesn't exist yet, but its ATA address is deterministic
+        // (PDA + mint), and `token_balance` reads 0 for an absent account, so
+        // the very first moment already carries a meaningful sample.
         let campaign_address = campaign_pda(&collection).0;
-        let mut roster = StateRoster::new();
-        roster.register("Creator", story.ata(&creator.pubkey(), &mint));
-        roster.register("Vault", story.ata(&campaign_address, &mint));
-        let last_snapshot = roster.snapshot(&story);
+        let vault_ata = story.ata(&campaign_address, &mint);
+        let vault_obs = story.observe("Vault balance", move |s| {
+            Value::U64(s.token_balance(&vault_ata))
+        });
+        let creator_pk = creator.pubkey();
+        let creator_ata = story.ata(&creator_pk, &mint);
+        let creator_obs = story.observe("Creator balance", move |s| {
+            Value::U64(s.token_balance(&creator_ata))
+        });
+        let mut balance_obs = HashMap::new();
+        balance_obs.insert(creator_pk, creator_obs);
 
         Self {
             story,
@@ -300,8 +348,9 @@ impl VestingWorld {
             collection,
             config,
             report: ReportState::from_manifest_toml(None),
-            roster,
-            last_snapshot,
+            vault_obs,
+            creator_obs,
+            balance_obs,
         }
     }
 
@@ -328,11 +377,12 @@ impl VestingWorld {
             .mint(self.mint)
             .collection(self.collection)
             .args(self.initialize_args(merkle.root));
-        let ix = self.story.ix_typed(builder).instruction().clone();
-        let out = self.story.run_instruction(ix, &[&creator]);
+        let out = self
+            .story
+            .when(Action::Initialize.label(), builder, &[&creator]);
         assert!(out.success, "initialize failed:\n{}", out.logs.join("\n"));
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
@@ -460,6 +510,123 @@ impl VestingWorld {
         assert_eq!(self.receipt_claimer(user), *user);
     }
 
+    // --- the trajectory: observations, laws --------------------------------------
+
+    /// The campaign vault's balance observation, registered at construction —
+    /// the handle a conservation `law` or a `finally` over the vault reads.
+    pub fn vault_obs(&self) -> Obs {
+        self.vault_obs
+    }
+
+    /// The creator's balance observation, registered at construction.
+    pub fn creator_obs(&self) -> Obs {
+        self.creator_obs
+    }
+
+    /// Register (idempotently) an observation of `actor`'s token balance —
+    /// what `step` uses to watch a touched actor, and what a test hands
+    /// straight to `Story::monotonic`/`constant`/`finally` ("claimed only
+    /// ever grows" is exactly this observation's timeline). Reuses the
+    /// SAME `Obs` across repeat calls for the same pubkey rather than
+    /// re-registering, since a law/finally handle must stay stable.
+    pub fn observe_balance(&mut self, actor: &Actor) -> Obs {
+        let pk = actor.pubkey();
+        if let Some(obs) = self.balance_obs.get(&pk) {
+            return *obs;
+        }
+        // Prefer the story's narrative alias: a test may cast a key against
+        // its own plot (full_lifecycle names the NFT transferee "Bob", the
+        // sympathetic inheritor, not the adversary its default label calls
+        // "Mallory"), so the observation's rendered label reads as that same
+        // cast. Fall back to the actor's default cast name.
+        let label = self
+            .story
+            .aliases
+            .get(&pk)
+            .cloned()
+            .unwrap_or_else(|| actor.label.clone());
+        let ata = self.story.ata(&pk, &self.mint);
+        let obs = self.story.observe(&format!("{label} balance"), move |s| {
+            Value::U64(s.token_balance(&ata))
+        });
+        self.balance_obs.insert(pk, obs);
+        obs
+    }
+
+    /// Register an observation of `allocation`'s claimable amount per the
+    /// schedule, from a zero baseline (ignoring anything already claimed) —
+    /// a pure function of the clock (the program's release math takes no
+    /// per-user input beyond the allocation and what's claimed so far, see
+    /// `vesting::compute_claimable`). `Story::sample`ing it across a
+    /// `warp_to` with no transaction in between is what proves vesting
+    /// moving on its own: the flagship case the whole trajectory design
+    /// exists to show (see `Story::sample`'s doc). `label` names the
+    /// observation for rendering (e.g. "Alice claimable (schedule ceiling)").
+    pub fn observe_claimable(&mut self, label: &str, allocation: u64) -> Obs {
+        let campaign_address = self.campaign_address();
+        self.story.observe(label, move |s| {
+            let val = s.account_as("campaign", &campaign_address);
+            let campaign = CampaignView::from_value(&val);
+            let claimable =
+                crate::vesting::compute_claimable(&campaign, s.now(), allocation, 0).unwrap_or(0);
+            Value::U64(claimable)
+        })
+    }
+
+    /// Register an observation of whether `asset` currently carries a frozen
+    /// `PermanentFreezeDelegate` — the loyalty-badge latch: once the full
+    /// claim freezes a position, it must never come back unfrozen.
+    pub fn observe_frozen(&mut self, asset: Pubkey) -> Obs {
+        self.story.observe("asset frozen", move |s| {
+            let frozen = s
+                .svm
+                .get_account(&asset)
+                .and_then(|account| {
+                    let mut lamports = account.lamports;
+                    let mut data = account.data;
+                    let owner = account.owner;
+                    let info = AccountInfo::new(
+                        &asset,
+                        false,
+                        false,
+                        &mut lamports,
+                        &mut data,
+                        &owner,
+                        false,
+                    );
+                    fetch_plugin::<BaseAssetV1, PermanentFreezeDelegate>(
+                        &info,
+                        PluginType::PermanentFreezeDelegate,
+                    )
+                    .ok()
+                })
+                .map(|(_, delegate, _)| delegate.frozen)
+                .unwrap_or(false);
+            Value::Bool(frozen)
+        })
+    }
+
+    /// Register an observation of `user`'s claim-receipt claimer field — "the
+    /// receipt stays bound to its claimer" is exactly this observation held
+    /// `constant`. Must be registered AFTER the receipt exists (the first
+    /// claim creates it); an earlier registration would auto-sample a
+    /// missing account at every moment before that.
+    pub fn observe_receipt_claimer(&mut self, user: Pubkey) -> Obs {
+        let receipt = self.receipt_address(&user);
+        self.story.observe("receipt claimer", move |s| {
+            let val = s.account_as("claimReceipt", &receipt);
+            let claimer = match &val {
+                Value::Struct(f) => f
+                    .iter()
+                    .find(|(n, _)| n == "claimer")
+                    .map(|(_, v)| as_pubkey(v))
+                    .expect("claimReceipt.claimer missing"),
+                other => panic!("claimReceipt: expected Struct, got {other:?}"),
+            };
+            Value::Pubkey(claimer.to_bytes())
+        })
+    }
+
     // --- claim ------------------------------------------------------------------
 
     /// Build a raw `claim` instruction. `asset` is the NFT the claim targets;
@@ -472,19 +639,22 @@ impl VestingWorld {
         proofs: Option<Vec<[u8; 33]>>,
         allocation: Option<u64>,
     ) -> Instruction {
-        let receipt = receipt_pda(&self.campaign_address(), user).0;
         let builder = claim()
             .user(*user)
             .collection(self.collection)
             .mint(self.mint)
             .asset(asset)
-            .claim_receipt(receipt)
+            .claim_receipt(receipt_pda(&self.campaign_address(), user).0)
             .args(claim_args(proofs, allocation));
         self.story.ix_typed(builder).instruction().clone()
     }
 
     /// A first claim (proofs + allocation), warping to `start` if the clock is
-    /// still early. Prepends a raised CU limit for the NFT-minting CPI.
+    /// still early. Prepends a raised CU limit for the NFT-minting CPI: the
+    /// `ComputeBudget` program's instruction has no `frood gen` typed mirror
+    /// (it's not part of `vestingPositions`'s IDL), so this bundle can't go
+    /// through `Story::when`'s `IntoBundle` vocabulary — it runs unlabeled
+    /// through `run_instructions`, same as before the trajectory.
     pub fn first_claim_ok(
         &mut self,
         user: &Actor,
@@ -502,7 +672,7 @@ impl VestingWorld {
             .run_instructions(vec![budget_ix, claim_ix], &[user]);
         assert!(out.success, "first claim failed:\n{}", out.logs.join("\n"));
         self.after_tx();
-        self.step(&[user], &out);
+        self.step(&[user]);
         out
     }
 
@@ -518,86 +688,107 @@ impl VestingWorld {
         let asset = self.asset_for(&user.pubkey());
         let claim_ix = self.claim_ix(&user.pubkey(), asset, Some(proofs), Some(allocation));
         let out = self.story.run_instruction(claim_ix, &[user]);
-        assert_err(&out, error);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[user], &out);
+        self.step(&[user]);
         out
     }
 
     /// A subsequent claim on an already-minted `asset` (no proofs).
     pub fn subsequent_claim_ok(&mut self, user: &Actor, asset: Pubkey) -> Outcome {
-        let claim_ix = self.claim_ix(&user.pubkey(), asset, None, None);
-        let out = self.story.run_instruction(claim_ix, &[user]);
+        let builder = claim()
+            .user(user.pubkey())
+            .collection(self.collection)
+            .mint(self.mint)
+            .asset(asset)
+            .claim_receipt(receipt_pda(&self.campaign_address(), &user.pubkey()).0)
+            .args(claim_args(None, None));
+        let out = self.story.when(Action::Claim.label(), builder, &[user]);
         assert!(
             out.success,
             "subsequent claim failed:\n{}",
             out.logs.join("\n")
         );
         self.after_tx();
-        self.step(&[user], &out);
+        self.step(&[user]);
         out
     }
 
     /// A subsequent claim on `asset` expected to fail with `error`.
     pub fn subsequent_claim_err(&mut self, user: &Actor, asset: Pubkey, error: &str) -> Outcome {
-        let claim_ix = self.claim_ix(&user.pubkey(), asset, None, None);
-        let out = self.story.run_instruction(claim_ix, &[user]);
-        assert_err(&out, error);
+        let builder = claim()
+            .user(user.pubkey())
+            .collection(self.collection)
+            .mint(self.mint)
+            .asset(asset)
+            .claim_receipt(receipt_pda(&self.campaign_address(), &user.pubkey()).0)
+            .args(claim_args(None, None));
+        let out = self.story.when(Action::Claim.label(), builder, &[user]);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[user], &out);
+        self.step(&[user]);
         out
     }
 
     // --- clawback ---------------------------------------------------------------
 
-    fn clawback_ix(&self, creator: Pubkey, asset: Pubkey) -> Instruction {
+    pub fn clawback(&mut self, asset: Pubkey) -> Outcome {
+        let creator = clone_actor(&self.creator);
         let builder = clawback()
-            .creator(creator)
+            .creator(creator.pubkey())
             .collection(self.collection)
             .mint(self.mint)
             .asset(asset);
-        self.story.ix_typed(builder).instruction().clone()
-    }
-
-    pub fn clawback(&mut self, asset: Pubkey) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let ix = self.clawback_ix(creator.pubkey(), asset);
-        let out = self.story.run_instruction(ix, &[&creator]);
+        let out = self
+            .story
+            .when(Action::Clawback.label(), builder, &[&creator]);
         assert!(out.success, "clawback failed:\n{}", out.logs.join("\n"));
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
     pub fn clawback_err(&mut self, asset: Pubkey, error: &str) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.clawback_ix(creator.pubkey(), asset);
-        let out = self.story.run_instruction(ix, &[&creator]);
-        assert_err(&out, error);
+        let builder = clawback()
+            .creator(creator.pubkey())
+            .collection(self.collection)
+            .mint(self.mint)
+            .asset(asset);
+        let out = self
+            .story
+            .when(Action::Clawback.label(), builder, &[&creator]);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
     /// A clawback signed by `impostor` (whose key also fills the creator field).
     pub fn clawback_by(&mut self, impostor: &Actor, asset: Pubkey, error: &str) -> Outcome {
-        let ix = self.clawback_ix(impostor.pubkey(), asset);
-        let out = self.story.run_instruction(ix, &[impostor]);
-        assert_err(&out, error);
+        let builder = clawback()
+            .creator(impostor.pubkey())
+            .collection(self.collection)
+            .mint(self.mint)
+            .asset(asset);
+        let out = self
+            .story
+            .when(Action::Clawback.label(), builder, &[impostor]);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[impostor], &out);
+        self.step(&[impostor]);
         out
     }
 
-    fn clawback_unclaimed_ix(
+    fn clawback_unclaimed_builder(
         &self,
         creator: Pubkey,
         recipient: Pubkey,
         allocation: u64,
         proofs: Vec<[u8; 33]>,
-    ) -> Instruction {
+    ) -> impl IntoBundle {
         let campaign = self.campaign_address();
-        let builder = clawback_unclaimed()
+        clawback_unclaimed()
             .creator(creator)
             .collection(self.collection)
             .mint(self.mint)
@@ -607,8 +798,7 @@ impl VestingWorld {
                 original_recipient: recipient,
                 allocation,
                 proofs: proofs.into_iter().map(|p| p.to_vec()).collect(),
-            });
-        self.story.ix_typed(builder).instruction().clone()
+            })
     }
 
     pub fn clawback_unclaimed_ok(
@@ -618,15 +808,18 @@ impl VestingWorld {
         proofs: Vec<[u8; 33]>,
     ) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.clawback_unclaimed_ix(creator.pubkey(), recipient, allocation, proofs);
-        let out = self.story.run_instruction(ix, &[&creator]);
+        let builder =
+            self.clawback_unclaimed_builder(creator.pubkey(), recipient, allocation, proofs);
+        let out = self
+            .story
+            .when(Action::ClawbackUnclaimed.label(), builder, &[&creator]);
         assert!(
             out.success,
             "clawback_unclaimed failed:\n{}",
             out.logs.join("\n")
         );
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
@@ -638,150 +831,168 @@ impl VestingWorld {
         error: &str,
     ) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.clawback_unclaimed_ix(creator.pubkey(), recipient, allocation, proofs);
-        let out = self.story.run_instruction(ix, &[&creator]);
-        assert_err(&out, error);
+        let builder =
+            self.clawback_unclaimed_builder(creator.pubkey(), recipient, allocation, proofs);
+        let out = self
+            .story
+            .when(Action::ClawbackUnclaimed.label(), builder, &[&creator]);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
     // --- campaign lifecycle -----------------------------------------------------
 
-    fn close_campaign_ix(&self, creator: Pubkey) -> Instruction {
-        let builder = close_campaign()
-            .creator(creator)
-            .collection(self.collection)
-            .mint(self.mint);
-        self.story.ix_typed(builder).instruction().clone()
-    }
-
     pub fn close_campaign_ok(&mut self) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.close_campaign_ix(creator.pubkey());
-        let out = self.story.run_instruction(ix, &[&creator]);
+        let builder = close_campaign()
+            .creator(creator.pubkey())
+            .collection(self.collection)
+            .mint(self.mint);
+        let out = self
+            .story
+            .when(Action::CloseCampaign.label(), builder, &[&creator]);
         assert!(
             out.success,
             "close_campaign failed:\n{}",
             out.logs.join("\n")
         );
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
     pub fn close_campaign_err(&mut self, error: &str) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.close_campaign_ix(creator.pubkey());
-        let out = self.story.run_instruction(ix, &[&creator]);
-        assert_err(&out, error);
-        self.after_tx();
-        self.step(&[&creator], &out);
-        out
-    }
-
-    fn cancel_campaign_ix(&self, creator: Pubkey) -> Instruction {
-        let builder = cancel_campaign()
-            .creator(creator)
+        let builder = close_campaign()
+            .creator(creator.pubkey())
             .collection(self.collection)
             .mint(self.mint);
-        self.story.ix_typed(builder).instruction().clone()
+        let out = self
+            .story
+            .when(Action::CloseCampaign.label(), builder, &[&creator]);
+        self.story.then_err(&out, error);
+        self.after_tx();
+        self.step(&[&creator]);
+        out
     }
 
     pub fn cancel_campaign_ok(&mut self) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.cancel_campaign_ix(creator.pubkey());
-        let out = self.story.run_instruction(ix, &[&creator]);
+        let builder = cancel_campaign()
+            .creator(creator.pubkey())
+            .collection(self.collection)
+            .mint(self.mint);
+        let out = self
+            .story
+            .when(Action::CancelCampaign.label(), builder, &[&creator]);
         assert!(
             out.success,
             "cancel_campaign failed:\n{}",
             out.logs.join("\n")
         );
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
     pub fn cancel_campaign_err(&mut self, error: &str) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.cancel_campaign_ix(creator.pubkey());
-        let out = self.story.run_instruction(ix, &[&creator]);
-        assert_err(&out, error);
+        let builder = cancel_campaign()
+            .creator(creator.pubkey())
+            .collection(self.collection)
+            .mint(self.mint);
+        let out = self
+            .story
+            .when(Action::CancelCampaign.label(), builder, &[&creator]);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
     pub fn cancel_campaign_by(&mut self, impostor: &Actor, error: &str) -> Outcome {
-        let ix = self.cancel_campaign_ix(impostor.pubkey());
-        let out = self.story.run_instruction(ix, &[impostor]);
-        assert_err(&out, error);
-        self.after_tx();
-        self.step(&[impostor], &out);
-        out
-    }
-
-    fn exclude_asset_ix(&self, creator: Pubkey, asset: Pubkey) -> Instruction {
-        let builder = exclude_asset()
-            .creator(creator)
+        let builder = cancel_campaign()
+            .creator(impostor.pubkey())
             .collection(self.collection)
-            .asset(asset)
             .mint(self.mint);
-        self.story.ix_typed(builder).instruction().clone()
+        let out = self
+            .story
+            .when(Action::CancelCampaign.label(), builder, &[impostor]);
+        self.story.then_err(&out, error);
+        self.after_tx();
+        self.step(&[impostor]);
+        out
     }
 
     pub fn exclude_asset(&mut self, asset: Pubkey) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.exclude_asset_ix(creator.pubkey(), asset);
-        let out = self.story.run_instruction(ix, &[&creator]);
+        let builder = exclude_asset()
+            .creator(creator.pubkey())
+            .collection(self.collection)
+            .asset(asset)
+            .mint(self.mint);
+        let out = self
+            .story
+            .when(Action::ExcludeAsset.label(), builder, &[&creator]);
         assert!(
             out.success,
             "exclude_asset failed:\n{}",
             out.logs.join("\n")
         );
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
     pub fn exclude_asset_err(&mut self, asset: Pubkey, error: &str) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.exclude_asset_ix(creator.pubkey(), asset);
-        let out = self.story.run_instruction(ix, &[&creator]);
-        assert_err(&out, error);
+        let builder = exclude_asset()
+            .creator(creator.pubkey())
+            .collection(self.collection)
+            .asset(asset)
+            .mint(self.mint);
+        let out = self
+            .story
+            .when(Action::ExcludeAsset.label(), builder, &[&creator]);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
     // --- freeze -----------------------------------------------------------------
 
-    fn freeze_asset_ix(&self, creator: Pubkey, asset: Pubkey, should_freeze: bool) -> Instruction {
+    pub fn freeze_asset(&mut self, asset: Pubkey, should_freeze: bool) -> Outcome {
+        let creator = clone_actor(&self.creator);
         let builder = freeze_asset()
-            .creator(creator)
+            .creator(creator.pubkey())
             .collection(self.collection)
             .asset(asset)
             .should_freeze(should_freeze);
-        self.story.ix_typed(builder).instruction().clone()
-    }
-
-    pub fn freeze_asset(&mut self, asset: Pubkey, should_freeze: bool) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let ix = self.freeze_asset_ix(creator.pubkey(), asset, should_freeze);
-        let out = self.story.run_instruction(ix, &[&creator]);
+        let out = self
+            .story
+            .when(Action::FreezeAsset.label(), builder, &[&creator]);
         assert!(out.success, "freeze_asset failed:\n{}", out.logs.join("\n"));
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
     pub fn freeze_asset_err(&mut self, asset: Pubkey, should_freeze: bool, error: &str) -> Outcome {
         let creator = clone_actor(&self.creator);
-        let ix = self.freeze_asset_ix(creator.pubkey(), asset, should_freeze);
-        let out = self.story.run_instruction(ix, &[&creator]);
-        assert_err(&out, error);
+        let builder = freeze_asset()
+            .creator(creator.pubkey())
+            .collection(self.collection)
+            .asset(asset)
+            .should_freeze(should_freeze);
+        let out = self
+            .story
+            .when(Action::FreezeAsset.label(), builder, &[&creator]);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
@@ -792,11 +1003,17 @@ impl VestingWorld {
         should_freeze: bool,
         error: &str,
     ) -> Outcome {
-        let ix = self.freeze_asset_ix(impostor.pubkey(), asset, should_freeze);
-        let out = self.story.run_instruction(ix, &[impostor]);
-        assert_err(&out, error);
+        let builder = freeze_asset()
+            .creator(impostor.pubkey())
+            .collection(self.collection)
+            .asset(asset)
+            .should_freeze(should_freeze);
+        let out = self
+            .story
+            .when(Action::FreezeAsset.label(), builder, &[impostor]);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[impostor], &out);
+        self.step(&[impostor]);
         out
     }
 
@@ -806,15 +1023,16 @@ impl VestingWorld {
             .creator(creator.pubkey())
             .collection(self.collection)
             .should_freeze(should_freeze);
-        let ix = self.story.ix_typed(builder).instruction().clone();
-        let out = self.story.run_instruction(ix, &[&creator]);
+        let out = self
+            .story
+            .when(Action::FreezeCollection.label(), builder, &[&creator]);
         assert!(
             out.success,
             "freeze_collection failed:\n{}",
             out.logs.join("\n")
         );
         self.after_tx();
-        self.step(&[&creator], &out);
+        self.step(&[&creator]);
         out
     }
 
@@ -826,15 +1044,16 @@ impl VestingWorld {
             .user(user.pubkey())
             .campaign(campaign)
             .claim_receipt(receipt_pda(&campaign, &user.pubkey()).0);
-        let ix = self.story.ix_typed(builder).instruction().clone();
-        let out = self.story.run_instruction(ix, &[user]);
+        let out = self
+            .story
+            .when(Action::CloseReceipt.label(), builder, &[user]);
         assert!(
             out.success,
             "close_receipt failed:\n{}",
             out.logs.join("\n")
         );
         self.after_tx();
-        self.step(&[user], &out);
+        self.step(&[user]);
         out
     }
 
@@ -844,11 +1063,12 @@ impl VestingWorld {
             .user(user.pubkey())
             .campaign(campaign)
             .claim_receipt(receipt_pda(&campaign, &user.pubkey()).0);
-        let ix = self.story.ix_typed(builder).instruction().clone();
-        let out = self.story.run_instruction(ix, &[user]);
-        assert_err(&out, error);
+        let out = self
+            .story
+            .when(Action::CloseReceipt.label(), builder, &[user]);
+        self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[user], &out);
+        self.step(&[user]);
         out
     }
 
@@ -946,9 +1166,9 @@ impl VestingWorld {
     pub fn transfer_changes_owner(&mut self, from: &Actor, to: &Pubkey, asset: &Pubkey) -> bool {
         let owner_before = self.asset_owner(asset);
         let ix = self.transfer_asset_ix(&from.pubkey(), to, asset);
-        let out = self.story.run_instruction(ix, &[from]);
+        self.story.run_instruction(ix, &[from]);
         self.after_tx();
-        self.step(&[from], &out);
+        self.step(&[from]);
         self.asset_owner(asset) != owner_before
     }
 
@@ -956,13 +1176,12 @@ impl VestingWorld {
 
     /// The current on-chain unix timestamp.
     pub fn now(&self) -> i64 {
-        let clock: Clock = self.story.svm.get_sysvar();
-        clock.unix_timestamp
+        self.story.now()
     }
 
     /// Move the clock to `timestamp`.
     pub fn warp_to(&mut self, timestamp: i64) {
-        set_clock(&mut self.story, timestamp);
+        self.story.warp_to(timestamp);
     }
 
     /// Warp just past the vesting end (one second in).
@@ -980,68 +1199,15 @@ impl VestingWorld {
         self.story.svm.expire_blockhash();
     }
 
-    /// Register `actors`' ATAs on the roster, snapshot it, and — if any
-    /// tracked balance moved since the last `step` — push an "Action: <ix>"
-    /// heading plus the delta table onto the story's narrative arc, followed
-    /// by a collapsed CPI tree for this transaction. Then pushes this (and
-    /// only this) outcome's diagram blocks onto the arc, applying whatever
-    /// phases/notes the story queued since the last drain, so every beat
-    /// carries its own diagrams in place instead of one flattened headline
-    /// at the end. A no-op unless the report env is set, so a plain `cargo
-    /// test` run pays nothing beyond the flag read.
-    fn step(&mut self, actors: &[&Actor], out: &Outcome) {
-        if !self.report.enabled() {
-            return;
-        }
+    /// Register `actors`' ATA-balance observations (idempotent — see
+    /// `observe_balance`). The trajectory samples every registered
+    /// observation into every `Moment` on its own, and `Story::project`
+    /// renders the changed-only delta table from those samples, so this is
+    /// all `step` has left to do: replaces the old snapshot/diff/push-block
+    /// dance `StateRoster` used to run by hand.
+    fn step(&mut self, actors: &[&Actor]) {
         for a in actors {
-            let ata = self.story.ata(&a.pubkey(), &self.mint);
-            // Prefer the story's narrative alias: a test may cast a key against
-            // its own plot (full_lifecycle names the NFT transferee "Bob", the
-            // sympathetic inheritor, not the adversary its default label calls
-            // "Mallory"), and the state tables must read as that same cast the
-            // diagrams draw. Fall back to the actor's default cast name.
-            let label = self
-                .story
-                .aliases
-                .get(&a.pubkey())
-                .cloned()
-                .unwrap_or_else(|| a.label.clone());
-            self.roster.register(&label, ata);
+            self.observe_balance(a);
         }
-        let after = self.roster.snapshot(&self.story);
-        if let Some(delta) = StateRoster::delta_table(&self.last_snapshot, &after) {
-            // The first program-level frame, skipping a ComputeBudget prefix ix
-            // (first_claim prepends one), so the beat reads "Claim" not "tx".
-            let name = out
-                .witness()
-                .frames
-                .iter()
-                .find(|f| f.program_id != COMPUTE_BUDGET_ID)
-                .and_then(|f| f.instruction_name.clone())
-                .unwrap_or_else(|| "tx".into());
-            self.story.step(&format!("Action: {name}"));
-            self.story.push_report_block(delta);
-        }
-        self.story.push_report_block(Block::Collapsible {
-            summary: "tree".into(),
-            body: vec![Block::Fenced {
-                lang: None,
-                text: out.scene("").tree(),
-            }],
-            open: false,
-        });
-        let decoration = self.story.take_pending_decoration();
-        for b in render_body_blocks_with(out, &self.report.config(), decoration) {
-            self.story.push_report_block(b);
-        }
-        self.last_snapshot = after;
     }
-}
-
-/// Set the SVM clock to `timestamp`, nudging the slot so the sysvar write takes.
-fn set_clock(story: &mut Story, timestamp: i64) {
-    let mut clock: Clock = story.svm.get_sysvar();
-    clock.unix_timestamp = timestamp;
-    clock.slot = clock.slot.saturating_add(1);
-    story.svm.set_sysvar(&clock);
 }
