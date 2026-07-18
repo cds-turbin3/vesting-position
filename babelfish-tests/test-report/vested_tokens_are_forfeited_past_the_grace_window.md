@@ -1,6 +1,6 @@
 # vested_tokens_are_forfeited_past_the_grace_window
 
-**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/forfeiture.rs#L17)
+**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/forfeiture.rs#L17)
 
 > Given: Alice is whitelisted in a live campaign with a grace window past end
 
@@ -448,8 +448,6 @@ Creator (76464cu)
 </details>
 
 ### T3: Claim (day 38)
-
-🚩 T3 failed: InstructionError(0, Custom(6025))
 
 - [x] refused: ClaimWindowClosed — InstructionError(0, Custom(6025))
 

@@ -1,6 +1,6 @@
 # clawback_after_grace_burns_asset_and_recovers_remainder
 
-**Source:** [`tests/clawback.rs` L36](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/clawback.rs#L36)
+**Source:** [`tests/clawback.rs` L36](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/clawback.rs#L36)
 
 Over 38 days: 5 moments.
 
@@ -532,8 +532,6 @@ Creator (76464cu)
 </details>
 
 ### T4: Claim (day 38)
-
-🚩 T4 failed: InstructionError(0, Custom(6025))
 
 - [x] refused: ClaimWindowClosed — InstructionError(0, Custom(6025))
 

@@ -1,6 +1,6 @@
 # freeze_asset_fails_without_freeze_plugin
 
-**Source:** [`tests/freeze.rs` L290](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/freeze.rs#L290)
+**Source:** [`tests/freeze.rs` L290](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/freeze.rs#L290)
 
 Over 1 day: 3 moments.
 
@@ -323,8 +323,6 @@ flowchart LR
 | observation | before | after |
 | --- | --- | --- |
 | Alice balance | — | 0 |
-
-🚩 T2 failed: InstructionError(0, Custom(6027))
 
 - [x] refused: FreezePluginMissing — InstructionError(0, Custom(6027))
 

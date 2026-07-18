@@ -1,6 +1,6 @@
 # clawback_fully_claimed_badge_fails
 
-**Source:** [`tests/clawback.rs` L75](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/clawback.rs#L75)
+**Source:** [`tests/clawback.rs` L75](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/clawback.rs#L75)
 
 Over 38 days: 4 moments.
 
@@ -442,8 +442,6 @@ flowchart LR
 *7 days pass.*
 
 ### T3: Clawback (day 38)
-
-🚩 T3 failed: InstructionError(0, Custom(6020))
 
 - [x] refused: AlreadyFullyClaimed — InstructionError(0, Custom(6020))
 

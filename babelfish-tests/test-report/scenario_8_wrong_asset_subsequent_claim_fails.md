@@ -1,6 +1,6 @@
 # scenario_8_wrong_asset_subsequent_claim_fails
 
-**Source:** [`tests/claim.rs` L204](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/claim.rs#L204)
+**Source:** [`tests/claim.rs` L204](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/claim.rs#L204)
 
 Over 1 day: 2 moments.
 
@@ -164,8 +164,6 @@ Creator (85369cu)
 *1 day pass.*
 
 ### T1: Claim (day 1)
-
-🚩 T1 failed: InstructionError(0, Custom(6015))
 
 - [x] refused: InvalidAsset — InstructionError(0, Custom(6015))
 

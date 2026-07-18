@@ -1,6 +1,6 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/full_lifecycle.rs#L24)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/full_lifecycle.rs#L24)
 
 > Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
@@ -678,8 +678,6 @@ Alice (9074cu)
 
 ### T5: (instruction) (day 16)
 
-🚩 T5 failed: InstructionError(0, Custom(6012))
-
 - [x] refused: AlreadyClaimed — InstructionError(0, Custom(6012))
 
 ### Sequence
@@ -754,8 +752,6 @@ Alice (19067cu)
 </details>
 
 ### T6: Claim (day 16)
-
-🚩 T6 failed: InstructionError(0, Custom(6016))
 
 - [x] refused: NotAssetOwner — InstructionError(0, Custom(6016))
 
@@ -1129,8 +1125,6 @@ Charlie (9074cu)
 </details>
 
 ### T10: Claim (day 23)
-
-🚩 T10 failed: InstructionError(0, Custom(6016))
 
 - [x] refused: NotAssetOwner — InstructionError(0, Custom(6016))
 

@@ -1,6 +1,6 @@
 # scenario_9_claim_window_closes_after_grace
 
-**Source:** [`tests/claim.rs` L220](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/claim.rs#L220)
+**Source:** [`tests/claim.rs` L220](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/claim.rs#L220)
 
 Over 38 days: 4 moments.
 
@@ -442,8 +442,6 @@ flowchart LR
 *1 second pass.*
 
 ### T3: (instruction) (day 38)
-
-🚩 T3 failed: InstructionError(0, Custom(6025))
 
 - [x] refused: ClaimWindowClosed — InstructionError(0, Custom(6025))
 

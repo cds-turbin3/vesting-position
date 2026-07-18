@@ -1,6 +1,6 @@
 # close_campaign_fails_when_vault_not_empty
 
-**Source:** [`tests/clawback.rs` L215](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/clawback.rs#L215)
+**Source:** [`tests/clawback.rs` L215](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/clawback.rs#L215)
 
 Over 0 days: 2 moments.
 
@@ -162,8 +162,6 @@ Creator (85369cu)
 </details>
 
 ### T1: CloseCampaign (day 0)
-
-🚩 T1 failed: InstructionError(0, Custom(6023))
 
 - [x] refused: VaultNotEmpty — InstructionError(0, Custom(6023))
 

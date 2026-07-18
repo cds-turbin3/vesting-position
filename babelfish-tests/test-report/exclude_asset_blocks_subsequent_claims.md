@@ -1,6 +1,6 @@
 # exclude_asset_blocks_subsequent_claims
 
-**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/freeze.rs#L187)
+**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/freeze.rs#L187)
 
 Over 31 days: 5 moments.
 
@@ -532,8 +532,6 @@ Creator (76272cu)
 *1252801 seconds pass.*
 
 ### T4: Claim (day 31)
-
-🚩 T4 failed: InstructionError(0, Custom(6015))
 
 - [x] refused: InvalidAsset — InstructionError(0, Custom(6015))
 
