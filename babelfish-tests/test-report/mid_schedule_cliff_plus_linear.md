@@ -1,36 +1,17 @@
 # mid_schedule_cliff_plus_linear
 
-**Source:** [`tests/vesting_schedule.rs` L66](https://github.com/cds-turbin3/vesting-position/blob/d7284035bc429fc5d6367f7936c0e522cc6549d8/babelfish-tests/tests/vesting_schedule.rs#L66)
+**Source:** [`tests/vesting_schedule.rs` L67](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/vesting_schedule.rs#L67)
 
-### Action: Initialize
+Over 16 days: 2 moments.
 
-| account | before | after |
+### T0: Initialize (day 0)
+
+| observation | before | after |
 | --- | --- | --- |
-| Creator | 10000000000000 | 0 |
-| Vault | 0 | 10000000000000 |
+| Vault balance | — | 10000000000000 |
+| Creator balance | — | 0 |
 
-<details>
-<summary>tree</summary>
-
-```
-
-Creator (85369cu)
-└─ VestingPositions::Initialize ✓ 85369cu
-   ├─ system::createAccount ✓
-   ├─ splAssociatedTokenAccount::create ✓ 13517cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
-   │  ├─ system::createAccount ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  └─ system::transferSol ✓
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+> Halfway through the linear window, a claim releases the cliff slice plus half the linear remainder: cliff_amount + linear_amount/2.
 
 ### Sequence
 
@@ -104,9 +85,9 @@ flowchart LR
     Creator(["Creator"]):::signer
     Collection(["Collection"]):::signer
     Mint[("Mint")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
-    2rbE(["2rbE…"]):::signer
-    BXgR(["BXgR…"]):::signer
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
+    campaignCollection(["campaign(Collection)"]):::signer
+    campaignAtacampaignCollectionTokeMint(["campaignAta(campaign(Collection), Toke…, Mint)"]):::signer
     system["system"]:::program
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
@@ -114,20 +95,20 @@ flowchart LR
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions -->|writes| Mint
-    VestingPositions -->|writes| CreatorATAMint
-    VestingPositions -->|writes| 2rbE
-    VestingPositions -->|writes| BXgR
+    VestingPositions -->|writes| creatorAtaCreatorTokeMint
+    VestingPositions -->|writes| campaignCollection
+    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
     Creator -->|signs| system
-    2rbE -->|signs| system
+    campaignCollection -->|signs| system
     Creator -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| BXgR
-    BXgR -->|signs| system
-    token -->|writes| BXgR
+    splAssociatedTokenAccount -->|writes| campaignAtacampaignCollectionTokeMint
+    campaignAtacampaignCollectionTokeMint -->|signs| system
+    token -->|writes| campaignAtacampaignCollectionTokeMint
     Collection -->|signs| CoRE
     Creator -->|signs| CoRE
     Collection -->|signs| system
     system -->|writes| Collection
-    token -->|writes| CreatorATAMint
+    token -->|writes| creatorAtaCreatorTokeMint
     Creator -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -144,16 +125,16 @@ flowchart LR
     Collection[("Collection")]:::state
     token["token"]:::program
     Mint[("Mint")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
     VestingPositions["VestingPositions"]:::program
-    2rbE[("2rbE…")]:::state
-    BXgR[("BXgR…")]:::state
+    campaignCollection[("campaign(Collection)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     system -->|owns| Creator
     CoRE -->|owns| Collection
     token -->|owns| Mint
-    token -->|owns| CreatorATAMint
-    VestingPositions -->|owns| 2rbE
-    token -->|owns| BXgR
+    token -->|owns| creatorAtaCreatorTokeMint
+    VestingPositions -->|owns| campaignCollection
+    token -->|owns| campaignAtacampaignCollectionTokeMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -182,39 +163,17 @@ Creator (85369cu)
 
 </details>
 
-> Halfway through the linear window, a claim releases the cliff slice plus half the linear remainder: cliff_amount + linear_amount/2.
+*1425600 seconds pass.*
 
-### Action: Claim
+### T1: (instruction) (day 16)
 
-| account | before | after |
+| observation | before | after |
 | --- | --- | --- |
-| Vault | 10000000000000 | 9450000000000 |
-| Alice | — | 550000000000 |
+| Vault balance | 10000000000000 | 9450000000000 |
 
-<details>
-<summary>tree</summary>
+**Alice's balance:** `0` → `550000000000` — mid-schedule claim: cliff slice + half the linear remainder
 
-```
-
-4wQQ… (163770cu)
-├─ Comp…::? ✓
-└─ VestingPositions::Claim ✓ 163620cu
-   ├─ splAssociatedTokenAccount::create ✓ 13416cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ system::createAccount ✓
-   ├─ CoRE…::CreateV2 ✓ 29646cu
-   │  ├─ system::createAccount ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  └─ system::transferSol ✓
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+- [x] Alice's balance
 
 ### Sequence
 
@@ -297,7 +256,7 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    BXgR[("BXgR…")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     45PB(["45PB…"]):::signer
     4QVs(["4QVs…"]):::signer
     7kmN(["7kmN…"]):::signer
@@ -305,11 +264,11 @@ flowchart LR
     token["token"]:::program
     system["system"]:::program
     CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
-    2rbE(["2rbE…"]):::signer
+    updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
+    campaignCollection(["campaign(Collection)"]):::signer
     4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions -->|writes| BXgR
+    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
     VestingPositions -->|writes| 45PB
     VestingPositions -->|writes| 4QVs
     VestingPositions -->|writes| 7kmN
@@ -321,12 +280,12 @@ flowchart LR
     7kmN -->|signs| system
     4QVs -->|signs| CoRE
     CoRE -->|writes| Collection
-    vGh5 -->|signs| CoRE
+    updateAuthorityCollection -->|signs| CoRE
     4wQQ -->|signs| CoRE
     4QVs -->|signs| system
     system -->|writes| 4QVs
-    token -->|writes| BXgR
-    2rbE -->|signs| token
+    token -->|writes| campaignAtacampaignCollectionTokeMint
+    campaignCollection -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -341,14 +300,14 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    BXgR[("BXgR…")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     45PB[("45PB…")]:::state
     4QVs[("4QVs…")]:::state
     VestingPositions["VestingPositions"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| 4wQQ
     CoRE -->|owns| Collection
-    token -->|owns| BXgR
+    token -->|owns| campaignAtacampaignCollectionTokeMint
     token -->|owns| 45PB
     CoRE -->|owns| 4QVs
     VestingPositions -->|owns| 7kmN
@@ -381,5 +340,3 @@ flowchart LR
 ```
 
 </details>
-
-**Alice's balance:** `0` → `550000000000` — mid-schedule claim: cliff slice + half the linear remainder

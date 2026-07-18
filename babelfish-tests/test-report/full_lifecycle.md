@@ -1,36 +1,21 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L23](https://github.com/cds-turbin3/vesting-position/blob/d7284035bc429fc5d6367f7936c0e522cc6549d8/babelfish-tests/tests/full_lifecycle.rs#L23)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/full_lifecycle.rs#L24)
 
-### Action: Initialize
+> Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
-| account | before | after |
+> Given: Bob, never whitelisted, now holds Alice's position NFT
+
+Over 28 days: 12 moments; 2/2 law(s) held; 3/3 finally check(s) passed.
+
+### T0: Initialize (day 0)
+
+| observation | before | after |
 | --- | --- | --- |
-| Creator | 10000000000000 | 0 |
-| Vault | 0 | 10000000000000 |
+| Vault balance | — | 10000000000000 |
+| Creator balance | — | 0 |
 
-<details>
-<summary>tree</summary>
-
-```
-
-Creator (85369cu)
-└─ VestingPositions::Initialize ✓ 85369cu
-   ├─ system::createAccount ✓
-   ├─ splAssociatedTokenAccount::create ✓ 13517cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
-   │  ├─ system::createAccount ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  └─ system::transferSol ✓
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+## Phase: Alice claims and vests
 
 ### Sequence
 
@@ -104,9 +89,9 @@ flowchart LR
     Creator(["Creator"]):::signer
     Collection(["Collection"]):::signer
     Mint[("Mint")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
-    2rbE(["2rbE…"]):::signer
-    BXgR(["BXgR…"]):::signer
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
+    campaignCollection(["campaign(Collection)"]):::signer
+    campaignAtacampaignCollectionTokeMint(["campaignAta(campaign(Collection), Toke…, Mint)"]):::signer
     system["system"]:::program
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
@@ -114,20 +99,20 @@ flowchart LR
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions -->|writes| Mint
-    VestingPositions -->|writes| CreatorATAMint
-    VestingPositions -->|writes| 2rbE
-    VestingPositions -->|writes| BXgR
+    VestingPositions -->|writes| creatorAtaCreatorTokeMint
+    VestingPositions -->|writes| campaignCollection
+    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
     Creator -->|signs| system
-    2rbE -->|signs| system
+    campaignCollection -->|signs| system
     Creator -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| BXgR
-    BXgR -->|signs| system
-    token -->|writes| BXgR
+    splAssociatedTokenAccount -->|writes| campaignAtacampaignCollectionTokeMint
+    campaignAtacampaignCollectionTokeMint -->|signs| system
+    token -->|writes| campaignAtacampaignCollectionTokeMint
     Collection -->|signs| CoRE
     Creator -->|signs| CoRE
     Collection -->|signs| system
     system -->|writes| Collection
-    token -->|writes| CreatorATAMint
+    token -->|writes| creatorAtaCreatorTokeMint
     Creator -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -144,16 +129,16 @@ flowchart LR
     Collection[("Collection")]:::state
     token["token"]:::program
     Mint[("Mint")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
     VestingPositions["VestingPositions"]:::program
-    2rbE[("2rbE…")]:::state
-    BXgR[("BXgR…")]:::state
+    campaignCollection[("campaign(Collection)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     system -->|owns| Creator
     CoRE -->|owns| Collection
     token -->|owns| Mint
-    token -->|owns| CreatorATAMint
-    VestingPositions -->|owns| 2rbE
-    token -->|owns| BXgR
+    token -->|owns| creatorAtaCreatorTokeMint
+    VestingPositions -->|owns| campaignCollection
+    token -->|owns| campaignAtacampaignCollectionTokeMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -182,39 +167,13 @@ Creator (85369cu)
 
 </details>
 
-## Phase: Alice claims and vests
+*2 days pass.*
 
-### Action: Claim
+### T1: (instruction) (day 2)
 
-| account | before | after |
+| observation | before | after |
 | --- | --- | --- |
-| Vault | 10000000000000 | 9900000000000 |
-| Alice | — | 100000000000 |
-
-<details>
-<summary>tree</summary>
-
-```
-
-Alice (163771cu)
-├─ Comp…::? ✓
-└─ Vesting::Claim ✓ 163621cu
-   ├─ splAssociatedTokenAccount::create ✓ 13416cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ system::createAccount ✓
-   ├─ CoRE…::CreateV2 ✓ 29646cu
-   │  ├─ system::createAccount ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  └─ system::transferSol ✓
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+| Vault balance | 10000000000000 | 9900000000000 |
 
 ### Sequence
 
@@ -297,7 +256,7 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     AliceATAMint(["Alice/ATA(Mint)"]):::signer
     AlicepositionNFT(["Alice position NFT"]):::signer
     7kmN(["7kmN…"]):::signer
@@ -305,11 +264,11 @@ flowchart LR
     token["token"]:::program
     system["system"]:::program
     CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
+    updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     Campaign(["Campaign"]):::signer
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
     Vesting -->|writes| AliceATAMint
     Vesting -->|writes| AlicepositionNFT
     Vesting -->|writes| 7kmN
@@ -321,11 +280,11 @@ flowchart LR
     7kmN -->|signs| system
     AlicepositionNFT -->|signs| CoRE
     CoRE -->|writes| Collection
-    vGh5 -->|signs| CoRE
+    updateAuthorityCollection -->|signs| CoRE
     Alice -->|signs| CoRE
     AlicepositionNFT -->|signs| system
     system -->|writes| AlicepositionNFT
-    token -->|writes| CampaignATAMint
+    token -->|writes| campaignAtacampaignCollectionTokeMint
     Campaign -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -341,14 +300,14 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     AliceATAMint[("Alice/ATA(Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| Alice
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
     token -->|owns| AliceATAMint
     CoRE -->|owns| AlicepositionNFT
     Vesting -->|owns| 7kmN
@@ -382,25 +341,15 @@ Alice (163771cu)
 
 </details>
 
-### Action: Claim
+*1252800 seconds pass.*
 
-| account | before | after |
+### T2: Claim (day 16)
+
+| observation | before | after |
 | --- | --- | --- |
-| Vault | 9900000000000 | 9450000000000 |
-| Alice | 100000000000 | 550000000000 |
-
-<details>
-<summary>tree</summary>
-
-```
-
-Alice (71574cu)
-└─ Vesting::Claim ✓ 71574cu
-   ├─ CoRE…::UpdatePlugin ✓ 20791cu
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+| Vault balance | 9900000000000 | 9450000000000 |
+| Alice balance | — | 550000000000 |
+| receipt claimer | — | 4wQQ… |
 
 ### Sequence
 
@@ -431,26 +380,26 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     7kmN[("7kmN…")]:::state
     CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
+    updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     token["token"]:::program
     Campaign(["Campaign"]):::signer
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
-    Vesting -->|writes| AliceATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
+    Vesting -->|writes| userAtaAliceTokeMint
     Vesting -->|writes| AlicepositionNFT
     Vesting -->|writes| 7kmN
     CoRE -->|writes| AlicepositionNFT
     CoRE -->|writes| Collection
     Alice -->|signs| CoRE
-    vGh5 -->|signs| CoRE
-    token -->|writes| CampaignATAMint
-    token -->|writes| AliceATAMint
+    updateAuthorityCollection -->|signs| CoRE
+    token -->|writes| campaignAtacampaignCollectionTokeMint
+    token -->|writes| userAtaAliceTokeMint
     Campaign -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -466,15 +415,15 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| Alice
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
-    token -->|owns| AliceATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
+    token -->|owns| userAtaAliceTokeMint
     CoRE -->|owns| AlicepositionNFT
     Vesting -->|owns| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -495,37 +444,13 @@ Alice (71574cu)
 
 </details>
 
-### Action: Claim
+### T3: (instruction) (day 16)
 
-| account | before | after |
+| observation | before | after |
 | --- | --- | --- |
-| Vault | 9450000000000 | 8350000000000 |
-| Charlie | — | 1100000000000 |
+| Vault balance | 9450000000000 | 8350000000000 |
 
-<details>
-<summary>tree</summary>
-
-```
-
-Charlie (160754cu)
-├─ Comp…::? ✓
-└─ Vesting::Claim ✓ 160604cu
-   ├─ splAssociatedTokenAccount::create ✓ 13416cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ system::createAccount ✓
-   ├─ CoRE…::CreateV2 ✓ 29342cu
-   │  ├─ system::createAccount ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  └─ system::transferSol ✓
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+## Phase: positions change hands
 
 ### Sequence
 
@@ -608,7 +533,7 @@ flowchart LR
     Vesting["Vesting"]:::program
     Charlie(["Charlie"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     CharlieATAMint(["Charlie/ATA(Mint)"]):::signer
     CharliepositionNFT(["Charlie position NFT"]):::signer
     6vT5(["6vT5…"]):::signer
@@ -616,11 +541,11 @@ flowchart LR
     token["token"]:::program
     system["system"]:::program
     CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
+    updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     Campaign(["Campaign"]):::signer
     Charlie -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
     Vesting -->|writes| CharlieATAMint
     Vesting -->|writes| CharliepositionNFT
     Vesting -->|writes| 6vT5
@@ -632,11 +557,11 @@ flowchart LR
     6vT5 -->|signs| system
     CharliepositionNFT -->|signs| CoRE
     CoRE -->|writes| Collection
-    vGh5 -->|signs| CoRE
+    updateAuthorityCollection -->|signs| CoRE
     Charlie -->|signs| CoRE
     CharliepositionNFT -->|signs| system
     system -->|writes| CharliepositionNFT
-    token -->|writes| CampaignATAMint
+    token -->|writes| campaignAtacampaignCollectionTokeMint
     Campaign -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -652,14 +577,14 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     CharlieATAMint[("Charlie/ATA(Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     Vesting["Vesting"]:::program
     6vT5[("6vT5…")]:::state
     system -->|owns| Charlie
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
     token -->|owns| CharlieATAMint
     CoRE -->|owns| CharliepositionNFT
     Vesting -->|owns| 6vT5
@@ -693,18 +618,69 @@ Charlie (160754cu)
 
 </details>
 
-## Phase: positions change hands
+### T4: (instruction) (day 16)
+
+| observation | before | after |
+| --- | --- | --- |
+| Charlie balance | — | 1100000000000 |
+
+### Sequence
+
+```mermaid
+sequenceDiagram
+    participant p0 as Alice
+    participant p1 as CoRE…
+    p0->>p1: Transfer
+    activate p1
+    p1-->>p0: ✓ 9074cu
+    deactivate p1
+```
+
+### Authority
+
+```mermaid
+flowchart LR
+    CoRE["CoRE…"]:::program
+    AlicepositionNFT[("Alice position NFT")]:::state
+    Alice(["Alice"]):::signer
+    CoRE -->|writes| AlicepositionNFT
+    Alice -->|signs| CoRE
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
+
+### Ownership
+
+```mermaid
+flowchart LR
+    CoRE["CoRE…"]:::program
+    AlicepositionNFT[("Alice position NFT")]:::state
+    system["system"]:::program
+    Alice[("Alice")]:::state
+    CoRE -->|owns| AlicepositionNFT
+    system -->|owns| Alice
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
 
 <details>
 <summary>tree</summary>
 
 ```
 
-Alice (19067cu)
-└─ Vesting::Claim ✗ 19067cu
+Alice (9074cu)
+└─ CoRE…::Transfer ✓ 9074cu
 ```
 
 </details>
+
+### T5: (instruction) (day 16)
+
+🚩 T5 failed: InstructionError(0, Custom(6012))
+
+- [x] refused: AlreadyClaimed — InstructionError(0, Custom(6012))
 
 ### Sequence
 
@@ -726,14 +702,14 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     7kmN[("7kmN…")]:::state
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
-    Vesting -->|writes| AliceATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
+    Vesting -->|writes| userAtaAliceTokeMint
     Vesting -->|writes| AlicepositionNFT
     Vesting -->|writes| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -750,15 +726,15 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| Alice
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
-    token -->|owns| AliceATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
+    token -->|owns| userAtaAliceTokeMint
     CoRE -->|owns| AlicepositionNFT
     Vesting -->|owns| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -777,16 +753,13 @@ Alice (19067cu)
 
 </details>
 
-<details>
-<summary>tree</summary>
+### T6: Claim (day 16)
 
-```
+🚩 T6 failed: InstructionError(0, Custom(6016))
 
-Alice (19698cu)
-└─ Vesting::Claim ✗ 19698cu
-```
+- [x] refused: NotAssetOwner — InstructionError(0, Custom(6016))
 
-</details>
+## Phase: Bob claims Alice's position
 
 ### Sequence
 
@@ -808,14 +781,14 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     7kmN[("7kmN…")]:::state
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
-    Vesting -->|writes| AliceATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
+    Vesting -->|writes| userAtaAliceTokeMint
     Vesting -->|writes| AlicepositionNFT
     Vesting -->|writes| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -832,15 +805,15 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| Alice
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
-    token -->|owns| AliceATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
+    token -->|owns| userAtaAliceTokeMint
     CoRE -->|owns| AlicepositionNFT
     Vesting -->|owns| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -859,33 +832,13 @@ Alice (19698cu)
 
 </details>
 
-## Phase: Bob claims Alice's position
+*626400 seconds pass.*
 
-### Action: Claim
+### T7: Claim (day 23)
 
-| account | before | after |
+| observation | before | after |
 | --- | --- | --- |
-| Vault | 8350000000000 | 8125000000000 |
-| Bob | — | 225000000000 |
-
-<details>
-<summary>tree</summary>
-
-```
-
-Bob (91743cu)
-└─ Vesting::Claim ✓ 91743cu
-   ├─ splAssociatedTokenAccount::create ✓ 13416cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ system::createAccount ✓
-   ├─ CoRE…::UpdatePlugin ✓ 20791cu
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+| Vault balance | 8350000000000 | 8125000000000 |
 
 ### Sequence
 
@@ -943,33 +896,33 @@ flowchart LR
     Vesting["Vesting"]:::program
     Bob(["Bob"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    BobATAMint(["Bob/ATA(Mint)"]):::signer
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaBobTokeMint(["userAta(Bob, Toke…, Mint)"]):::signer
     AlicepositionNFT[("Alice position NFT")]:::state
     C6G6(["C6G6…"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
     CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
+    updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     Campaign(["Campaign"]):::signer
     Bob -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
-    Vesting -->|writes| BobATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
+    Vesting -->|writes| userAtaBobTokeMint
     Vesting -->|writes| AlicepositionNFT
     Vesting -->|writes| C6G6
     Bob -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| BobATAMint
+    splAssociatedTokenAccount -->|writes| userAtaBobTokeMint
     Bob -->|signs| system
-    BobATAMint -->|signs| system
-    token -->|writes| BobATAMint
+    userAtaBobTokeMint -->|signs| system
+    token -->|writes| userAtaBobTokeMint
     C6G6 -->|signs| system
     CoRE -->|writes| AlicepositionNFT
     CoRE -->|writes| Collection
     Bob -->|signs| CoRE
-    vGh5 -->|signs| CoRE
-    token -->|writes| CampaignATAMint
+    updateAuthorityCollection -->|signs| CoRE
+    token -->|writes| campaignAtacampaignCollectionTokeMint
     Campaign -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -985,15 +938,15 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    BobATAMint[("Bob/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaBobTokeMint[("userAta(Bob, Toke…, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     C6G6[("C6G6…")]:::state
     system -->|owns| Bob
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
-    token -->|owns| BobATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
+    token -->|owns| userAtaBobTokeMint
     CoRE -->|owns| AlicepositionNFT
     Vesting -->|owns| C6G6
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -1020,25 +973,13 @@ Bob (91743cu)
 
 </details>
 
-### Action: Claim
+### T8: Claim (day 23)
 
-| account | before | after |
+| observation | before | after |
 | --- | --- | --- |
-| Vault | 8125000000000 | 7675000000000 |
-| Charlie | 1100000000000 | 1550000000000 |
-
-<details>
-<summary>tree</summary>
-
-```
-
-Charlie (71714cu)
-└─ Vesting::Claim ✓ 71714cu
-   ├─ CoRE…::UpdatePlugin ✓ 20727cu
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+| Vault balance | 8125000000000 | 7675000000000 |
+| Charlie balance | 1100000000000 | 1550000000000 |
+| Bob balance | — | 225000000000 |
 
 ### Sequence
 
@@ -1069,26 +1010,26 @@ flowchart LR
     Vesting["Vesting"]:::program
     Charlie(["Charlie"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    CharlieATAMint[("Charlie/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaCharlieTokeMint[("userAta(Charlie, Toke…, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     6vT5[("6vT5…")]:::state
     CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
+    updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     token["token"]:::program
     Campaign(["Campaign"]):::signer
     Charlie -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
-    Vesting -->|writes| CharlieATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
+    Vesting -->|writes| userAtaCharlieTokeMint
     Vesting -->|writes| CharliepositionNFT
     Vesting -->|writes| 6vT5
     CoRE -->|writes| CharliepositionNFT
     CoRE -->|writes| Collection
     Charlie -->|signs| CoRE
-    vGh5 -->|signs| CoRE
-    token -->|writes| CampaignATAMint
-    token -->|writes| CharlieATAMint
+    updateAuthorityCollection -->|signs| CoRE
+    token -->|writes| campaignAtacampaignCollectionTokeMint
+    token -->|writes| userAtaCharlieTokeMint
     Campaign -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -1104,15 +1045,15 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    CharlieATAMint[("Charlie/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaCharlieTokeMint[("userAta(Charlie, Toke…, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     Vesting["Vesting"]:::program
     6vT5[("6vT5…")]:::state
     system -->|owns| Charlie
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
-    token -->|owns| CharlieATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
+    token -->|owns| userAtaCharlieTokeMint
     CoRE -->|owns| CharliepositionNFT
     Vesting -->|owns| 6vT5
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -1133,16 +1074,65 @@ Charlie (71714cu)
 
 </details>
 
+### T9: (instruction) (day 23)
+
+### Sequence
+
+```mermaid
+sequenceDiagram
+    participant p0 as Charlie
+    participant p1 as CoRE…
+    p0->>p1: Transfer
+    activate p1
+    p1-->>p0: ✓ 9074cu
+    deactivate p1
+```
+
+### Authority
+
+```mermaid
+flowchart LR
+    CoRE["CoRE…"]:::program
+    CharliepositionNFT[("Charlie position NFT")]:::state
+    Charlie(["Charlie"]):::signer
+    CoRE -->|writes| CharliepositionNFT
+    Charlie -->|signs| CoRE
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
+
+### Ownership
+
+```mermaid
+flowchart LR
+    CoRE["CoRE…"]:::program
+    CharliepositionNFT[("Charlie position NFT")]:::state
+    system["system"]:::program
+    Charlie[("Charlie")]:::state
+    CoRE -->|owns| CharliepositionNFT
+    system -->|owns| Charlie
+    classDef program fill:#dae8fc,stroke:#6c8ebf;
+    classDef signer fill:#d5e8d4,stroke:#82b366;
+    classDef state fill:#ffe6cc,stroke:#d79b00;
+```
+
 <details>
 <summary>tree</summary>
 
 ```
 
-Charlie (19698cu)
-└─ Vesting::Claim ✗ 19698cu
+Charlie (9074cu)
+└─ CoRE…::Transfer ✓ 9074cu
 ```
 
 </details>
+
+### T10: Claim (day 23)
+
+🚩 T10 failed: InstructionError(0, Custom(6016))
+
+- [x] refused: NotAssetOwner — InstructionError(0, Custom(6016))
 
 ### Sequence
 
@@ -1164,14 +1154,14 @@ flowchart LR
     Vesting["Vesting"]:::program
     Charlie(["Charlie"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    CharlieATAMint[("Charlie/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaCharlieTokeMint[("userAta(Charlie, Toke…, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     6vT5[("6vT5…")]:::state
     Charlie -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
-    Vesting -->|writes| CharlieATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
+    Vesting -->|writes| userAtaCharlieTokeMint
     Vesting -->|writes| CharliepositionNFT
     Vesting -->|writes| 6vT5
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -1188,15 +1178,15 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    CharlieATAMint[("Charlie/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaCharlieTokeMint[("userAta(Charlie, Toke…, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     Vesting["Vesting"]:::program
     6vT5[("6vT5…")]:::state
     system -->|owns| Charlie
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
-    token -->|owns| CharlieATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
+    token -->|owns| userAtaCharlieTokeMint
     CoRE -->|owns| CharliepositionNFT
     Vesting -->|owns| 6vT5
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -1215,25 +1205,14 @@ Charlie (19698cu)
 
 </details>
 
-### Action: Claim
+*375840 seconds pass.*
 
-| account | before | after |
+### T11: Claim (day 28)
+
+| observation | before | after |
 | --- | --- | --- |
-| Vault | 7675000000000 | 7405000000000 |
-| Alice | 550000000000 | 820000000000 |
-
-<details>
-<summary>tree</summary>
-
-```
-
-Alice (71714cu)
-└─ Vesting::Claim ✓ 71714cu
-   ├─ CoRE…::UpdatePlugin ✓ 20727cu
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+| Vault balance | 7675000000000 | 7405000000000 |
+| Alice balance | 550000000000 | 820000000000 |
 
 ### Sequence
 
@@ -1264,26 +1243,26 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     7kmN[("7kmN…")]:::state
     CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
+    updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     token["token"]:::program
     Campaign(["Campaign"]):::signer
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
-    Vesting -->|writes| AliceATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
+    Vesting -->|writes| userAtaAliceTokeMint
     Vesting -->|writes| CharliepositionNFT
     Vesting -->|writes| 7kmN
     CoRE -->|writes| CharliepositionNFT
     CoRE -->|writes| Collection
     Alice -->|signs| CoRE
-    vGh5 -->|signs| CoRE
-    token -->|writes| CampaignATAMint
-    token -->|writes| AliceATAMint
+    updateAuthorityCollection -->|signs| CoRE
+    token -->|writes| campaignAtacampaignCollectionTokeMint
+    token -->|writes| userAtaAliceTokeMint
     Campaign -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -1299,15 +1278,15 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     Vesting["Vesting"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| Alice
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
-    token -->|owns| AliceATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
+    token -->|owns| userAtaAliceTokeMint
     CoRE -->|owns| CharliepositionNFT
     Vesting -->|owns| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -1327,3 +1306,11 @@ Alice (71714cu)
 ```
 
 </details>
+
+## Conclusion
+
+- claimed + vault conserves the total deposit ✓ across 12 moment(s)
+- receipt claimer is constant ✓ across 12 moment(s)
+- finally: six Claim-labeled transactions settled (subsequent claims, success or refusal) ✓
+- finally: the campaign vault still holds an unclaimed remainder (no clawback ran) ✓
+- finally: the receipt-claimer binding never broke ✓

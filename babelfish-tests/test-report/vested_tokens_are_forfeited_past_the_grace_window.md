@@ -1,36 +1,19 @@
 # vested_tokens_are_forfeited_past_the_grace_window
 
-**Source:** [`tests/forfeiture.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/d7284035bc429fc5d6367f7936c0e522cc6549d8/babelfish-tests/tests/forfeiture.rs#L16)
+**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/forfeiture.rs#L17)
 
-### Action: Initialize
+> Given: Alice is whitelisted in a live campaign with a grace window past end
 
-| account | before | after |
+Over 38 days: 4 moments.
+
+### T0: Initialize (day 0)
+
+| observation | before | after |
 | --- | --- | --- |
-| Creator | 10000000000000 | 0 |
-| Vault | 0 | 10000000000000 |
+| Vault balance | — | 10000000000000 |
+| Creator balance | — | 0 |
 
-<details>
-<summary>tree</summary>
-
-```
-
-Creator (85369cu)
-└─ VestingPositions::Initialize ✓ 85369cu
-   ├─ system::createAccount ✓
-   ├─ splAssociatedTokenAccount::create ✓ 13517cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
-   │  ├─ system::createAccount ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  └─ system::transferSol ✓
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+> A recipient's vested-but-unclaimed tokens are swept to the creator once the grace window past `end` lapses: this is the design, not a defect.
 
 ### Sequence
 
@@ -104,9 +87,9 @@ flowchart LR
     Creator(["Creator"]):::signer
     Collection(["Collection"]):::signer
     Mint[("Mint")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
-    2rbE(["2rbE…"]):::signer
-    BXgR(["BXgR…"]):::signer
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
+    campaignCollection(["campaign(Collection)"]):::signer
+    campaignAtacampaignCollectionTokeMint(["campaignAta(campaign(Collection), Toke…, Mint)"]):::signer
     system["system"]:::program
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
@@ -114,20 +97,20 @@ flowchart LR
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions -->|writes| Mint
-    VestingPositions -->|writes| CreatorATAMint
-    VestingPositions -->|writes| 2rbE
-    VestingPositions -->|writes| BXgR
+    VestingPositions -->|writes| creatorAtaCreatorTokeMint
+    VestingPositions -->|writes| campaignCollection
+    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
     Creator -->|signs| system
-    2rbE -->|signs| system
+    campaignCollection -->|signs| system
     Creator -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| BXgR
-    BXgR -->|signs| system
-    token -->|writes| BXgR
+    splAssociatedTokenAccount -->|writes| campaignAtacampaignCollectionTokeMint
+    campaignAtacampaignCollectionTokeMint -->|signs| system
+    token -->|writes| campaignAtacampaignCollectionTokeMint
     Collection -->|signs| CoRE
     Creator -->|signs| CoRE
     Collection -->|signs| system
     system -->|writes| Collection
-    token -->|writes| CreatorATAMint
+    token -->|writes| creatorAtaCreatorTokeMint
     Creator -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -144,16 +127,16 @@ flowchart LR
     Collection[("Collection")]:::state
     token["token"]:::program
     Mint[("Mint")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
     VestingPositions["VestingPositions"]:::program
-    2rbE[("2rbE…")]:::state
-    BXgR[("BXgR…")]:::state
+    campaignCollection[("campaign(Collection)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     system -->|owns| Creator
     CoRE -->|owns| Collection
     token -->|owns| Mint
-    token -->|owns| CreatorATAMint
-    VestingPositions -->|owns| 2rbE
-    token -->|owns| BXgR
+    token -->|owns| creatorAtaCreatorTokeMint
+    VestingPositions -->|owns| campaignCollection
+    token -->|owns| campaignAtacampaignCollectionTokeMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -182,39 +165,17 @@ Creator (85369cu)
 
 </details>
 
-> A recipient's vested-but-unclaimed tokens are swept to the creator once the grace window past `end` lapses: this is the design, not a defect.
+*2 days pass.*
 
-### Action: Claim
+### T1: (instruction) (day 2)
 
-| account | before | after |
+| observation | before | after |
 | --- | --- | --- |
-| Vault | 10000000000000 | 9900000000000 |
-| Alice | — | 100000000000 |
+| Vault balance | 10000000000000 | 9900000000000 |
 
-<details>
-<summary>tree</summary>
+- [x] the cliff unlock reached Alice
 
-```
-
-Alice (163771cu)
-├─ Comp…::? ✓
-└─ Vesting::Claim ✓ 163621cu
-   ├─ splAssociatedTokenAccount::create ✓ 13416cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ system::createAccount ✓
-   ├─ CoRE…::CreateV2 ✓ 29646cu
-   │  ├─ system::createAccount ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  └─ system::transferSol ✓
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+- [x] at end, Alice's vested-but-unclaimed remainder is the whole rest of her allocation
 
 ### Sequence
 
@@ -297,7 +258,7 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     AliceATAMint(["Alice/ATA(Mint)"]):::signer
     AlicespositionNFT(["Alice's position NFT"]):::signer
     7kmN(["7kmN…"]):::signer
@@ -305,11 +266,11 @@ flowchart LR
     token["token"]:::program
     system["system"]:::program
     CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
+    updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     Campaign(["Campaign"]):::signer
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
     Vesting -->|writes| AliceATAMint
     Vesting -->|writes| AlicespositionNFT
     Vesting -->|writes| 7kmN
@@ -321,11 +282,11 @@ flowchart LR
     7kmN -->|signs| system
     AlicespositionNFT -->|signs| CoRE
     CoRE -->|writes| Collection
-    vGh5 -->|signs| CoRE
+    updateAuthorityCollection -->|signs| CoRE
     Alice -->|signs| CoRE
     AlicespositionNFT -->|signs| system
     system -->|writes| AlicespositionNFT
-    token -->|writes| CampaignATAMint
+    token -->|writes| campaignAtacampaignCollectionTokeMint
     Campaign -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -341,14 +302,14 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     AliceATAMint[("Alice/ATA(Mint)")]:::state
     AlicespositionNFT[("Alice's position NFT")]:::state
     Vesting["Vesting"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| Alice
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
     token -->|owns| AliceATAMint
     CoRE -->|owns| AlicespositionNFT
     Vesting -->|owns| 7kmN
@@ -382,25 +343,21 @@ Alice (163771cu)
 
 </details>
 
-### Action: Clawback
+*3110401 seconds pass.*
 
-| account | before | after |
+### T2: Clawback (day 38)
+
+| observation | before | after |
 | --- | --- | --- |
-| Creator | 0 | 900000000000 |
-| Vault | 9900000000000 | 9000000000000 |
+| Vault balance | 9900000000000 | 9000000000000 |
+| Creator balance | 0 | 900000000000 |
+| Alice balance | — | 100000000000 |
 
-<details>
-<summary>tree</summary>
+- [x] the grace window let the creator reclaim Alice's fully-vested remainder
 
-```
+**Alice's remainder:** `900000000000` → `0` — forfeited, never delivered
 
-Creator (76464cu)
-└─ Vesting::Clawback ✓ 76464cu
-   ├─ CoRE…::Burn ✓ 9904cu
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+- [x] Alice's remainder
 
 ### Sequence
 
@@ -432,23 +389,23 @@ flowchart LR
     Creator(["Creator"]):::signer
     Collection[("Collection")]:::state
     AlicespositionNFT[("Alice's position NFT")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
     CoRE["CoRE…"]:::program
-    vGh5(["vGh5…"]):::signer
+    updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     token["token"]:::program
     Campaign(["Campaign"]):::signer
     Creator -->|signs| Vesting
     Vesting -->|writes| Collection
     Vesting -->|writes| AlicespositionNFT
-    Vesting -->|writes| CampaignATAMint
-    Vesting -->|writes| CreatorATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
+    Vesting -->|writes| creatorAtaCreatorTokeMint
     CoRE -->|writes| AlicespositionNFT
     CoRE -->|writes| Collection
     Creator -->|signs| CoRE
-    vGh5 -->|signs| CoRE
-    token -->|writes| CampaignATAMint
-    token -->|writes| CreatorATAMint
+    updateAuthorityCollection -->|signs| CoRE
+    token -->|writes| campaignAtacampaignCollectionTokeMint
+    token -->|writes| creatorAtaCreatorTokeMint
     Campaign -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -465,13 +422,13 @@ flowchart LR
     Collection[("Collection")]:::state
     AlicespositionNFT[("Alice's position NFT")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
     system -->|owns| Creator
     CoRE -->|owns| Collection
     CoRE -->|owns| AlicespositionNFT
-    token -->|owns| CampaignATAMint
-    token -->|owns| CreatorATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
+    token -->|owns| creatorAtaCreatorTokeMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -490,18 +447,13 @@ Creator (76464cu)
 
 </details>
 
-**Alice's remainder:** `900000000000` → `0` — forfeited, never delivered
+### T3: Claim (day 38)
 
-<details>
-<summary>tree</summary>
+🚩 T3 failed: InstructionError(0, Custom(6025))
 
-```
+- [x] refused: ClaimWindowClosed — InstructionError(0, Custom(6025))
 
-Alice (18897cu)
-└─ Vesting::Claim ✗ 18897cu
-```
-
-</details>
+- [x] Alice's balance never moved across the clawback: her remainder was forfeited, not delivered
 
 ### Sequence
 
@@ -523,14 +475,14 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     AlicespositionNFT[("Alice's position NFT")]:::state
     7kmN[("7kmN…")]:::state
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting -->|writes| CampaignATAMint
-    Vesting -->|writes| AliceATAMint
+    Vesting -->|writes| campaignAtacampaignCollectionTokeMint
+    Vesting -->|writes| userAtaAliceTokeMint
     Vesting -->|writes| AlicespositionNFT
     Vesting -->|writes| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;
@@ -547,15 +499,15 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    CampaignATAMint[("Campaign/ATA(Mint)")]:::state
-    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     AlicespositionNFT[("Alice's position NFT")]:::state
     Vesting["Vesting"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| Alice
     CoRE -->|owns| Collection
-    token -->|owns| CampaignATAMint
-    token -->|owns| AliceATAMint
+    token -->|owns| campaignAtacampaignCollectionTokeMint
+    token -->|owns| userAtaAliceTokeMint
     CoRE -->|owns| AlicespositionNFT
     Vesting -->|owns| 7kmN
     classDef program fill:#dae8fc,stroke:#6c8ebf;

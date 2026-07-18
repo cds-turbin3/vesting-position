@@ -1,36 +1,15 @@
 # scenario_10_claim_before_start_fails
 
-**Source:** [`tests/claim.rs` L251](https://github.com/cds-turbin3/vesting-position/blob/d7284035bc429fc5d6367f7936c0e522cc6549d8/babelfish-tests/tests/claim.rs#L251)
+**Source:** [`tests/claim.rs` L251](https://github.com/cds-turbin3/vesting-position/blob/e74e9dd5f39b0343e73e0fc7f68b7aba8525b951/babelfish-tests/tests/claim.rs#L251)
 
-### Action: Initialize
+Over 0 days: 2 moments.
 
-| account | before | after |
+### T0: Initialize (day 0)
+
+| observation | before | after |
 | --- | --- | --- |
-| Creator | 10000000000000 | 0 |
-| Vault | 0 | 10000000000000 |
-
-<details>
-<summary>tree</summary>
-
-```
-
-Creator (85369cu)
-└─ VestingPositions::Initialize ✓ 85369cu
-   ├─ system::createAccount ✓
-   ├─ splAssociatedTokenAccount::create ✓ 13517cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
-   │  ├─ system::createAccount ✓
-   │  ├─ system::transferSol ✓
-   │  ├─ system::transferSol ✓
-   │  └─ system::transferSol ✓
-   └─ token::transferChecked ✓ 105cu
-```
-
-</details>
+| Vault balance | — | 10000000000000 |
+| Creator balance | — | 0 |
 
 ### Sequence
 
@@ -104,9 +83,9 @@ flowchart LR
     Creator(["Creator"]):::signer
     Collection(["Collection"]):::signer
     Mint[("Mint")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
-    2rbE(["2rbE…"]):::signer
-    BXgR(["BXgR…"]):::signer
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
+    campaignCollection(["campaign(Collection)"]):::signer
+    campaignAtacampaignCollectionTokeMint(["campaignAta(campaign(Collection), Toke…, Mint)"]):::signer
     system["system"]:::program
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
@@ -114,20 +93,20 @@ flowchart LR
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions -->|writes| Mint
-    VestingPositions -->|writes| CreatorATAMint
-    VestingPositions -->|writes| 2rbE
-    VestingPositions -->|writes| BXgR
+    VestingPositions -->|writes| creatorAtaCreatorTokeMint
+    VestingPositions -->|writes| campaignCollection
+    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
     Creator -->|signs| system
-    2rbE -->|signs| system
+    campaignCollection -->|signs| system
     Creator -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| BXgR
-    BXgR -->|signs| system
-    token -->|writes| BXgR
+    splAssociatedTokenAccount -->|writes| campaignAtacampaignCollectionTokeMint
+    campaignAtacampaignCollectionTokeMint -->|signs| system
+    token -->|writes| campaignAtacampaignCollectionTokeMint
     Collection -->|signs| CoRE
     Creator -->|signs| CoRE
     Collection -->|signs| system
     system -->|writes| Collection
-    token -->|writes| CreatorATAMint
+    token -->|writes| creatorAtaCreatorTokeMint
     Creator -->|signs| token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
@@ -144,16 +123,16 @@ flowchart LR
     Collection[("Collection")]:::state
     token["token"]:::program
     Mint[("Mint")]:::state
-    CreatorATAMint[("Creator/ATA(Mint)")]:::state
+    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
     VestingPositions["VestingPositions"]:::program
-    2rbE[("2rbE…")]:::state
-    BXgR[("BXgR…")]:::state
+    campaignCollection[("campaign(Collection)")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     system -->|owns| Creator
     CoRE -->|owns| Collection
     token -->|owns| Mint
-    token -->|owns| CreatorATAMint
-    VestingPositions -->|owns| 2rbE
-    token -->|owns| BXgR
+    token -->|owns| creatorAtaCreatorTokeMint
+    VestingPositions -->|owns| campaignCollection
+    token -->|owns| campaignAtacampaignCollectionTokeMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
@@ -182,28 +161,11 @@ Creator (85369cu)
 
 </details>
 
-### Action: Claim
+### T1: (instruction) (day 0)
 
-| account | before | after |
-| --- | --- | --- |
-| Alice | — | 0 |
+🚩 T1 failed: InstructionError(0, Custom(6026))
 
-<details>
-<summary>tree</summary>
-
-```
-
-4wQQ… (39240cu)
-└─ VestingPositions::Claim ✗ 39240cu
-   ├─ splAssociatedTokenAccount::create ✓ 13416cu
-   │  ├─ token::getAccountDataSize ✓ 183cu
-   │  ├─ system::createAccount ✓
-   │  ├─ token::initializeImmutableOwner ✓ 38cu
-   │  └─ token::initializeAccount3 ✓ 235cu
-   └─ system::createAccount ✓
-```
-
-</details>
+- [x] refused: CampaignNotStarted — InstructionError(0, Custom(6026))
 
 ### Sequence
 
@@ -252,7 +214,7 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    BXgR[("BXgR…")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     45PB(["45PB…"]):::signer
     4QVs[("4QVs…")]:::state
     7kmN(["7kmN…"]):::signer
@@ -261,7 +223,7 @@ flowchart LR
     system["system"]:::program
     4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions -->|writes| BXgR
+    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
     VestingPositions -->|writes| 45PB
     VestingPositions -->|writes| 4QVs
     VestingPositions -->|writes| 7kmN
@@ -285,14 +247,14 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    BXgR[("BXgR…")]:::state
+    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     45PB[("45PB…")]:::state
     4QVs[("4QVs…")]:::state
     VestingPositions["VestingPositions"]:::program
     7kmN[("7kmN…")]:::state
     system -->|owns| 4wQQ
     CoRE -->|owns| Collection
-    token -->|owns| BXgR
+    token -->|owns| campaignAtacampaignCollectionTokeMint
     token -->|owns| 45PB
     system -->|owns| 4QVs
     VestingPositions -->|owns| 7kmN
