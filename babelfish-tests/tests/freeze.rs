@@ -127,6 +127,12 @@ fn fully_claimed_loyalty_badge_is_permanently_frozen() {
 
     let (alice, asset) = mint_alice_position(&merkle, &mut world);
 
+    // The loyalty badge: once the full claim freezes the position, it must
+    // never come back unfrozen — a latch, registered while the asset is
+    // still transferable so its false -> true transition is on the record.
+    let frozen = world.observe_frozen(asset);
+    let badge_latches = world.story.latch(frozen);
+
     world.warp_past_end();
     world.subsequent_claim_ok(&alice.keypair, asset);
 
@@ -139,6 +145,12 @@ fn fully_claimed_loyalty_badge_is_permanently_frozen() {
     assert!(world.fetch_permanent_freeze_delegate(&asset).frozen);
 
     assert!(!world.transfer_changes_owner(&alice.keypair, &bob.keypair.pubkey(), &asset));
+
+    world
+        .story
+        .finally("the loyalty-badge freeze latch held", move |seen| {
+            seen.law_status(badge_latches).is_none()
+        });
 }
 
 /// Fully claimed position on non-transferable campaign has no asset freeze plugin.

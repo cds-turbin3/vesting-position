@@ -6,6 +6,7 @@
 //! `VestingWorld`'s `Reporter` derive captures every recorded transaction
 //! automatically; no inline rendering needed here.
 
+use frood_idl::types::Value;
 use vesting_babelfish_tests::common::{fund_keypair, load_whitelist_user, LAMPORTS, WHITELISTED_1};
 use vesting_babelfish_tests::merkle::default_merkle;
 use vesting_babelfish_tests::pda::PROGRAM_ID;
@@ -63,8 +64,8 @@ fn vested_tokens_are_forfeited_past_the_grace_window() {
     );
     world.story.transition(
         "Alice's remainder",
-        owed,
-        0u64,
+        Value::U64(owed),
+        Value::U64(0),
         "forfeited, never delivered",
     );
 

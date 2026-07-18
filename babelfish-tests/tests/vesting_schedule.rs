@@ -6,6 +6,7 @@
 //! frood's native report vocabulary, so here the checkpoint walk keeps only the
 //! behavioral assertions (cumulative == schedule math at each point).
 
+use frood_idl::types::Value;
 use vesting_babelfish_tests::common::{fund_keypair, load_whitelist_user, LAMPORTS, WHITELISTED_1};
 use vesting_babelfish_tests::merkle::{default_merkle, MerkleTree};
 use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
@@ -86,8 +87,8 @@ fn mid_schedule_cliff_plus_linear() {
     assert_eq!(after, world.expected_claimable(mid, alice.allocation, 0));
     world.story.transition(
         "Alice's balance",
-        before,
-        after,
+        Value::U64(before),
+        Value::U64(after),
         "mid-schedule claim: cliff slice + half the linear remainder",
     );
 }
@@ -183,6 +184,20 @@ fn claims_at_linear_checkpoints() {
 
     fund_keypair(&mut world, &alice.keypair, LAMPORTS);
     let asset = world.asset_for(&alice.keypair.pubkey());
+
+    // Show vesting happening with no transaction: the schedule ceiling is a
+    // pure function of the clock, so sampling it across a plain warp (no
+    // claim in between) proves the report can show the schedule moving on
+    // its own, not only at claim time.
+    let claimable = world.observe_claimable("Alice claimable (schedule ceiling)", alice.allocation);
+    world.story.sample(claimable); // before the cliff: nothing vested yet
+    world.warp_to(world.cliff_end());
+    world.story.sample(claimable); // the cliff unlocked — no transaction ran
+
+    // "Claimed only ever grows": Alice's ATA balance is exactly what she has
+    // claimed, so its own observation held `monotonic` is the law.
+    let alice_balance = world.observe_balance(&alice.keypair);
+    world.story.monotonic(alice_balance);
 
     for (i, &pct) in LINEAR_CHECKPOINTS.iter().enumerate() {
         let now = world.linear_checkpoint(pct);

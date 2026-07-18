@@ -10,13 +10,14 @@
 //! proofs, never having been whitelisted) is captured automatically by
 //! `VestingWorld`'s `Reporter` derive; no inline rendering needed here.
 
+use frood_idl::types::Value;
 use vesting_babelfish_tests::common::{
     fund_keypair, load_keypair, load_whitelist_user, LAMPORTS, NOT_WHITELISTED, WHITELISTED_1,
     WHITELISTED_2,
 };
 use vesting_babelfish_tests::merkle::{default_merkle, TOTAL_DEPOSIT};
 use vesting_babelfish_tests::pda::PROGRAM_ID;
-use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
+use vesting_babelfish_tests::world::{Action, CampaignConfig, VestingWorld};
 
 // Report: ../test-report/full_lifecycle.md
 #[test]
@@ -41,6 +42,33 @@ fn full_lifecycle() {
     world
         .story
         .given("a live campaign; Alice and Charlie whitelisted, Bob not");
+
+    // Conservation across the whole arc: whatever isn't in the vault must be
+    // in someone's ATA. No clawback/close runs in this story, so the total
+    // deposit is a fixed pie; a pointwise `law` reads live balances at every
+    // moment (not the sampled `Obs` timeline — a plain `law`'s predicate
+    // reads "now", the trajectory as of the PREVIOUS moment, since the
+    // moment being evaluated hasn't been pushed yet; see `Story::law`'s
+    // doc).
+    let vault_obs = world.vault_obs();
+    let mint = world.mint;
+    let campaign_address = world.campaign_address();
+    let conserved_actors = vec![
+        creator,
+        alice.keypair.pubkey(),
+        charlie.keypair.pubkey(),
+        bob.pubkey(),
+    ];
+    world
+        .story
+        .law("claimed + vault conserves the total deposit", move |s| {
+            let vault = s.token_balance(&s.ata(&campaign_address, &mint));
+            let claimed: u64 = conserved_actors
+                .iter()
+                .map(|pk| s.token_balance(&s.ata(pk, &mint)))
+                .sum();
+            vault + claimed == TOTAL_DEPOSIT
+        });
 
     // --- Campaign initialized: the on-chain state matches the config -----------
     let campaign = world.campaign();
@@ -91,6 +119,13 @@ fn full_lifecycle() {
         "alice position nft owner is alice"
     );
     world.assert_receipt_claimer(&alice.keypair.pubkey());
+
+    // "The receipt stays bound to its claimer": Alice's receipt now exists
+    // (the first claim creates it), so its `claimer` field can be observed
+    // and held `constant` across the rest of the story — including the
+    // replayed-proofs attempt below, which must NOT rebind it.
+    let alice_receipt_claimer = world.observe_receipt_claimer(alice.keypair.pubkey());
+    let receipt_binding = world.story.constant(alice_receipt_claimer);
 
     // --- Alice claims for elapsed time (50% of claim window) --------------------
     let mid = world.linear_checkpoint(50);
@@ -259,4 +294,20 @@ fn full_lifecycle() {
         bob.pubkey(),
         "Alice's original position owner is bob"
     );
+
+    // --- Close with finally: terminal facts over the completed story -----------
+    let claim_label = Action::Claim.label();
+    world.story.finally(
+        "six Claim-labeled transactions settled (subsequent claims, success or refusal)",
+        move |seen| seen.count_actions(claim_label) == 6,
+    );
+    world.story.finally(
+        "the campaign vault still holds an unclaimed remainder (no clawback ran)",
+        move |seen| matches!(seen.last(vault_obs), Some(Value::U64(n)) if *n > 0),
+    );
+    world
+        .story
+        .finally("the receipt-claimer binding never broke", move |seen| {
+            seen.law_status(receipt_binding).is_none()
+        });
 }
