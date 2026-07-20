@@ -6,7 +6,7 @@
 use vesting_babelfish_tests::common::{fund_keypair, load_whitelist_user, LAMPORTS, WHITELISTED_1};
 use vesting_babelfish_tests::merkle::default_merkle;
 use vesting_babelfish_tests::world::{
-    log_tx_cu, CampaignConfig, VestingWorld, DEFAULT_TX_CU, FIRST_CLAIM_CU,
+    log_tx_cu, Action, CampaignConfig, VestingWorld, DEFAULT_TX_CU, FIRST_CLAIM_CU,
 };
 
 // Report: ../test-report/compute_units_profile.md
@@ -35,7 +35,7 @@ fn compute_units_profile() {
     );
     let first_mint = world
         .story
-        .run_instruction(mint_ix, &[&alice.keypair])
+        .run_instruction_as(Action::FirstClaim.label(), mint_ix, &[&alice.keypair])
         .expect_success();
     log_tx_cu(
         "first_claim (mint only)",
@@ -48,7 +48,7 @@ fn compute_units_profile() {
     let sub_ix = world.claim_ix(&alice.keypair.pubkey(), asset, None, None);
     let sub = world
         .story
-        .run_instruction(sub_ix, &[&alice.keypair])
+        .run_instruction_as(Action::Claim.label(), sub_ix, &[&alice.keypair])
         .expect_success();
     log_tx_cu(
         "subsequent_claim",

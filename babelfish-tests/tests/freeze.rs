@@ -6,7 +6,7 @@ use vesting_babelfish_tests::common::{
     fund_keypair, load_whitelist_user, WhitelistUser, LAMPORTS, WHITELISTED_1, WHITELISTED_2,
 };
 use vesting_babelfish_tests::merkle::{default_merkle, MerkleTree};
-use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
+use vesting_babelfish_tests::world::{Action, CampaignConfig, VestingWorld};
 
 #[track_caller]
 fn setup(config: CampaignConfig) -> (MerkleTree, VestingWorld) {
@@ -251,7 +251,11 @@ fn exclude_asset_burns_position() {
 
     let transfer_ix =
         world.transfer_asset_ix(&alice.keypair.pubkey(), &bob.keypair.pubkey(), &asset);
-    let out = world.story.run_instruction(transfer_ix, &[&alice.keypair]);
+    let out = world.story.run_instruction_as(
+        Action::TransferPosition.label(),
+        transfer_ix,
+        &[&alice.keypair],
+    );
     assert!(!out.success, "transfer of a burned asset must fail");
     world.after_tx();
 

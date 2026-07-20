@@ -166,7 +166,11 @@ fn full_lifecycle() {
         world.transfer_asset_ix(&alice.keypair.pubkey(), &bob.pubkey(), &alice_position);
     world
         .story
-        .run_instruction(transfer_ix, &[&alice.keypair])
+        .run_instruction_as(
+            Action::TransferPosition.label(),
+            transfer_ix,
+            &[&alice.keypair],
+        )
         .expect_success();
     world.after_tx();
     assert_ne!(owner_before_transfer, bob.pubkey());
@@ -247,7 +251,11 @@ fn full_lifecycle() {
     );
     world
         .story
-        .run_instruction(charlie_to_alice_ix, &[&charlie.keypair])
+        .run_instruction_as(
+            Action::TransferPosition.label(),
+            charlie_to_alice_ix,
+            &[&charlie.keypair],
+        )
         .expect_success();
     world.after_tx();
     assert_ne!(charlie_owner_before, alice.keypair.pubkey());

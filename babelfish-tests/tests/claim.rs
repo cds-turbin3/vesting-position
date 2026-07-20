@@ -18,7 +18,7 @@ use vesting_babelfish_tests::common::{
 use vesting_babelfish_tests::merkle::{
     default_merkle, leaf_hash, random_proofs, verify, MerkleTree,
 };
-use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
+use vesting_babelfish_tests::world::{Action, CampaignConfig, VestingWorld};
 
 /// Default merkle fixture + an initialized campaign.
 #[track_caller]
@@ -76,7 +76,11 @@ fn scenario_2_two_users_transfer_and_bob_claims_both() {
         world.transfer_asset_ix(&alice.keypair.pubkey(), &bob.keypair.pubkey(), &asset_alice);
     world
         .story
-        .run_instruction(transfer_ix, &[&alice.keypair])
+        .run_instruction_as(
+            Action::TransferPosition.label(),
+            transfer_ix,
+            &[&alice.keypair],
+        )
         .expect_success();
     world.after_tx();
 
@@ -103,7 +107,11 @@ fn scenario_3_buyback_alice_claims_again() {
         world.transfer_asset_ix(&alice.keypair.pubkey(), &bob.keypair.pubkey(), &asset);
     world
         .story
-        .run_instruction(alice_to_bob, &[&alice.keypair])
+        .run_instruction_as(
+            Action::TransferPosition.label(),
+            alice_to_bob,
+            &[&alice.keypair],
+        )
         .expect_success();
     world.after_tx();
     world.subsequent_claim_ok(&bob.keypair, asset);
@@ -112,7 +120,11 @@ fn scenario_3_buyback_alice_claims_again() {
         world.transfer_asset_ix(&bob.keypair.pubkey(), &alice.keypair.pubkey(), &asset);
     world
         .story
-        .run_instruction(bob_to_alice, &[&bob.keypair])
+        .run_instruction_as(
+            Action::TransferPosition.label(),
+            bob_to_alice,
+            &[&bob.keypair],
+        )
         .expect_success();
     world.after_tx();
     world.subsequent_claim_ok(&alice.keypair, asset);

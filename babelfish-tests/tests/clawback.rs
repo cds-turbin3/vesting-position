@@ -5,7 +5,7 @@ use vesting_babelfish_tests::common::{
     fund_keypair, load_whitelist_user, WhitelistUser, LAMPORTS, WHITELISTED_1, WHITELISTED_2,
 };
 use vesting_babelfish_tests::merkle::{default_merkle, random_proofs, MerkleTree};
-use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
+use vesting_babelfish_tests::world::{Action, CampaignConfig, VestingWorld};
 
 #[track_caller]
 fn setup() -> (MerkleTree, VestingWorld) {
@@ -174,7 +174,11 @@ fn clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt() {
         world.transfer_asset_ix(&alice.keypair.pubkey(), &bob.keypair.pubkey(), &asset);
     world
         .story
-        .run_instruction(transfer_ix, &[&alice.keypair])
+        .run_instruction_as(
+            Action::TransferPosition.label(),
+            transfer_ix,
+            &[&alice.keypair],
+        )
         .expect_success();
     world.after_tx();
 
