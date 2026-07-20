@@ -10,30 +10,33 @@
 //!
 //! The world no longer builds report `Block`s itself: `Story` mints a
 //! `Moment` per transaction and samples every registered `observe`ation into
-//! it, so `step` (below) shrinks to registering the actors an action
-//! touched. Rendering is `Story::project`'s job, run once at `Drop` — see
-//! `VestingWorld::drop`.
+//! it, so all a send leaves behind is housekeeping (expire the blockhash,
+//! register the signer's balance observation). The four private send helpers
+//! (`creator_send_ok` and friends, below) own that tail, and every verb is a
+//! builder plus one helper call. Rendering is `Story::project`'s job, run
+//! once at `Drop` — see `VestingWorld::drop`.
 
 use std::collections::HashMap;
 
 use frood::{Actor, IntoBundle, Obs, Outcome, ReportState, Reporter, Story};
 use frood_idl::types::Value;
+use frood_idl::FromValue;
+use solana_account::Account;
 use solana_account_info::AccountInfo;
 use solana_instruction::Instruction;
-use solana_keypair::Keypair;
 use solana_pubkey::Pubkey;
 
 use mpl_core::accounts::{BaseAssetV1, BaseCollectionV1};
-use mpl_core::fetch_plugin;
 use mpl_core::instructions::TransferV1Builder;
 use mpl_core::types::{PermanentFreezeDelegate, PluginType};
+use mpl_core::{fetch_plugin, DataBlob, SolanaAccount};
 
 use crate::merkle::{MerkleTree, TOTAL_DEPOSIT};
 use crate::pda::{asset_pda, campaign_pda, collection_pda, receipt_pda};
 use crate::vesting_gen::{
     cancel_campaign, claim, clawback, clawback_unclaimed, close_campaign, close_receipt,
-    exclude_asset, freeze_asset, freeze_collection, initialize, ClaimArgs, ClawbackUnclaimedArgs,
-    InitializeArgs,
+    exclude_asset, freeze_asset, freeze_collection, initialize, Claim, ClaimArgs,
+    ClawbackUnclaimedArgs, InitializeArgs,
 };
 
 const SO: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/fixtures/vesting_positions.so");
@@ -115,14 +118,31 @@ fn set_cu_limit_ix(limit: u32) -> Instruction {
     }
 }
 
-/// Clone an `Actor` (its keypair is not `Clone`) via a byte round-trip, so a
-/// world method can sign as its own stored creator without borrowing `self`
-/// while also mutating the SVM.
-fn clone_actor(a: &Actor) -> Actor {
-    Actor {
-        keypair: Keypair::try_from(&a.keypair.to_bytes()[..]).expect("clone actor keypair"),
-        label: a.label.clone(),
-    }
+/// Read `address`'s `PermanentFreezeDelegate` plugin out of a fetched
+/// account, if it carries one. `B` picks the mpl-core base the plugin
+/// registry hangs off: `BaseAssetV1` for an asset, `BaseCollectionV1` for
+/// the collection. `fetch_plugin` wants an `AccountInfo`, so the account's
+/// fields are rebuilt into one on the stack — the one place that ritual
+/// still lives.
+fn permanent_freeze<B: DataBlob + SolanaAccount>(
+    address: &Pubkey,
+    account: Account,
+) -> Option<PermanentFreezeDelegate> {
+    let mut lamports = account.lamports;
+    let mut data = account.data;
+    let owner = account.owner;
+    let info = AccountInfo::new(
+        address,
+        false,
+        false,
+        &mut lamports,
+        &mut data,
+        &owner,
+        false,
+    );
+    fetch_plugin::<B, PermanentFreezeDelegate>(&info, PluginType::PermanentFreezeDelegate)
+        .ok()
+        .map(|(_, delegate, _)| delegate)
 }
 
 /// Every claim carries the same throwaway NFT metadata; the schedule math and
@@ -167,7 +187,10 @@ impl Default for CampaignConfig {
 
 /// The on-chain `Campaign`, decoded from frood's dynamic `Value` into the
 /// scalars the tests read. A projection, not the full account: the schedule
-/// math and the `is_transferable` flag are all the suites need.
+/// math and the `is_transferable` flag are all the suites need. The derive
+/// reads each field under its camelCase IDL spelling (`merkle_root` reads
+/// `merkleRoot`).
+#[derive(FromValue)]
 pub struct CampaignView {
     pub creator: Pubkey,
     pub merkle_root: Vec<u8>,
@@ -179,78 +202,6 @@ pub struct CampaignView {
     pub total_deposit: u64,
     pub collection: Pubkey,
     pub is_transferable: bool,
-}
-
-impl CampaignView {
-    fn from_value(v: &Value) -> Self {
-        let fields = match v {
-            Value::Struct(f) => f,
-            other => panic!("campaign: expected Struct, got {other:?}"),
-        };
-        let get = |name: &str| -> &Value {
-            fields
-                .iter()
-                .find(|(n, _)| n == name)
-                .map(|(_, val)| val)
-                .unwrap_or_else(|| panic!("campaign field `{name}` missing"))
-        };
-        CampaignView {
-            creator: as_pubkey(get("creator")),
-            merkle_root: as_bytes(get("merkleRoot")),
-            start: as_i64(get("start")),
-            end: as_i64(get("end")),
-            cliff_duration: as_u64(get("cliffDuration")),
-            cliff_release_bps: as_u16(get("cliffReleaseBps")),
-            grace_period: as_u64(get("gracePeriod")),
-            total_deposit: as_u64(get("totalDeposit")),
-            collection: as_pubkey(get("collection")),
-            is_transferable: as_bool(get("isTransferable")),
-        }
-    }
-}
-
-fn as_i64(v: &Value) -> i64 {
-    match v {
-        Value::I64(n) => *n,
-        other => panic!("expected i64, got {other:?}"),
-    }
-}
-fn as_u64(v: &Value) -> u64 {
-    match v {
-        Value::U64(n) => *n,
-        other => panic!("expected u64, got {other:?}"),
-    }
-}
-fn as_u16(v: &Value) -> u16 {
-    match v {
-        Value::U16(n) => *n,
-        other => panic!("expected u16, got {other:?}"),
-    }
-}
-fn as_bool(v: &Value) -> bool {
-    match v {
-        Value::Bool(b) => *b,
-        other => panic!("expected bool, got {other:?}"),
-    }
-}
-fn as_pubkey(v: &Value) -> Pubkey {
-    match v {
-        Value::Pubkey(b) => Pubkey::new_from_array(*b),
-        other => panic!("expected pubkey, got {other:?}"),
-    }
-}
-fn as_bytes(v: &Value) -> Vec<u8> {
-    match v {
-        Value::Bytes(b) => b.clone(),
-        Value::Seq(items) => items
-            .iter()
-            .map(|x| match x {
-                Value::U8(n) => *n,
-                other => panic!("expected byte, got {other:?}"),
-            })
-            .collect(),
-        other => panic!("expected bytes, got {other:?}"),
-    }
 }
 
 #[derive(Reporter)]
@@ -269,7 +220,7 @@ pub struct VestingWorld {
     /// vault: the pair a conservation law (`claimed + vault == deposit`)
     /// reads.
     creator_obs: Obs,
-    /// Every actor's ATA balance `step` has registered so far, keyed by
+    /// Every actor's ATA balance a send has registered so far, keyed by
     /// pubkey so a repeat actor (the same claimer across several calls)
     /// reuses its handle instead of re-registering — replaces the old
     /// `StateRoster`: the trajectory samples every registered observation at
@@ -371,19 +322,12 @@ impl VestingWorld {
     /// Run the `initialize` instruction, returning its outcome so callers that
     /// profile compute can read the consumed units. Blockhash is expired after.
     pub fn run_initialize(&mut self, merkle: &MerkleTree) -> Outcome {
-        let creator = clone_actor(&self.creator);
         let builder = initialize()
-            .creator(creator.pubkey())
+            .creator(self.creator.pubkey())
             .mint(self.mint)
             .collection(self.collection)
             .args(self.initialize_args(merkle.root));
-        let out = self
-            .story
-            .when(Action::Initialize.label(), builder, &[&creator]);
-        assert!(out.success, "initialize failed:\n{}", out.logs.join("\n"));
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+        self.creator_send_ok(Action::Initialize, builder)
     }
 
     fn initialize_args(&self, merkle_root: [u8; 32]) -> InitializeArgs {
@@ -402,6 +346,65 @@ impl VestingWorld {
         }
     }
 
+    // --- the send helpers: every verb is a builder plus one of these ------------
+
+    /// Run a creator-signed action and assert it succeeded: `Story::when_ok`
+    /// plus the housekeeping every send shares (expire the blockhash, keep
+    /// the creator's balance observed).
+    #[track_caller]
+    fn creator_send_ok(&mut self, action: Action, builder: impl IntoBundle) -> Outcome {
+        let out = self
+            .story
+            .when_ok(action.label(), builder, &[&self.creator]);
+        self.creator_housekeeping();
+        out
+    }
+
+    /// Run a creator-signed action and assert it was refused with `error`.
+    #[track_caller]
+    fn creator_send_err(
+        &mut self,
+        action: Action,
+        builder: impl IntoBundle,
+        error: &str,
+    ) -> Outcome {
+        let out = self
+            .story
+            .when_err(action.label(), builder, &[&self.creator], error);
+        self.creator_housekeeping();
+        out
+    }
+
+    /// Run a `user`-signed action and assert it succeeded.
+    #[track_caller]
+    fn send_ok(&mut self, action: Action, builder: impl IntoBundle, user: &Actor) -> Outcome {
+        let out = self.story.when_ok(action.label(), builder, &[user]);
+        self.after_tx();
+        self.observe_balance(user);
+        out
+    }
+
+    /// Run a `user`-signed action and assert it was refused with `error`.
+    #[track_caller]
+    fn send_err(
+        &mut self,
+        action: Action,
+        builder: impl IntoBundle,
+        user: &Actor,
+        error: &str,
+    ) -> Outcome {
+        let out = self.story.when_err(action.label(), builder, &[user], error);
+        self.after_tx();
+        self.observe_balance(user);
+        out
+    }
+
+    fn creator_housekeeping(&mut self) {
+        self.after_tx();
+        let (pk, label) = (self.creator.pubkey(), self.creator.label.clone());
+        self.observe_balance_at(pk, &label);
+    }
+
     // --- schedule bounds --------------------------------------------------------
 
     pub fn campaign_address(&self) -> Pubkey {
@@ -411,7 +414,7 @@ impl VestingWorld {
     /// The on-chain Campaign account, decoded.
     pub fn campaign(&self) -> CampaignView {
         let val = self.story.account_as("campaign", &self.campaign_address());
-        CampaignView::from_value(&val)
+        CampaignView::from_value(&val).expect("campaign decodes as CampaignView")
     }
 
     pub fn start(&self) -> i64 {
@@ -496,14 +499,10 @@ impl VestingWorld {
         let val = self
             .story
             .account_as("claimReceipt", &self.receipt_address(user));
-        match &val {
-            Value::Struct(f) => f
-                .iter()
-                .find(|(n, _)| n == "claimer")
-                .map(|(_, v)| as_pubkey(v))
-                .expect("claimReceipt.claimer missing"),
-            other => panic!("claimReceipt: expected Struct, got {other:?}"),
-        }
+        let claimer = val
+            .at("claimer")
+            .unwrap_or_else(|e| panic!("claimReceipt: {e}"));
+        Pubkey::from_value(claimer).expect("claimReceipt.claimer is a pubkey")
     }
 
     pub fn assert_receipt_claimer(&self, user: &Pubkey) {
@@ -524,13 +523,16 @@ impl VestingWorld {
     }
 
     /// Register (idempotently) an observation of `actor`'s token balance —
-    /// what `step` uses to watch a touched actor, and what a test hands
-    /// straight to `Story::monotonic`/`constant`/`finally` ("claimed only
-    /// ever grows" is exactly this observation's timeline). Reuses the
+    /// what the send helpers use to watch a touched actor, and what a test
+    /// hands straight to `Story::monotonic`/`constant`/`finally` ("claimed
+    /// only ever grows" is exactly this observation's timeline). Reuses the
     /// SAME `Obs` across repeat calls for the same pubkey rather than
     /// re-registering, since a law/finally handle must stay stable.
     pub fn observe_balance(&mut self, actor: &Actor) -> Obs {
-        let pk = actor.pubkey();
+        self.observe_balance_at(actor.pubkey(), &actor.label)
+    }
+
+    fn observe_balance_at(&mut self, pk: Pubkey, fallback_label: &str) -> Obs {
         if let Some(obs) = self.balance_obs.get(&pk) {
             return *obs;
         }
@@ -544,7 +546,7 @@ impl VestingWorld {
             .aliases
             .get(&pk)
             .cloned()
-            .unwrap_or_else(|| actor.label.clone());
+            .unwrap_or_else(|| fallback_label.to_string());
         let ata = self.story.ata(&pk, &self.mint);
         let obs = self.story.observe(&format!("{label} balance"), move |s| {
             Value::U64(s.token_balance(&ata))
@@ -566,7 +568,8 @@ impl VestingWorld {
         let campaign_address = self.campaign_address();
         self.story.observe(label, move |s| {
             let val = s.account_as("campaign", &campaign_address);
-            let campaign = CampaignView::from_value(&val);
+            let campaign =
+                CampaignView::from_value(&val).expect("campaign decodes as CampaignView");
             let claimable =
                 crate::vesting::compute_claimable(&campaign, s.now(), allocation, 0).unwrap_or(0);
             Value::U64(claimable)
@@ -581,26 +584,8 @@ impl VestingWorld {
             let frozen = s
                 .svm
                 .get_account(&asset)
-                .and_then(|account| {
-                    let mut lamports = account.lamports;
-                    let mut data = account.data;
-                    let owner = account.owner;
-                    let info = AccountInfo::new(
-                        &asset,
-                        false,
-                        false,
-                        &mut lamports,
-                        &mut data,
-                        &owner,
-                        false,
-                    );
-                    fetch_plugin::<BaseAssetV1, PermanentFreezeDelegate>(
-                        &info,
-                        PluginType::PermanentFreezeDelegate,
-                    )
-                    .ok()
-                })
-                .map(|(_, delegate, _)| delegate.frozen)
+                .and_then(|account| permanent_freeze::<BaseAssetV1>(&asset, account))
+                .map(|delegate| delegate.frozen)
                 .unwrap_or(false);
             Value::Bool(frozen)
         })
@@ -615,23 +600,32 @@ impl VestingWorld {
         let receipt = self.receipt_address(&user);
         self.story.observe("receipt claimer", move |s| {
             let val = s.account_as("claimReceipt", &receipt);
-            let claimer = match &val {
-                Value::Struct(f) => f
-                    .iter()
-                    .find(|(n, _)| n == "claimer")
-                    .map(|(_, v)| as_pubkey(v))
-                    .expect("claimReceipt.claimer missing"),
-                other => panic!("claimReceipt: expected Struct, got {other:?}"),
-            };
-            Value::Pubkey(claimer.to_bytes())
+            val.at("claimer")
+                .unwrap_or_else(|e| panic!("claimReceipt: {e}"))
+                .clone()
         })
     }
 
     // --- claim ------------------------------------------------------------------
 
-    /// Build a raw `claim` instruction. `asset` is the NFT the claim targets;
-    /// the receipt is always the signer's own PDA. The resolver fills the
-    /// campaign, ATAs, update-authority, and programs from the IDL seeds.
+    /// The typed `claim` builder for `user` on `asset`. `asset` is the NFT
+    /// the claim targets; the receipt is always the signer's own PDA. The
+    /// resolver fills the campaign, ATAs, update-authority, and programs
+    /// from the IDL seeds. Returns the concrete generated type because
+    /// `claim_ix` lowers it through `ix_typed` (a `TypedIx`) while the send
+    /// helpers take it as an `IntoBundle`; it is both.
+    fn claim_builder(&self, user: Pubkey, asset: Pubkey, args: ClaimArgs) -> Claim {
+        claim()
+            .user(user)
+            .collection(self.collection)
+            .mint(self.mint)
+            .asset(asset)
+            .claim_receipt(receipt_pda(&self.campaign_address(), &user).0)
+            .args(args)
+    }
+
+    /// Build a raw `claim` instruction, for the ComputeBudget-prefixed
+    /// bundles `first_claim_ok`/`first_claim_err` assemble by hand.
     pub fn claim_ix(
         &self,
         user: &Pubkey,
@@ -639,13 +633,7 @@ impl VestingWorld {
         proofs: Option<Vec<[u8; 33]>>,
         allocation: Option<u64>,
     ) -> Instruction {
-        let builder = claim()
-            .user(*user)
-            .collection(self.collection)
-            .mint(self.mint)
-            .asset(asset)
-            .claim_receipt(receipt_pda(&self.campaign_address(), user).0)
-            .args(claim_args(proofs, allocation));
+        let builder = self.claim_builder(*user, asset, claim_args(proofs, allocation));
         self.story.ix_typed(builder).instruction().clone()
     }
 
@@ -669,10 +657,10 @@ impl VestingWorld {
         let budget_ix = set_cu_limit_ix(FIRST_CLAIM_CU);
         let out = self
             .story
-            .run_instructions(vec![budget_ix, claim_ix], &[user]);
-        assert!(out.success, "first claim failed:\n{}", out.logs.join("\n"));
+            .run_instructions(vec![budget_ix, claim_ix], &[user])
+            .expect_success();
         self.after_tx();
-        self.step(&[user]);
+        self.observe_balance(user);
         out
     }
 
@@ -690,94 +678,48 @@ impl VestingWorld {
         let out = self.story.run_instruction(claim_ix, &[user]);
         self.story.then_err(&out, error);
         self.after_tx();
-        self.step(&[user]);
+        self.observe_balance(user);
         out
     }
 
     /// A subsequent claim on an already-minted `asset` (no proofs).
     pub fn subsequent_claim_ok(&mut self, user: &Actor, asset: Pubkey) -> Outcome {
-        let builder = claim()
-            .user(user.pubkey())
-            .collection(self.collection)
-            .mint(self.mint)
-            .asset(asset)
-            .claim_receipt(receipt_pda(&self.campaign_address(), &user.pubkey()).0)
-            .args(claim_args(None, None));
-        let out = self.story.when(Action::Claim.label(), builder, &[user]);
-        assert!(
-            out.success,
-            "subsequent claim failed:\n{}",
-            out.logs.join("\n")
-        );
-        self.after_tx();
-        self.step(&[user]);
-        out
+        let builder = self.claim_builder(user.pubkey(), asset, claim_args(None, None));
+        self.send_ok(Action::Claim, builder, user)
     }
 
     /// A subsequent claim on `asset` expected to fail with `error`.
     pub fn subsequent_claim_err(&mut self, user: &Actor, asset: Pubkey, error: &str) -> Outcome {
-        let builder = claim()
-            .user(user.pubkey())
-            .collection(self.collection)
-            .mint(self.mint)
-            .asset(asset)
-            .claim_receipt(receipt_pda(&self.campaign_address(), &user.pubkey()).0)
-            .args(claim_args(None, None));
-        let out = self.story.when(Action::Claim.label(), builder, &[user]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[user]);
-        out
+        let builder = self.claim_builder(user.pubkey(), asset, claim_args(None, None));
+        self.send_err(Action::Claim, builder, user, error)
     }
 
     // --- clawback ---------------------------------------------------------------
 
-    pub fn clawback(&mut self, asset: Pubkey) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = clawback()
-            .creator(creator.pubkey())
+    /// `creator` fills the builder's creator field so the impostor variant
+    /// (`clawback_by`) shares it; the honest paths pass the world's own.
+    fn clawback_builder(&self, creator: Pubkey, asset: Pubkey) -> impl IntoBundle {
+        clawback()
+            .creator(creator)
             .collection(self.collection)
             .mint(self.mint)
-            .asset(asset);
-        let out = self
-            .story
-            .when(Action::Clawback.label(), builder, &[&creator]);
-        assert!(out.success, "clawback failed:\n{}", out.logs.join("\n"));
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+            .asset(asset)
+    }
+
+    pub fn clawback(&mut self, asset: Pubkey) -> Outcome {
+        let builder = self.clawback_builder(self.creator.pubkey(), asset);
+        self.creator_send_ok(Action::Clawback, builder)
     }
 
     pub fn clawback_err(&mut self, asset: Pubkey, error: &str) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = clawback()
-            .creator(creator.pubkey())
-            .collection(self.collection)
-            .mint(self.mint)
-            .asset(asset);
-        let out = self
-            .story
-            .when(Action::Clawback.label(), builder, &[&creator]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+        let builder = self.clawback_builder(self.creator.pubkey(), asset);
+        self.creator_send_err(Action::Clawback, builder, error)
     }
 
     /// A clawback signed by `impostor` (whose key also fills the creator field).
     pub fn clawback_by(&mut self, impostor: &Actor, asset: Pubkey, error: &str) -> Outcome {
-        let builder = clawback()
-            .creator(impostor.pubkey())
-            .collection(self.collection)
-            .mint(self.mint)
-            .asset(asset);
-        let out = self
-            .story
-            .when(Action::Clawback.label(), builder, &[impostor]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[impostor]);
-        out
+        let builder = self.clawback_builder(impostor.pubkey(), asset);
+        self.send_err(Action::Clawback, builder, impostor, error)
     }
 
     fn clawback_unclaimed_builder(
@@ -807,20 +749,9 @@ impl VestingWorld {
         allocation: u64,
         proofs: Vec<[u8; 33]>,
     ) -> Outcome {
-        let creator = clone_actor(&self.creator);
         let builder =
-            self.clawback_unclaimed_builder(creator.pubkey(), recipient, allocation, proofs);
-        let out = self
-            .story
-            .when(Action::ClawbackUnclaimed.label(), builder, &[&creator]);
-        assert!(
-            out.success,
-            "clawback_unclaimed failed:\n{}",
-            out.logs.join("\n")
-        );
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+            self.clawback_unclaimed_builder(self.creator.pubkey(), recipient, allocation, proofs);
+        self.creator_send_ok(Action::ClawbackUnclaimed, builder)
     }
 
     pub fn clawback_unclaimed_err(
@@ -830,170 +761,93 @@ impl VestingWorld {
         proofs: Vec<[u8; 33]>,
         error: &str,
     ) -> Outcome {
-        let creator = clone_actor(&self.creator);
         let builder =
-            self.clawback_unclaimed_builder(creator.pubkey(), recipient, allocation, proofs);
-        let out = self
-            .story
-            .when(Action::ClawbackUnclaimed.label(), builder, &[&creator]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+            self.clawback_unclaimed_builder(self.creator.pubkey(), recipient, allocation, proofs);
+        self.creator_send_err(Action::ClawbackUnclaimed, builder, error)
     }
 
     // --- campaign lifecycle -----------------------------------------------------
 
-    pub fn close_campaign_ok(&mut self) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = close_campaign()
-            .creator(creator.pubkey())
+    fn close_campaign_builder(&self, creator: Pubkey) -> impl IntoBundle {
+        close_campaign()
+            .creator(creator)
             .collection(self.collection)
-            .mint(self.mint);
-        let out = self
-            .story
-            .when(Action::CloseCampaign.label(), builder, &[&creator]);
-        assert!(
-            out.success,
-            "close_campaign failed:\n{}",
-            out.logs.join("\n")
-        );
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+            .mint(self.mint)
+    }
+
+    pub fn close_campaign_ok(&mut self) -> Outcome {
+        let builder = self.close_campaign_builder(self.creator.pubkey());
+        self.creator_send_ok(Action::CloseCampaign, builder)
     }
 
     pub fn close_campaign_err(&mut self, error: &str) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = close_campaign()
-            .creator(creator.pubkey())
+        let builder = self.close_campaign_builder(self.creator.pubkey());
+        self.creator_send_err(Action::CloseCampaign, builder, error)
+    }
+
+    fn cancel_campaign_builder(&self, creator: Pubkey) -> impl IntoBundle {
+        cancel_campaign()
+            .creator(creator)
             .collection(self.collection)
-            .mint(self.mint);
-        let out = self
-            .story
-            .when(Action::CloseCampaign.label(), builder, &[&creator]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+            .mint(self.mint)
     }
 
     pub fn cancel_campaign_ok(&mut self) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = cancel_campaign()
-            .creator(creator.pubkey())
-            .collection(self.collection)
-            .mint(self.mint);
-        let out = self
-            .story
-            .when(Action::CancelCampaign.label(), builder, &[&creator]);
-        assert!(
-            out.success,
-            "cancel_campaign failed:\n{}",
-            out.logs.join("\n")
-        );
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+        let builder = self.cancel_campaign_builder(self.creator.pubkey());
+        self.creator_send_ok(Action::CancelCampaign, builder)
     }
 
     pub fn cancel_campaign_err(&mut self, error: &str) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = cancel_campaign()
-            .creator(creator.pubkey())
-            .collection(self.collection)
-            .mint(self.mint);
-        let out = self
-            .story
-            .when(Action::CancelCampaign.label(), builder, &[&creator]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+        let builder = self.cancel_campaign_builder(self.creator.pubkey());
+        self.creator_send_err(Action::CancelCampaign, builder, error)
     }
 
     pub fn cancel_campaign_by(&mut self, impostor: &Actor, error: &str) -> Outcome {
-        let builder = cancel_campaign()
-            .creator(impostor.pubkey())
+        let builder = self.cancel_campaign_builder(impostor.pubkey());
+        self.send_err(Action::CancelCampaign, builder, impostor, error)
+    }
+
+    fn exclude_asset_builder(&self, asset: Pubkey) -> impl IntoBundle {
+        exclude_asset()
+            .creator(self.creator.pubkey())
             .collection(self.collection)
-            .mint(self.mint);
-        let out = self
-            .story
-            .when(Action::CancelCampaign.label(), builder, &[impostor]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[impostor]);
-        out
+            .asset(asset)
+            .mint(self.mint)
     }
 
     pub fn exclude_asset(&mut self, asset: Pubkey) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = exclude_asset()
-            .creator(creator.pubkey())
-            .collection(self.collection)
-            .asset(asset)
-            .mint(self.mint);
-        let out = self
-            .story
-            .when(Action::ExcludeAsset.label(), builder, &[&creator]);
-        assert!(
-            out.success,
-            "exclude_asset failed:\n{}",
-            out.logs.join("\n")
-        );
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+        let builder = self.exclude_asset_builder(asset);
+        self.creator_send_ok(Action::ExcludeAsset, builder)
     }
 
     pub fn exclude_asset_err(&mut self, asset: Pubkey, error: &str) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = exclude_asset()
-            .creator(creator.pubkey())
-            .collection(self.collection)
-            .asset(asset)
-            .mint(self.mint);
-        let out = self
-            .story
-            .when(Action::ExcludeAsset.label(), builder, &[&creator]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+        let builder = self.exclude_asset_builder(asset);
+        self.creator_send_err(Action::ExcludeAsset, builder, error)
     }
 
     // --- freeze -----------------------------------------------------------------
 
-    pub fn freeze_asset(&mut self, asset: Pubkey, should_freeze: bool) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = freeze_asset()
-            .creator(creator.pubkey())
+    fn freeze_asset_builder(
+        &self,
+        creator: Pubkey,
+        asset: Pubkey,
+        should_freeze: bool,
+    ) -> impl IntoBundle {
+        freeze_asset()
+            .creator(creator)
             .collection(self.collection)
             .asset(asset)
-            .should_freeze(should_freeze);
-        let out = self
-            .story
-            .when(Action::FreezeAsset.label(), builder, &[&creator]);
-        assert!(out.success, "freeze_asset failed:\n{}", out.logs.join("\n"));
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+            .should_freeze(should_freeze)
+    }
+
+    pub fn freeze_asset(&mut self, asset: Pubkey, should_freeze: bool) -> Outcome {
+        let builder = self.freeze_asset_builder(self.creator.pubkey(), asset, should_freeze);
+        self.creator_send_ok(Action::FreezeAsset, builder)
     }
 
     pub fn freeze_asset_err(&mut self, asset: Pubkey, should_freeze: bool, error: &str) -> Outcome {
-        let creator = clone_actor(&self.creator);
-        let builder = freeze_asset()
-            .creator(creator.pubkey())
-            .collection(self.collection)
-            .asset(asset)
-            .should_freeze(should_freeze);
-        let out = self
-            .story
-            .when(Action::FreezeAsset.label(), builder, &[&creator]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+        let builder = self.freeze_asset_builder(self.creator.pubkey(), asset, should_freeze);
+        self.creator_send_err(Action::FreezeAsset, builder, error)
     }
 
     pub fn freeze_asset_by(
@@ -1003,73 +857,36 @@ impl VestingWorld {
         should_freeze: bool,
         error: &str,
     ) -> Outcome {
-        let builder = freeze_asset()
-            .creator(impostor.pubkey())
-            .collection(self.collection)
-            .asset(asset)
-            .should_freeze(should_freeze);
-        let out = self
-            .story
-            .when(Action::FreezeAsset.label(), builder, &[impostor]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[impostor]);
-        out
+        let builder = self.freeze_asset_builder(impostor.pubkey(), asset, should_freeze);
+        self.send_err(Action::FreezeAsset, builder, impostor, error)
     }
 
     pub fn freeze_collection(&mut self, should_freeze: bool) -> Outcome {
-        let creator = clone_actor(&self.creator);
         let builder = freeze_collection()
-            .creator(creator.pubkey())
+            .creator(self.creator.pubkey())
             .collection(self.collection)
             .should_freeze(should_freeze);
-        let out = self
-            .story
-            .when(Action::FreezeCollection.label(), builder, &[&creator]);
-        assert!(
-            out.success,
-            "freeze_collection failed:\n{}",
-            out.logs.join("\n")
-        );
-        self.after_tx();
-        self.step(&[&creator]);
-        out
+        self.creator_send_ok(Action::FreezeCollection, builder)
     }
 
     // --- close_receipt ----------------------------------------------------------
 
-    pub fn close_receipt_ok(&mut self, user: &Actor) -> Outcome {
+    fn close_receipt_builder(&self, user: Pubkey) -> impl IntoBundle {
         let campaign = self.campaign_address();
-        let builder = close_receipt()
-            .user(user.pubkey())
+        close_receipt()
+            .user(user)
             .campaign(campaign)
-            .claim_receipt(receipt_pda(&campaign, &user.pubkey()).0);
-        let out = self
-            .story
-            .when(Action::CloseReceipt.label(), builder, &[user]);
-        assert!(
-            out.success,
-            "close_receipt failed:\n{}",
-            out.logs.join("\n")
-        );
-        self.after_tx();
-        self.step(&[user]);
-        out
+            .claim_receipt(receipt_pda(&campaign, &user).0)
+    }
+
+    pub fn close_receipt_ok(&mut self, user: &Actor) -> Outcome {
+        let builder = self.close_receipt_builder(user.pubkey());
+        self.send_ok(Action::CloseReceipt, builder, user)
     }
 
     pub fn close_receipt_err(&mut self, user: &Actor, error: &str) -> Outcome {
-        let campaign = self.campaign_address();
-        let builder = close_receipt()
-            .user(user.pubkey())
-            .campaign(campaign)
-            .claim_receipt(receipt_pda(&campaign, &user.pubkey()).0);
-        let out = self
-            .story
-            .when(Action::CloseReceipt.label(), builder, &[user]);
-        self.story.then_err(&out, error);
-        self.after_tx();
-        self.step(&[user]);
-        out
+        let builder = self.close_receipt_builder(user.pubkey());
+        self.send_err(Action::CloseReceipt, builder, user, error)
     }
 
     // --- asset / mpl-core inspection --------------------------------------------
@@ -1091,22 +908,15 @@ impl VestingWorld {
         }
     }
 
-    /// The asset's PermanentFreezeDelegate plugin, if it carries one.
+    /// The asset's PermanentFreezeDelegate plugin, if it carries one. A
+    /// missing ACCOUNT still panics (that is a test wiring bug, not a state
+    /// this reads); only a missing PLUGIN answers `None`.
     pub fn try_fetch_asset_freeze_delegate(
         &self,
         asset: &Pubkey,
     ) -> Option<PermanentFreezeDelegate> {
         let account = self.story.svm.get_account(asset).expect("asset account");
-        let mut lamports = account.lamports;
-        let mut data = account.data;
-        let owner = account.owner;
-        let info = AccountInfo::new(asset, false, false, &mut lamports, &mut data, &owner, false);
-        fetch_plugin::<BaseAssetV1, PermanentFreezeDelegate>(
-            &info,
-            PluginType::PermanentFreezeDelegate,
-        )
-        .ok()
-        .map(|(_, delegate, _)| delegate)
+        permanent_freeze::<BaseAssetV1>(asset, account)
     }
 
     /// Whether the asset carries a PermanentFreezeDelegate plugin at all.
@@ -1117,34 +927,14 @@ impl VestingWorld {
     /// The permanent-freeze-delegate plugin on an asset or the collection.
     pub fn fetch_permanent_freeze_delegate(&self, address: &Pubkey) -> PermanentFreezeDelegate {
         let account = self.story.svm.get_account(address).expect("account");
-        let mut lamports = account.lamports;
-        let mut data = account.data;
-        let owner = account.owner;
-        let info = AccountInfo::new(
-            address,
-            false,
-            false,
-            &mut lamports,
-            &mut data,
-            &owner,
-            false,
-        );
         // The collection and an asset store the plugin under different base
         // types, so dispatch on which one this address is.
         if *address == self.collection {
-            fetch_plugin::<BaseCollectionV1, PermanentFreezeDelegate>(
-                &info,
-                PluginType::PermanentFreezeDelegate,
-            )
-            .expect("collection PermanentFreezeDelegate plugin")
-            .1
+            permanent_freeze::<BaseCollectionV1>(address, account)
+                .expect("collection PermanentFreezeDelegate plugin")
         } else {
-            fetch_plugin::<BaseAssetV1, PermanentFreezeDelegate>(
-                &info,
-                PluginType::PermanentFreezeDelegate,
-            )
-            .expect("asset PermanentFreezeDelegate plugin")
-            .1
+            permanent_freeze::<BaseAssetV1>(address, account)
+                .expect("asset PermanentFreezeDelegate plugin")
         }
     }
 
@@ -1168,7 +958,7 @@ impl VestingWorld {
         let ix = self.transfer_asset_ix(&from.pubkey(), to, asset);
         self.story.run_instruction(ix, &[from]);
         self.after_tx();
-        self.step(&[from]);
+        self.observe_balance(from);
         self.asset_owner(asset) != owner_before
     }
 
@@ -1197,17 +987,5 @@ impl VestingWorld {
     /// Expire the blockhash so back-to-back txs aren't deduplicated as replays.
     pub fn after_tx(&mut self) {
         self.story.svm.expire_blockhash();
-    }
-
-    /// Register `actors`' ATA-balance observations (idempotent — see
-    /// `observe_balance`). The trajectory samples every registered
-    /// observation into every `Moment` on its own, and `Story::project`
-    /// renders the changed-only delta table from those samples, so this is
-    /// all `step` has left to do: replaces the old snapshot/diff/push-block
-    /// dance `StateRoster` used to run by hand.
-    fn step(&mut self, actors: &[&Actor]) {
-        for a in actors {
-            self.observe_balance(a);
-        }
     }
 }

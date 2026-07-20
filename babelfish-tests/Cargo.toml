@@ -12,12 +12,15 @@ publish = false
 [workspace]
 
 [dependencies]
-# Pinned to pan-galactic/sol-babelfish main (the trajectory: Story::observe/
-# law/monotonic/latch/constant/finally, Story::project replacing the old
-# beats/report_log stitch); swap to a crates.io release once frood is
+# Pinned to pan-galactic/sol-babelfish main: #[derive(FromValue)]
+# (CampaignView's decoder) and Story::when_ok/when_err (the send helpers'
+# core) landed with this rev. Swap to a crates.io release once frood is
 # published.
-frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "64038f51722f074a059cac9547b6098e0bbb5702" }
-frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "64038f51722f074a059cac9547b6098e0bbb5702" }
+frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "b6fc01d169be6d89e66194ffdc2b4e552f119eb4" }
+frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "b6fc01d169be6d89e66194ffdc2b4e552f119eb4" }
+# The `Account` the plugin helper rebuilds into an `AccountInfo` for
+# mpl-core's `fetch_plugin` (litesvm's `get_account` hands one back).
+solana-account = "3"
 solana-pubkey = { version = "3.0", features = ["curve25519"] }
 solana-keypair = "3.1"
 solana-instruction = "3.2"
