@@ -18,7 +18,7 @@
 
 use std::collections::HashMap;
 
-use frood::blocks::{authority, cast, ownership, sequence, tree, Lifelines};
+use frood::blocks::{authority, cast, folder, ownership, sequence, tree, Lifelines};
 use frood::{Actor, IntoBundle, Obs, Outcome, ReportConfig, ReportState, Reporter, Story};
 use frood_idl::types::Value;
 use frood_idl::FromValue;
@@ -221,10 +221,10 @@ pub struct CampaignView {
 pub fn report_standard() -> ReportConfig {
     ReportConfig::of([
         cast().collapsed(),
-        sequence(Lifelines).collapsed(),
-        authority().collapsed(),
-        ownership().collapsed(),
-        tree().collapsed(),
+        folder(
+            "diagrams",
+            [sequence(Lifelines), authority(), ownership(), tree()],
+        ),
     ])
 }
 
