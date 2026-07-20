@@ -1,14 +1,28 @@
 # scenario_2_two_users_transfer_and_bob_claims_both
 
-**Source:** [`tests/claim.rs` L61](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/claim.rs#L61)
+**Source:** [`tests/claim.rs` L61](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/claim.rs#L61)
 
 Over 1 day: 6 moments.
+
+### Cast
+
+| name | address |
+| --- | --- |
+| Collection | DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9 |
+| Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
+| Mint | J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N |
+| VestingPositions | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
+| campaign(Collection) | 2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC |
+| campaignAta(campaign(Collection), Toke…, Mint) | BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ |
+| creatorAta(Creator, Toke…, Mint) | 7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43 |
+| updateAuthority(Collection) | vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs |
+| userAta(H87x…, Toke…, Mint) | 7NWR2QKmwfaPykvd5ANbrcLspWfNdTptcnyssMqSFi4 |
 
 ### T0: Initialize (day 0)
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | — | 10000000000000 |
+| Vault balance | — | 10,000,000,000,000 |
 | Creator balance | — | 0 |
 
 ### Sequence

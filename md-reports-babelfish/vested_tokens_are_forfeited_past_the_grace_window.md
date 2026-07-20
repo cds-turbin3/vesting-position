@@ -1,16 +1,32 @@
 # vested_tokens_are_forfeited_past_the_grace_window
 
-**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/forfeiture.rs#L17)
+**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/forfeiture.rs#L17)
 
 > Given: Alice is whitelisted in a live campaign with a grace window past end
 
 Over 38 days: 4 moments.
 
+### Cast
+
+| name | address |
+| --- | --- |
+| Alice | 4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P |
+| Alice's position NFT | 4QVsuwY3ob34zXWn921ANiD2Z88Hq8hizufySVtpKfsK |
+| Campaign | 2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC |
+| Collection | DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9 |
+| Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
+| Mint | J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N |
+| Vesting | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
+| campaignAta(campaign(Collection), Toke…, Mint) | BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ |
+| creatorAta(Creator, Toke…, Mint) | 7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43 |
+| updateAuthority(Collection) | vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs |
+| userAta(Alice, Toke…, Mint) | 45PBE5WDayGKEeGHvaLP5VfqXSS5JoGVewXyVbSE8JSq |
+
 ### T0: Initialize (day 0)
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | — | 10000000000000 |
+| Vault balance | — | 10,000,000,000,000 |
 | Creator balance | — | 0 |
 
 > A recipient's vested-but-unclaimed tokens are swept to the creator once the grace window past `end` lapses: this is the design, not a defect.
@@ -171,7 +187,7 @@ Creator (85369cu)
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 10000000000000 | 9900000000000 |
+| Vault balance | 10,000,000,000,000 | 9,900,000,000,000 |
 
 - [x] the cliff unlock reached Alice
 
@@ -349,13 +365,13 @@ Alice (163771cu)
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9900000000000 | 9000000000000 |
-| Creator balance | 0 | 900000000000 |
-| Alice balance | — | 100000000000 |
+| Vault balance | 9,900,000,000,000 | 9,000,000,000,000 |
+| Creator balance | 0 | 900,000,000,000 |
+| Alice balance | — | 100,000,000,000 |
 
 - [x] the grace window let the creator reclaim Alice's fully-vested remainder
 
-**Alice's remainder:** `900000000000` → `0` — forfeited, never delivered
+**Alice's remainder:** `900,000,000,000` → `0` — forfeited, never delivered
 
 - [x] Alice's remainder
 

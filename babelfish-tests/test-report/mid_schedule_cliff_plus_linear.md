@@ -1,14 +1,27 @@
 # mid_schedule_cliff_plus_linear
 
-**Source:** [`tests/vesting_schedule.rs` L67](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/vesting_schedule.rs#L67)
+**Source:** [`tests/vesting_schedule.rs` L67](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/vesting_schedule.rs#L67)
 
 Over 16 days: 2 moments.
+
+### Cast
+
+| name | address |
+| --- | --- |
+| Collection | DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9 |
+| Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
+| Mint | J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N |
+| VestingPositions | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
+| campaign(Collection) | 2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC |
+| campaignAta(campaign(Collection), Toke…, Mint) | BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ |
+| creatorAta(Creator, Toke…, Mint) | 7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43 |
+| updateAuthority(Collection) | vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs |
 
 ### T0: Initialize (day 0)
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | — | 10000000000000 |
+| Vault balance | — | 10,000,000,000,000 |
 | Creator balance | — | 0 |
 
 > Halfway through the linear window, a claim releases the cliff slice plus half the linear remainder: cliff_amount + linear_amount/2.
@@ -169,9 +182,9 @@ Creator (85369cu)
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 10000000000000 | 9450000000000 |
+| Vault balance | 10,000,000,000,000 | 9,450,000,000,000 |
 
-**Alice's balance:** `0` → `550000000000` — mid-schedule claim: cliff slice + half the linear remainder
+**Alice's balance:** `0` → `550,000,000,000` — mid-schedule claim: cliff slice + half the linear remainder
 
 - [x] Alice's balance
 

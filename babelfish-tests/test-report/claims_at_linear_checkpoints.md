@@ -1,19 +1,33 @@
 # claims_at_linear_checkpoints
 
-**Source:** [`tests/vesting_schedule.rs` L181](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/vesting_schedule.rs#L181)
+**Source:** [`tests/vesting_schedule.rs` L181](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/vesting_schedule.rs#L181)
 
 Over 31 days: 16 moments; 1/1 law(s) held.
+
+### Cast
+
+| name | address |
+| --- | --- |
+| Collection | DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9 |
+| Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
+| Mint | J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N |
+| VestingPositions | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
+| campaign(Collection) | 2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC |
+| campaignAta(campaign(Collection), Toke…, Mint) | BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ |
+| creatorAta(Creator, Toke…, Mint) | 7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43 |
+| updateAuthority(Collection) | vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs |
+| userAta(4wQQ…, Toke…, Mint) | 45PBE5WDayGKEeGHvaLP5VfqXSS5JoGVewXyVbSE8JSq |
 
 ### T0: Initialize (day 0)
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | — | 10000000000000 |
+| Vault balance | — | 10,000,000,000,000 |
 | Creator balance | — | 0 |
 
 *observed Alice claimable (schedule ceiling): 0*
 
-*observed Alice claimable (schedule ceiling): 100000000000*
+*observed Alice claimable (schedule ceiling): 100,000,000,000*
 
 ### Sequence
 
@@ -171,8 +185,8 @@ Creator (85369cu)
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 10000000000000 | 9900000000000 |
-| Alice balance | — | 100000000000 |
+| Vault balance | 10,000,000,000,000 | 9,900,000,000,000 |
+| Alice balance | — | 100,000,000,000 |
 
 ### Sequence
 
@@ -346,9 +360,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9900000000000 | 9891000000000 |
-| Alice claimable (schedule ceiling) | 100000000000 | 109000000000 |
-| Alice balance | 100000000000 | 109000000000 |
+| Vault balance | 9,900,000,000,000 | 9,891,000,000,000 |
+| Alice claimable (schedule ceiling) | 100,000,000,000 | 109,000,000,000 |
+| Alice balance | 100,000,000,000 | 109,000,000,000 |
 
 ### Sequence
 
@@ -449,9 +463,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9891000000000 | 9837000000000 |
-| Alice claimable (schedule ceiling) | 109000000000 | 163000000000 |
-| Alice balance | 109000000000 | 163000000000 |
+| Vault balance | 9,891,000,000,000 | 9,837,000,000,000 |
+| Alice claimable (schedule ceiling) | 109,000,000,000 | 163,000,000,000 |
+| Alice balance | 109,000,000,000 | 163,000,000,000 |
 
 ### Sequence
 
@@ -552,9 +566,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9837000000000 | 9783000000000 |
-| Alice claimable (schedule ceiling) | 163000000000 | 217000000000 |
-| Alice balance | 163000000000 | 217000000000 |
+| Vault balance | 9,837,000,000,000 | 9,783,000,000,000 |
+| Alice claimable (schedule ceiling) | 163,000,000,000 | 217,000,000,000 |
+| Alice balance | 163,000,000,000 | 217,000,000,000 |
 
 ### Sequence
 
@@ -655,9 +669,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9783000000000 | 9720000000000 |
-| Alice claimable (schedule ceiling) | 217000000000 | 280000000000 |
-| Alice balance | 217000000000 | 280000000000 |
+| Vault balance | 9,783,000,000,000 | 9,720,000,000,000 |
+| Alice claimable (schedule ceiling) | 217,000,000,000 | 280,000,000,000 |
+| Alice balance | 217,000,000,000 | 280,000,000,000 |
 
 ### Sequence
 
@@ -758,9 +772,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9720000000000 | 9603000000000 |
-| Alice claimable (schedule ceiling) | 280000000000 | 397000000000 |
-| Alice balance | 280000000000 | 397000000000 |
+| Vault balance | 9,720,000,000,000 | 9,603,000,000,000 |
+| Alice claimable (schedule ceiling) | 280,000,000,000 | 397,000,000,000 |
+| Alice balance | 280,000,000,000 | 397,000,000,000 |
 
 ### Sequence
 
@@ -861,9 +875,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9603000000000 | 9495000000000 |
-| Alice claimable (schedule ceiling) | 397000000000 | 505000000000 |
-| Alice balance | 397000000000 | 505000000000 |
+| Vault balance | 9,603,000,000,000 | 9,495,000,000,000 |
+| Alice claimable (schedule ceiling) | 397,000,000,000 | 505,000,000,000 |
+| Alice balance | 397,000,000,000 | 505,000,000,000 |
 
 ### Sequence
 
@@ -964,9 +978,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9495000000000 | 9450000000000 |
-| Alice claimable (schedule ceiling) | 505000000000 | 550000000000 |
-| Alice balance | 505000000000 | 550000000000 |
+| Vault balance | 9,495,000,000,000 | 9,450,000,000,000 |
+| Alice claimable (schedule ceiling) | 505,000,000,000 | 550,000,000,000 |
+| Alice balance | 505,000,000,000 | 550,000,000,000 |
 
 ### Sequence
 
@@ -1067,9 +1081,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9450000000000 | 9387000000000 |
-| Alice claimable (schedule ceiling) | 550000000000 | 613000000000 |
-| Alice balance | 550000000000 | 613000000000 |
+| Vault balance | 9,450,000,000,000 | 9,387,000,000,000 |
+| Alice claimable (schedule ceiling) | 550,000,000,000 | 613,000,000,000 |
+| Alice balance | 550,000,000,000 | 613,000,000,000 |
 
 ### Sequence
 
@@ -1170,9 +1184,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9387000000000 | 9297000000000 |
-| Alice claimable (schedule ceiling) | 613000000000 | 703000000000 |
-| Alice balance | 613000000000 | 703000000000 |
+| Vault balance | 9,387,000,000,000 | 9,297,000,000,000 |
+| Alice claimable (schedule ceiling) | 613,000,000,000 | 703,000,000,000 |
+| Alice balance | 613,000,000,000 | 703,000,000,000 |
 
 ### Sequence
 
@@ -1273,9 +1287,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9297000000000 | 9225000000000 |
-| Alice claimable (schedule ceiling) | 703000000000 | 775000000000 |
-| Alice balance | 703000000000 | 775000000000 |
+| Vault balance | 9,297,000,000,000 | 9,225,000,000,000 |
+| Alice claimable (schedule ceiling) | 703,000,000,000 | 775,000,000,000 |
+| Alice balance | 703,000,000,000 | 775,000,000,000 |
 
 ### Sequence
 
@@ -1376,9 +1390,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9225000000000 | 9153000000000 |
-| Alice claimable (schedule ceiling) | 775000000000 | 847000000000 |
-| Alice balance | 775000000000 | 847000000000 |
+| Vault balance | 9,225,000,000,000 | 9,153,000,000,000 |
+| Alice claimable (schedule ceiling) | 775,000,000,000 | 847,000,000,000 |
+| Alice balance | 775,000,000,000 | 847,000,000,000 |
 
 ### Sequence
 
@@ -1479,9 +1493,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9153000000000 | 9081000000000 |
-| Alice claimable (schedule ceiling) | 847000000000 | 919000000000 |
-| Alice balance | 847000000000 | 919000000000 |
+| Vault balance | 9,153,000,000,000 | 9,081,000,000,000 |
+| Alice claimable (schedule ceiling) | 847,000,000,000 | 919,000,000,000 |
+| Alice balance | 847,000,000,000 | 919,000,000,000 |
 
 ### Sequence
 
@@ -1582,9 +1596,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9081000000000 | 9009000000000 |
-| Alice claimable (schedule ceiling) | 919000000000 | 991000000000 |
-| Alice balance | 919000000000 | 991000000000 |
+| Vault balance | 9,081,000,000,000 | 9,009,000,000,000 |
+| Alice claimable (schedule ceiling) | 919,000,000,000 | 991,000,000,000 |
+| Alice balance | 919,000,000,000 | 991,000,000,000 |
 
 ### Sequence
 
@@ -1685,9 +1699,9 @@ flowchart LR
 
 | observation | before | after |
 | --- | --- | --- |
-| Vault balance | 9009000000000 | 9000000000000 |
-| Alice claimable (schedule ceiling) | 991000000000 | 1000000000000 |
-| Alice balance | 991000000000 | 1000000000000 |
+| Vault balance | 9,009,000,000,000 | 9,000,000,000,000 |
+| Alice claimable (schedule ceiling) | 991,000,000,000 | 1,000,000,000,000 |
+| Alice balance | 991,000,000,000 | 1,000,000,000,000 |
 
 ### Sequence
 
