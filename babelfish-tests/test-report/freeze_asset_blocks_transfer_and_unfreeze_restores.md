@@ -1,6 +1,6 @@
 # freeze_asset_blocks_transfer_and_unfreeze_restores
 
-**Source:** [`tests/freeze.rs` L271](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/freeze.rs#L271)
+**Source:** [`tests/freeze.rs` L275](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/freeze.rs#L275)
 
 Over 1 day: 6 moments.
 
@@ -163,7 +163,7 @@ Creator (85369cu)
 
 *1 day pass.*
 
-### T1: (instruction) (day 1)
+### T1: FirstClaim (day 1)
 
 ### Sequence
 
@@ -397,7 +397,7 @@ Creator (26331cu)
 
 </details>
 
-### T3: (instruction) (day 1)
+### T3: TransferPosition (day 1)
 
 🚩 T3 failed: InstructionError(0, Custom(9))
 
@@ -524,7 +524,7 @@ Creator (26331cu)
 
 </details>
 
-### T5: (instruction) (day 1)
+### T5: TransferPosition (day 1)
 
 ### Sequence
 

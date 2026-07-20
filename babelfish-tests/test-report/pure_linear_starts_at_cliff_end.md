@@ -1,6 +1,6 @@
 # pure_linear_starts_at_cliff_end
 
-**Source:** [`tests/vesting_schedule.rs` L120](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/vesting_schedule.rs#L120)
+**Source:** [`tests/vesting_schedule.rs` L120](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/vesting_schedule.rs#L120)
 
 Over 31 days: 3 moments.
 
@@ -163,7 +163,7 @@ Creator (85298cu)
 
 *2 days pass.*
 
-### T1: (instruction) (day 2)
+### T1: FirstClaim (day 2)
 
 ### Sequence
 

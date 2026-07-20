@@ -1,6 +1,6 @@
 # before_cliff_transfers_zero
 
-**Source:** [`tests/vesting_schedule.rs` L28](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/vesting_schedule.rs#L28)
+**Source:** [`tests/vesting_schedule.rs` L28](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/vesting_schedule.rs#L28)
 
 Over 1 day: 2 moments.
 
@@ -163,7 +163,7 @@ Creator (85369cu)
 
 *172799 seconds pass.*
 
-### T1: (instruction) (day 1)
+### T1: FirstClaim (day 1)
 
 ### Sequence
 

@@ -1,6 +1,6 @@
 # at_end_releases_full_allocation
 
-**Source:** [`tests/vesting_schedule.rs` L99](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/vesting_schedule.rs#L99)
+**Source:** [`tests/vesting_schedule.rs` L99](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/vesting_schedule.rs#L99)
 
 Over 31 days: 2 moments.
 
@@ -163,7 +163,7 @@ Creator (85369cu)
 
 *2678401 seconds pass.*
 
-### T1: (instruction) (day 31)
+### T1: FirstClaim (day 31)
 
 | observation | before | after |
 | --- | --- | --- |

@@ -1,6 +1,6 @@
 # freeze_asset_fails_without_freeze_plugin
 
-**Source:** [`tests/freeze.rs` L290](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/freeze.rs#L290)
+**Source:** [`tests/freeze.rs` L294](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/freeze.rs#L294)
 
 Over 1 day: 3 moments.
 
@@ -163,7 +163,7 @@ Creator (85370cu)
 
 *1 day pass.*
 
-### T1: (instruction) (day 1)
+### T1: FirstClaim (day 1)
 
 ### Sequence
 

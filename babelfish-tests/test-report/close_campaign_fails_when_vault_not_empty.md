@@ -1,6 +1,6 @@
 # close_campaign_fails_when_vault_not_empty
 
-**Source:** [`tests/clawback.rs` L215](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/clawback.rs#L215)
+**Source:** [`tests/clawback.rs` L219](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/clawback.rs#L219)
 
 Over 0 days: 2 moments.
 

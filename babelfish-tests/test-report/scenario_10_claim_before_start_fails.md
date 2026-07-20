@@ -1,6 +1,6 @@
 # scenario_10_claim_before_start_fails
 
-**Source:** [`tests/claim.rs` L251](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/claim.rs#L251)
+**Source:** [`tests/claim.rs` L263](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/claim.rs#L263)
 
 Over 0 days: 2 moments.
 
@@ -161,7 +161,7 @@ Creator (85369cu)
 
 </details>
 
-### T1: (instruction) (day 0)
+### T1: FirstClaim (day 0)
 
 - [x] refused: CampaignNotStarted — InstructionError(0, Custom(6026))
 

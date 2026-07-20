@@ -1,6 +1,6 @@
 # clawback_unclaimed_recovers_allocation_and_blocks_claim
 
-**Source:** [`tests/clawback.rs` L103](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/clawback.rs#L103)
+**Source:** [`tests/clawback.rs` L103](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/clawback.rs#L103)
 
 Over 38 days: 3 moments.
 
@@ -251,7 +251,7 @@ Creator (95434cu)
 
 </details>
 
-### T2: (instruction) (day 38)
+### T2: FirstClaim (day 38)
 
 - [x] refused: ClaimWindowClosed — InstructionError(0, Custom(6025))
 

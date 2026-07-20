@@ -1,6 +1,6 @@
 # scenario_5_unwhitelisted_user_fails
 
-**Source:** [`tests/claim.rs` L145](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/claim.rs#L145)
+**Source:** [`tests/claim.rs` L157](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/claim.rs#L157)
 
 Over 1 day: 2 moments.
 
@@ -163,7 +163,7 @@ Creator (85369cu)
 
 *1 day pass.*
 
-### T1: (instruction) (day 1)
+### T1: FirstClaim (day 1)
 
 - [x] refused: InvalidProofs — InstructionError(0, Custom(6013))
 

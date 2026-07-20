@@ -1,6 +1,6 @@
 # clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt
 
-**Source:** [`tests/clawback.rs` L164](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/clawback.rs#L164)
+**Source:** [`tests/clawback.rs` L164](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/clawback.rs#L164)
 
 Over 38 days: 5 moments.
 
@@ -163,7 +163,7 @@ Creator (85369cu)
 
 *1 day pass.*
 
-### T1: (instruction) (day 1)
+### T1: FirstClaim (day 1)
 
 ### Sequence
 
@@ -323,7 +323,7 @@ flowchart LR
 
 </details>
 
-### T2: (instruction) (day 1)
+### T2: TransferPosition (day 1)
 
 | observation | before | after |
 | --- | --- | --- |

@@ -1,6 +1,6 @@
 # exclude_asset_blocks_subsequent_claims
 
-**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/freeze.rs#L187)
+**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/freeze.rs#L187)
 
 Over 31 days: 5 moments.
 
@@ -163,7 +163,7 @@ Creator (85369cu)
 
 *1 day pass.*
 
-### T1: (instruction) (day 1)
+### T1: FirstClaim (day 1)
 
 ### Sequence
 

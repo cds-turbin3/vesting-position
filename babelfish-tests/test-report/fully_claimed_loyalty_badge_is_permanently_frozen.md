@@ -1,6 +1,6 @@
 # fully_claimed_loyalty_badge_is_permanently_frozen
 
-**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/freeze.rs#L123)
+**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/freeze.rs#L123)
 
 Over 31 days: 4 moments; 1/1 law(s) held; 1/1 finally check(s) passed.
 
@@ -163,7 +163,7 @@ Creator (85369cu)
 
 *1 day pass.*
 
-### T1: (instruction) (day 1)
+### T1: FirstClaim (day 1)
 
 ### Sequence
 
@@ -440,7 +440,7 @@ flowchart LR
 
 </details>
 
-### T3: (instruction) (day 31)
+### T3: TransferPosition (day 31)
 
 🚩 T3 failed: InstructionError(0, Custom(9))
 

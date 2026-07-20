@@ -1,6 +1,6 @@
 # scenario_8_wrong_asset_subsequent_claim_fails
 
-**Source:** [`tests/claim.rs` L204](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/claim.rs#L204)
+**Source:** [`tests/claim.rs` L216](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/claim.rs#L216)
 
 Over 1 day: 2 moments.
 

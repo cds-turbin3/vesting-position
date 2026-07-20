@@ -1,6 +1,6 @@
 # compute_units_profile
 
-**Source:** [`tests/compute_units.rs` L14](https://github.com/cds-turbin3/vesting-position/blob/e9faed75406a6a70421d10141d163df169a738b0/babelfish-tests/tests/compute_units.rs#L14)
+**Source:** [`tests/compute_units.rs` L14](https://github.com/cds-turbin3/vesting-position/blob/038d300ffebd9213645e331c399536c47dd3f090/babelfish-tests/tests/compute_units.rs#L14)
 
 Over 1 day: 3 moments.
 
@@ -163,7 +163,7 @@ Creator (85369cu)
 
 *1 day pass.*
 
-### T1: (instruction) (day 1)
+### T1: FirstClaim (day 1)
 
 ### Sequence
 
@@ -316,7 +316,7 @@ flowchart LR
 
 </details>
 
-### T2: (instruction) (day 1)
+### T2: Claim (day 1)
 
 ### Sequence
 
