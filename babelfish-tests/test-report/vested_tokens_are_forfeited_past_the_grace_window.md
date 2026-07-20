@@ -1,12 +1,13 @@
 # vested_tokens_are_forfeited_past_the_grace_window
 
-**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/8b919a4afb93b5878c3ba60d3c6a8b23c5b3b11f/babelfish-tests/tests/forfeiture.rs#L17)
+**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/09424ff7c84ab4c6bb084d93904af269818bd0bd/babelfish-tests/tests/forfeiture.rs#L17)
 
 > Given: Alice is whitelisted in a live campaign with a grace window past end
 
 Over 38 days: 4 moments.
 
-### Cast
+<details>
+<summary>Cast</summary>
 
 | name | address |
 | --- | --- |
@@ -22,6 +23,8 @@ Over 38 days: 4 moments.
 | updateAuthority(Collection) | vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs |
 | userAta(Alice, Toke…, Mint) | 45PBE5WDayGKEeGHvaLP5VfqXSS5JoGVewXyVbSE8JSq |
 
+</details>
+
 ### T0: Initialize (day 0)
 
 | observation | before | after |
@@ -31,7 +34,8 @@ Over 38 days: 4 moments.
 
 > A recipient's vested-but-unclaimed tokens are swept to the creator once the grace window past `end` lapses: this is the design, not a defect.
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -95,7 +99,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -133,7 +140,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -157,6 +167,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -193,7 +205,8 @@ Creator (85369cu)
 
 - [x] at end, Alice's vested-but-unclaimed remainder is the whole rest of her allocation
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -266,7 +279,10 @@ sequenceDiagram
     deactivate p2
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -309,7 +325,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -333,6 +352,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -375,7 +396,8 @@ Alice (163771cu)
 
 - [x] Alice's remainder
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -397,7 +419,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -428,7 +453,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -450,6 +478,8 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
+</details>
+
 <details>
 <summary>tree</summary>
 
@@ -469,7 +499,8 @@ Creator (76464cu)
 
 - [x] Alice's balance never moved across the clawback: her remainder was forfeited, not delivered
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -482,7 +513,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -504,7 +538,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -528,6 +565,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>

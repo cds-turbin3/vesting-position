@@ -1,10 +1,11 @@
 # exclude_asset_burns_position
 
-**Source:** [`tests/freeze.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/8b919a4afb93b5878c3ba60d3c6a8b23c5b3b11f/babelfish-tests/tests/freeze.rs#L232)
+**Source:** [`tests/freeze.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/09424ff7c84ab4c6bb084d93904af269818bd0bd/babelfish-tests/tests/freeze.rs#L232)
 
 Over 1 day: 4 moments.
 
-### Cast
+<details>
+<summary>Cast</summary>
 
 | name | address |
 | --- | --- |
@@ -17,6 +18,8 @@ Over 1 day: 4 moments.
 | creatorAta(Creator, Toke…, Mint) | 7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43 |
 | updateAuthority(Collection) | vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs |
 
+</details>
+
 ### T0: Initialize (day 0)
 
 | observation | before | after |
@@ -24,7 +27,8 @@ Over 1 day: 4 moments.
 | Vault balance | — | 10,000,000,000,000 |
 | Creator balance | — | 0 |
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -88,7 +92,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -126,7 +133,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -150,6 +160,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -178,7 +190,8 @@ Creator (85369cu)
 
 ### T1: FirstClaim (day 1)
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -247,7 +260,10 @@ sequenceDiagram
     deactivate p2
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -287,7 +303,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -311,6 +330,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -344,7 +365,8 @@ flowchart LR
 | Creator balance | 0 | 1,000,000,000,000 |
 | Alice balance | — | 0 |
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -366,7 +388,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -397,7 +422,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -419,6 +447,8 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
+</details>
+
 <details>
 <summary>tree</summary>
 
@@ -436,7 +466,8 @@ Creator (75427cu)
 
 🚩 T3 failed: InstructionError(0, Custom(6))
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -449,7 +480,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -463,7 +497,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -477,6 +514,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>

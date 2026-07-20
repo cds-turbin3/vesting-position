@@ -1,6 +1,6 @@
 # compute_units_profile
 
-**Source:** [`tests/compute_units.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/8b919a4afb93b5878c3ba60d3c6a8b23c5b3b11f/babelfish-tests/tests/compute_units.rs#L16)
+**Source:** [`tests/compute_units.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/09424ff7c84ab4c6bb084d93904af269818bd0bd/babelfish-tests/tests/compute_units.rs#L16)
 
 Over 31 days: 2 moments.
 

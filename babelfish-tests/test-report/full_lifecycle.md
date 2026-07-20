@@ -1,6 +1,6 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/8b919a4afb93b5878c3ba60d3c6a8b23c5b3b11f/babelfish-tests/tests/full_lifecycle.rs#L24)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/09424ff7c84ab4c6bb084d93904af269818bd0bd/babelfish-tests/tests/full_lifecycle.rs#L24)
 
 > Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
@@ -8,7 +8,8 @@
 
 Over 28 days: 12 moments; 2/2 law(s) held; 3/3 finally check(s) passed.
 
-### Cast
+<details>
+<summary>Cast</summary>
 
 | name | address |
 | --- | --- |
@@ -29,6 +30,8 @@ Over 28 days: 12 moments; 2/2 law(s) held; 3/3 finally check(s) passed.
 | userAta(Bob, Toke…, Mint) | DP7csyre1YNuKdteez1puQMtq7kbgzhLKJabPePoNc39 |
 | userAta(Charlie, Toke…, Mint) | 7NWR2QKmwfaPykvd5ANbrcLspWfNdTptcnyssMqSFi4 |
 
+</details>
+
 ### T0: Initialize (day 0)
 
 | observation | before | after |
@@ -38,7 +41,8 @@ Over 28 days: 12 moments; 2/2 law(s) held; 3/3 finally check(s) passed.
 
 ## Phase: Alice claims and vests
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -102,7 +106,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -140,7 +147,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -164,6 +174,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -196,7 +208,8 @@ Creator (85369cu)
 | --- | --- | --- |
 | Vault balance | 10,000,000,000,000 | 9,900,000,000,000 |
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -269,7 +282,10 @@ sequenceDiagram
     deactivate p2
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -312,7 +328,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -336,6 +355,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -372,7 +393,8 @@ Alice (163771cu)
 | Alice balance | — | 550,000,000,000 |
 | receipt claimer | — | 4wQQ… |
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -394,7 +416,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -427,7 +452,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -452,6 +480,8 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
+</details>
+
 <details>
 <summary>tree</summary>
 
@@ -473,7 +503,8 @@ Alice (71574cu)
 
 ## Phase: positions change hands
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -546,7 +577,10 @@ sequenceDiagram
     deactivate p2
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -589,7 +623,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -613,6 +650,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -645,7 +684,8 @@ Charlie (160754cu)
 | --- | --- | --- |
 | Charlie balance | — | 1,100,000,000,000 |
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -657,7 +697,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -671,7 +714,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -685,6 +731,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -701,7 +749,8 @@ Alice (9074cu)
 
 - [x] refused: AlreadyClaimed — InstructionError(0, Custom(6012))
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -714,7 +763,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -736,7 +788,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -760,6 +815,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -778,7 +835,8 @@ Alice (19067cu)
 
 ## Phase: Bob claims Alice's position
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -791,7 +849,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -813,7 +874,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -837,6 +901,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -857,7 +923,8 @@ Alice (19698cu)
 | --- | --- | --- |
 | Vault balance | 8,350,000,000,000 | 8,125,000,000,000 |
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -906,7 +973,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -946,7 +1016,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -970,6 +1043,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -998,7 +1073,8 @@ Bob (91743cu)
 | Charlie balance | 1,100,000,000,000 | 1,550,000,000,000 |
 | Bob balance | — | 225,000,000,000 |
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -1020,7 +1096,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -1053,7 +1132,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -1078,6 +1160,8 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
+</details>
+
 <details>
 <summary>tree</summary>
 
@@ -1093,7 +1177,8 @@ Charlie (71714cu)
 
 ### T9: TransferPosition (day 23)
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -1105,7 +1190,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -1119,7 +1207,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -1133,6 +1224,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
@@ -1149,7 +1242,8 @@ Charlie (9074cu)
 
 - [x] refused: NotAssetOwner — InstructionError(0, Custom(6016))
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -1162,7 +1256,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -1184,7 +1281,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -1209,6 +1309,8 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
+</details>
+
 <details>
 <summary>tree</summary>
 
@@ -1229,7 +1331,8 @@ Charlie (19698cu)
 | Vault balance | 7,675,000,000,000 | 7,405,000,000,000 |
 | Alice balance | 550,000,000,000 | 820,000,000,000 |
 
-### Sequence
+<details>
+<summary>sequence</summary>
 
 ```mermaid
 sequenceDiagram
@@ -1251,7 +1354,10 @@ sequenceDiagram
     deactivate p1
 ```
 
-### Authority
+</details>
+
+<details>
+<summary>authority</summary>
 
 ```mermaid
 flowchart LR
@@ -1284,7 +1390,10 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-### Ownership
+</details>
+
+<details>
+<summary>ownership</summary>
 
 ```mermaid
 flowchart LR
@@ -1308,6 +1417,8 @@ flowchart LR
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
+
+</details>
 
 <details>
 <summary>tree</summary>
