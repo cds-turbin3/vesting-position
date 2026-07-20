@@ -14,10 +14,11 @@ publish = false
 [dependencies]
 # Pinned to pan-galactic/sol-babelfish main: #[derive(FromValue)]
 # (CampaignView's decoder), Story::when_ok/when_err (the send helpers'
-# core), and run_instruction(s)_as (named beats for the raw first-claim and
-# transfer paths). Swap to a crates.io release once frood is published.
-frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "d493fe4ae8aaf34f299ce44952aedb9a9a7b9849" }
-frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "d493fe4ae8aaf34f299ce44952aedb9a9a7b9849" }
+# core), run_instruction(s)_as (named beats for the raw first-claim and
+# transfer paths), and the report's humanized samples + cast block. Swap to
+# a crates.io release once frood is published.
+frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "7b9ff94522fdb1f41176ab462cc2401c8c7c8dba" }
+frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "7b9ff94522fdb1f41176ab462cc2401c8c7c8dba" }
 # The `Account` the plugin helper rebuilds into an `AccountInfo` for
 # mpl-core's `fetch_plugin` (litesvm's `get_account` hands one back).
 solana-account = "3"
