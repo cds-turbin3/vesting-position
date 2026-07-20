@@ -1,6 +1,6 @@
 # mid_schedule_cliff_plus_linear
 
-**Source:** [`tests/vesting_schedule.rs` L67](https://github.com/cds-turbin3/vesting-position/blob/09424ff7c84ab4c6bb084d93904af269818bd0bd/babelfish-tests/tests/vesting_schedule.rs#L67)
+**Source:** [`tests/vesting_schedule.rs` L67](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/vesting_schedule.rs#L67)
 
 Over 16 days: 2 moments.
 
@@ -30,7 +30,9 @@ Over 16 days: 2 moments.
 > Halfway through the linear window, a claim releases the cliff slice plus half the linear remainder: cliff_amount + linear_amount/2.
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -94,10 +96,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -135,10 +134,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -163,10 +159,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -201,7 +194,9 @@ Creator (85369cu)
 - [x] Alice's balance
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -274,10 +269,7 @@ sequenceDiagram
     deactivate p2
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -320,10 +312,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -348,10 +337,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 

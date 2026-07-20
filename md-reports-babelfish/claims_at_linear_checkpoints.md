@@ -1,6 +1,6 @@
 # claims_at_linear_checkpoints
 
-**Source:** [`tests/vesting_schedule.rs` L181](https://github.com/cds-turbin3/vesting-position/blob/09424ff7c84ab4c6bb084d93904af269818bd0bd/babelfish-tests/tests/vesting_schedule.rs#L181)
+**Source:** [`tests/vesting_schedule.rs` L181](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/vesting_schedule.rs#L181)
 
 Over 31 days: 16 moments; 1/1 law(s) held.
 
@@ -33,7 +33,9 @@ Over 31 days: 16 moments; 1/1 law(s) held.
 *observed Alice claimable (schedule ceiling): 100,000,000,000*
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -97,10 +99,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -138,10 +137,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -166,10 +162,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -201,7 +194,9 @@ Creator (85369cu)
 | Alice balance | — | 100,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -274,10 +269,7 @@ sequenceDiagram
     deactivate p2
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -320,10 +312,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -348,10 +337,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -386,7 +372,9 @@ flowchart LR
 | Alice balance | 100,000,000,000 | 109,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -408,10 +396,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -444,10 +429,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -472,10 +454,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -498,7 +477,9 @@ flowchart LR
 | Alice balance | 109,000,000,000 | 163,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -520,10 +501,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -556,10 +534,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -584,10 +559,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -610,7 +582,9 @@ flowchart LR
 | Alice balance | 163,000,000,000 | 217,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -632,10 +606,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -668,10 +639,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -696,10 +664,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -722,7 +687,9 @@ flowchart LR
 | Alice balance | 217,000,000,000 | 280,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -744,10 +711,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -780,10 +744,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -808,10 +769,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -834,7 +792,9 @@ flowchart LR
 | Alice balance | 280,000,000,000 | 397,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -856,10 +816,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -892,10 +849,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -920,10 +874,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -946,7 +897,9 @@ flowchart LR
 | Alice balance | 397,000,000,000 | 505,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -968,10 +921,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -1004,10 +954,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -1032,10 +979,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -1058,7 +1002,9 @@ flowchart LR
 | Alice balance | 505,000,000,000 | 550,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -1080,10 +1026,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -1116,10 +1059,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -1144,10 +1084,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -1170,7 +1107,9 @@ flowchart LR
 | Alice balance | 550,000,000,000 | 613,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -1192,10 +1131,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -1228,10 +1164,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -1256,10 +1189,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -1282,7 +1212,9 @@ flowchart LR
 | Alice balance | 613,000,000,000 | 703,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -1304,10 +1236,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -1340,10 +1269,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -1368,10 +1294,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -1394,7 +1317,9 @@ flowchart LR
 | Alice balance | 703,000,000,000 | 775,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -1416,10 +1341,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -1452,10 +1374,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -1480,10 +1399,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -1506,7 +1422,9 @@ flowchart LR
 | Alice balance | 775,000,000,000 | 847,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -1528,10 +1446,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -1564,10 +1479,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -1592,10 +1504,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -1618,7 +1527,9 @@ flowchart LR
 | Alice balance | 847,000,000,000 | 919,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -1640,10 +1551,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -1676,10 +1584,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -1704,10 +1609,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -1730,7 +1632,9 @@ flowchart LR
 | Alice balance | 919,000,000,000 | 991,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -1752,10 +1656,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -1788,10 +1689,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -1816,10 +1714,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -1842,7 +1737,9 @@ flowchart LR
 | Alice balance | 991,000,000,000 | 1,000,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -1873,10 +1770,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -1912,10 +1806,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -1940,10 +1831,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 

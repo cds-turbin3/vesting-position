@@ -1,6 +1,6 @@
 # at_cliff_releases_cliff_bps
 
-**Source:** [`tests/vesting_schedule.rs` L48](https://github.com/cds-turbin3/vesting-position/blob/09424ff7c84ab4c6bb084d93904af269818bd0bd/babelfish-tests/tests/vesting_schedule.rs#L48)
+**Source:** [`tests/vesting_schedule.rs` L48](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/vesting_schedule.rs#L48)
 
 Over 2 days: 2 moments.
 
@@ -28,7 +28,9 @@ Over 2 days: 2 moments.
 | Creator balance | — | 0 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -92,10 +94,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -133,10 +132,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -161,10 +157,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -195,7 +188,9 @@ Creator (85369cu)
 | Vault balance | 10,000,000,000,000 | 9,900,000,000,000 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -268,10 +263,7 @@ sequenceDiagram
     deactivate p2
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -314,10 +306,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -342,10 +331,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 

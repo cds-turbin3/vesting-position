@@ -1,6 +1,6 @@
 # exclude_asset_burns_position
 
-**Source:** [`tests/freeze.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/09424ff7c84ab4c6bb084d93904af269818bd0bd/babelfish-tests/tests/freeze.rs#L232)
+**Source:** [`tests/freeze.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/freeze.rs#L232)
 
 Over 1 day: 4 moments.
 
@@ -28,7 +28,9 @@ Over 1 day: 4 moments.
 | Creator balance | — | 0 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -92,10 +94,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -133,10 +132,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -161,10 +157,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -191,7 +184,9 @@ Creator (85369cu)
 ### T1: FirstClaim (day 1)
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -260,10 +255,7 @@ sequenceDiagram
     deactivate p2
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -303,10 +295,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -331,10 +320,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -366,7 +352,9 @@ flowchart LR
 | Alice balance | — | 0 |
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -388,10 +376,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -422,10 +407,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -447,10 +429,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
@@ -467,7 +446,9 @@ Creator (75427cu)
 🚩 T3 failed: InstructionError(0, Custom(6))
 
 <details>
-<summary>sequence</summary>
+<summary>diagrams</summary>
+
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -480,10 +461,7 @@ sequenceDiagram
     deactivate p1
 ```
 
-</details>
-
-<details>
-<summary>authority</summary>
+### Authority
 
 ```mermaid
 flowchart LR
@@ -497,10 +475,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>ownership</summary>
+### Ownership
 
 ```mermaid
 flowchart LR
@@ -515,10 +490,7 @@ flowchart LR
     classDef state fill:#ffe6cc,stroke:#d79b00;
 ```
 
-</details>
-
-<details>
-<summary>tree</summary>
+### Tree
 
 ```
 
