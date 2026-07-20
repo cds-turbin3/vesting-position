@@ -18,7 +18,7 @@
 
 use std::collections::HashMap;
 
-use frood::blocks::{authority, cast, folder, ownership, sequence, tree, Lifelines};
+use frood::blocks::{authority, cast, folder, ownership, sequence, timeline, tree, Lifelines};
 use frood::{Actor, IntoBundle, Obs, Outcome, ReportConfig, ReportState, Reporter, Story};
 use frood_idl::types::Value;
 use frood_idl::FromValue;
@@ -214,13 +214,15 @@ pub struct CampaignView {
 /// The suite's report standard, declared once, in the same file as the world
 /// it configures: what every test's report contains and how, each block
 /// carrying its own options. `cast` is the report-level name/address table
-/// (every alias the story registered), rendered once before T0; the rest
-/// are per-transaction views. A test that deviates assigns a fresh
+/// (every alias the story registered) and `timeline` (the whole trajectory
+/// as one table, a Δ column after each numeric observation) render once
+/// before T0; the rest are per-transaction views. A test that deviates assigns a fresh
 /// `ReportConfig::of(...)` through `world.report_state().config_mut()`, in
 /// the test that owns the deviation (see `compute_units.rs` for the first).
 pub fn report_standard() -> ReportConfig {
     ReportConfig::of([
         cast().collapsed(),
+        timeline(),
         folder(
             "diagrams",
             [sequence(Lifelines), authority(), ownership(), tree()],
