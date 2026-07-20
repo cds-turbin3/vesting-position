@@ -1,6 +1,6 @@
 # cancel_campaign_requires_creator
 
-**Source:** [`tests/clawback.rs` L341](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/clawback.rs#L341)
+**Source:** [`tests/clawback.rs` L341](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/clawback.rs#L341)
 
 Over 0 days: 2 moments.
 

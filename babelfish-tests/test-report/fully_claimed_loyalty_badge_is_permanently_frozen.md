@@ -1,6 +1,6 @@
 # fully_claimed_loyalty_badge_is_permanently_frozen
 
-**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/freeze.rs#L123)
+**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/freeze.rs#L123)
 
 Over 31 days: 4 moments; 1/1 law(s) held; 1/1 finally check(s) passed.
 

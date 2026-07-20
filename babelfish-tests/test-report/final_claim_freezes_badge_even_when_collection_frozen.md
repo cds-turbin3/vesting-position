@@ -1,6 +1,6 @@
 # final_claim_freezes_badge_even_when_collection_frozen
 
-**Source:** [`tests/freeze.rs` L347](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/freeze.rs#L347)
+**Source:** [`tests/freeze.rs` L347](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/freeze.rs#L347)
 
 Over 31 days: 4 moments.
 

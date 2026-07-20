@@ -1,6 +1,6 @@
 # scenario_2_two_users_transfer_and_bob_claims_both
 
-**Source:** [`tests/claim.rs` L61](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/claim.rs#L61)
+**Source:** [`tests/claim.rs` L61](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/claim.rs#L61)
 
 Over 1 day: 6 moments.
 

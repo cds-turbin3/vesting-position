@@ -1,6 +1,6 @@
 # close_receipt_returns_rent_after_close_campaign
 
-**Source:** [`tests/clawback.rs` L362](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/clawback.rs#L362)
+**Source:** [`tests/clawback.rs` L362](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/clawback.rs#L362)
 
 Over 31 days: 5 moments.
 

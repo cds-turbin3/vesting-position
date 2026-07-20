@@ -1,6 +1,6 @@
 # close_receipt_fails_while_campaign_active
 
-**Source:** [`tests/clawback.rs` L353](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/clawback.rs#L353)
+**Source:** [`tests/clawback.rs` L353](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/clawback.rs#L353)
 
 Over 1 day: 3 moments.
 

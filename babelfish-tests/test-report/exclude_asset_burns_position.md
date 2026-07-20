@@ -1,6 +1,6 @@
 # exclude_asset_burns_position
 
-**Source:** [`tests/freeze.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/freeze.rs#L232)
+**Source:** [`tests/freeze.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/freeze.rs#L232)
 
 Over 1 day: 4 moments.
 

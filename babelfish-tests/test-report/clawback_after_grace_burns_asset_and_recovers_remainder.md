@@ -1,6 +1,6 @@
 # clawback_after_grace_burns_asset_and_recovers_remainder
 
-**Source:** [`tests/clawback.rs` L36](https://github.com/cds-turbin3/vesting-position/blob/33d5f78f00bab49f3eaaf269e259c41ce45e6246/babelfish-tests/tests/clawback.rs#L36)
+**Source:** [`tests/clawback.rs` L36](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/clawback.rs#L36)
 
 Over 38 days: 5 moments.
 
