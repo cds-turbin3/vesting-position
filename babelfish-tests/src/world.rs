@@ -18,7 +18,8 @@
 
 use std::collections::HashMap;
 
-use frood::{Actor, IntoBundle, Obs, Outcome, ReportState, Reporter, Story};
+use frood::blocks::{authority, cast, ownership, sequence, tree, Lifelines};
+use frood::{Actor, IntoBundle, Obs, Outcome, ReportConfig, ReportState, Reporter, Story};
 use frood_idl::types::Value;
 use frood_idl::FromValue;
 use solana_account::Account;
@@ -210,6 +211,23 @@ pub struct CampaignView {
     pub is_transferable: bool,
 }
 
+/// The suite's report standard, declared once, in the same file as the world
+/// it configures: what every test's report contains and how, each block
+/// carrying its own options. `cast` is the report-level name/address table
+/// (every alias the story registered), rendered once before T0; the rest
+/// are per-transaction views. A test that deviates assigns a fresh
+/// `ReportConfig::of(...)` through `world.report_state().config_mut()`, in
+/// the test that owns the deviation (see `compute_units.rs` for the first).
+pub fn report_standard() -> ReportConfig {
+    ReportConfig::of([
+        cast(),
+        sequence(Lifelines),
+        authority(),
+        ownership(),
+        tree().collapsed(),
+    ])
+}
+
 #[derive(Reporter)]
 pub struct VestingWorld {
     pub story: Story,
@@ -304,7 +322,7 @@ impl VestingWorld {
             mint,
             collection,
             config,
-            report: ReportState::from_manifest_toml(None),
+            report: ReportState::new(report_standard()),
             vault_obs,
             creator_obs,
             balance_obs,

@@ -3,6 +3,8 @@
 //! also freezes it; that path needs FIRST_CLAIM_CU, everything else fits the
 //! 200k default.
 
+use frood::blocks::{sequence, tree, Lifelines};
+use frood::{ReportConfig, Reporter};
 use vesting_babelfish_tests::common::{fund_keypair, load_whitelist_user, LAMPORTS, WHITELISTED_1};
 use vesting_babelfish_tests::merkle::default_merkle;
 use vesting_babelfish_tests::world::{
@@ -19,6 +21,10 @@ fn compute_units_profile() {
     // World A: profile initialize, the mint-only first claim, and a subsequent
     // claim, all under the default cap (no ComputeBudget ix).
     let mut world = VestingWorld::uninitialized(&merkle, config);
+    // The CU numbers live in the sequence diagram and the CPI tree; this
+    // report drops the cast and the authority/ownership graphs, which
+    // repeat what every other report already shows for these transactions.
+    *world.report_state().config_mut() = cu_profile_report();
     let init = world.run_initialize(&merkle);
     log_tx_cu("initialize", init.compute_units_consumed(), DEFAULT_TX_CU);
 
@@ -59,6 +65,7 @@ fn compute_units_profile() {
     // World B: the heaviest path (first claim at end+1 releases the full
     // allocation and freezes the badge), which needs the raised limit.
     let mut heavy = VestingWorld::uninitialized(&merkle, config);
+    *heavy.report_state().config_mut() = cu_profile_report();
     heavy.run_initialize(&merkle);
     fund_keypair(&mut heavy, &alice.keypair, LAMPORTS);
     heavy.warp_to(heavy.end() + 1);
@@ -85,4 +92,9 @@ fn compute_units_profile() {
         sub.compute_units_consumed() <= DEFAULT_TX_CU as u64,
         "subsequent claim exceeds default cap"
     );
+}
+
+/// This test's attenuated report shape, shared by both worlds it builds.
+fn cu_profile_report() -> ReportConfig {
+    ReportConfig::of([sequence(Lifelines), tree().collapsed()])
 }
