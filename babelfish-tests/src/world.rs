@@ -69,21 +69,26 @@ pub fn log_tx_cu(label: &str, consumed: u64, limit: u32) {
     );
 }
 
-/// The vesting program's closed action vocabulary — one variant per
-/// instruction the world drives through `Story::when`. `IntoStaticStr`
-/// (PascalCase, matching each ix name) gives every `when` label and every
-/// `History::count_actions` lookup the SAME string by construction, so the
-/// typo class that a hand-typed `"Clm"` literal would open never exists.
-/// `first_claim_ok`/`first_claim_err` are the one exception: they prepend a
-/// raw `ComputeBudget` instruction the frood `IntoBundle` vocabulary has no
-/// slot for, so those two still run through the unlabeled `run_instructions`
-/// path (see their doc) — a moment `Story::when` never minted has no action
-/// to name.
+/// The vesting world's closed action vocabulary — one variant per named
+/// beat, most sent through `Story::when`. `IntoStaticStr` (PascalCase)
+/// gives every label and every `History::count_actions` lookup the SAME
+/// string by construction, so the typo class that a hand-typed `"Clm"`
+/// literal would open never exists.
+///
+/// Two variants name beats the `IntoBundle` vocabulary cannot express,
+/// sent through the labeled raw path (`Story::run_instructions_as`):
+/// `FirstClaim`, whose bundle prepends a raw `ComputeBudget` instruction,
+/// and `TransferPosition`, an mpl-core transfer (another program's
+/// instruction entirely). `FirstClaim` is deliberately NOT `Claim`: the
+/// full_lifecycle finally counts Claim-labeled transactions and means
+/// only the subsequent kind, so the two claim shapes stay countable
+/// apart.
 #[derive(Clone, Copy, Debug, strum::IntoStaticStr)]
 #[strum(serialize_all = "PascalCase")]
 pub enum Action {
     Initialize,
     Claim,
+    FirstClaim,
     Clawback,
     ClawbackUnclaimed,
     CloseCampaign,
@@ -92,6 +97,7 @@ pub enum Action {
     FreezeAsset,
     FreezeCollection,
     CloseReceipt,
+    TransferPosition,
 }
 
 impl Action {
@@ -641,8 +647,9 @@ impl VestingWorld {
     /// still early. Prepends a raised CU limit for the NFT-minting CPI: the
     /// `ComputeBudget` program's instruction has no `frood gen` typed mirror
     /// (it's not part of `vestingPositions`'s IDL), so this bundle can't go
-    /// through `Story::when`'s `IntoBundle` vocabulary — it runs unlabeled
-    /// through `run_instructions`, same as before the trajectory.
+    /// through `Story::when`'s `IntoBundle` vocabulary — it runs through the
+    /// labeled raw path instead, named `FirstClaim` (see `Action`'s doc for
+    /// why not `Claim`).
     pub fn first_claim_ok(
         &mut self,
         user: &Actor,
@@ -657,7 +664,11 @@ impl VestingWorld {
         let budget_ix = set_cu_limit_ix(FIRST_CLAIM_CU);
         let out = self
             .story
-            .run_instructions(vec![budget_ix, claim_ix], &[user])
+            .run_instructions_as(
+                Action::FirstClaim.label(),
+                vec![budget_ix, claim_ix],
+                &[user],
+            )
             .expect_success();
         self.after_tx();
         self.observe_balance(user);
@@ -675,7 +686,9 @@ impl VestingWorld {
     ) -> Outcome {
         let asset = self.asset_for(&user.pubkey());
         let claim_ix = self.claim_ix(&user.pubkey(), asset, Some(proofs), Some(allocation));
-        let out = self.story.run_instruction(claim_ix, &[user]);
+        let out = self
+            .story
+            .run_instruction_as(Action::FirstClaim.label(), claim_ix, &[user]);
         self.story.then_err(&out, error);
         self.after_tx();
         self.observe_balance(user);
@@ -956,7 +969,8 @@ impl VestingWorld {
     pub fn transfer_changes_owner(&mut self, from: &Actor, to: &Pubkey, asset: &Pubkey) -> bool {
         let owner_before = self.asset_owner(asset);
         let ix = self.transfer_asset_ix(&from.pubkey(), to, asset);
-        self.story.run_instruction(ix, &[from]);
+        self.story
+            .run_instruction_as(Action::TransferPosition.label(), ix, &[from]);
         self.after_tx();
         self.observe_balance(from);
         self.asset_owner(asset) != owner_before
