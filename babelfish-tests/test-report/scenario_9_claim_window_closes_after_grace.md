@@ -1,6 +1,6 @@
 # scenario_9_claim_window_closes_after_grace
 
-**Source:** [`tests/claim.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/claim.rs#L232)
+**Source:** [`tests/claim.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/8b919a4afb93b5878c3ba60d3c6a8b23c5b3b11f/babelfish-tests/tests/claim.rs#L232)
 
 Over 38 days: 4 moments.
 

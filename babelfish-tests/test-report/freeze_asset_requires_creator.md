@@ -1,6 +1,6 @@
 # freeze_asset_requires_creator
 
-**Source:** [`tests/freeze.rs` L307](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/freeze.rs#L307)
+**Source:** [`tests/freeze.rs` L307](https://github.com/cds-turbin3/vesting-position/blob/8b919a4afb93b5878c3ba60d3c6a8b23c5b3b11f/babelfish-tests/tests/freeze.rs#L307)
 
 Over 1 day: 3 moments.
 

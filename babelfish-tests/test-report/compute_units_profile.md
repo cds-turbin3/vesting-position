@@ -1,8 +1,8 @@
 # compute_units_profile
 
-**Source:** [`tests/compute_units.rs` L14](https://github.com/cds-turbin3/vesting-position/blob/1731b706034b1cffc1981d2eeba57eed929b6e2e/babelfish-tests/tests/compute_units.rs#L14)
+**Source:** [`tests/compute_units.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/8b919a4afb93b5878c3ba60d3c6a8b23c5b3b11f/babelfish-tests/tests/compute_units.rs#L16)
 
-Over 1 day: 3 moments.
+Over 31 days: 2 moments.
 
 ### T0: Initialize (day 0)
 
@@ -98,72 +98,89 @@ Creator (85369cu)
 
 </details>
 
-*1 day pass.*
+*2678401 seconds pass.*
 
-### T1: FirstClaim (day 1)
+### T1: FirstClaim (day 31)
+
+| observation | before | after |
+| --- | --- | --- |
+| Vault balance | 10,000,000,000,000 | 9,000,000,000,000 |
 
 ### Sequence
 
 ```mermaid
 sequenceDiagram
     participant p0 as 4wQQ…
-    participant p1 as VestingPositions
-    participant p2 as splAssociatedTokenAccount
-    participant p3 as token
-    participant p4 as system
-    participant p5 as CoRE…
-    p0->>p1: Claim
+    participant p1 as Comp…
+    participant p2 as VestingPositions
+    participant p3 as splAssociatedTokenAccount
+    participant p4 as token
+    participant p5 as system
+    participant p6 as CoRE…
+    p0->>p1: ?
     activate p1
-    p1->>p2: create
-    activate p2
-    p2->>p3: getAccountDataSize
-    activate p3
-    p3-->>p2: ✓ 183cu
-    deactivate p3
-    p2->>p4: createAccount
-    activate p4
-    p4-->>p2: ✓
-    deactivate p4
-    p2->>p3: initializeImmutableOwner
-    activate p3
-    p3-->>p2: ✓ 38cu
-    deactivate p3
-    p2->>p3: initializeAccount3
-    activate p3
-    p3-->>p2: ✓ 235cu
-    deactivate p3
-    p2-->>p1: ✓ 13416cu
-    deactivate p2
-    p1->>p4: createAccount
-    activate p4
-    p4-->>p1: ✓
-    deactivate p4
-    p1->>p5: CreateV2
-    activate p5
-    p5->>p4: createAccount
-    activate p4
-    p4-->>p5: ✓
-    deactivate p4
-    p5->>p4: transferSol
-    activate p4
-    p4-->>p5: ✓
-    deactivate p4
-    p5->>p4: transferSol
-    activate p4
-    p4-->>p5: ✓
-    deactivate p4
-    p5->>p4: transferSol
-    activate p4
-    p4-->>p5: ✓
-    deactivate p4
-    p5->>p4: transferSol
-    activate p4
-    p4-->>p5: ✓
-    deactivate p4
-    p5-->>p1: ✓ 29413cu
-    deactivate p5
-    p1-->>p0: ✓ 160409cu
+    p1-->>p0: ✓
     deactivate p1
+    p0->>p2: Claim
+    activate p2
+    p2->>p3: create
+    activate p3
+    p3->>p4: getAccountDataSize
+    activate p4
+    p4-->>p3: ✓ 183cu
+    deactivate p4
+    p3->>p5: createAccount
+    activate p5
+    p5-->>p3: ✓
+    deactivate p5
+    p3->>p4: initializeImmutableOwner
+    activate p4
+    p4-->>p3: ✓ 38cu
+    deactivate p4
+    p3->>p4: initializeAccount3
+    activate p4
+    p4-->>p3: ✓ 235cu
+    deactivate p4
+    p3-->>p2: ✓ 13416cu
+    deactivate p3
+    p2->>p5: createAccount
+    activate p5
+    p5-->>p2: ✓
+    deactivate p5
+    p2->>p6: CreateV2
+    activate p6
+    p6->>p5: createAccount
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6->>p5: transferSol
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6->>p5: transferSol
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6->>p5: transferSol
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6->>p5: transferSol
+    activate p5
+    p5-->>p6: ✓
+    deactivate p5
+    p6-->>p2: ✓ 29342cu
+    deactivate p6
+    p2->>p4: transferChecked
+    activate p4
+    p4-->>p2: ✓ 105cu
+    deactivate p4
+    p2->>p6: UpdatePlugin
+    activate p6
+    p6-->>p2: ✓ 13574cu
+    deactivate p6
+    p2-->>p0: ✓ 182180cu
+    deactivate p2
 ```
 
 <details>
@@ -171,45 +188,23 @@ sequenceDiagram
 
 ```
 
-4wQQ… (160409cu)
-└─ VestingPositions::Claim ✓ 160409cu
+4wQQ… (182330cu)
+├─ Comp…::? ✓
+└─ VestingPositions::Claim ✓ 182180cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu
    │  ├─ system::createAccount ✓
    │  ├─ token::initializeImmutableOwner ✓ 38cu
    │  └─ token::initializeAccount3 ✓ 235cu
    ├─ system::createAccount ✓
-   └─ CoRE…::CreateV2 ✓ 29413cu
-      ├─ system::createAccount ✓
-      ├─ system::transferSol ✓
-      ├─ system::transferSol ✓
-      ├─ system::transferSol ✓
-      └─ system::transferSol ✓
-```
-
-</details>
-
-### T2: Claim (day 1)
-
-### Sequence
-
-```mermaid
-sequenceDiagram
-    participant p0 as 4wQQ…
-    participant p1 as VestingPositions
-    p0->>p1: Claim
-    activate p1
-    p1-->>p0: ✓ 32530cu
-    deactivate p1
-```
-
-<details>
-<summary>tree</summary>
-
-```
-
-4wQQ… (32530cu)
-└─ VestingPositions::Claim ✓ 32530cu
+   ├─ CoRE…::CreateV2 ✓ 29342cu
+   │  ├─ system::createAccount ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  ├─ system::transferSol ✓
+   │  └─ system::transferSol ✓
+   ├─ token::transferChecked ✓ 105cu
+   └─ CoRE…::UpdatePlugin ✓ 13574cu
 ```
 
 </details>
