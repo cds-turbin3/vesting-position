@@ -1,6 +1,6 @@
 # vested_tokens_are_forfeited_past_the_grace_window
 
-**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/forfeiture.rs#L17)
+**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/7b03c373db96dabae9440a8c98ced4c97068b325/babelfish-tests/tests/forfeiture.rs#L17)
 
 > Given: Alice is whitelisted in a live campaign with a grace window past end
 
@@ -24,6 +24,15 @@ Over 38 days: 4 moments.
 | userAta(Alice, Toke…, Mint) | 45PBE5WDayGKEeGHvaLP5VfqXSS5JoGVewXyVbSE8JSq |
 
 </details>
+
+### Timeline
+
+| time | Vault balance | Δ | Creator balance | Δ | Alice balance | Δ | comment |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — |  | Initialize (day 0) |
+| T1 | 9,900,000,000,000 | -100,000,000,000 | 0 |  | — |  | FirstClaim (day 2) |
+| T2 | 9,000,000,000,000 | -900,000,000,000 | 900,000,000,000 | +900,000,000,000 | 100,000,000,000 | +100,000,000,000 | Clawback (day 38) |
+| T3 | 9,000,000,000,000 |  | 900,000,000,000 |  | 100,000,000,000 |  | Claim (day 38) |
 
 ### T0: Initialize (day 0)
 

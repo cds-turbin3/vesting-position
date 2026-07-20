@@ -1,6 +1,6 @@
 # fully_claimed_loyalty_badge_is_permanently_frozen
 
-**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/freeze.rs#L123)
+**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/7b03c373db96dabae9440a8c98ced4c97068b325/babelfish-tests/tests/freeze.rs#L123)
 
 Over 31 days: 4 moments; 1/1 law(s) held; 1/1 finally check(s) passed.
 
@@ -20,6 +20,15 @@ Over 31 days: 4 moments; 1/1 law(s) held; 1/1 finally check(s) passed.
 | userAta(4wQQ…, Toke…, Mint) | 45PBE5WDayGKEeGHvaLP5VfqXSS5JoGVewXyVbSE8JSq |
 
 </details>
+
+### Timeline
+
+| time | Vault balance | Δ | Creator balance | Δ | Alice balance | Δ | asset frozen | comment |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — |  | — | Initialize (day 0) |
+| T1 | 10,000,000,000,000 |  | 0 |  | — |  | — | FirstClaim (day 1) |
+| T2 | 9,000,000,000,000 | -1,000,000,000,000 | 0 |  | 1,000,000,000,000 | +1,000,000,000,000 | true | Claim (day 31) |
+| T3 | 9,000,000,000,000 |  | 0 |  | 1,000,000,000,000 |  | true | TransferPosition (day 31) |
 
 ### T0: Initialize (day 0)
 

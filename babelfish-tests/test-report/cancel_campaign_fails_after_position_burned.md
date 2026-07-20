@@ -1,6 +1,6 @@
 # cancel_campaign_fails_after_position_burned
 
-**Source:** [`tests/clawback.rs` L330](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/clawback.rs#L330)
+**Source:** [`tests/clawback.rs` L330](https://github.com/cds-turbin3/vesting-position/blob/7b03c373db96dabae9440a8c98ced4c97068b325/babelfish-tests/tests/clawback.rs#L330)
 
 Over 1 day: 4 moments.
 
@@ -19,6 +19,15 @@ Over 1 day: 4 moments.
 | updateAuthority(Collection) | vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs |
 
 </details>
+
+### Timeline
+
+| time | Vault balance | Δ | Creator balance | Δ | Alice balance | Δ | comment |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — |  | Initialize (day 0) |
+| T1 | 10,000,000,000,000 |  | 0 |  | — |  | FirstClaim (day 1) |
+| T2 | 9,000,000,000,000 | -1,000,000,000,000 | 1,000,000,000,000 | +1,000,000,000,000 | 0 |  | ExcludeAsset (day 1) |
+| T3 | 9,000,000,000,000 |  | 1,000,000,000,000 |  | 0 |  | CancelCampaign (day 1) |
 
 ### T0: Initialize (day 0)
 

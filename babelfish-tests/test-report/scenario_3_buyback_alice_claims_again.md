@@ -1,6 +1,6 @@
 # scenario_3_buyback_alice_claims_again
 
-**Source:** [`tests/claim.rs` L94](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/claim.rs#L94)
+**Source:** [`tests/claim.rs` L94](https://github.com/cds-turbin3/vesting-position/blob/7b03c373db96dabae9440a8c98ced4c97068b325/babelfish-tests/tests/claim.rs#L94)
 
 Over 1 day: 7 moments.
 
@@ -21,6 +21,18 @@ Over 1 day: 7 moments.
 | userAta(H87x…, Toke…, Mint) | 7NWR2QKmwfaPykvd5ANbrcLspWfNdTptcnyssMqSFi4 |
 
 </details>
+
+### Timeline
+
+| time | Vault balance | Δ | Creator balance | Δ | Alice balance | Δ | Bob balance | Δ | comment |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — |  | — |  | Initialize (day 0) |
+| T1 | 10,000,000,000,000 |  | 0 |  | — |  | — |  | FirstClaim (day 1) |
+| T2 | 10,000,000,000,000 |  | 0 |  | 0 |  | — |  | Claim (day 1) |
+| T3 | 10,000,000,000,000 |  | 0 |  | 0 |  | — |  | TransferPosition (day 1) |
+| T4 | 10,000,000,000,000 |  | 0 |  | 0 |  | — |  | Claim (day 1) |
+| T5 | 10,000,000,000,000 |  | 0 |  | 0 |  | 0 |  | TransferPosition (day 1) |
+| T6 | 10,000,000,000,000 |  | 0 |  | 0 |  | 0 |  | Claim (day 1) |
 
 ### T0: Initialize (day 0)
 

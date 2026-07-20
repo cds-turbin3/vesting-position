@@ -1,6 +1,6 @@
 # close_campaign_succeeds_when_vault_empty
 
-**Source:** [`tests/clawback.rs` L228](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/clawback.rs#L228)
+**Source:** [`tests/clawback.rs` L228](https://github.com/cds-turbin3/vesting-position/blob/7b03c373db96dabae9440a8c98ced4c97068b325/babelfish-tests/tests/clawback.rs#L228)
 
 Over 31 days: 4 moments.
 
@@ -20,6 +20,15 @@ Over 31 days: 4 moments.
 | userAta(4wQQ…, Toke…, Mint) | 45PBE5WDayGKEeGHvaLP5VfqXSS5JoGVewXyVbSE8JSq |
 
 </details>
+
+### Timeline
+
+| time | Vault balance | Δ | Creator balance | Δ | Alice balance | Δ | comment |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| T0 | 1,000,000,000,000 | +1,000,000,000,000 | 0 |  | — |  | Initialize (day 0) |
+| T1 | 1,000,000,000,000 |  | 0 |  | — |  | FirstClaim (day 1) |
+| T2 | 0 | -1,000,000,000,000 | 0 |  | 1,000,000,000,000 | +1,000,000,000,000 | Claim (day 31) |
+| T3 | 0 |  | 0 |  | 1,000,000,000,000 |  | CloseCampaign (day 31) |
 
 ### T0: Initialize (day 0)
 

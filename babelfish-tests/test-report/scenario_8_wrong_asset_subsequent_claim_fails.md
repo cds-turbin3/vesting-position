@@ -1,6 +1,6 @@
 # scenario_8_wrong_asset_subsequent_claim_fails
 
-**Source:** [`tests/claim.rs` L216](https://github.com/cds-turbin3/vesting-position/blob/fa4afc71d7980a7b3b0a7ffff9e4e980d1bc9e0c/babelfish-tests/tests/claim.rs#L216)
+**Source:** [`tests/claim.rs` L216](https://github.com/cds-turbin3/vesting-position/blob/7b03c373db96dabae9440a8c98ced4c97068b325/babelfish-tests/tests/claim.rs#L216)
 
 Over 1 day: 2 moments.
 
@@ -20,6 +20,13 @@ Over 1 day: 2 moments.
 | userAta(ErV6…, Toke…, Mint) | DP7csyre1YNuKdteez1puQMtq7kbgzhLKJabPePoNc39 |
 
 </details>
+
+### Timeline
+
+| time | Vault balance | Δ | Creator balance | Δ | Mallory balance | comment |
+| --- | --- | --- | --- | --- | --- | --- |
+| T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — | Initialize (day 0) |
+| T1 | 10,000,000,000,000 |  | 0 |  | — | Claim (day 1) |
 
 ### T0: Initialize (day 0)
 
