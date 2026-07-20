@@ -220,10 +220,10 @@ pub struct CampaignView {
 /// the test that owns the deviation (see `compute_units.rs` for the first).
 pub fn report_standard() -> ReportConfig {
     ReportConfig::of([
-        cast(),
-        sequence(Lifelines),
-        authority(),
-        ownership(),
+        cast().collapsed(),
+        sequence(Lifelines).collapsed(),
+        authority().collapsed(),
+        ownership().collapsed(),
         tree().collapsed(),
     ])
 }
