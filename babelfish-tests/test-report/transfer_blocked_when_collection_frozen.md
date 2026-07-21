@@ -1,6 +1,6 @@
 # transfer_blocked_when_collection_frozen
 
-**Source:** [`tests/freeze.rs` L52](https://github.com/cds-turbin3/vesting-position/blob/7b03c373db96dabae9440a8c98ced4c97068b325/babelfish-tests/tests/freeze.rs#L52)
+**Source:** [`tests/freeze.rs` L52](https://github.com/cds-turbin3/vesting-position/blob/1a7ceef2d99e574860e959cc0f6c79bfbc7fbb95/babelfish-tests/tests/freeze.rs#L52)
 
 Over 1 day: 3 moments.
 

@@ -1,0 +1,487 @@
+{
+  "guide": "0.2",
+  "provenance": {
+    "file": "tests/compute_units.rs",
+    "line": 23
+  },
+  "blocks": [
+    {
+      "kind": "prose",
+      "data": "Over 1 day: 3 moments."
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "T0: Initialize (day 0)"
+      ]
+    },
+    {
+      "kind": "table",
+      "data": {
+        "headers": [
+          "observation",
+          "before",
+          "after"
+        ],
+        "rows": [
+          [
+            {
+              "type": "text",
+              "value": "Vault balance"
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "int",
+              "value": "10000000000000"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Creator balance"
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "int",
+              "value": "0"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Sequence"
+      ]
+    },
+    {
+      "kind": "sequence",
+      "data": {
+        "participants": [
+          {
+            "id": "p0",
+            "label": "Creator",
+            "role": "authority"
+          },
+          {
+            "id": "p1",
+            "label": "VestingPositions",
+            "role": "program"
+          },
+          {
+            "id": "p2",
+            "label": "system",
+            "role": "program"
+          },
+          {
+            "id": "p3",
+            "label": "splAssociatedTokenAccount",
+            "role": "program"
+          },
+          {
+            "id": "p4",
+            "label": "token",
+            "role": "program"
+          },
+          {
+            "id": "p5",
+            "label": "CoRE…",
+            "role": "program"
+          }
+        ],
+        "lanes": false,
+        "lifelines": true,
+        "leading_notes": [],
+        "frames": [
+          {
+            "open_bands": [],
+            "root": {
+              "caller": "p0",
+              "program": "p1",
+              "call_label": "Initialize",
+              "failure": null,
+              "return_label": "✓ 85369cu",
+              "children": [
+                {
+                  "caller": "p1",
+                  "program": "p2",
+                  "call_label": "createAccount",
+                  "failure": null,
+                  "return_label": "✓",
+                  "children": []
+                },
+                {
+                  "caller": "p1",
+                  "program": "p3",
+                  "call_label": "create",
+                  "failure": null,
+                  "return_label": "✓ 13517cu",
+                  "children": [
+                    {
+                      "caller": "p3",
+                      "program": "p4",
+                      "call_label": "getAccountDataSize",
+                      "failure": null,
+                      "return_label": "✓ 183cu",
+                      "children": []
+                    },
+                    {
+                      "caller": "p3",
+                      "program": "p2",
+                      "call_label": "createAccount",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p3",
+                      "program": "p4",
+                      "call_label": "initializeImmutableOwner",
+                      "failure": null,
+                      "return_label": "✓ 38cu",
+                      "children": []
+                    },
+                    {
+                      "caller": "p3",
+                      "program": "p4",
+                      "call_label": "initializeAccount3",
+                      "failure": null,
+                      "return_label": "✓ 235cu",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "caller": "p1",
+                  "program": "p5",
+                  "call_label": "CreateCollectionV2",
+                  "failure": null,
+                  "return_label": "✓ 19976cu",
+                  "children": [
+                    {
+                      "caller": "p5",
+                      "program": "p2",
+                      "call_label": "createAccount",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p2",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p2",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p2",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "caller": "p1",
+                  "program": "p4",
+                  "call_label": "transferChecked",
+                  "failure": null,
+                  "return_label": "✓ 105cu",
+                  "children": []
+                }
+              ]
+            },
+            "notes": [],
+            "close": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "fenced",
+      "data": {
+        "lang": null,
+        "text": "\nCreator (85369cu)\n└─ VestingPositions::Initialize ✓ 85369cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 13517cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+      }
+    },
+    {
+      "kind": "prose",
+      "data": "*1 day pass.*"
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "T1: FirstClaim (day 1)"
+      ]
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Sequence"
+      ]
+    },
+    {
+      "kind": "sequence",
+      "data": {
+        "participants": [
+          {
+            "id": "p0",
+            "label": "4wQQ…",
+            "role": "authority"
+          },
+          {
+            "id": "p1",
+            "label": "VestingPositions",
+            "role": "program"
+          },
+          {
+            "id": "p2",
+            "label": "splAssociatedTokenAccount",
+            "role": "program"
+          },
+          {
+            "id": "p3",
+            "label": "token",
+            "role": "program"
+          },
+          {
+            "id": "p4",
+            "label": "system",
+            "role": "program"
+          },
+          {
+            "id": "p5",
+            "label": "CoRE…",
+            "role": "program"
+          }
+        ],
+        "lanes": false,
+        "lifelines": true,
+        "leading_notes": [],
+        "frames": [
+          {
+            "open_bands": [],
+            "root": {
+              "caller": "p0",
+              "program": "p1",
+              "call_label": "Claim",
+              "failure": null,
+              "return_label": "✓ 160409cu",
+              "children": [
+                {
+                  "caller": "p1",
+                  "program": "p2",
+                  "call_label": "create",
+                  "failure": null,
+                  "return_label": "✓ 13416cu",
+                  "children": [
+                    {
+                      "caller": "p2",
+                      "program": "p3",
+                      "call_label": "getAccountDataSize",
+                      "failure": null,
+                      "return_label": "✓ 183cu",
+                      "children": []
+                    },
+                    {
+                      "caller": "p2",
+                      "program": "p4",
+                      "call_label": "createAccount",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p2",
+                      "program": "p3",
+                      "call_label": "initializeImmutableOwner",
+                      "failure": null,
+                      "return_label": "✓ 38cu",
+                      "children": []
+                    },
+                    {
+                      "caller": "p2",
+                      "program": "p3",
+                      "call_label": "initializeAccount3",
+                      "failure": null,
+                      "return_label": "✓ 235cu",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "caller": "p1",
+                  "program": "p4",
+                  "call_label": "createAccount",
+                  "failure": null,
+                  "return_label": "✓",
+                  "children": []
+                },
+                {
+                  "caller": "p1",
+                  "program": "p5",
+                  "call_label": "CreateV2",
+                  "failure": null,
+                  "return_label": "✓ 29413cu",
+                  "children": [
+                    {
+                      "caller": "p5",
+                      "program": "p4",
+                      "call_label": "createAccount",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p4",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p4",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p4",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p4",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "notes": [],
+            "close": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "fenced",
+      "data": {
+        "lang": null,
+        "text": "\n4wQQ… (160409cu)\n└─ VestingPositions::Claim ✓ 160409cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ CoRE…::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "T2: Claim (day 1)"
+      ]
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Sequence"
+      ]
+    },
+    {
+      "kind": "sequence",
+      "data": {
+        "participants": [
+          {
+            "id": "p0",
+            "label": "4wQQ…",
+            "role": "authority"
+          },
+          {
+            "id": "p1",
+            "label": "VestingPositions",
+            "role": "program"
+          }
+        ],
+        "lanes": false,
+        "lifelines": true,
+        "leading_notes": [],
+        "frames": [
+          {
+            "open_bands": [],
+            "root": {
+              "caller": "p0",
+              "program": "p1",
+              "call_label": "Claim",
+              "failure": null,
+              "return_label": "✓ 32530cu",
+              "children": []
+            },
+            "notes": [],
+            "close": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "fenced",
+      "data": {
+        "lang": null,
+        "text": "\n4wQQ… (32530cu)\n└─ VestingPositions::Claim ✓ 32530cu\n"
+      }
+    }
+  ],
+  "arrange": [
+    {
+      "op": "fold",
+      "label": "tree",
+      "blocks": [
+        5
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
+      "label": "tree",
+      "blocks": [
+        10
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
+      "label": "tree",
+      "blocks": [
+        14
+      ],
+      "open": false
+    }
+  ]
+}

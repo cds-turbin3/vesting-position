@@ -1,0 +1,1921 @@
+{
+  "guide": "0.2",
+  "provenance": {
+    "file": "tests/forfeiture.rs",
+    "line": 19
+  },
+  "blocks": [
+    {
+      "kind": "prose",
+      "data": "> Given: Alice is whitelisted in a live campaign with a grace window past end"
+    },
+    {
+      "kind": "prose",
+      "data": "Over 38 days: 4 moments."
+    },
+    {
+      "kind": "table",
+      "data": {
+        "headers": [
+          "name",
+          "address"
+        ],
+        "rows": [
+          [
+            {
+              "type": "text",
+              "value": "Alice"
+            },
+            {
+              "type": "addr",
+              "value": "4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice's position NFT"
+            },
+            {
+              "type": "addr",
+              "value": "4QVsuwY3ob34zXWn921ANiD2Z88Hq8hizufySVtpKfsK"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Campaign"
+            },
+            {
+              "type": "addr",
+              "value": "2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Collection"
+            },
+            {
+              "type": "addr",
+              "value": "DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Creator"
+            },
+            {
+              "type": "addr",
+              "value": "2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Mint"
+            },
+            {
+              "type": "addr",
+              "value": "J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Vesting"
+            },
+            {
+              "type": "addr",
+              "value": "7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "campaignAta(campaign(Collection), Toke…, Mint)"
+            },
+            {
+              "type": "addr",
+              "value": "BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "creatorAta(Creator, Toke…, Mint)"
+            },
+            {
+              "type": "addr",
+              "value": "7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "updateAuthority(Collection)"
+            },
+            {
+              "type": "addr",
+              "value": "vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "userAta(Alice, Toke…, Mint)"
+            },
+            {
+              "type": "addr",
+              "value": "45PBE5WDayGKEeGHvaLP5VfqXSS5JoGVewXyVbSE8JSq"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Timeline"
+      ]
+    },
+    {
+      "kind": "table",
+      "data": {
+        "headers": [
+          "time",
+          "Vault balance",
+          "Δ",
+          "Creator balance",
+          "Δ",
+          "Alice balance",
+          "Δ",
+          "comment"
+        ],
+        "rows": [
+          [
+            {
+              "type": "text",
+              "value": "T0"
+            },
+            {
+              "type": "int",
+              "value": "10000000000000"
+            },
+            {
+              "type": "delta",
+              "value": "10000000000000"
+            },
+            {
+              "type": "int",
+              "value": "0"
+            },
+            {
+              "type": "delta",
+              "value": "0"
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "text",
+              "value": ""
+            },
+            {
+              "type": "text",
+              "value": "Initialize (day 0)"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "T1"
+            },
+            {
+              "type": "int",
+              "value": "9900000000000"
+            },
+            {
+              "type": "delta",
+              "value": "-100000000000"
+            },
+            {
+              "type": "int",
+              "value": "0"
+            },
+            {
+              "type": "delta",
+              "value": "0"
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "text",
+              "value": ""
+            },
+            {
+              "type": "text",
+              "value": "FirstClaim (day 2)"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "T2"
+            },
+            {
+              "type": "int",
+              "value": "9000000000000"
+            },
+            {
+              "type": "delta",
+              "value": "-900000000000"
+            },
+            {
+              "type": "int",
+              "value": "900000000000"
+            },
+            {
+              "type": "delta",
+              "value": "900000000000"
+            },
+            {
+              "type": "int",
+              "value": "100000000000"
+            },
+            {
+              "type": "delta",
+              "value": "100000000000"
+            },
+            {
+              "type": "text",
+              "value": "Clawback (day 38)"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "T3"
+            },
+            {
+              "type": "int",
+              "value": "9000000000000"
+            },
+            {
+              "type": "delta",
+              "value": "0"
+            },
+            {
+              "type": "int",
+              "value": "900000000000"
+            },
+            {
+              "type": "delta",
+              "value": "0"
+            },
+            {
+              "type": "int",
+              "value": "100000000000"
+            },
+            {
+              "type": "delta",
+              "value": "0"
+            },
+            {
+              "type": "text",
+              "value": "Claim (day 38)"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "T0: Initialize (day 0)"
+      ]
+    },
+    {
+      "kind": "table",
+      "data": {
+        "headers": [
+          "observation",
+          "before",
+          "after"
+        ],
+        "rows": [
+          [
+            {
+              "type": "text",
+              "value": "Vault balance"
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "int",
+              "value": "10000000000000"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Creator balance"
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "int",
+              "value": "0"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "prose",
+      "data": "> A recipient's vested-but-unclaimed tokens are swept to the creator once the grace window past `end` lapses: this is the design, not a defect."
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Sequence"
+      ]
+    },
+    {
+      "kind": "sequence",
+      "data": {
+        "participants": [
+          {
+            "id": "p0",
+            "label": "Creator",
+            "role": "authority"
+          },
+          {
+            "id": "p1",
+            "label": "VestingPositions",
+            "role": "program"
+          },
+          {
+            "id": "p2",
+            "label": "system",
+            "role": "program"
+          },
+          {
+            "id": "p3",
+            "label": "splAssociatedTokenAccount",
+            "role": "program"
+          },
+          {
+            "id": "p4",
+            "label": "token",
+            "role": "program"
+          },
+          {
+            "id": "p5",
+            "label": "CoRE…",
+            "role": "program"
+          }
+        ],
+        "lanes": false,
+        "lifelines": true,
+        "leading_notes": [],
+        "frames": [
+          {
+            "open_bands": [],
+            "root": {
+              "caller": "p0",
+              "program": "p1",
+              "call_label": "Initialize",
+              "failure": null,
+              "return_label": "✓ 85369cu",
+              "children": [
+                {
+                  "caller": "p1",
+                  "program": "p2",
+                  "call_label": "createAccount",
+                  "failure": null,
+                  "return_label": "✓",
+                  "children": []
+                },
+                {
+                  "caller": "p1",
+                  "program": "p3",
+                  "call_label": "create",
+                  "failure": null,
+                  "return_label": "✓ 13517cu",
+                  "children": [
+                    {
+                      "caller": "p3",
+                      "program": "p4",
+                      "call_label": "getAccountDataSize",
+                      "failure": null,
+                      "return_label": "✓ 183cu",
+                      "children": []
+                    },
+                    {
+                      "caller": "p3",
+                      "program": "p2",
+                      "call_label": "createAccount",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p3",
+                      "program": "p4",
+                      "call_label": "initializeImmutableOwner",
+                      "failure": null,
+                      "return_label": "✓ 38cu",
+                      "children": []
+                    },
+                    {
+                      "caller": "p3",
+                      "program": "p4",
+                      "call_label": "initializeAccount3",
+                      "failure": null,
+                      "return_label": "✓ 235cu",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "caller": "p1",
+                  "program": "p5",
+                  "call_label": "CreateCollectionV2",
+                  "failure": null,
+                  "return_label": "✓ 19976cu",
+                  "children": [
+                    {
+                      "caller": "p5",
+                      "program": "p2",
+                      "call_label": "createAccount",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p2",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p2",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p5",
+                      "program": "p2",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "caller": "p1",
+                  "program": "p4",
+                  "call_label": "transferChecked",
+                  "failure": null,
+                  "return_label": "✓ 105cu",
+                  "children": []
+                }
+              ]
+            },
+            "notes": [],
+            "close": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Authority"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "VestingPositions",
+            "role": "program"
+          },
+          {
+            "name": "Creator",
+            "role": "authority"
+          },
+          {
+            "name": "Collection",
+            "role": "authority"
+          },
+          {
+            "name": "Mint",
+            "role": "state"
+          },
+          {
+            "name": "creatorAta(Creator, Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "campaign(Collection)",
+            "role": "authority"
+          },
+          {
+            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "role": "authority"
+          },
+          {
+            "name": "system",
+            "role": "program"
+          },
+          {
+            "name": "splAssociatedTokenAccount",
+            "role": "program"
+          },
+          {
+            "name": "token",
+            "role": "program"
+          },
+          {
+            "name": "CoRE…",
+            "role": "program"
+          }
+        ],
+        "edges": [
+          {
+            "from": "Creator",
+            "verb": "signs",
+            "to": "VestingPositions"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "writes",
+            "to": "Collection"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "writes",
+            "to": "Mint"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "writes",
+            "to": "creatorAta(Creator, Toke…, Mint)"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "writes",
+            "to": "campaign(Collection)"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "writes",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "Creator",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
+            "from": "campaign(Collection)",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
+            "from": "Creator",
+            "verb": "signs",
+            "to": "splAssociatedTokenAccount"
+          },
+          {
+            "from": "splAssociatedTokenAccount",
+            "verb": "writes",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
+            "from": "token",
+            "verb": "writes",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "Collection",
+            "verb": "signs",
+            "to": "CoRE…"
+          },
+          {
+            "from": "Creator",
+            "verb": "signs",
+            "to": "CoRE…"
+          },
+          {
+            "from": "Collection",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
+            "from": "system",
+            "verb": "writes",
+            "to": "Collection"
+          },
+          {
+            "from": "token",
+            "verb": "writes",
+            "to": "creatorAta(Creator, Toke…, Mint)"
+          },
+          {
+            "from": "Creator",
+            "verb": "signs",
+            "to": "token"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Ownership"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "system",
+            "role": "program"
+          },
+          {
+            "name": "Creator",
+            "role": "state"
+          },
+          {
+            "name": "CoRE…",
+            "role": "program"
+          },
+          {
+            "name": "Collection",
+            "role": "state"
+          },
+          {
+            "name": "token",
+            "role": "program"
+          },
+          {
+            "name": "Mint",
+            "role": "state"
+          },
+          {
+            "name": "creatorAta(Creator, Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "VestingPositions",
+            "role": "program"
+          },
+          {
+            "name": "campaign(Collection)",
+            "role": "state"
+          },
+          {
+            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "role": "state"
+          }
+        ],
+        "edges": [
+          {
+            "from": "system",
+            "verb": "owns",
+            "to": "Creator"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "owns",
+            "to": "Collection"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "Mint"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "creatorAta(Creator, Toke…, Mint)"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "owns",
+            "to": "campaign(Collection)"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Tree"
+      ]
+    },
+    {
+      "kind": "fenced",
+      "data": {
+        "lang": null,
+        "text": "\nCreator (85369cu)\n└─ VestingPositions::Initialize ✓ 85369cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 13517cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+      }
+    },
+    {
+      "kind": "prose",
+      "data": "*2 days pass.*"
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "T1: FirstClaim (day 2)"
+      ]
+    },
+    {
+      "kind": "table",
+      "data": {
+        "headers": [
+          "observation",
+          "before",
+          "after"
+        ],
+        "rows": [
+          [
+            {
+              "type": "text",
+              "value": "Vault balance"
+            },
+            {
+              "type": "int",
+              "value": "10000000000000"
+            },
+            {
+              "type": "int",
+              "value": "9900000000000"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "[x] the cliff unlock reached Alice"
+      ]
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "[x] at end, Alice's vested-but-unclaimed remainder is the whole rest of her allocation"
+      ]
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Sequence"
+      ]
+    },
+    {
+      "kind": "sequence",
+      "data": {
+        "participants": [
+          {
+            "id": "p0",
+            "label": "Alice",
+            "role": "authority"
+          },
+          {
+            "id": "p1",
+            "label": "Comp…",
+            "role": "program"
+          },
+          {
+            "id": "p2",
+            "label": "Vesting",
+            "role": "program"
+          },
+          {
+            "id": "p3",
+            "label": "splAssociatedTokenAccount",
+            "role": "program"
+          },
+          {
+            "id": "p4",
+            "label": "token",
+            "role": "program"
+          },
+          {
+            "id": "p5",
+            "label": "system",
+            "role": "program"
+          },
+          {
+            "id": "p6",
+            "label": "CoRE…",
+            "role": "program"
+          }
+        ],
+        "lanes": false,
+        "lifelines": true,
+        "leading_notes": [],
+        "frames": [
+          {
+            "open_bands": [],
+            "root": {
+              "caller": "p0",
+              "program": "p1",
+              "call_label": "?",
+              "failure": null,
+              "return_label": "✓",
+              "children": []
+            },
+            "notes": [],
+            "close": []
+          },
+          {
+            "open_bands": [],
+            "root": {
+              "caller": "p0",
+              "program": "p2",
+              "call_label": "Claim",
+              "failure": null,
+              "return_label": "✓ 163621cu",
+              "children": [
+                {
+                  "caller": "p2",
+                  "program": "p3",
+                  "call_label": "create",
+                  "failure": null,
+                  "return_label": "✓ 13416cu",
+                  "children": [
+                    {
+                      "caller": "p3",
+                      "program": "p4",
+                      "call_label": "getAccountDataSize",
+                      "failure": null,
+                      "return_label": "✓ 183cu",
+                      "children": []
+                    },
+                    {
+                      "caller": "p3",
+                      "program": "p5",
+                      "call_label": "createAccount",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p3",
+                      "program": "p4",
+                      "call_label": "initializeImmutableOwner",
+                      "failure": null,
+                      "return_label": "✓ 38cu",
+                      "children": []
+                    },
+                    {
+                      "caller": "p3",
+                      "program": "p4",
+                      "call_label": "initializeAccount3",
+                      "failure": null,
+                      "return_label": "✓ 235cu",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "caller": "p2",
+                  "program": "p5",
+                  "call_label": "createAccount",
+                  "failure": null,
+                  "return_label": "✓",
+                  "children": []
+                },
+                {
+                  "caller": "p2",
+                  "program": "p6",
+                  "call_label": "CreateV2",
+                  "failure": null,
+                  "return_label": "✓ 29646cu",
+                  "children": [
+                    {
+                      "caller": "p6",
+                      "program": "p5",
+                      "call_label": "createAccount",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p6",
+                      "program": "p5",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p6",
+                      "program": "p5",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p6",
+                      "program": "p5",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    },
+                    {
+                      "caller": "p6",
+                      "program": "p5",
+                      "call_label": "transferSol",
+                      "failure": null,
+                      "return_label": "✓",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "caller": "p2",
+                  "program": "p4",
+                  "call_label": "transferChecked",
+                  "failure": null,
+                  "return_label": "✓ 105cu",
+                  "children": []
+                }
+              ]
+            },
+            "notes": [],
+            "close": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Authority"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "Comp…",
+            "role": "program"
+          },
+          {
+            "name": "Vesting",
+            "role": "program"
+          },
+          {
+            "name": "Alice",
+            "role": "authority"
+          },
+          {
+            "name": "Collection",
+            "role": "state"
+          },
+          {
+            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "Alice/ATA(Mint)",
+            "role": "authority"
+          },
+          {
+            "name": "Alice's position NFT",
+            "role": "authority"
+          },
+          {
+            "name": "7kmN…",
+            "role": "authority"
+          },
+          {
+            "name": "splAssociatedTokenAccount",
+            "role": "program"
+          },
+          {
+            "name": "token",
+            "role": "program"
+          },
+          {
+            "name": "system",
+            "role": "program"
+          },
+          {
+            "name": "CoRE…",
+            "role": "program"
+          },
+          {
+            "name": "updateAuthority(Collection)",
+            "role": "authority"
+          },
+          {
+            "name": "Campaign",
+            "role": "authority"
+          }
+        ],
+        "edges": [
+          {
+            "from": "Alice",
+            "verb": "signs",
+            "to": "Vesting"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "Collection"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "Alice/ATA(Mint)"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "Alice's position NFT"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "7kmN…"
+          },
+          {
+            "from": "Alice",
+            "verb": "signs",
+            "to": "splAssociatedTokenAccount"
+          },
+          {
+            "from": "splAssociatedTokenAccount",
+            "verb": "writes",
+            "to": "Alice/ATA(Mint)"
+          },
+          {
+            "from": "Alice",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
+            "from": "Alice/ATA(Mint)",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
+            "from": "token",
+            "verb": "writes",
+            "to": "Alice/ATA(Mint)"
+          },
+          {
+            "from": "7kmN…",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
+            "from": "Alice's position NFT",
+            "verb": "signs",
+            "to": "CoRE…"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "writes",
+            "to": "Collection"
+          },
+          {
+            "from": "updateAuthority(Collection)",
+            "verb": "signs",
+            "to": "CoRE…"
+          },
+          {
+            "from": "Alice",
+            "verb": "signs",
+            "to": "CoRE…"
+          },
+          {
+            "from": "Alice's position NFT",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
+            "from": "system",
+            "verb": "writes",
+            "to": "Alice's position NFT"
+          },
+          {
+            "from": "token",
+            "verb": "writes",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "Campaign",
+            "verb": "signs",
+            "to": "token"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Ownership"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "system",
+            "role": "program"
+          },
+          {
+            "name": "Alice",
+            "role": "state"
+          },
+          {
+            "name": "CoRE…",
+            "role": "program"
+          },
+          {
+            "name": "Collection",
+            "role": "state"
+          },
+          {
+            "name": "token",
+            "role": "program"
+          },
+          {
+            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "Alice/ATA(Mint)",
+            "role": "state"
+          },
+          {
+            "name": "Alice's position NFT",
+            "role": "state"
+          },
+          {
+            "name": "Vesting",
+            "role": "program"
+          },
+          {
+            "name": "7kmN…",
+            "role": "state"
+          }
+        ],
+        "edges": [
+          {
+            "from": "system",
+            "verb": "owns",
+            "to": "Alice"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "owns",
+            "to": "Collection"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "Alice/ATA(Mint)"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "owns",
+            "to": "Alice's position NFT"
+          },
+          {
+            "from": "Vesting",
+            "verb": "owns",
+            "to": "7kmN…"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Tree"
+      ]
+    },
+    {
+      "kind": "fenced",
+      "data": {
+        "lang": null,
+        "text": "\nAlice (163771cu)\n├─ Comp…::? ✓\n└─ Vesting::Claim ✓ 163621cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   ├─ CoRE…::CreateV2 ✓ 29646cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+      }
+    },
+    {
+      "kind": "prose",
+      "data": "*3110401 seconds pass.*"
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "T2: Clawback (day 38)"
+      ]
+    },
+    {
+      "kind": "table",
+      "data": {
+        "headers": [
+          "observation",
+          "before",
+          "after"
+        ],
+        "rows": [
+          [
+            {
+              "type": "text",
+              "value": "Vault balance"
+            },
+            {
+              "type": "int",
+              "value": "9900000000000"
+            },
+            {
+              "type": "int",
+              "value": "9000000000000"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Creator balance"
+            },
+            {
+              "type": "int",
+              "value": "0"
+            },
+            {
+              "type": "int",
+              "value": "900000000000"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice balance"
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "int",
+              "value": "100000000000"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "[x] the grace window let the creator reclaim Alice's fully-vested remainder"
+      ]
+    },
+    {
+      "kind": "prose",
+      "data": "**Alice's remainder:** `900,000,000,000` → `0` — forfeited, never delivered"
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "[x] Alice's remainder"
+      ]
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Sequence"
+      ]
+    },
+    {
+      "kind": "sequence",
+      "data": {
+        "participants": [
+          {
+            "id": "p0",
+            "label": "Creator",
+            "role": "authority"
+          },
+          {
+            "id": "p1",
+            "label": "Vesting",
+            "role": "program"
+          },
+          {
+            "id": "p2",
+            "label": "CoRE…",
+            "role": "program"
+          },
+          {
+            "id": "p3",
+            "label": "token",
+            "role": "program"
+          }
+        ],
+        "lanes": false,
+        "lifelines": true,
+        "leading_notes": [],
+        "frames": [
+          {
+            "open_bands": [],
+            "root": {
+              "caller": "p0",
+              "program": "p1",
+              "call_label": "Clawback",
+              "failure": null,
+              "return_label": "✓ 76464cu",
+              "children": [
+                {
+                  "caller": "p1",
+                  "program": "p2",
+                  "call_label": "Burn",
+                  "failure": null,
+                  "return_label": "✓ 9904cu",
+                  "children": []
+                },
+                {
+                  "caller": "p1",
+                  "program": "p3",
+                  "call_label": "transferChecked",
+                  "failure": null,
+                  "return_label": "✓ 105cu",
+                  "children": []
+                }
+              ]
+            },
+            "notes": [],
+            "close": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Authority"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "Vesting",
+            "role": "program"
+          },
+          {
+            "name": "Creator",
+            "role": "authority"
+          },
+          {
+            "name": "Collection",
+            "role": "state"
+          },
+          {
+            "name": "Alice's position NFT",
+            "role": "state"
+          },
+          {
+            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "creatorAta(Creator, Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "CoRE…",
+            "role": "program"
+          },
+          {
+            "name": "updateAuthority(Collection)",
+            "role": "authority"
+          },
+          {
+            "name": "token",
+            "role": "program"
+          },
+          {
+            "name": "Campaign",
+            "role": "authority"
+          }
+        ],
+        "edges": [
+          {
+            "from": "Creator",
+            "verb": "signs",
+            "to": "Vesting"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "Collection"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "Alice's position NFT"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "creatorAta(Creator, Toke…, Mint)"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "writes",
+            "to": "Alice's position NFT"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "writes",
+            "to": "Collection"
+          },
+          {
+            "from": "Creator",
+            "verb": "signs",
+            "to": "CoRE…"
+          },
+          {
+            "from": "updateAuthority(Collection)",
+            "verb": "signs",
+            "to": "CoRE…"
+          },
+          {
+            "from": "token",
+            "verb": "writes",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "token",
+            "verb": "writes",
+            "to": "creatorAta(Creator, Toke…, Mint)"
+          },
+          {
+            "from": "Campaign",
+            "verb": "signs",
+            "to": "token"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Ownership"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "system",
+            "role": "program"
+          },
+          {
+            "name": "Creator",
+            "role": "state"
+          },
+          {
+            "name": "CoRE…",
+            "role": "program"
+          },
+          {
+            "name": "Collection",
+            "role": "state"
+          },
+          {
+            "name": "Alice's position NFT",
+            "role": "state"
+          },
+          {
+            "name": "token",
+            "role": "program"
+          },
+          {
+            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "creatorAta(Creator, Toke…, Mint)",
+            "role": "state"
+          }
+        ],
+        "edges": [
+          {
+            "from": "system",
+            "verb": "owns",
+            "to": "Creator"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "owns",
+            "to": "Collection"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "owns",
+            "to": "Alice's position NFT"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "creatorAta(Creator, Toke…, Mint)"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Tree"
+      ]
+    },
+    {
+      "kind": "fenced",
+      "data": {
+        "lang": null,
+        "text": "\nCreator (76464cu)\n└─ Vesting::Clawback ✓ 76464cu\n   ├─ CoRE…::Burn ✓ 9904cu\n   └─ token::transferChecked ✓ 105cu\n"
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "T3: Claim (day 38)"
+      ]
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "[x] refused: ClaimWindowClosed — InstructionError(0, Custom(6025))"
+      ]
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "[x] Alice's balance never moved across the clawback: her remainder was forfeited, not delivered"
+      ]
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Sequence"
+      ]
+    },
+    {
+      "kind": "sequence",
+      "data": {
+        "participants": [
+          {
+            "id": "p0",
+            "label": "Alice",
+            "role": "authority"
+          },
+          {
+            "id": "p1",
+            "label": "Vesting",
+            "role": "program"
+          }
+        ],
+        "lanes": false,
+        "lifelines": true,
+        "leading_notes": [],
+        "frames": [
+          {
+            "open_bands": [],
+            "root": {
+              "caller": "p0",
+              "program": "p1",
+              "call_label": "Claim",
+              "failure": "custom program error  0x1789",
+              "return_label": "✗ 18897cu",
+              "children": []
+            },
+            "notes": [],
+            "close": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Authority"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "Vesting",
+            "role": "program"
+          },
+          {
+            "name": "Alice",
+            "role": "authority"
+          },
+          {
+            "name": "Collection",
+            "role": "state"
+          },
+          {
+            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "userAta(Alice, Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "Alice's position NFT",
+            "role": "state"
+          },
+          {
+            "name": "7kmN…",
+            "role": "state"
+          }
+        ],
+        "edges": [
+          {
+            "from": "Alice",
+            "verb": "signs",
+            "to": "Vesting"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "Collection"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "userAta(Alice, Toke…, Mint)"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "Alice's position NFT"
+          },
+          {
+            "from": "Vesting",
+            "verb": "writes",
+            "to": "7kmN…"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Ownership"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "system",
+            "role": "program"
+          },
+          {
+            "name": "Alice",
+            "role": "state"
+          },
+          {
+            "name": "CoRE…",
+            "role": "program"
+          },
+          {
+            "name": "Collection",
+            "role": "state"
+          },
+          {
+            "name": "token",
+            "role": "program"
+          },
+          {
+            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "userAta(Alice, Toke…, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "Alice's position NFT",
+            "role": "state"
+          },
+          {
+            "name": "Vesting",
+            "role": "program"
+          },
+          {
+            "name": "7kmN…",
+            "role": "state"
+          }
+        ],
+        "edges": [
+          {
+            "from": "system",
+            "verb": "owns",
+            "to": "Alice"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "owns",
+            "to": "Collection"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "userAta(Alice, Toke…, Mint)"
+          },
+          {
+            "from": "CoRE…",
+            "verb": "owns",
+            "to": "Alice's position NFT"
+          },
+          {
+            "from": "Vesting",
+            "verb": "owns",
+            "to": "7kmN…"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Tree"
+      ]
+    },
+    {
+      "kind": "fenced",
+      "data": {
+        "lang": null,
+        "text": "\nAlice (18897cu)\n└─ Vesting::Claim ✗ 18897cu\n"
+      }
+    }
+  ],
+  "arrange": [
+    {
+      "op": "fold",
+      "label": "Cast",
+      "blocks": [
+        2
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
+      "label": "diagrams",
+      "blocks": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
+      "label": "diagrams",
+      "blocks": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
+      "label": "diagrams",
+      "blocks": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
+      "label": "diagrams",
+      "blocks": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "open": false
+    }
+  ]
+}

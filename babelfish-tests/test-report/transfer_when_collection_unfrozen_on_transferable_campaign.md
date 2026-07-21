@@ -1,6 +1,6 @@
 # transfer_when_collection_unfrozen_on_transferable_campaign
 
-**Source:** [`tests/freeze.rs` L29](https://github.com/cds-turbin3/vesting-position/blob/7b03c373db96dabae9440a8c98ced4c97068b325/babelfish-tests/tests/freeze.rs#L29)
+**Source:** [`tests/freeze.rs` L29](https://github.com/cds-turbin3/vesting-position/blob/1a7ceef2d99e574860e959cc0f6c79bfbc7fbb95/babelfish-tests/tests/freeze.rs#L29)
 
 Over 1 day: 3 moments.
 

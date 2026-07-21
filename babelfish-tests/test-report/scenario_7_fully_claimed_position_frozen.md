@@ -1,6 +1,6 @@
 # scenario_7_fully_claimed_position_frozen
 
-**Source:** [`tests/claim.rs` L186](https://github.com/cds-turbin3/vesting-position/blob/7b03c373db96dabae9440a8c98ced4c97068b325/babelfish-tests/tests/claim.rs#L186)
+**Source:** [`tests/claim.rs` L186](https://github.com/cds-turbin3/vesting-position/blob/1a7ceef2d99e574860e959cc0f6c79bfbc7fbb95/babelfish-tests/tests/claim.rs#L186)
 
 Over 31 days: 4 moments.
 
