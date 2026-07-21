@@ -40,6 +40,12 @@ fn full_lifecycle() {
     // and must come first so the roster's "Bob" is free for the rename.
     world.name_claimer(&charlie.keypair.pubkey(), "Charlie");
     world.story.alias(bob.pubkey(), "Bob");
+    // Bob claims via Alice's transferred NFT, so his own asset never exists;
+    // only his claim receipt appears, and it gets its name alone (a
+    // name_claimer trio would put a row in the cast for an account that is
+    // never created).
+    let bob_receipt = world.receipt_address(&bob.pubkey());
+    world.story.alias(bob_receipt, "Bob's receipt");
     world.story.alias(creator, "Creator");
     world.story.alias(world.campaign_address(), "Campaign");
     world.story.alias(PROGRAM_ID, "Vesting");
