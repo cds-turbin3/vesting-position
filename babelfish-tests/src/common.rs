@@ -38,9 +38,11 @@ fn actor_name(stem: &str) -> &str {
     }
 }
 
-/// Load a fixture keypair into a frood `Actor` (no airdrop). The label is the
-/// friendly [`actor_name`] for the file stem, so reports name a cast.
-pub fn load_keypair(path: impl AsRef<Path>) -> Actor {
+/// Read a fixture keypair into a frood `Actor` (no airdrop, no aliasing).
+/// The label is the friendly [`actor_name`] for the file stem; registration
+/// into a story is the seam functions' job ([`load_keypair`],
+/// [`load_whitelist_user`]).
+fn read_keypair(path: impl AsRef<Path>) -> Actor {
     let path = path.as_ref();
     let bytes: Vec<u8> = serde_json::from_str(&fs::read_to_string(path).unwrap()).unwrap();
     let keypair = Keypair::try_from(bytes.as_slice()).expect("valid keypair bytes");
@@ -55,12 +57,23 @@ pub struct WhitelistUser {
     pub proofs: Vec<[u8; 33]>,
 }
 
+/// Load a non-whitelisted fixture keypair and register its wallet under the
+/// roster name (Mallory). Wallet only, deliberately: a non-claimant's derived
+/// asset/receipt would sit in the cast as rows for accounts that never exist;
+/// a test that drives a refused claim names the trio with
+/// `world.name_claimer` where the addresses actually appear.
+pub fn load_keypair(world: &mut VestingWorld, path: impl AsRef<Path>) -> Actor {
+    let actor = read_keypair(path);
+    world.story.alias(actor.pubkey(), &actor.label);
+    actor
+}
+
 pub fn load_whitelist_user(
     world: &mut VestingWorld,
     merkle: &MerkleTree,
     path: impl AsRef<Path>,
 ) -> WhitelistUser {
-    let keypair = load_keypair(path);
+    let keypair = read_keypair(path);
     let (allocation, proofs) = get_proofs(merkle, &keypair.pubkey()).expect("user in merkle tree");
     // Register the claimant's whole trio under the roster name the Actor
     // already carries ([`actor_name`]): the wallet, the position NFT, and
@@ -69,13 +82,7 @@ pub fn load_whitelist_user(
     // and authored aliases win over auto-composition, so registering here,
     // before the first claim resolves anything, also names the composites
     // that embed the wallet (`userAta(Alice, token, Mint)`).
-    let user = keypair.pubkey();
-    let name = keypair.label.clone();
-    world.story.alias(user, &name);
-    let asset = world.asset_for(&user);
-    world.story.alias(asset, &format!("{name}'s position NFT"));
-    let receipt = world.receipt_address(&user);
-    world.story.alias(receipt, &format!("{name}'s receipt"));
+    world.name_claimer(&keypair.pubkey(), &keypair.label.clone());
     WhitelistUser {
         keypair,
         allocation,
@@ -97,7 +104,7 @@ pub fn fund_keypair(world: &mut VestingWorld, actor: &Actor, lamports: u64) {
 /// exists (an exact-funded campaign), so the world can be built first and
 /// `load_whitelist_user`'s alias registration still lands in it.
 pub fn whitelist_allocation(merkle: &MerkleTree, path: impl AsRef<Path>) -> u64 {
-    let keypair = load_keypair(path);
+    let keypair = read_keypair(path);
     get_proofs(merkle, &keypair.pubkey())
         .expect("user in merkle tree")
         .0

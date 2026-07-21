@@ -26,7 +26,7 @@ fn full_lifecycle() {
     let mut world = VestingWorld::initialized(&merkle, CampaignConfig::default());
     let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
     let charlie = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
-    let bob = load_keypair(NOT_WHITELISTED);
+    let bob = load_keypair(&mut world, NOT_WHITELISTED);
 
     fund_keypair(&mut world, &alice.keypair, LAMPORTS);
     fund_keypair(&mut world, &charlie.keypair, LAMPORTS);
@@ -34,8 +34,12 @@ fn full_lifecycle() {
 
     let creator = world.creator.pubkey();
     world.story.alias(alice.keypair.pubkey(), "Alice");
+    // The narrative's authored names: whitelisted_2 plays Charlie here and
+    // the never-whitelisted fixture plays Bob. Renaming charlie's whole trio
+    // (not just the wallet) keeps his asset and receipt labels consistent,
+    // and must come first so the roster's "Bob" is free for the rename.
+    world.name_claimer(&charlie.keypair.pubkey(), "Charlie");
     world.story.alias(bob.pubkey(), "Bob");
-    world.story.alias(charlie.keypair.pubkey(), "Charlie");
     world.story.alias(creator, "Creator");
     world.story.alias(world.campaign_address(), "Campaign");
     world.story.alias(PROGRAM_ID, "Vesting");

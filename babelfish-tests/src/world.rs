@@ -497,6 +497,19 @@ impl VestingWorld {
         asset_pda(&self.campaign_address(), user).0
     }
 
+    /// Name a claimer's whole trio: the wallet, the position NFT asset, and
+    /// the claim receipt. `load_whitelist_user` calls this with the roster
+    /// name at the load seam; a test whose narrative uses a different name
+    /// calls it again (authored aliases replace the trio consistently, so a
+    /// renamed wallet never sits beside a roster-named asset).
+    pub fn name_claimer(&mut self, user: &Pubkey, name: &str) {
+        self.story.alias(*user, name);
+        let asset = self.asset_for(user);
+        self.story.alias(asset, &format!("{name}'s position NFT"));
+        let receipt = self.receipt_address(user);
+        self.story.alias(receipt, &format!("{name}'s receipt"));
+    }
+
     /// The campaign's token vault (its ATA on the distributed mint).
     pub fn campaign_ata(&self) -> Pubkey {
         self.story.ata(&self.campaign_address(), &self.mint)

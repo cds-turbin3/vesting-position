@@ -156,11 +156,14 @@ fn scenario_4_replay_first_claim_fails() {
 #[test]
 fn scenario_5_unwhitelisted_user_fails() {
     let (_merkle, mut world) = setup();
-    let carol = load_keypair(NOT_WHITELISTED);
-    fund_keypair(&mut world, &carol, LAMPORTS);
+    let mallory = load_keypair(&mut world, NOT_WHITELISTED);
+    // The refused claim still references her derived asset and receipt, so
+    // name the whole trio where the addresses will appear.
+    world.name_claimer(&mallory.pubkey(), "Mallory");
+    fund_keypair(&mut world, &mallory, LAMPORTS);
     world.warp_to(world.start());
 
-    world.first_claim_err(&carol, random_proofs(), MOCK_ALLOC, "InvalidProofs");
+    world.first_claim_err(&mallory, random_proofs(), MOCK_ALLOC, "InvalidProofs");
 }
 
 /// Scenario 6: Alice cannot subsequent-claim on Bob's NFT.
@@ -217,12 +220,14 @@ fn scenario_8_wrong_asset_subsequent_claim_fails() {
     use solana_pubkey::Pubkey;
 
     let (_merkle, mut world) = setup();
-    let bob = load_keypair(NOT_WHITELISTED);
-    fund_keypair(&mut world, &bob, LAMPORTS);
+    let mallory = load_keypair(&mut world, NOT_WHITELISTED);
+    world.name_claimer(&mallory.pubkey(), "Mallory");
+    fund_keypair(&mut world, &mallory, LAMPORTS);
     world.warp_to(world.start());
 
     let ghost_asset = Pubkey::new_unique();
-    world.subsequent_claim_err(&bob, ghost_asset, "InvalidAsset");
+    world.story.alias(ghost_asset, "ghost asset");
+    world.subsequent_claim_err(&mallory, ghost_asset, "InvalidAsset");
 }
 
 /// Scenario 9: Claim works until the last second of the grace window, then
