@@ -1,6 +1,6 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/full_lifecycle.rs#L24)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/873a8a9165959219e522b5cdb1d614516d9f6a10/babelfish-tests/tests/full_lifecycle.rs#L24)
 
 > Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
@@ -31,10 +31,11 @@ Final state checks:
 | Alice's position NFT | 6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK |
 | Alice's receipt | 5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB |
 | Bob | ErV63ApqLgh1Je5PdiVj6kzwkKJmLjKV41QoN9U4BNag |
-| Bob's position NFT | 5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC |
-| Bob's receipt | C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9 |
+| Bob's receipt | BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj |
 | Campaign | G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G |
 | Charlie | H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg |
+| Charlie's position NFT | 5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC |
+| Charlie's receipt | C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9 |
 | Collection | 9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW |
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
 | Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
@@ -45,7 +46,6 @@ Final state checks:
 | userAta(Alice, token, Mint) | C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW |
 | userAta(Bob, token, Mint) | A8Eu8FarK5CxvYkBoYeJ9bsoA4mFZFvH9dqgH56TZQnf |
 | userAta(Charlie, token, Mint) | DiZfCmUXMWffwHP4eus9hwgnvTVbiZL7ZGGTBjJ9vc68 |
-| BPGT… | BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj |
 
 </details>
 
@@ -55,16 +55,16 @@ Final state checks:
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — |  | — | — |  | — |  | Initialize (day 0) |
 | T1 | 9,900,000,000,000 | -100,000,000,000 | 0 |  | — |  | — | — |  | — |  | FirstClaim (day 2) |
-| T2 | 9,450,000,000,000 | -450,000,000,000 | 0 |  | 550,000,000,000 | +550,000,000,000 | 4wQQ… | — |  | — |  | Claim (day 16) |
-| T3 | 8,350,000,000,000 | -1,100,000,000,000 | 0 |  | 550,000,000,000 |  | 4wQQ… | — |  | — |  | FirstClaim (day 16) |
-| T4 | 8,350,000,000,000 |  | 0 |  | 550,000,000,000 |  | 4wQQ… | 1,100,000,000,000 | +1,100,000,000,000 | — |  | TransferPosition (day 16) |
-| T5 | 8,350,000,000,000 |  | 0 |  | 550,000,000,000 |  | 4wQQ… | 1,100,000,000,000 |  | — |  | FirstClaim (day 16) |
-| T6 | 8,350,000,000,000 |  | 0 |  | 550,000,000,000 |  | 4wQQ… | 1,100,000,000,000 |  | — |  | Claim (day 16) |
-| T7 | 8,125,000,000,000 | -225,000,000,000 | 0 |  | 550,000,000,000 |  | 4wQQ… | 1,100,000,000,000 |  | — |  | Claim (day 23) |
-| T8 | 7,675,000,000,000 | -450,000,000,000 | 0 |  | 550,000,000,000 |  | 4wQQ… | 1,550,000,000,000 | +450,000,000,000 | 225,000,000,000 | +225,000,000,000 | Claim (day 23) |
-| T9 | 7,675,000,000,000 |  | 0 |  | 550,000,000,000 |  | 4wQQ… | 1,550,000,000,000 |  | 225,000,000,000 |  | TransferPosition (day 23) |
-| T10 | 7,675,000,000,000 |  | 0 |  | 550,000,000,000 |  | 4wQQ… | 1,550,000,000,000 |  | 225,000,000,000 |  | Claim (day 23) |
-| T11 | 7,405,000,000,000 | -270,000,000,000 | 0 |  | 820,000,000,000 | +270,000,000,000 | 4wQQ… | 1,550,000,000,000 |  | 225,000,000,000 |  | Claim (day 28) |
+| T2 | 9,450,000,000,000 | -450,000,000,000 | 0 |  | 550,000,000,000 | +550,000,000,000 | Alice | — |  | — |  | Claim (day 16) |
+| T3 | 8,350,000,000,000 | -1,100,000,000,000 | 0 |  | 550,000,000,000 |  | Alice | — |  | — |  | FirstClaim (day 16) |
+| T4 | 8,350,000,000,000 |  | 0 |  | 550,000,000,000 |  | Alice | 1,100,000,000,000 | +1,100,000,000,000 | — |  | TransferPosition (day 16) |
+| T5 | 8,350,000,000,000 |  | 0 |  | 550,000,000,000 |  | Alice | 1,100,000,000,000 |  | — |  | FirstClaim (day 16) |
+| T6 | 8,350,000,000,000 |  | 0 |  | 550,000,000,000 |  | Alice | 1,100,000,000,000 |  | — |  | Claim (day 16) |
+| T7 | 8,125,000,000,000 | -225,000,000,000 | 0 |  | 550,000,000,000 |  | Alice | 1,100,000,000,000 |  | — |  | Claim (day 23) |
+| T8 | 7,675,000,000,000 | -450,000,000,000 | 0 |  | 550,000,000,000 |  | Alice | 1,550,000,000,000 | +450,000,000,000 | 225,000,000,000 | +225,000,000,000 | Claim (day 23) |
+| T9 | 7,675,000,000,000 |  | 0 |  | 550,000,000,000 |  | Alice | 1,550,000,000,000 |  | 225,000,000,000 |  | TransferPosition (day 23) |
+| T10 | 7,675,000,000,000 |  | 0 |  | 550,000,000,000 |  | Alice | 1,550,000,000,000 |  | 225,000,000,000 |  | Claim (day 23) |
+| T11 | 7,405,000,000,000 | -270,000,000,000 | 0 |  | 820,000,000,000 | +270,000,000,000 | Alice | 1,550,000,000,000 |  | 225,000,000,000 |  | Claim (day 28) |
 
 ### T0: Initialize (day 0)
 
@@ -417,7 +417,7 @@ Alice (168271cu)
 | --- | --- | --- |
 | Vault balance | 9,900,000,000,000 | 9,450,000,000,000 |
 | Alice balance | — | 550,000,000,000 |
-| receipt claimer | — | 4wQQ… |
+| receipt claimer | — | Alice |
 
 <details>
 <summary>diagrams</summary>
@@ -611,8 +611,8 @@ flowchart LR
     Collection[("Collection")]:::state
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     CharlieATAMint(["Charlie/ATA(Mint)"]):::signer
-    BobspositionNFT(["Bob's position NFT"]):::signer
-    Bobsreceipt(["Bob's receipt"]):::signer
+    CharliespositionNFT(["Charlie's position NFT"]):::signer
+    Charliesreceipt(["Charlie's receipt"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
@@ -623,20 +623,20 @@ flowchart LR
     Vesting -->|writes| Collection
     Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> CharlieATAMint
-    Vesting --> BobspositionNFT
-    Vesting --> Bobsreceipt
+    Vesting --> CharliespositionNFT
+    Vesting --> Charliesreceipt
     Charlie --> splAssociatedTokenAccount
     splAssociatedTokenAccount --> CharlieATAMint
     Charlie --> system
     CharlieATAMint --> system
     token --> CharlieATAMint
-    Bobsreceipt --> system
-    BobspositionNFT --> mplCoreProgram
+    Charliesreceipt --> system
+    CharliespositionNFT --> mplCoreProgram
     mplCoreProgram --> Collection
     updateAuthorityCollection --> mplCoreProgram
     Charlie --> mplCoreProgram
-    BobspositionNFT --> system
-    system --> BobspositionNFT
+    CharliespositionNFT --> system
+    system --> CharliespositionNFT
     token --> campaignAtaVestingcampaigntokenMint
     Campaign --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -657,15 +657,15 @@ flowchart LR
     token["token"]:::program
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     CharlieATAMint[("Charlie/ATA(Mint)")]:::state
-    BobspositionNFT[("Bob's position NFT")]:::state
+    CharliespositionNFT[("Charlie's position NFT")]:::state
     Vesting["Vesting"]:::program
-    Bobsreceipt[("Bob's receipt")]:::state
+    Charliesreceipt[("Charlie's receipt")]:::state
     system -->|owns| Charlie
     mplCoreProgram --> Collection
     token --> campaignAtaVestingcampaigntokenMint
     token --> CharlieATAMint
-    mplCoreProgram --> BobspositionNFT
-    Vesting --> Bobsreceipt
+    mplCoreProgram --> CharliespositionNFT
+    Vesting --> Charliesreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -991,7 +991,7 @@ flowchart LR
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaBobtokenMint(["userAta(Bob, token, Mint)"]):::signer
     AlicespositionNFT[("Alice's position NFT")]:::state
-    BPGT(["BPGT…"]):::signer
+    Bobsreceipt(["Bob's receipt"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
@@ -1003,13 +1003,13 @@ flowchart LR
     Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaBobtokenMint
     Vesting --> AlicespositionNFT
-    Vesting --> BPGT
+    Vesting --> Bobsreceipt
     Bob --> splAssociatedTokenAccount
     splAssociatedTokenAccount --> userAtaBobtokenMint
     Bob --> system
     userAtaBobtokenMint --> system
     token --> userAtaBobtokenMint
-    BPGT --> system
+    Bobsreceipt --> system
     mplCoreProgram --> AlicespositionNFT
     mplCoreProgram --> Collection
     Bob --> mplCoreProgram
@@ -1036,13 +1036,13 @@ flowchart LR
     userAtaBobtokenMint[("userAta(Bob, token, Mint)")]:::state
     AlicespositionNFT[("Alice's position NFT")]:::state
     Vesting["Vesting"]:::program
-    BPGT[("BPGT…")]:::state
+    Bobsreceipt[("Bob's receipt")]:::state
     system -->|owns| Bob
     mplCoreProgram --> Collection
     token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaBobtokenMint
     mplCoreProgram --> AlicespositionNFT
-    Vesting --> BPGT
+    Vesting --> Bobsreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -1109,8 +1109,8 @@ flowchart LR
     Collection[("Collection")]:::state
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaCharlietokenMint[("userAta(Charlie, token, Mint)")]:::state
-    BobspositionNFT[("Bob's position NFT")]:::state
-    Bobsreceipt[("Bob's receipt")]:::state
+    CharliespositionNFT[("Charlie's position NFT")]:::state
+    Charliesreceipt[("Charlie's receipt")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     token["token"]:::program
@@ -1119,9 +1119,9 @@ flowchart LR
     Vesting -->|writes| Collection
     Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaCharlietokenMint
-    Vesting --> BobspositionNFT
-    Vesting --> Bobsreceipt
-    mplCoreProgram --> BobspositionNFT
+    Vesting --> CharliespositionNFT
+    Vesting --> Charliesreceipt
+    mplCoreProgram --> CharliespositionNFT
     mplCoreProgram --> Collection
     Charlie --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
@@ -1146,15 +1146,15 @@ flowchart LR
     token["token"]:::program
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaCharlietokenMint[("userAta(Charlie, token, Mint)")]:::state
-    BobspositionNFT[("Bob's position NFT")]:::state
+    CharliespositionNFT[("Charlie's position NFT")]:::state
     Vesting["Vesting"]:::program
-    Bobsreceipt[("Bob's receipt")]:::state
+    Charliesreceipt[("Charlie's receipt")]:::state
     system -->|owns| Charlie
     mplCoreProgram --> Collection
     token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaCharlietokenMint
-    mplCoreProgram --> BobspositionNFT
-    Vesting --> Bobsreceipt
+    mplCoreProgram --> CharliespositionNFT
+    Vesting --> Charliesreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -1195,9 +1195,9 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
-    BobspositionNFT[("Bob's position NFT")]:::state
+    CharliespositionNFT[("Charlie's position NFT")]:::state
     Charlie(["Charlie"]):::signer
-    mplCoreProgram -->|writes| BobspositionNFT
+    mplCoreProgram -->|writes| CharliespositionNFT
     Charlie -->|signs| mplCoreProgram
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1211,10 +1211,10 @@ flowchart LR
 ```mermaid
 flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
-    BobspositionNFT[("Bob's position NFT")]:::state
+    CharliespositionNFT[("Charlie's position NFT")]:::state
     system["system"]:::program
     Charlie[("Charlie")]:::state
-    mplCoreProgram -->|owns| BobspositionNFT
+    mplCoreProgram -->|owns| CharliespositionNFT
     system --> Charlie
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1261,14 +1261,14 @@ flowchart LR
     Collection[("Collection")]:::state
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaCharlietokenMint[("userAta(Charlie, token, Mint)")]:::state
-    BobspositionNFT[("Bob's position NFT")]:::state
-    Bobsreceipt[("Bob's receipt")]:::state
+    CharliespositionNFT[("Charlie's position NFT")]:::state
+    Charliesreceipt[("Charlie's receipt")]:::state
     Charlie -->|signs| Vesting
     Vesting -->|writes| Collection
     Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaCharlietokenMint
-    Vesting --> BobspositionNFT
-    Vesting --> Bobsreceipt
+    Vesting --> CharliespositionNFT
+    Vesting --> Charliesreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -1287,15 +1287,15 @@ flowchart LR
     token["token"]:::program
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaCharlietokenMint[("userAta(Charlie, token, Mint)")]:::state
-    BobspositionNFT[("Bob's position NFT")]:::state
+    CharliespositionNFT[("Charlie's position NFT")]:::state
     Vesting["Vesting"]:::program
-    Bobsreceipt[("Bob's receipt")]:::state
+    Charliesreceipt[("Charlie's receipt")]:::state
     system -->|owns| Charlie
     mplCoreProgram --> Collection
     token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaCharlietokenMint
-    mplCoreProgram --> BobspositionNFT
-    Vesting --> Bobsreceipt
+    mplCoreProgram --> CharliespositionNFT
+    Vesting --> Charliesreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -1355,7 +1355,7 @@ flowchart LR
     Collection[("Collection")]:::state
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
-    BobspositionNFT[("Bob's position NFT")]:::state
+    CharliespositionNFT[("Charlie's position NFT")]:::state
     Alicesreceipt[("Alice's receipt")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
@@ -1365,9 +1365,9 @@ flowchart LR
     Vesting -->|writes| Collection
     Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaAlicetokenMint
-    Vesting --> BobspositionNFT
+    Vesting --> CharliespositionNFT
     Vesting --> Alicesreceipt
-    mplCoreProgram --> BobspositionNFT
+    mplCoreProgram --> CharliespositionNFT
     mplCoreProgram --> Collection
     Alice --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
@@ -1392,14 +1392,14 @@ flowchart LR
     token["token"]:::program
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
-    BobspositionNFT[("Bob's position NFT")]:::state
+    CharliespositionNFT[("Charlie's position NFT")]:::state
     Vesting["Vesting"]:::program
     Alicesreceipt[("Alice's receipt")]:::state
     system -->|owns| Alice
     mplCoreProgram --> Collection
     token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaAlicetokenMint
-    mplCoreProgram --> BobspositionNFT
+    mplCoreProgram --> CharliespositionNFT
     Vesting --> Alicesreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;

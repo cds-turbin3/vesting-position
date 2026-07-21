@@ -87,21 +87,11 @@
           [
             {
               "type": "text",
-              "value": "Bob's position NFT"
-            },
-            {
-              "type": "addr",
-              "value": "5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC"
-            }
-          ],
-          [
-            {
-              "type": "text",
               "value": "Bob's receipt"
             },
             {
               "type": "addr",
-              "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
+              "value": "BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj"
             }
           ],
           [
@@ -122,6 +112,26 @@
             {
               "type": "addr",
               "value": "H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Charlie's position NFT"
+            },
+            {
+              "type": "addr",
+              "value": "5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Charlie's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
             }
           ],
           [
@@ -222,16 +232,6 @@
             {
               "type": "addr",
               "value": "DiZfCmUXMWffwHP4eus9hwgnvTVbiZL7ZGGTBjJ9vc68"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "BPGT…"
-            },
-            {
-              "type": "addr",
-              "value": "BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj"
             }
           ]
         ]
@@ -394,7 +394,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "empty"
@@ -446,7 +446,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "empty"
@@ -498,7 +498,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "int",
@@ -551,7 +551,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "int",
@@ -604,7 +604,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "int",
@@ -657,7 +657,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "int",
@@ -710,7 +710,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "int",
@@ -764,7 +764,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "int",
@@ -818,7 +818,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "int",
@@ -872,7 +872,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             },
             {
               "type": "int",
@@ -1914,7 +1914,7 @@
             },
             {
               "type": "text",
-              "value": "4wQQ…"
+              "value": "Alice"
             }
           ]
         ]
@@ -2477,11 +2477,11 @@
             "role": "authority"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "authority"
           },
           {
-            "name": "Bob's receipt",
+            "name": "Charlie's receipt",
             "role": "authority"
           },
           {
@@ -2533,12 +2533,12 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Bob's receipt"
+            "to": "Charlie's receipt"
           },
           {
             "from": "Charlie",
@@ -2566,12 +2566,12 @@
             "to": "Charlie/ATA(Mint)"
           },
           {
-            "from": "Bob's receipt",
+            "from": "Charlie's receipt",
             "verb": "signs",
             "to": "system"
           },
           {
-            "from": "Bob's position NFT",
+            "from": "Charlie's position NFT",
             "verb": "signs",
             "to": "mplCoreProgram"
           },
@@ -2591,14 +2591,14 @@
             "to": "mplCoreProgram"
           },
           {
-            "from": "Bob's position NFT",
+            "from": "Charlie's position NFT",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "system",
             "verb": "writes",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "token",
@@ -2653,7 +2653,7 @@
             "role": "state"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "state"
           },
           {
@@ -2661,7 +2661,7 @@
             "role": "program"
           },
           {
-            "name": "Bob's receipt",
+            "name": "Charlie's receipt",
             "role": "state"
           }
         ],
@@ -2689,12 +2689,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "Bob's receipt"
+            "to": "Charlie's receipt"
           }
         ]
       }
@@ -3553,7 +3553,7 @@
             "role": "state"
           },
           {
-            "name": "BPGT…",
+            "name": "Bob's receipt",
             "role": "authority"
           },
           {
@@ -3610,7 +3610,7 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "BPGT…"
+            "to": "Bob's receipt"
           },
           {
             "from": "Bob",
@@ -3638,7 +3638,7 @@
             "to": "userAta(Bob, token, Mint)"
           },
           {
-            "from": "BPGT…",
+            "from": "Bob's receipt",
             "verb": "signs",
             "to": "system"
           },
@@ -3723,7 +3723,7 @@
             "role": "program"
           },
           {
-            "name": "BPGT…",
+            "name": "Bob's receipt",
             "role": "state"
           }
         ],
@@ -3756,7 +3756,7 @@
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "BPGT…"
+            "to": "Bob's receipt"
           }
         ]
       }
@@ -3936,11 +3936,11 @@
             "role": "state"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "state"
           },
           {
-            "name": "Bob's receipt",
+            "name": "Charlie's receipt",
             "role": "state"
           },
           {
@@ -3984,17 +3984,17 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Bob's receipt"
+            "to": "Charlie's receipt"
           },
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "mplCoreProgram",
@@ -4069,7 +4069,7 @@
             "role": "state"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "state"
           },
           {
@@ -4077,7 +4077,7 @@
             "role": "program"
           },
           {
-            "name": "Bob's receipt",
+            "name": "Charlie's receipt",
             "role": "state"
           }
         ],
@@ -4105,12 +4105,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "Bob's receipt"
+            "to": "Charlie's receipt"
           }
         ]
       }
@@ -4194,7 +4194,7 @@
             "role": "program"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "state"
           },
           {
@@ -4206,7 +4206,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "Charlie",
@@ -4232,7 +4232,7 @@
             "role": "program"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "state"
           },
           {
@@ -4248,7 +4248,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "system",
@@ -4359,11 +4359,11 @@
             "role": "state"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "state"
           },
           {
-            "name": "Bob's receipt",
+            "name": "Charlie's receipt",
             "role": "state"
           }
         ],
@@ -4391,12 +4391,12 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Bob's receipt"
+            "to": "Charlie's receipt"
           }
         ]
       }
@@ -4441,7 +4441,7 @@
             "role": "state"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "state"
           },
           {
@@ -4449,7 +4449,7 @@
             "role": "program"
           },
           {
-            "name": "Bob's receipt",
+            "name": "Charlie's receipt",
             "role": "state"
           }
         ],
@@ -4477,12 +4477,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "Bob's receipt"
+            "to": "Charlie's receipt"
           }
         ]
       }
@@ -4653,7 +4653,7 @@
             "role": "state"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "state"
           },
           {
@@ -4701,7 +4701,7 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "Vesting",
@@ -4711,7 +4711,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "mplCoreProgram",
@@ -4786,7 +4786,7 @@
             "role": "state"
           },
           {
-            "name": "Bob's position NFT",
+            "name": "Charlie's position NFT",
             "role": "state"
           },
           {
@@ -4822,7 +4822,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Bob's position NFT"
+            "to": "Charlie's position NFT"
           },
           {
             "from": "Vesting",

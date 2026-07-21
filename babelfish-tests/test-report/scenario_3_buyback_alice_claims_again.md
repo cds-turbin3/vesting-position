@@ -1,6 +1,6 @@
 # scenario_3_buyback_alice_claims_again
 
-**Source:** [`tests/claim.rs` L94](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/claim.rs#L94)
+**Source:** [`tests/claim.rs` L94](https://github.com/cds-turbin3/vesting-position/blob/873a8a9165959219e522b5cdb1d614516d9f6a10/babelfish-tests/tests/claim.rs#L94)
 
 Over 1 day: 7 moments.
 

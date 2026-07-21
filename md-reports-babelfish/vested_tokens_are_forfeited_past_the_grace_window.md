@@ -1,6 +1,6 @@
 # vested_tokens_are_forfeited_past_the_grace_window
 
-**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/forfeiture.rs#L17)
+**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/873a8a9165959219e522b5cdb1d614516d9f6a10/babelfish-tests/tests/forfeiture.rs#L17)
 
 > Given: Alice is whitelisted in a live campaign with a grace window past end
 

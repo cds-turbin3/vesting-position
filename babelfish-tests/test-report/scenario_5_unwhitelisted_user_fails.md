@@ -1,6 +1,6 @@
 # scenario_5_unwhitelisted_user_fails
 
-**Source:** [`tests/claim.rs` L157](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/claim.rs#L157)
+**Source:** [`tests/claim.rs` L157](https://github.com/cds-turbin3/vesting-position/blob/873a8a9165959219e522b5cdb1d614516d9f6a10/babelfish-tests/tests/claim.rs#L157)
 
 Over 1 day: 2 moments.
 
@@ -11,16 +11,15 @@ Over 1 day: 2 moments.
 | --- | --- |
 | Collection | 9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW |
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
+| Mallory | ErV63ApqLgh1Je5PdiVj6kzwkKJmLjKV41QoN9U4BNag |
+| Mallory's position NFT | yP9LAuj4pAEf6XGLa2Dm54zFgdQbDHh4TebTuR4tuyH |
+| Mallory's receipt | BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj |
 | Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
 | Vesting campaign | G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G |
 | VestingPositions | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
 | campaignAta(Vesting campaign, token, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
 | creatorAta(Creator, token, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
 | updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
-| A8Eu… | A8Eu8FarK5CxvYkBoYeJ9bsoA4mFZFvH9dqgH56TZQnf |
-| BPGT… | BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj |
-| ErV6… | ErV63ApqLgh1Je5PdiVj6kzwkKJmLjKV41QoN9U4BNag |
-| yP9L… | yP9LAuj4pAEf6XGLa2Dm54zFgdQbDHh4TebTuR4tuyH |
 
 </details>
 
@@ -206,7 +205,7 @@ Creator (89713cu)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as ErV6…
+    participant p0 as Mallory
     participant p1 as VestingPositions
     participant p2 as splAssociatedTokenAccount
     participant p3 as token
@@ -247,27 +246,27 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     VestingPositions["VestingPositions"]:::program
-    ErV6(["ErV6…"]):::signer
+    Mallory(["Mallory"]):::signer
     Collection[("Collection")]:::state
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
-    A8Eu(["A8Eu…"]):::signer
-    yP9L[("yP9L…")]:::state
-    BPGT(["BPGT…"]):::signer
+    MalloryATAMint(["Mallory/ATA(Mint)"]):::signer
+    MalloryspositionNFT[("Mallory's position NFT")]:::state
+    Mallorysreceipt(["Mallory's receipt"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
-    ErV6 -->|signs| VestingPositions
+    Mallory -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions --> campaignAtaVestingcampaigntokenMint
-    VestingPositions --> A8Eu
-    VestingPositions --> yP9L
-    VestingPositions --> BPGT
-    ErV6 --> splAssociatedTokenAccount
-    splAssociatedTokenAccount --> A8Eu
-    ErV6 --> system
-    A8Eu --> system
-    token --> A8Eu
-    BPGT --> system
+    VestingPositions --> MalloryATAMint
+    VestingPositions --> MalloryspositionNFT
+    VestingPositions --> Mallorysreceipt
+    Mallory --> splAssociatedTokenAccount
+    splAssociatedTokenAccount --> MalloryATAMint
+    Mallory --> system
+    MalloryATAMint --> system
+    token --> MalloryATAMint
+    Mallorysreceipt --> system
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -280,21 +279,21 @@ flowchart LR
 ```mermaid
 flowchart LR
     system["system"]:::program
-    ErV6[("ErV6…")]:::state
+    Mallory[("Mallory")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
-    A8Eu[("A8Eu…")]:::state
-    yP9L[("yP9L…")]:::state
+    MalloryATAMint[("Mallory/ATA(Mint)")]:::state
+    MalloryspositionNFT[("Mallory's position NFT")]:::state
     VestingPositions["VestingPositions"]:::program
-    BPGT[("BPGT…")]:::state
-    system -->|owns| ErV6
+    Mallorysreceipt[("Mallory's receipt")]:::state
+    system -->|owns| Mallory
     mplCoreProgram --> Collection
     token --> campaignAtaVestingcampaigntokenMint
-    token --> A8Eu
-    system --> yP9L
-    VestingPositions --> BPGT
+    token --> MalloryATAMint
+    system --> MalloryspositionNFT
+    VestingPositions --> Mallorysreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -305,7 +304,7 @@ flowchart LR
 
 ```
 
-ErV6… (92417cu)
+Mallory (92417cu)
 └─ VestingPositions::Claim ✗ 92417cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu

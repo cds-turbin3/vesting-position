@@ -1,6 +1,6 @@
 # at_cliff_releases_cliff_bps
 
-**Source:** [`tests/vesting_schedule.rs` L48](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/vesting_schedule.rs#L48)
+**Source:** [`tests/vesting_schedule.rs` L48](https://github.com/cds-turbin3/vesting-position/blob/873a8a9165959219e522b5cdb1d614516d9f6a10/babelfish-tests/tests/vesting_schedule.rs#L48)
 
 Over 2 days: 2 moments.
 

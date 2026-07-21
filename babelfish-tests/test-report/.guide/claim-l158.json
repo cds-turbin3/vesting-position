@@ -40,6 +40,36 @@
           [
             {
               "type": "text",
+              "value": "Mallory"
+            },
+            {
+              "type": "addr",
+              "value": "ErV63ApqLgh1Je5PdiVj6kzwkKJmLjKV41QoN9U4BNag"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Mallory's position NFT"
+            },
+            {
+              "type": "addr",
+              "value": "yP9LAuj4pAEf6XGLa2Dm54zFgdQbDHh4TebTuR4tuyH"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Mallory's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj"
+            }
+          ],
+          [
+            {
+              "type": "text",
               "value": "Mint"
             },
             {
@@ -95,46 +125,6 @@
             {
               "type": "addr",
               "value": "CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "A8Eu…"
-            },
-            {
-              "type": "addr",
-              "value": "A8Eu8FarK5CxvYkBoYeJ9bsoA4mFZFvH9dqgH56TZQnf"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "BPGT…"
-            },
-            {
-              "type": "addr",
-              "value": "BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "ErV6…"
-            },
-            {
-              "type": "addr",
-              "value": "ErV63ApqLgh1Je5PdiVj6kzwkKJmLjKV41QoN9U4BNag"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "yP9L…"
-            },
-            {
-              "type": "addr",
-              "value": "yP9LAuj4pAEf6XGLa2Dm54zFgdQbDHh4TebTuR4tuyH"
             }
           ]
         ]
@@ -707,7 +697,7 @@
         "participants": [
           {
             "id": "p0",
-            "label": "ErV6…",
+            "label": "Mallory",
             "role": "authority"
           },
           {
@@ -817,7 +807,7 @@
             "role": "program"
           },
           {
-            "name": "ErV6…",
+            "name": "Mallory",
             "role": "authority"
           },
           {
@@ -829,15 +819,15 @@
             "role": "state"
           },
           {
-            "name": "A8Eu…",
+            "name": "Mallory/ATA(Mint)",
             "role": "authority"
           },
           {
-            "name": "yP9L…",
+            "name": "Mallory's position NFT",
             "role": "state"
           },
           {
-            "name": "BPGT…",
+            "name": "Mallory's receipt",
             "role": "authority"
           },
           {
@@ -855,7 +845,7 @@
         ],
         "edges": [
           {
-            "from": "ErV6…",
+            "from": "Mallory",
             "verb": "signs",
             "to": "VestingPositions"
           },
@@ -872,45 +862,45 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "A8Eu…"
+            "to": "Mallory/ATA(Mint)"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "yP9L…"
+            "to": "Mallory's position NFT"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "BPGT…"
+            "to": "Mallory's receipt"
           },
           {
-            "from": "ErV6…",
+            "from": "Mallory",
             "verb": "signs",
             "to": "splAssociatedTokenAccount"
           },
           {
             "from": "splAssociatedTokenAccount",
             "verb": "writes",
-            "to": "A8Eu…"
+            "to": "Mallory/ATA(Mint)"
           },
           {
-            "from": "ErV6…",
+            "from": "Mallory",
             "verb": "signs",
             "to": "system"
           },
           {
-            "from": "A8Eu…",
+            "from": "Mallory/ATA(Mint)",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "token",
             "verb": "writes",
-            "to": "A8Eu…"
+            "to": "Mallory/ATA(Mint)"
           },
           {
-            "from": "BPGT…",
+            "from": "Mallory's receipt",
             "verb": "signs",
             "to": "system"
           }
@@ -933,7 +923,7 @@
             "role": "program"
           },
           {
-            "name": "ErV6…",
+            "name": "Mallory",
             "role": "state"
           },
           {
@@ -953,11 +943,11 @@
             "role": "state"
           },
           {
-            "name": "A8Eu…",
+            "name": "Mallory/ATA(Mint)",
             "role": "state"
           },
           {
-            "name": "yP9L…",
+            "name": "Mallory's position NFT",
             "role": "state"
           },
           {
@@ -965,7 +955,7 @@
             "role": "program"
           },
           {
-            "name": "BPGT…",
+            "name": "Mallory's receipt",
             "role": "state"
           }
         ],
@@ -973,7 +963,7 @@
           {
             "from": "system",
             "verb": "owns",
-            "to": "ErV6…"
+            "to": "Mallory"
           },
           {
             "from": "mplCoreProgram",
@@ -988,17 +978,17 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "A8Eu…"
+            "to": "Mallory/ATA(Mint)"
           },
           {
             "from": "system",
             "verb": "owns",
-            "to": "yP9L…"
+            "to": "Mallory's position NFT"
           },
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "BPGT…"
+            "to": "Mallory's receipt"
           }
         ]
       }
@@ -1014,7 +1004,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nErV6… (92417cu)\n└─ VestingPositions::Claim ✗ 92417cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   └─ system::createAccount ✓\n"
+        "text": "\nMallory (92417cu)\n└─ VestingPositions::Claim ✗ 92417cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   └─ system::createAccount ✓\n"
       }
     }
   ],
