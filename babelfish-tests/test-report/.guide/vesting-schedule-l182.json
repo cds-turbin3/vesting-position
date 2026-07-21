@@ -56,6 +56,16 @@
           [
             {
               "type": "text",
+              "value": "Vesting campaign"
+            },
+            {
+              "type": "addr",
+              "value": "G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G"
+            }
+          ],
+          [
+            {
+              "type": "text",
               "value": "VestingPositions"
             },
             {
@@ -66,17 +76,7 @@
           [
             {
               "type": "text",
-              "value": "campaign(Collection)"
-            },
-            {
-              "type": "addr",
-              "value": "G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "campaignAta(campaign(Collection), token, Mint)"
+              "value": "campaignAta(Vesting campaign, token, Mint)"
             },
             {
               "type": "addr",
@@ -1088,11 +1088,11 @@
             "role": "state"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "authority"
           },
           {
@@ -1136,12 +1136,12 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaign(Collection)"
+            "to": "Vesting campaign"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "Creator",
@@ -1149,7 +1149,7 @@
             "to": "system"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "system"
           },
@@ -1161,17 +1161,17 @@
           {
             "from": "splAssociatedTokenAccount",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
-            "from": "campaignAta(campaign(Collection), token, Mint)",
+            "from": "campaignAta(Vesting campaign, token, Mint)",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "Collection",
@@ -1250,11 +1250,11 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           }
         ],
@@ -1282,12 +1282,12 @@
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "campaign(Collection)"
+            "to": "Vesting campaign"
           },
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           }
         ]
       }
@@ -1571,7 +1571,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -1607,7 +1607,7 @@
             "role": "authority"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -1625,7 +1625,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -1705,10 +1705,10 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -1747,7 +1747,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -1781,7 +1781,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -1973,7 +1973,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -2001,7 +2001,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -2019,7 +2019,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -2059,7 +2059,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -2067,7 +2067,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -2106,7 +2106,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -2140,7 +2140,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -2332,7 +2332,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -2360,7 +2360,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -2378,7 +2378,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -2418,7 +2418,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -2426,7 +2426,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -2465,7 +2465,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -2499,7 +2499,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -2691,7 +2691,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -2719,7 +2719,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -2737,7 +2737,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -2777,7 +2777,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -2785,7 +2785,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -2824,7 +2824,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -2858,7 +2858,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -3050,7 +3050,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -3078,7 +3078,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -3096,7 +3096,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -3136,7 +3136,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -3144,7 +3144,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -3183,7 +3183,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -3217,7 +3217,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -3409,7 +3409,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -3437,7 +3437,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -3455,7 +3455,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -3495,7 +3495,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -3503,7 +3503,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -3542,7 +3542,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -3576,7 +3576,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -3768,7 +3768,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -3796,7 +3796,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -3814,7 +3814,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -3854,7 +3854,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -3862,7 +3862,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -3901,7 +3901,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -3935,7 +3935,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -4127,7 +4127,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -4155,7 +4155,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -4173,7 +4173,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -4213,7 +4213,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -4221,7 +4221,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -4260,7 +4260,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -4294,7 +4294,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -4486,7 +4486,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -4514,7 +4514,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -4532,7 +4532,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -4572,7 +4572,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -4580,7 +4580,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -4619,7 +4619,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -4653,7 +4653,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -4845,7 +4845,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -4873,7 +4873,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -4891,7 +4891,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -4931,7 +4931,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -4939,7 +4939,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -4978,7 +4978,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -5012,7 +5012,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -5204,7 +5204,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -5232,7 +5232,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -5250,7 +5250,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -5290,7 +5290,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -5298,7 +5298,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -5337,7 +5337,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -5371,7 +5371,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -5563,7 +5563,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -5591,7 +5591,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -5609,7 +5609,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -5649,7 +5649,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -5657,7 +5657,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -5696,7 +5696,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -5730,7 +5730,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -5922,7 +5922,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -5950,7 +5950,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -5968,7 +5968,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -6008,7 +6008,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -6016,7 +6016,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -6055,7 +6055,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -6089,7 +6089,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -6281,7 +6281,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -6309,7 +6309,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -6327,7 +6327,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -6367,7 +6367,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -6375,7 +6375,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -6414,7 +6414,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -6448,7 +6448,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -6662,7 +6662,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -6694,7 +6694,7 @@
             "role": "program"
           },
           {
-            "name": "campaign(Collection)",
+            "name": "Vesting campaign",
             "role": "authority"
           }
         ],
@@ -6712,7 +6712,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -6762,7 +6762,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",
@@ -6770,7 +6770,7 @@
             "to": "userAta(4wQQ…, token, Mint)"
           },
           {
-            "from": "campaign(Collection)",
+            "from": "Vesting campaign",
             "verb": "signs",
             "to": "token"
           }
@@ -6809,7 +6809,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), token, Mint)",
+            "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
@@ -6843,7 +6843,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), token, Mint)"
+            "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "token",

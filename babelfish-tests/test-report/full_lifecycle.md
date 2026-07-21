@@ -1,6 +1,6 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/a73490430ef5c43423e4370c61364fdf961e7484/babelfish-tests/tests/full_lifecycle.rs#L24)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/a210de493b6e165b24bb8cfd74a4b811ba639232/babelfish-tests/tests/full_lifecycle.rs#L24)
 
 > Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
@@ -37,7 +37,7 @@ Final state checks:
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
 | Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
 | Vesting | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
-| campaignAta(campaign(Collection), token, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
+| campaignAta(Vesting campaign, token, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
 | creatorAta(Creator, token, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
 | updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
 | userAta(Alice, token, Mint) | C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW |
@@ -151,8 +151,8 @@ flowchart LR
     Collection(["Collection"]):::signer
     Mint[("Mint")]:::state
     creatorAtaCreatortokenMint[("creatorAta(Creator, token, Mint)")]:::state
-    campaignCollection(["campaign(Collection)"]):::signer
-    campaignAtacampaignCollectiontokenMint(["campaignAta(campaign(Collection), token, Mint)"]):::signer
+    Vestingcampaign(["Vesting campaign"]):::signer
+    campaignAtaVestingcampaigntokenMint(["campaignAta(Vesting campaign, token, Mint)"]):::signer
     system["system"]:::program
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
@@ -161,14 +161,14 @@ flowchart LR
     VestingPositions -->|writes| Collection
     VestingPositions --> Mint
     VestingPositions --> creatorAtaCreatortokenMint
-    VestingPositions --> campaignCollection
-    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> Vestingcampaign
+    VestingPositions --> campaignAtaVestingcampaigntokenMint
     Creator --> system
-    campaignCollection --> system
+    Vestingcampaign --> system
     Creator --> splAssociatedTokenAccount
-    splAssociatedTokenAccount --> campaignAtacampaignCollectiontokenMint
-    campaignAtacampaignCollectiontokenMint --> system
-    token --> campaignAtacampaignCollectiontokenMint
+    splAssociatedTokenAccount --> campaignAtaVestingcampaigntokenMint
+    campaignAtaVestingcampaigntokenMint --> system
+    token --> campaignAtaVestingcampaigntokenMint
     Collection --> mplCoreProgram
     Creator --> mplCoreProgram
     Collection --> system
@@ -194,14 +194,14 @@ flowchart LR
     Mint[("Mint")]:::state
     creatorAtaCreatortokenMint[("creatorAta(Creator, token, Mint)")]:::state
     VestingPositions["VestingPositions"]:::program
-    campaignCollection[("campaign(Collection)")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    Vestingcampaign[("Vesting campaign")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     system -->|owns| Creator
     mplCoreProgram --> Collection
     token --> Mint
     token --> creatorAtaCreatortokenMint
-    VestingPositions --> campaignCollection
-    token --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> Vestingcampaign
+    token --> campaignAtaVestingcampaigntokenMint
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -322,7 +322,7 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     AliceATAMint(["Alice/ATA(Mint)"]):::signer
     AlicepositionNFT(["Alice position NFT"]):::signer
     n5yfA(["5yfA…"]):::signer
@@ -334,7 +334,7 @@ flowchart LR
     Campaign(["Campaign"]):::signer
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting --> campaignAtacampaignCollectiontokenMint
+    Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> AliceATAMint
     Vesting --> AlicepositionNFT
     Vesting --> n5yfA
@@ -350,7 +350,7 @@ flowchart LR
     Alice --> mplCoreProgram
     AlicepositionNFT --> system
     system --> AlicepositionNFT
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     Campaign --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -368,14 +368,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     AliceATAMint[("Alice/ATA(Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> AliceATAMint
     mplCoreProgram --> AlicepositionNFT
     Vesting --> n5yfA
@@ -451,7 +451,7 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     n5yfA[("5yfA…")]:::state
@@ -461,7 +461,7 @@ flowchart LR
     Campaign(["Campaign"]):::signer
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting --> campaignAtacampaignCollectiontokenMint
+    Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaAlicetokenMint
     Vesting --> AlicepositionNFT
     Vesting --> n5yfA
@@ -469,7 +469,7 @@ flowchart LR
     mplCoreProgram --> Collection
     Alice --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaAlicetokenMint
     Campaign --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -488,14 +488,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaAlicetokenMint
     mplCoreProgram --> AlicepositionNFT
     Vesting --> n5yfA
@@ -609,7 +609,7 @@ flowchart LR
     Vesting["Vesting"]:::program
     Charlie(["Charlie"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     CharlieATAMint(["Charlie/ATA(Mint)"]):::signer
     CharliepositionNFT(["Charlie position NFT"]):::signer
     C49G(["C49G…"]):::signer
@@ -621,7 +621,7 @@ flowchart LR
     Campaign(["Campaign"]):::signer
     Charlie -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting --> campaignAtacampaignCollectiontokenMint
+    Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> CharlieATAMint
     Vesting --> CharliepositionNFT
     Vesting --> C49G
@@ -637,7 +637,7 @@ flowchart LR
     Charlie --> mplCoreProgram
     CharliepositionNFT --> system
     system --> CharliepositionNFT
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     Campaign --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -655,14 +655,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     CharlieATAMint[("Charlie/ATA(Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     Vesting["Vesting"]:::program
     C49G[("C49G…")]:::state
     system -->|owns| Charlie
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> CharlieATAMint
     mplCoreProgram --> CharliepositionNFT
     Vesting --> C49G
@@ -786,13 +786,13 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     n5yfA[("5yfA…")]:::state
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting --> campaignAtacampaignCollectiontokenMint
+    Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaAlicetokenMint
     Vesting --> AlicepositionNFT
     Vesting --> n5yfA
@@ -812,14 +812,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaAlicetokenMint
     mplCoreProgram --> AlicepositionNFT
     Vesting --> n5yfA
@@ -868,13 +868,13 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     n5yfA[("5yfA…")]:::state
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting --> campaignAtacampaignCollectiontokenMint
+    Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaAlicetokenMint
     Vesting --> AlicepositionNFT
     Vesting --> n5yfA
@@ -894,14 +894,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaAlicetokenMint
     mplCoreProgram --> AlicepositionNFT
     Vesting --> n5yfA
@@ -988,7 +988,7 @@ flowchart LR
     Vesting["Vesting"]:::program
     Bob(["Bob"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaBobtokenMint(["userAta(Bob, token, Mint)"]):::signer
     AlicepositionNFT[("Alice position NFT")]:::state
     BPGT(["BPGT…"]):::signer
@@ -1000,7 +1000,7 @@ flowchart LR
     Campaign(["Campaign"]):::signer
     Bob -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting --> campaignAtacampaignCollectiontokenMint
+    Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaBobtokenMint
     Vesting --> AlicepositionNFT
     Vesting --> BPGT
@@ -1014,7 +1014,7 @@ flowchart LR
     mplCoreProgram --> Collection
     Bob --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     Campaign --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1032,14 +1032,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaBobtokenMint[("userAta(Bob, token, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     Vesting["Vesting"]:::program
     BPGT[("BPGT…")]:::state
     system -->|owns| Bob
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaBobtokenMint
     mplCoreProgram --> AlicepositionNFT
     Vesting --> BPGT
@@ -1107,7 +1107,7 @@ flowchart LR
     Vesting["Vesting"]:::program
     Charlie(["Charlie"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaCharlietokenMint[("userAta(Charlie, token, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     C49G[("C49G…")]:::state
@@ -1117,7 +1117,7 @@ flowchart LR
     Campaign(["Campaign"]):::signer
     Charlie -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting --> campaignAtacampaignCollectiontokenMint
+    Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaCharlietokenMint
     Vesting --> CharliepositionNFT
     Vesting --> C49G
@@ -1125,7 +1125,7 @@ flowchart LR
     mplCoreProgram --> Collection
     Charlie --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaCharlietokenMint
     Campaign --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1144,14 +1144,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaCharlietokenMint[("userAta(Charlie, token, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     Vesting["Vesting"]:::program
     C49G[("C49G…")]:::state
     system -->|owns| Charlie
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaCharlietokenMint
     mplCoreProgram --> CharliepositionNFT
     Vesting --> C49G
@@ -1259,13 +1259,13 @@ flowchart LR
     Vesting["Vesting"]:::program
     Charlie(["Charlie"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaCharlietokenMint[("userAta(Charlie, token, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     C49G[("C49G…")]:::state
     Charlie -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting --> campaignAtacampaignCollectiontokenMint
+    Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaCharlietokenMint
     Vesting --> CharliepositionNFT
     Vesting --> C49G
@@ -1285,14 +1285,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaCharlietokenMint[("userAta(Charlie, token, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     Vesting["Vesting"]:::program
     C49G[("C49G…")]:::state
     system -->|owns| Charlie
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaCharlietokenMint
     mplCoreProgram --> CharliepositionNFT
     Vesting --> C49G
@@ -1353,7 +1353,7 @@ flowchart LR
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     n5yfA[("5yfA…")]:::state
@@ -1363,7 +1363,7 @@ flowchart LR
     Campaign(["Campaign"]):::signer
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
-    Vesting --> campaignAtacampaignCollectiontokenMint
+    Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaAlicetokenMint
     Vesting --> CharliepositionNFT
     Vesting --> n5yfA
@@ -1371,7 +1371,7 @@ flowchart LR
     mplCoreProgram --> Collection
     Alice --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaAlicetokenMint
     Campaign --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1390,14 +1390,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaAlicetokenMint
     mplCoreProgram --> CharliepositionNFT
     Vesting --> n5yfA

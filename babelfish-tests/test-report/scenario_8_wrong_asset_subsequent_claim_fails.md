@@ -1,6 +1,6 @@
 # scenario_8_wrong_asset_subsequent_claim_fails
 
-**Source:** [`tests/claim.rs` L216](https://github.com/cds-turbin3/vesting-position/blob/a73490430ef5c43423e4370c61364fdf961e7484/babelfish-tests/tests/claim.rs#L216)
+**Source:** [`tests/claim.rs` L216](https://github.com/cds-turbin3/vesting-position/blob/a210de493b6e165b24bb8cfd74a4b811ba639232/babelfish-tests/tests/claim.rs#L216)
 
 Over 1 day: 2 moments.
 
@@ -12,9 +12,9 @@ Over 1 day: 2 moments.
 | Collection | 9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW |
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
 | Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
+| Vesting campaign | G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G |
 | VestingPositions | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
-| campaign(Collection) | G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G |
-| campaignAta(campaign(Collection), token, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
+| campaignAta(Vesting campaign, token, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
 | creatorAta(Creator, token, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
 | updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
 | userAta(ErV6…, token, Mint) | A8Eu8FarK5CxvYkBoYeJ9bsoA4mFZFvH9dqgH56TZQnf |
@@ -114,8 +114,8 @@ flowchart LR
     Collection(["Collection"]):::signer
     Mint[("Mint")]:::state
     creatorAtaCreatortokenMint[("creatorAta(Creator, token, Mint)")]:::state
-    campaignCollection(["campaign(Collection)"]):::signer
-    campaignAtacampaignCollectiontokenMint(["campaignAta(campaign(Collection), token, Mint)"]):::signer
+    Vestingcampaign(["Vesting campaign"]):::signer
+    campaignAtaVestingcampaigntokenMint(["campaignAta(Vesting campaign, token, Mint)"]):::signer
     system["system"]:::program
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
@@ -124,14 +124,14 @@ flowchart LR
     VestingPositions -->|writes| Collection
     VestingPositions --> Mint
     VestingPositions --> creatorAtaCreatortokenMint
-    VestingPositions --> campaignCollection
-    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> Vestingcampaign
+    VestingPositions --> campaignAtaVestingcampaigntokenMint
     Creator --> system
-    campaignCollection --> system
+    Vestingcampaign --> system
     Creator --> splAssociatedTokenAccount
-    splAssociatedTokenAccount --> campaignAtacampaignCollectiontokenMint
-    campaignAtacampaignCollectiontokenMint --> system
-    token --> campaignAtacampaignCollectiontokenMint
+    splAssociatedTokenAccount --> campaignAtaVestingcampaigntokenMint
+    campaignAtaVestingcampaigntokenMint --> system
+    token --> campaignAtaVestingcampaigntokenMint
     Collection --> mplCoreProgram
     Creator --> mplCoreProgram
     Collection --> system
@@ -157,14 +157,14 @@ flowchart LR
     Mint[("Mint")]:::state
     creatorAtaCreatortokenMint[("creatorAta(Creator, token, Mint)")]:::state
     VestingPositions["VestingPositions"]:::program
-    campaignCollection[("campaign(Collection)")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    Vestingcampaign[("Vesting campaign")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     system -->|owns| Creator
     mplCoreProgram --> Collection
     token --> Mint
     token --> creatorAtaCreatortokenMint
-    VestingPositions --> campaignCollection
-    token --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> Vestingcampaign
+    token --> campaignAtaVestingcampaigntokenMint
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -249,7 +249,7 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     ErV6(["ErV6…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaErV6tokenMint(["userAta(ErV6…, token, Mint)"]):::signer
     n1115[("1115…")]:::state
     BPGT(["BPGT…"]):::signer
@@ -258,7 +258,7 @@ flowchart LR
     system["system"]:::program
     ErV6 -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> campaignAtaVestingcampaigntokenMint
     VestingPositions --> userAtaErV6tokenMint
     VestingPositions --> n1115
     VestingPositions --> BPGT
@@ -284,14 +284,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaErV6tokenMint[("userAta(ErV6…, token, Mint)")]:::state
     n1115[("1115…")]:::state
     VestingPositions["VestingPositions"]:::program
     BPGT[("BPGT…")]:::state
     system -->|owns| ErV6
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectiontokenMint
+    token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaErV6tokenMint
     system --> n1115
     VestingPositions --> BPGT
