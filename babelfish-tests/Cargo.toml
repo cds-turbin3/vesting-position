@@ -12,15 +12,15 @@ publish = false
 [workspace]
 
 [dependencies]
-# Pinned to pan-galactic/sol-babelfish main: #[derive(FromValue)]
-# (CampaignView's decoder), Story::when_ok/when_err (the send helpers'
-# core), run_instruction(s)_as (named beats for the raw first-claim and
-# transfer paths), the report's humanized samples + cast block, and the
-# typed report standard (ReportConfig::of, declared in world.rs, which
-# replaced test-report.toml). Swap to a crates.io release once frood is
+# Pinned to pan-galactic/sol-babelfish main: the client-feedback batch
+# (unaliased-participant diagnostics + cast stub tail, edge colors by
+# verb, Actor Display = label, compose_key with named_mint migrated onto
+# it — mint addresses moved once with that migration), on top of the
+# typed report standard (ReportConfig::of in world.rs) and
+# #[derive(FromValue)]. Swap to a crates.io release once frood is
 # published.
-frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "447513019deeef1bf25cdedd58132cc82dd42243" }
-frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "447513019deeef1bf25cdedd58132cc82dd42243" }
+frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "f7a49b5cdf296107b4d01e4a7448d4d813bc6f4f" }
+frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "f7a49b5cdf296107b4d01e4a7448d4d813bc6f4f" }
 # The `Account` the plugin helper rebuilds into an `AccountInfo` for
 # mpl-core's `fetch_plugin` (litesvm's `get_account` hands one back).
 solana-account = "3"
