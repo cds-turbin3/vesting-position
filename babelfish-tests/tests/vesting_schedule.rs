@@ -27,7 +27,7 @@ fn setup(config: CampaignConfig) -> (MerkleTree, VestingWorld) {
 #[test]
 fn before_cliff_transfers_zero() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
 
     world.warp_to(world.cliff_end() - 1);
     assert_eq!(
@@ -47,7 +47,7 @@ fn before_cliff_transfers_zero() {
 #[test]
 fn at_cliff_releases_cliff_bps() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
 
     world.warp_to(world.cliff_end());
     let expected = world.expected_claimable(world.cliff_end(), alice.allocation, 0);
@@ -66,7 +66,7 @@ fn at_cliff_releases_cliff_bps() {
 #[test]
 fn mid_schedule_cliff_plus_linear() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
     world.story.narrate(
         "Halfway through the linear window, a claim releases the cliff slice plus half the \
          linear remainder: cliff_amount + linear_amount/2.",
@@ -98,7 +98,7 @@ fn mid_schedule_cliff_plus_linear() {
 #[test]
 fn at_end_releases_full_allocation() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
 
     world.warp_past_end();
     assert_eq!(
@@ -122,7 +122,7 @@ fn pure_linear_starts_at_cliff_end() {
         cliff_release_bps: 0,
         ..Default::default()
     });
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
 
     world.warp_to(world.cliff_end());
     assert_eq!(
@@ -151,7 +151,7 @@ fn full_release_at_cliff() {
         cliff_release_bps: 10_000,
         ..Default::default()
     });
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
 
     world.warp_to(world.cliff_end());
     assert_eq!(
@@ -180,7 +180,7 @@ fn full_release_at_cliff() {
 #[test]
 fn claims_at_linear_checkpoints() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
 
     fund_keypair(&mut world, &alice.keypair, LAMPORTS);
     let asset = world.asset_for(&alice.keypair.pubkey());

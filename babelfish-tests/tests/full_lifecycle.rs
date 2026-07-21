@@ -24,8 +24,8 @@ use vesting_babelfish_tests::world::{Action, CampaignConfig, VestingWorld};
 fn full_lifecycle() {
     let merkle = default_merkle();
     let mut world = VestingWorld::initialized(&merkle, CampaignConfig::default());
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
-    let charlie = load_whitelist_user(&merkle, WHITELISTED_2);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
+    let charlie = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     let bob = load_keypair(NOT_WHITELISTED);
 
     fund_keypair(&mut world, &alice.keypair, LAMPORTS);
@@ -98,8 +98,6 @@ fn full_lifecycle() {
     world.warp_to(world.cliff_end());
     let alice_position = world.asset_for(&alice.keypair.pubkey());
     let charlie_position = world.asset_for(&charlie.keypair.pubkey());
-    world.story.alias(alice_position, "Alice position NFT");
-    world.story.alias(charlie_position, "Charlie position NFT");
     world.story.alias(campaign.collection, "Collection");
 
     world.first_claim_ok(&alice.keypair, alice.proofs.clone(), alice.allocation);

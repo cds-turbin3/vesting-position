@@ -2,7 +2,8 @@
 
 use solana_pubkey::Pubkey;
 use vesting_babelfish_tests::common::{
-    fund_keypair, load_whitelist_user, WhitelistUser, LAMPORTS, WHITELISTED_1, WHITELISTED_2,
+    fund_keypair, load_whitelist_user, whitelist_allocation, WhitelistUser, LAMPORTS,
+    WHITELISTED_1, WHITELISTED_2,
 };
 use vesting_babelfish_tests::merkle::{default_merkle, random_proofs, MerkleTree};
 use vesting_babelfish_tests::world::{Action, CampaignConfig, VestingWorld};
@@ -15,7 +16,7 @@ fn setup() -> (MerkleTree, VestingWorld) {
 }
 
 fn mint_alice_position(merkle: &MerkleTree, world: &mut VestingWorld) -> (WhitelistUser, Pubkey) {
-    let alice = load_whitelist_user(merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(world, merkle, WHITELISTED_1);
     fund_keypair(world, &alice.keypair, LAMPORTS);
     let asset = world.asset_for(&alice.keypair.pubkey());
     world.first_claim_ok(&alice.keypair, alice.proofs.clone(), alice.allocation);
@@ -102,7 +103,7 @@ fn clawback_requires_creator() {
 #[test]
 fn clawback_unclaimed_recovers_allocation_and_blocks_claim() {
     let (merkle, mut world) = setup();
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     fund_keypair(&mut world, &bob.keypair, LAMPORTS);
 
     world.warp_past_grace();
@@ -129,7 +130,7 @@ fn clawback_unclaimed_recovers_allocation_and_blocks_claim() {
 #[test]
 fn clawback_unclaimed_rejects_invalid_proof() {
     let (merkle, mut world) = setup();
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
 
     world.warp_past_grace();
     world.clawback_unclaimed_err(
@@ -167,7 +168,7 @@ fn clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt() {
 
     // Bob is whitelisted but never first-claims. He buys Alice's position
     // and does a subsequent claim on it, creating a zeroed receipt for him.
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     fund_keypair(&mut world, &bob.keypair, LAMPORTS);
 
     let transfer_ix =
@@ -200,7 +201,7 @@ fn clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt() {
 #[test]
 fn clawback_unclaimed_before_grace_fails() {
     let (merkle, mut world) = setup();
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
 
     world.warp_past_end();
     world.clawback_unclaimed_err(
@@ -229,14 +230,15 @@ fn close_campaign_succeeds_when_vault_empty() {
     // Fund the campaign with exactly alice's allocation so a full claim
     // drains the vault to zero.
     let merkle = default_merkle();
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let allocation = whitelist_allocation(&merkle, WHITELISTED_1);
     let mut world = VestingWorld::initialized(
         &merkle,
         CampaignConfig {
-            total_deposit: alice.allocation,
+            total_deposit: allocation,
             ..Default::default()
         },
     );
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
 
     fund_keypair(&mut world, &alice.keypair, LAMPORTS);
     let asset = world.asset_for(&alice.keypair.pubkey());
@@ -340,7 +342,7 @@ fn cancel_campaign_fails_after_position_burned() {
 #[test]
 fn cancel_campaign_requires_creator() {
     let (merkle, mut world) = setup();
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
     fund_keypair(&mut world, &alice.keypair, LAMPORTS);
     world.cancel_campaign_by(&alice.keypair, "Unauthorized");
 }
@@ -362,14 +364,15 @@ fn close_receipt_fails_while_campaign_active() {
 fn close_receipt_returns_rent_after_close_campaign() {
     // Exact-funded campaign so a full claim empties the vault.
     let merkle = default_merkle();
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let allocation = whitelist_allocation(&merkle, WHITELISTED_1);
     let mut world = VestingWorld::initialized(
         &merkle,
         CampaignConfig {
-            total_deposit: alice.allocation,
+            total_deposit: allocation,
             ..Default::default()
         },
     );
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
 
     fund_keypair(&mut world, &alice.keypair, LAMPORTS);
     let asset = world.asset_for(&alice.keypair.pubkey());

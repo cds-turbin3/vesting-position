@@ -16,7 +16,7 @@ fn setup(config: CampaignConfig) -> (MerkleTree, VestingWorld) {
 }
 
 fn mint_alice_position(merkle: &MerkleTree, world: &mut VestingWorld) -> (WhitelistUser, Pubkey) {
-    let alice = load_whitelist_user(merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(world, merkle, WHITELISTED_1);
     fund_keypair(world, &alice.keypair, LAMPORTS);
     let asset = world.asset_for(&alice.keypair.pubkey());
     world.first_claim_ok(&alice.keypair, alice.proofs.clone(), alice.allocation);
@@ -28,7 +28,7 @@ fn mint_alice_position(merkle: &MerkleTree, world: &mut VestingWorld) -> (Whitel
 #[test]
 fn transfer_when_collection_unfrozen_on_transferable_campaign() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     fund_keypair(&mut world, &bob.keypair, LAMPORTS);
 
     let (alice, asset) = mint_alice_position(&merkle, &mut world);
@@ -54,7 +54,7 @@ fn transfer_blocked_when_collection_frozen() {
         is_transferable: false,
         ..Default::default()
     });
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     fund_keypair(&mut world, &bob.keypair, LAMPORTS);
 
     let (alice, asset) = mint_alice_position(&merkle, &mut world);
@@ -72,7 +72,7 @@ fn transfer_blocked_when_collection_frozen() {
 #[test]
 fn collection_freeze_does_not_block_existing_transferable_positions() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     fund_keypair(&mut world, &bob.keypair, LAMPORTS);
 
     let (alice, asset) = mint_alice_position(&merkle, &mut world);
@@ -99,7 +99,7 @@ fn unfreeze_collection_restores_transfer_for_non_transferable_campaign() {
         is_transferable: false,
         ..Default::default()
     });
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     fund_keypair(&mut world, &bob.keypair, LAMPORTS);
 
     let (alice, asset) = mint_alice_position(&merkle, &mut world);
@@ -122,7 +122,7 @@ fn unfreeze_collection_restores_transfer_for_non_transferable_campaign() {
 #[test]
 fn fully_claimed_loyalty_badge_is_permanently_frozen() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     fund_keypair(&mut world, &bob.keypair, LAMPORTS);
 
     let (alice, asset) = mint_alice_position(&merkle, &mut world);
@@ -231,7 +231,7 @@ fn exclude_asset_fails_when_fully_claimed() {
 #[test]
 fn exclude_asset_burns_position() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     fund_keypair(&mut world, &bob.keypair, LAMPORTS);
 
     let (alice, asset) = mint_alice_position(&merkle, &mut world);
@@ -274,7 +274,7 @@ fn exclude_asset_burns_position() {
 #[test]
 fn freeze_asset_blocks_transfer_and_unfreeze_restores() {
     let (merkle, mut world) = setup(CampaignConfig::default());
-    let bob = load_whitelist_user(&merkle, WHITELISTED_2);
+    let bob = load_whitelist_user(&mut world, &merkle, WHITELISTED_2);
     fund_keypair(&mut world, &bob.keypair, LAMPORTS);
 
     let (alice, asset) = mint_alice_position(&merkle, &mut world);

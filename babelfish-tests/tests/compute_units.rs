@@ -16,11 +16,11 @@ use vesting_babelfish_tests::world::{
 fn compute_units_profile() {
     let merkle = default_merkle();
     let config = CampaignConfig::default();
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
 
     // World A: profile initialize, the mint-only first claim, and a subsequent
     // claim, all under the default cap (no ComputeBudget ix).
     let mut world = VestingWorld::uninitialized(&merkle, config);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
     // The CU numbers live in the sequence diagram and the CPI tree; this
     // report drops the cast and the authority/ownership graphs, which
     // repeat what every other report already shows for these transactions.
@@ -65,6 +65,9 @@ fn compute_units_profile() {
     // World B: the heaviest path (first claim at end+1 releases the full
     // allocation and freezes the badge), which needs the raised limit.
     let mut heavy = VestingWorld::uninitialized(&merkle, config);
+    // Reload against the second world so its story registers the same
+    // claimant aliases; the data is identical, the registry is per-world.
+    let alice = load_whitelist_user(&mut heavy, &merkle, WHITELISTED_1);
     *heavy.report_state().config_mut() = cu_profile_report();
     heavy.run_initialize(&merkle);
     fund_keypair(&mut heavy, &alice.keypair, LAMPORTS);

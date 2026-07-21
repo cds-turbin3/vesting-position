@@ -17,7 +17,7 @@ use vesting_babelfish_tests::world::{CampaignConfig, VestingWorld};
 fn vested_tokens_are_forfeited_past_the_grace_window() {
     let merkle = default_merkle();
     let mut world = VestingWorld::initialized(&merkle, CampaignConfig::default());
-    let alice = load_whitelist_user(&merkle, WHITELISTED_1);
+    let alice = load_whitelist_user(&mut world, &merkle, WHITELISTED_1);
     fund_keypair(&mut world, &alice.keypair, LAMPORTS);
 
     // Aliases so the rendered diagrams read as narrative, not base58.
@@ -35,7 +35,6 @@ fn vested_tokens_are_forfeited_past_the_grace_window() {
     // --- Alice claims her cliff, then walks away -------------------------------
     world.warp_to(world.cliff_end());
     let asset = world.asset_for(&alice.keypair.pubkey());
-    world.story.alias(asset, "Alice's position NFT");
     world.first_claim_ok(&alice.keypair, alice.proofs.clone(), alice.allocation);
 
     let cliff = world.claimer_token_balance(&alice.keypair.pubkey());

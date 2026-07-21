@@ -55,9 +55,27 @@ pub struct WhitelistUser {
     pub proofs: Vec<[u8; 33]>,
 }
 
-pub fn load_whitelist_user(merkle: &MerkleTree, path: impl AsRef<Path>) -> WhitelistUser {
+pub fn load_whitelist_user(
+    world: &mut VestingWorld,
+    merkle: &MerkleTree,
+    path: impl AsRef<Path>,
+) -> WhitelistUser {
     let keypair = load_keypair(path);
     let (allocation, proofs) = get_proofs(merkle, &keypair.pubkey()).expect("user in merkle tree");
+    // Register the claimant's whole trio under the roster name the Actor
+    // already carries ([`actor_name`]): the wallet, the position NFT, and
+    // the claim receipt. This is the seam where a claimant enters a story
+    // (the merkle root pins their exact key, so `cast` cannot mint them),
+    // and authored aliases win over auto-composition, so registering here,
+    // before the first claim resolves anything, also names the composites
+    // that embed the wallet (`userAta(Alice, token, Mint)`).
+    let user = keypair.pubkey();
+    let name = keypair.label.clone();
+    world.story.alias(user, &name);
+    let asset = world.asset_for(&user);
+    world.story.alias(asset, &format!("{name}'s position NFT"));
+    let receipt = world.receipt_address(&user);
+    world.story.alias(receipt, &format!("{name}'s receipt"));
     WhitelistUser {
         keypair,
         allocation,
@@ -72,4 +90,15 @@ pub fn fund_keypair(world: &mut VestingWorld, actor: &Actor, lamports: u64) {
         .svm
         .airdrop(&actor.pubkey(), lamports)
         .expect("airdrop");
+}
+
+/// A whitelisted fixture's allocation, read from the tree without touching a
+/// world: for tests whose `CampaignConfig` depends on it before the world
+/// exists (an exact-funded campaign), so the world can be built first and
+/// `load_whitelist_user`'s alias registration still lands in it.
+pub fn whitelist_allocation(merkle: &MerkleTree, path: impl AsRef<Path>) -> u64 {
+    let keypair = load_keypair(path);
+    get_proofs(merkle, &keypair.pubkey())
+        .expect("user in merkle tree")
+        .0
 }
