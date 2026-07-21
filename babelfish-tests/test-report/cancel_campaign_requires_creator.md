@@ -1,6 +1,6 @@
 # cancel_campaign_requires_creator
 
-**Source:** [`tests/clawback.rs` L341](https://github.com/cds-turbin3/vesting-position/blob/b53ae11528330be9e19c3e4b327a7dc3572aac7e/babelfish-tests/tests/clawback.rs#L341)
+**Source:** [`tests/clawback.rs` L341](https://github.com/cds-turbin3/vesting-position/blob/c89b5ba9f2140371af02754735f2eed3bb87d0ec/babelfish-tests/tests/clawback.rs#L341)
 
 Over 0 days: 2 moments.
 
@@ -140,8 +140,8 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366;
-    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00;
+    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366
+    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00
 ```
 
 ### Ownership
@@ -167,7 +167,7 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
 ```
 
 ### Tree
@@ -240,7 +240,7 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     VestingPositions["VestingPositions"]:::program
-    4wQQ(["4wQQ…"]):::signer
+    n4wQQ(["4wQQ…"]):::signer
     campaignCollection[("campaign(Collection)")]:::state
     Collection[("Collection")]:::state
     updateAuthorityCollection[("updateAuthority(Collection)")]:::state
@@ -249,22 +249,22 @@ flowchart LR
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
-    4wQQ -->|signs| VestingPositions
+    n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| campaignCollection
     VestingPositions --> Collection
     VestingPositions --> updateAuthorityCollection
     VestingPositions --> campaignAtacampaignCollectionTokeMint
     VestingPositions --> creatorAta4wQQTokeMint
-    4wQQ --> splAssociatedTokenAccount
+    n4wQQ --> splAssociatedTokenAccount
     splAssociatedTokenAccount --> creatorAta4wQQTokeMint
-    4wQQ --> system
+    n4wQQ --> system
     creatorAta4wQQTokeMint --> system
     token --> creatorAta4wQQTokeMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,8,9 stroke:#82b366;
-    linkStyle 1,2,3,4,5,7,10 stroke:#d79b00;
+    linkStyle 0,6,8,9 stroke:#82b366
+    linkStyle 1,2,3,4,5,7,10 stroke:#d79b00
 ```
 
 ### Ownership
@@ -272,7 +272,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     system["system"]:::program
-    4wQQ[("4wQQ…")]:::state
+    n4wQQ[("4wQQ…")]:::state
     VestingPositions["VestingPositions"]:::program
     campaignCollection[("campaign(Collection)")]:::state
     CoRE["CoRE…"]:::program
@@ -281,7 +281,7 @@ flowchart LR
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     creatorAta4wQQTokeMint[("creatorAta(4wQQ…, Toke…, Mint)")]:::state
-    system -->|owns| 4wQQ
+    system -->|owns| n4wQQ
     VestingPositions --> campaignCollection
     CoRE --> Collection
     system --> updateAuthorityCollection
@@ -290,7 +290,7 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
 ```
 
 ### Tree

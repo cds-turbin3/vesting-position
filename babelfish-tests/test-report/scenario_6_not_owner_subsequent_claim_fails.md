@@ -1,6 +1,6 @@
 # scenario_6_not_owner_subsequent_claim_fails
 
-**Source:** [`tests/claim.rs` L169](https://github.com/cds-turbin3/vesting-position/blob/b53ae11528330be9e19c3e4b327a7dc3572aac7e/babelfish-tests/tests/claim.rs#L169)
+**Source:** [`tests/claim.rs` L169](https://github.com/cds-turbin3/vesting-position/blob/c89b5ba9f2140371af02754735f2eed3bb87d0ec/babelfish-tests/tests/claim.rs#L169)
 
 Over 1 day: 3 moments.
 
@@ -147,8 +147,8 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366;
-    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00;
+    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366
+    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00
 ```
 
 ### Ownership
@@ -174,7 +174,7 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
 ```
 
 ### Tree
@@ -285,7 +285,7 @@ flowchart LR
     Collection[("Collection")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     DiZf(["DiZf…"]):::signer
-    5fjL(["5fjL…"]):::signer
+    n5fjL(["5fjL…"]):::signer
     C49G(["C49G…"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
@@ -296,7 +296,7 @@ flowchart LR
     VestingPositions -->|writes| Collection
     VestingPositions --> campaignAtacampaignCollectionTokeMint
     VestingPositions --> DiZf
-    VestingPositions --> 5fjL
+    VestingPositions --> n5fjL
     VestingPositions --> C49G
     H87x --> splAssociatedTokenAccount
     splAssociatedTokenAccount --> DiZf
@@ -304,17 +304,17 @@ flowchart LR
     DiZf --> system
     token --> DiZf
     C49G --> system
-    5fjL --> CoRE
+    n5fjL --> CoRE
     CoRE --> Collection
     updateAuthorityCollection --> CoRE
     H87x --> CoRE
-    5fjL --> system
-    system --> 5fjL
+    n5fjL --> system
+    system --> n5fjL
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,8,9,11,12,14,15,16 stroke:#82b366;
-    linkStyle 1,2,3,4,5,7,10,13,17 stroke:#d79b00;
+    linkStyle 0,6,8,9,11,12,14,15,16 stroke:#82b366
+    linkStyle 1,2,3,4,5,7,10,13,17 stroke:#d79b00
 ```
 
 ### Ownership
@@ -328,19 +328,19 @@ flowchart LR
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     DiZf[("DiZf…")]:::state
-    5fjL[("5fjL…")]:::state
+    n5fjL[("5fjL…")]:::state
     VestingPositions["VestingPositions"]:::program
     C49G[("C49G…")]:::state
     system -->|owns| H87x
     CoRE --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> DiZf
-    CoRE --> 5fjL
+    CoRE --> n5fjL
     VestingPositions --> C49G
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
 ```
 
 ### Tree
@@ -422,32 +422,32 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     VestingPositions["VestingPositions"]:::program
-    4wQQ(["4wQQ…"]):::signer
+    n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     userAta4wQQTokeMint(["userAta(4wQQ…, Toke…, Mint)"]):::signer
-    5fjL[("5fjL…")]:::state
-    5yfA(["5yfA…"]):::signer
+    n5fjL[("5fjL…")]:::state
+    n5yfA(["5yfA…"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
-    4wQQ -->|signs| VestingPositions
+    n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions --> campaignAtacampaignCollectionTokeMint
     VestingPositions --> userAta4wQQTokeMint
-    VestingPositions --> 5fjL
-    VestingPositions --> 5yfA
-    4wQQ --> splAssociatedTokenAccount
+    VestingPositions --> n5fjL
+    VestingPositions --> n5yfA
+    n4wQQ --> splAssociatedTokenAccount
     splAssociatedTokenAccount --> userAta4wQQTokeMint
-    4wQQ --> system
+    n4wQQ --> system
     userAta4wQQTokeMint --> system
     token --> userAta4wQQTokeMint
-    5yfA --> system
+    n5yfA --> system
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,8,9,11 stroke:#82b366;
-    linkStyle 1,2,3,4,5,7,10 stroke:#d79b00;
+    linkStyle 0,6,8,9,11 stroke:#82b366
+    linkStyle 1,2,3,4,5,7,10 stroke:#d79b00
 ```
 
 ### Ownership
@@ -455,25 +455,25 @@ flowchart LR
 ```mermaid
 flowchart LR
     system["system"]:::program
-    4wQQ[("4wQQ…")]:::state
+    n4wQQ[("4wQQ…")]:::state
     CoRE["CoRE…"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
-    5fjL[("5fjL…")]:::state
+    n5fjL[("5fjL…")]:::state
     VestingPositions["VestingPositions"]:::program
-    5yfA[("5yfA…")]:::state
-    system -->|owns| 4wQQ
+    n5yfA[("5yfA…")]:::state
+    system -->|owns| n4wQQ
     CoRE --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAta4wQQTokeMint
-    CoRE --> 5fjL
-    VestingPositions --> 5yfA
+    CoRE --> n5fjL
+    VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
 ```
 
 ### Tree

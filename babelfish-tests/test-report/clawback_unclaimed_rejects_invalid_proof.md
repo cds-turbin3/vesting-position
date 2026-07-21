@@ -1,6 +1,6 @@
 # clawback_unclaimed_rejects_invalid_proof
 
-**Source:** [`tests/clawback.rs` L130](https://github.com/cds-turbin3/vesting-position/blob/b53ae11528330be9e19c3e4b327a7dc3572aac7e/babelfish-tests/tests/clawback.rs#L130)
+**Source:** [`tests/clawback.rs` L130](https://github.com/cds-turbin3/vesting-position/blob/c89b5ba9f2140371af02754735f2eed3bb87d0ec/babelfish-tests/tests/clawback.rs#L130)
 
 Over 38 days: 2 moments.
 
@@ -139,8 +139,8 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366;
-    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00;
+    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366
+    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00
 ```
 
 ### Ownership
@@ -166,7 +166,7 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
 ```
 
 ### Tree
@@ -237,8 +237,8 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,4,5 stroke:#82b366;
-    linkStyle 1,2,3 stroke:#d79b00;
+    linkStyle 0,4,5 stroke:#82b366
+    linkStyle 1,2,3 stroke:#d79b00
 ```
 
 ### Ownership
@@ -259,7 +259,7 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3 stroke:#6c8ebf;
+    linkStyle 0,1,2,3 stroke:#6c8ebf
 ```
 
 ### Tree

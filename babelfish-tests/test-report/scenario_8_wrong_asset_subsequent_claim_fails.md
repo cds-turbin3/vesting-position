@@ -1,6 +1,6 @@
 # scenario_8_wrong_asset_subsequent_claim_fails
 
-**Source:** [`tests/claim.rs` L216](https://github.com/cds-turbin3/vesting-position/blob/b53ae11528330be9e19c3e4b327a7dc3572aac7e/babelfish-tests/tests/claim.rs#L216)
+**Source:** [`tests/claim.rs` L216](https://github.com/cds-turbin3/vesting-position/blob/c89b5ba9f2140371af02754735f2eed3bb87d0ec/babelfish-tests/tests/claim.rs#L216)
 
 Over 1 day: 2 moments.
 
@@ -142,8 +142,8 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366;
-    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00;
+    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366
+    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00
 ```
 
 ### Ownership
@@ -169,7 +169,7 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
 ```
 
 ### Tree
@@ -252,7 +252,7 @@ flowchart LR
     Collection[("Collection")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     userAtaErV6TokeMint(["userAta(ErV6…, Toke…, Mint)"]):::signer
-    1115[("1115…")]:::state
+    n1115[("1115…")]:::state
     BPGT(["BPGT…"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
@@ -261,7 +261,7 @@ flowchart LR
     VestingPositions -->|writes| Collection
     VestingPositions --> campaignAtacampaignCollectionTokeMint
     VestingPositions --> userAtaErV6TokeMint
-    VestingPositions --> 1115
+    VestingPositions --> n1115
     VestingPositions --> BPGT
     ErV6 --> splAssociatedTokenAccount
     splAssociatedTokenAccount --> userAtaErV6TokeMint
@@ -272,8 +272,8 @@ flowchart LR
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,8,9,11 stroke:#82b366;
-    linkStyle 1,2,3,4,5,7,10 stroke:#d79b00;
+    linkStyle 0,6,8,9,11 stroke:#82b366
+    linkStyle 1,2,3,4,5,7,10 stroke:#d79b00
 ```
 
 ### Ownership
@@ -287,19 +287,19 @@ flowchart LR
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     userAtaErV6TokeMint[("userAta(ErV6…, Toke…, Mint)")]:::state
-    1115[("1115…")]:::state
+    n1115[("1115…")]:::state
     VestingPositions["VestingPositions"]:::program
     BPGT[("BPGT…")]:::state
     system -->|owns| ErV6
     CoRE --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaErV6TokeMint
-    system --> 1115
+    system --> n1115
     VestingPositions --> BPGT
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
 ```
 
 ### Tree
