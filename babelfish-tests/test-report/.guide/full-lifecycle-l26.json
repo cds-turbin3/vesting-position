@@ -233,26 +233,6 @@
               "type": "addr",
               "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
             }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "CoRE…"
-            },
-            {
-              "type": "addr",
-              "value": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "Comp…"
-            },
-            {
-              "type": "addr",
-              "value": "ComputeBudget111111111111111111111111111111"
-            }
           ]
         ]
       }
@@ -1008,7 +988,7 @@
           },
           {
             "id": "p5",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -1183,7 +1163,7 @@
             "role": "program"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -1251,12 +1231,12 @@
           {
             "from": "Collection",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Creator",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Collection",
@@ -1301,7 +1281,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -1340,7 +1320,7 @@
             "to": "Creator"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -1378,7 +1358,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ mplCoreProgram::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -1436,7 +1416,7 @@
           },
           {
             "id": "p1",
-            "label": "Comp…",
+            "label": "computeBudget",
             "role": "program"
           },
           {
@@ -1461,7 +1441,7 @@
           },
           {
             "id": "p6",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -1474,7 +1454,7 @@
             "root": {
               "caller": "p0",
               "program": "p1",
-              "call_label": "?",
+              "call_label": "setComputeUnitLimit",
               "failure": null,
               "return_label": "✓",
               "children": []
@@ -1617,7 +1597,7 @@
       "data": {
         "nodes": [
           {
-            "name": "Comp…",
+            "name": "computeBudget",
             "role": "program"
           },
           {
@@ -1661,7 +1641,7 @@
             "role": "program"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -1737,22 +1717,22 @@
           {
             "from": "Alice position NFT",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Collection"
           },
           {
             "from": "updateAuthority(Collection)",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Alice",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Alice position NFT",
@@ -1797,7 +1777,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -1836,7 +1816,7 @@
             "to": "Alice"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -1851,7 +1831,7 @@
             "to": "Alice/ATA(Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Alice position NFT"
           },
@@ -1874,7 +1854,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nAlice (168271cu)\n├─ Comp…::? ✓\n└─ Vesting::Claim ✓ 168121cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   ├─ CoRE…::CreateV2 ✓ 29646cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nAlice (168271cu)\n├─ computeBudget::setComputeUnitLimit ✓\n└─ Vesting::Claim ✓ 168121cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   ├─ mplCoreProgram::CreateV2 ✓ 29646cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -1963,7 +1943,7 @@
           },
           {
             "id": "p2",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -2049,7 +2029,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -2097,24 +2077,24 @@
             "to": "5yfA…"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Alice position NFT"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Collection"
           },
           {
             "from": "Alice",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "updateAuthority(Collection)",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "token",
@@ -2154,7 +2134,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -2193,7 +2173,7 @@
             "to": "Alice"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -2208,7 +2188,7 @@
             "to": "userAta(Alice, Toke…, Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Alice position NFT"
           },
@@ -2231,7 +2211,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nAlice (76074cu)\n└─ Vesting::Claim ✓ 76074cu\n   ├─ CoRE…::UpdatePlugin ✓ 20791cu\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nAlice (76074cu)\n└─ Vesting::Claim ✓ 76074cu\n   ├─ mplCoreProgram::UpdatePlugin ✓ 20791cu\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -2292,7 +2272,7 @@
           },
           {
             "id": "p1",
-            "label": "Comp…",
+            "label": "computeBudget",
             "role": "program"
           },
           {
@@ -2317,7 +2297,7 @@
           },
           {
             "id": "p6",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -2330,7 +2310,7 @@
             "root": {
               "caller": "p0",
               "program": "p1",
-              "call_label": "?",
+              "call_label": "setComputeUnitLimit",
               "failure": null,
               "return_label": "✓",
               "children": []
@@ -2473,7 +2453,7 @@
       "data": {
         "nodes": [
           {
-            "name": "Comp…",
+            "name": "computeBudget",
             "role": "program"
           },
           {
@@ -2517,7 +2497,7 @@
             "role": "program"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -2593,22 +2573,22 @@
           {
             "from": "Charlie position NFT",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Collection"
           },
           {
             "from": "updateAuthority(Collection)",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Charlie",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Charlie position NFT",
@@ -2653,7 +2633,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -2692,7 +2672,7 @@
             "to": "Charlie"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -2707,7 +2687,7 @@
             "to": "Charlie/ATA(Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Charlie position NFT"
           },
@@ -2730,7 +2710,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCharlie (189254cu)\n├─ Comp…::? ✓\n└─ Vesting::Claim ✓ 189104cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   ├─ CoRE…::CreateV2 ✓ 29342cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCharlie (189254cu)\n├─ computeBudget::setComputeUnitLimit ✓\n└─ Vesting::Claim ✓ 189104cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   ├─ mplCoreProgram::CreateV2 ✓ 29342cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -2783,7 +2763,7 @@
           },
           {
             "id": "p1",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -2819,7 +2799,7 @@
       "data": {
         "nodes": [
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -2833,14 +2813,14 @@
         ],
         "edges": [
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Alice position NFT"
           },
           {
             "from": "Alice",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           }
         ]
       }
@@ -2857,7 +2837,7 @@
       "data": {
         "nodes": [
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -2875,7 +2855,7 @@
         ],
         "edges": [
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Alice position NFT"
           },
@@ -2898,7 +2878,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nAlice (9074cu)\n└─ CoRE…::Transfer ✓ 9074cu\n"
+        "text": "\nAlice (9074cu)\n└─ mplCoreProgram::Transfer ✓ 9074cu\n"
       }
     },
     {
@@ -3050,7 +3030,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -3089,7 +3069,7 @@
             "to": "Alice"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -3104,7 +3084,7 @@
             "to": "userAta(Alice, Toke…, Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Alice position NFT"
           },
@@ -3286,7 +3266,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -3325,7 +3305,7 @@
             "to": "Alice"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -3340,7 +3320,7 @@
             "to": "userAta(Alice, Toke…, Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Alice position NFT"
           },
@@ -3441,7 +3421,7 @@
           },
           {
             "id": "p5",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -3589,7 +3569,7 @@
             "role": "program"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -3663,24 +3643,24 @@
             "to": "system"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Alice position NFT"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Collection"
           },
           {
             "from": "Bob",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "updateAuthority(Collection)",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "token",
@@ -3715,7 +3695,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -3754,7 +3734,7 @@
             "to": "Bob"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -3769,7 +3749,7 @@
             "to": "userAta(Bob, Toke…, Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Alice position NFT"
           },
@@ -3792,7 +3772,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nBob (96243cu)\n└─ Vesting::Claim ✓ 96243cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   ├─ CoRE…::UpdatePlugin ✓ 20791cu\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nBob (96243cu)\n└─ Vesting::Claim ✓ 96243cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   ├─ mplCoreProgram::UpdatePlugin ✓ 20791cu\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -3878,7 +3858,7 @@
           },
           {
             "id": "p2",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -3964,7 +3944,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -4012,24 +3992,24 @@
             "to": "C49G…"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Charlie position NFT"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Collection"
           },
           {
             "from": "Charlie",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "updateAuthority(Collection)",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "token",
@@ -4069,7 +4049,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -4108,7 +4088,7 @@
             "to": "Charlie"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -4123,7 +4103,7 @@
             "to": "userAta(Charlie, Toke…, Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Charlie position NFT"
           },
@@ -4146,7 +4126,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCharlie (94214cu)\n└─ Vesting::Claim ✓ 94214cu\n   ├─ CoRE…::UpdatePlugin ✓ 20727cu\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCharlie (94214cu)\n└─ Vesting::Claim ✓ 94214cu\n   ├─ mplCoreProgram::UpdatePlugin ✓ 20727cu\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -4174,7 +4154,7 @@
           },
           {
             "id": "p1",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -4210,7 +4190,7 @@
       "data": {
         "nodes": [
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -4224,14 +4204,14 @@
         ],
         "edges": [
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Charlie position NFT"
           },
           {
             "from": "Charlie",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           }
         ]
       }
@@ -4248,7 +4228,7 @@
       "data": {
         "nodes": [
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -4266,7 +4246,7 @@
         ],
         "edges": [
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Charlie position NFT"
           },
@@ -4289,7 +4269,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCharlie (9074cu)\n└─ CoRE…::Transfer ✓ 9074cu\n"
+        "text": "\nCharlie (9074cu)\n└─ mplCoreProgram::Transfer ✓ 9074cu\n"
       }
     },
     {
@@ -4441,7 +4421,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -4480,7 +4460,7 @@
             "to": "Charlie"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -4495,7 +4475,7 @@
             "to": "userAta(Charlie, Toke…, Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Charlie position NFT"
           },
@@ -4595,7 +4575,7 @@
           },
           {
             "id": "p2",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -4681,7 +4661,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -4729,24 +4709,24 @@
             "to": "5yfA…"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Charlie position NFT"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Collection"
           },
           {
             "from": "Alice",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "updateAuthority(Collection)",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "token",
@@ -4786,7 +4766,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -4825,7 +4805,7 @@
             "to": "Alice"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -4840,7 +4820,7 @@
             "to": "userAta(Alice, Toke…, Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Charlie position NFT"
           },
@@ -4863,7 +4843,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nAlice (76214cu)\n└─ Vesting::Claim ✓ 76214cu\n   ├─ CoRE…::UpdatePlugin ✓ 20727cu\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nAlice (76214cu)\n└─ Vesting::Claim ✓ 76214cu\n   ├─ mplCoreProgram::UpdatePlugin ✓ 20727cu\n   └─ token::transferChecked ✓ 105cu\n"
       }
     }
   ],

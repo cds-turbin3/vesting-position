@@ -96,16 +96,6 @@
               "type": "addr",
               "value": "CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p"
             }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "CoRE…"
-            },
-            {
-              "type": "addr",
-              "value": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
-            }
           ]
         ]
       }
@@ -267,7 +257,7 @@
           },
           {
             "id": "p5",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -442,7 +432,7 @@
             "role": "program"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -510,12 +500,12 @@
           {
             "from": "Collection",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Creator",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Collection",
@@ -560,7 +550,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -599,7 +589,7 @@
             "to": "Creator"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -637,7 +627,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ mplCoreProgram::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {

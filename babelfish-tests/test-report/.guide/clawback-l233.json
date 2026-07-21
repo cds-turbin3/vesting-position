@@ -136,26 +136,6 @@
               "type": "addr",
               "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
             }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "CoRE…"
-            },
-            {
-              "type": "addr",
-              "value": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "Comp…"
-            },
-            {
-              "type": "addr",
-              "value": "ComputeBudget111111111111111111111111111111"
-            }
           ]
         ]
       }
@@ -401,7 +381,7 @@
           },
           {
             "id": "p5",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -576,7 +556,7 @@
             "role": "program"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -644,12 +624,12 @@
           {
             "from": "Collection",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Creator",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "Collection",
@@ -694,7 +674,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -733,7 +713,7 @@
             "to": "Creator"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -771,7 +751,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ mplCoreProgram::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -803,7 +783,7 @@
           },
           {
             "id": "p1",
-            "label": "Comp…",
+            "label": "computeBudget",
             "role": "program"
           },
           {
@@ -828,7 +808,7 @@
           },
           {
             "id": "p6",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -841,7 +821,7 @@
             "root": {
               "caller": "p0",
               "program": "p1",
-              "call_label": "?",
+              "call_label": "setComputeUnitLimit",
               "failure": null,
               "return_label": "✓",
               "children": []
@@ -976,7 +956,7 @@
       "data": {
         "nodes": [
           {
-            "name": "Comp…",
+            "name": "computeBudget",
             "role": "program"
           },
           {
@@ -1020,7 +1000,7 @@
             "role": "program"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -1092,22 +1072,22 @@
           {
             "from": "6hhA…",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Collection"
           },
           {
             "from": "updateAuthority(Collection)",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "4wQQ…",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "6hhA…",
@@ -1142,7 +1122,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -1181,7 +1161,7 @@
             "to": "4wQQ…"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -1196,7 +1176,7 @@
             "to": "C7Pg…"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "6hhA…"
           },
@@ -1219,7 +1199,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (165059cu)\n├─ Comp…::? ✓\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ CoRE…::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
+        "text": "\n4wQQ… (165059cu)\n├─ computeBudget::setComputeUnitLimit ✓\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ mplCoreProgram::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
       }
     },
     {
@@ -1295,7 +1275,7 @@
           },
           {
             "id": "p2",
-            "label": "CoRE…",
+            "label": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -1403,7 +1383,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -1455,24 +1435,24 @@
             "to": "5yfA…"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "6hhA…"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "writes",
             "to": "Collection"
           },
           {
             "from": "4wQQ…",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "updateAuthority(Collection)",
             "verb": "signs",
-            "to": "CoRE…"
+            "to": "mplCoreProgram"
           },
           {
             "from": "4wQQ…",
@@ -1522,7 +1502,7 @@
             "role": "state"
           },
           {
-            "name": "CoRE…",
+            "name": "mplCoreProgram",
             "role": "program"
           },
           {
@@ -1561,7 +1541,7 @@
             "to": "4wQQ…"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
           },
@@ -1576,7 +1556,7 @@
             "to": "userAta(4wQQ…, Toke…, Mint)"
           },
           {
-            "from": "CoRE…",
+            "from": "mplCoreProgram",
             "verb": "owns",
             "to": "6hhA…"
           },
@@ -1599,7 +1579,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (95977cu)\n└─ VestingPositions::Claim ✓ 95977cu\n   ├─ CoRE…::UpdatePlugin ✓ 22492cu\n   │  └─ system::transferSol ✓\n   ├─ token::transferChecked ✓ 105cu\n   └─ CoRE…::UpdatePlugin ✓ 13574cu\n"
+        "text": "\n4wQQ… (95977cu)\n└─ VestingPositions::Claim ✓ 95977cu\n   ├─ mplCoreProgram::UpdatePlugin ✓ 22492cu\n   │  └─ system::transferSol ✓\n   ├─ token::transferChecked ✓ 105cu\n   └─ mplCoreProgram::UpdatePlugin ✓ 13574cu\n"
       }
     },
     {

@@ -1,6 +1,6 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/c89b5ba9f2140371af02754735f2eed3bb87d0ec/babelfish-tests/tests/full_lifecycle.rs#L24)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/28dc8ede57427d32d19572b56334ba5ee4d73e8b/babelfish-tests/tests/full_lifecycle.rs#L24)
 
 > Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
@@ -46,8 +46,6 @@ Final state checks:
 | 5yfA… | 5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB |
 | BPGT… | BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj |
 | C49G… | C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9 |
-| CoRE… | CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d |
-| Comp… | ComputeBudget111111111111111111111111111111 |
 
 </details>
 
@@ -89,7 +87,7 @@ sequenceDiagram
     participant p2 as system
     participant p3 as splAssociatedTokenAccount
     participant p4 as token
-    participant p5 as CoRE…
+    participant p5 as mplCoreProgram
     p0->>p1: Initialize
     activate p1
     p1->>p2: createAccount
@@ -158,7 +156,7 @@ flowchart LR
     system["system"]:::program
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions --> Mint
@@ -171,17 +169,17 @@ flowchart LR
     splAssociatedTokenAccount --> campaignAtacampaignCollectionTokeMint
     campaignAtacampaignCollectionTokeMint --> system
     token --> campaignAtacampaignCollectionTokeMint
-    Collection --> CoRE
-    Creator --> CoRE
+    Collection --> mplCoreProgram
+    Creator --> mplCoreProgram
     Collection --> system
     system --> Collection
     token --> creatorAtaCreatorTokeMint
     Creator --> token
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366
-    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -190,7 +188,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Creator[("Creator")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     Mint[("Mint")]:::state
@@ -199,15 +197,15 @@ flowchart LR
     campaignCollection[("campaign(Collection)")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     system -->|owns| Creator
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> Mint
     token --> creatorAtaCreatorTokeMint
     VestingPositions --> campaignCollection
     token --> campaignAtacampaignCollectionTokeMint
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -222,7 +220,7 @@ Creator (89713cu)
    │  ├─ system::createAccount ✓
    │  ├─ token::initializeImmutableOwner ✓ 38cu
    │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
+   ├─ mplCoreProgram::CreateCollectionV2 ✓ 19976cu
    │  ├─ system::createAccount ✓
    │  ├─ system::transferSol ✓
    │  ├─ system::transferSol ✓
@@ -248,13 +246,13 @@ Creator (89713cu)
 ```mermaid
 sequenceDiagram
     participant p0 as Alice
-    participant p1 as Comp…
+    participant p1 as computeBudget
     participant p2 as Vesting
     participant p3 as splAssociatedTokenAccount
     participant p4 as token
     participant p5 as system
-    participant p6 as CoRE…
-    p0->>p1: ?
+    participant p6 as mplCoreProgram
+    p0->>p1: setComputeUnitLimit
     activate p1
     p1-->>p0: ✓
     deactivate p1
@@ -320,7 +318,7 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-    Comp["Comp…"]:::program
+    computeBudget["computeBudget"]:::program
     Vesting["Vesting"]:::program
     Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
@@ -331,7 +329,7 @@ flowchart LR
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     Campaign(["Campaign"]):::signer
     Alice -->|signs| Vesting
@@ -346,19 +344,19 @@ flowchart LR
     AliceATAMint --> system
     token --> AliceATAMint
     n5yfA --> system
-    AlicepositionNFT --> CoRE
-    CoRE --> Collection
-    updateAuthorityCollection --> CoRE
-    Alice --> CoRE
+    AlicepositionNFT --> mplCoreProgram
+    mplCoreProgram --> Collection
+    updateAuthorityCollection --> mplCoreProgram
+    Alice --> mplCoreProgram
     AlicepositionNFT --> system
     system --> AlicepositionNFT
     token --> campaignAtacampaignCollectionTokeMint
     Campaign --> token
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,8,9,11,12,14,15,16,19 stroke:#82b366
-    linkStyle 1,2,3,4,5,7,10,13,17,18 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,6,8,9,11,12,14,15,16,19 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5,7,10,13,17,18 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -367,7 +365,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Alice[("Alice")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
@@ -376,15 +374,15 @@ flowchart LR
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> AliceATAMint
-    CoRE --> AlicepositionNFT
+    mplCoreProgram --> AlicepositionNFT
     Vesting --> n5yfA
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -392,7 +390,7 @@ flowchart LR
 ```
 
 Alice (168271cu)
-├─ Comp…::? ✓
+├─ computeBudget::setComputeUnitLimit ✓
 └─ Vesting::Claim ✓ 168121cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu
@@ -400,7 +398,7 @@ Alice (168271cu)
    │  ├─ token::initializeImmutableOwner ✓ 38cu
    │  └─ token::initializeAccount3 ✓ 235cu
    ├─ system::createAccount ✓
-   ├─ CoRE…::CreateV2 ✓ 29646cu
+   ├─ mplCoreProgram::CreateV2 ✓ 29646cu
    │  ├─ system::createAccount ✓
    │  ├─ system::transferSol ✓
    │  ├─ system::transferSol ✓
@@ -430,7 +428,7 @@ Alice (168271cu)
 sequenceDiagram
     participant p0 as Alice
     participant p1 as Vesting
-    participant p2 as CoRE…
+    participant p2 as mplCoreProgram
     participant p3 as token
     p0->>p1: Claim
     activate p1
@@ -457,7 +455,7 @@ flowchart LR
     userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     AlicepositionNFT[("Alice position NFT")]:::state
     n5yfA[("5yfA…")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     token["token"]:::program
     Campaign(["Campaign"]):::signer
@@ -467,18 +465,18 @@ flowchart LR
     Vesting --> userAtaAliceTokeMint
     Vesting --> AlicepositionNFT
     Vesting --> n5yfA
-    CoRE --> AlicepositionNFT
-    CoRE --> Collection
-    Alice --> CoRE
-    updateAuthorityCollection --> CoRE
+    mplCoreProgram --> AlicepositionNFT
+    mplCoreProgram --> Collection
+    Alice --> mplCoreProgram
+    updateAuthorityCollection --> mplCoreProgram
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaAliceTokeMint
     Campaign --> token
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,8,9,12 stroke:#82b366
-    linkStyle 1,2,3,4,5,6,7,10,11 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,8,9,12 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5,6,7,10,11 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -487,7 +485,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Alice[("Alice")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
@@ -496,15 +494,15 @@ flowchart LR
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaAliceTokeMint
-    CoRE --> AlicepositionNFT
+    mplCoreProgram --> AlicepositionNFT
     Vesting --> n5yfA
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -513,7 +511,7 @@ flowchart LR
 
 Alice (76074cu)
 └─ Vesting::Claim ✓ 76074cu
-   ├─ CoRE…::UpdatePlugin ✓ 20791cu
+   ├─ mplCoreProgram::UpdatePlugin ✓ 20791cu
    └─ token::transferChecked ✓ 105cu
 ```
 
@@ -535,13 +533,13 @@ Alice (76074cu)
 ```mermaid
 sequenceDiagram
     participant p0 as Charlie
-    participant p1 as Comp…
+    participant p1 as computeBudget
     participant p2 as Vesting
     participant p3 as splAssociatedTokenAccount
     participant p4 as token
     participant p5 as system
-    participant p6 as CoRE…
-    p0->>p1: ?
+    participant p6 as mplCoreProgram
+    p0->>p1: setComputeUnitLimit
     activate p1
     p1-->>p0: ✓
     deactivate p1
@@ -607,7 +605,7 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-    Comp["Comp…"]:::program
+    computeBudget["computeBudget"]:::program
     Vesting["Vesting"]:::program
     Charlie(["Charlie"]):::signer
     Collection[("Collection")]:::state
@@ -618,7 +616,7 @@ flowchart LR
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     Campaign(["Campaign"]):::signer
     Charlie -->|signs| Vesting
@@ -633,19 +631,19 @@ flowchart LR
     CharlieATAMint --> system
     token --> CharlieATAMint
     C49G --> system
-    CharliepositionNFT --> CoRE
-    CoRE --> Collection
-    updateAuthorityCollection --> CoRE
-    Charlie --> CoRE
+    CharliepositionNFT --> mplCoreProgram
+    mplCoreProgram --> Collection
+    updateAuthorityCollection --> mplCoreProgram
+    Charlie --> mplCoreProgram
     CharliepositionNFT --> system
     system --> CharliepositionNFT
     token --> campaignAtacampaignCollectionTokeMint
     Campaign --> token
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,8,9,11,12,14,15,16,19 stroke:#82b366
-    linkStyle 1,2,3,4,5,7,10,13,17,18 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,6,8,9,11,12,14,15,16,19 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5,7,10,13,17,18 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -654,7 +652,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Charlie[("Charlie")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
@@ -663,15 +661,15 @@ flowchart LR
     Vesting["Vesting"]:::program
     C49G[("C49G…")]:::state
     system -->|owns| Charlie
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> CharlieATAMint
-    CoRE --> CharliepositionNFT
+    mplCoreProgram --> CharliepositionNFT
     Vesting --> C49G
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -679,7 +677,7 @@ flowchart LR
 ```
 
 Charlie (189254cu)
-├─ Comp…::? ✓
+├─ computeBudget::setComputeUnitLimit ✓
 └─ Vesting::Claim ✓ 189104cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu
@@ -687,7 +685,7 @@ Charlie (189254cu)
    │  ├─ token::initializeImmutableOwner ✓ 38cu
    │  └─ token::initializeAccount3 ✓ 235cu
    ├─ system::createAccount ✓
-   ├─ CoRE…::CreateV2 ✓ 29342cu
+   ├─ mplCoreProgram::CreateV2 ✓ 29342cu
    │  ├─ system::createAccount ✓
    │  ├─ system::transferSol ✓
    │  ├─ system::transferSol ✓
@@ -712,7 +710,7 @@ Charlie (189254cu)
 ```mermaid
 sequenceDiagram
     participant p0 as Alice
-    participant p1 as CoRE…
+    participant p1 as mplCoreProgram
     p0->>p1: Transfer
     activate p1
     p1-->>p0: ✓ 9074cu
@@ -723,32 +721,32 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     AlicepositionNFT[("Alice position NFT")]:::state
     Alice(["Alice"]):::signer
-    CoRE -->|writes| AlicepositionNFT
-    Alice -->|signs| CoRE
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0 stroke:#d79b00
-    linkStyle 1 stroke:#82b366
+    mplCoreProgram -->|writes| AlicepositionNFT
+    Alice -->|signs| mplCoreProgram
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0 stroke:#b87800,stroke-width:2px
+    linkStyle 1 stroke:#5f913f,stroke-width:2px
 ```
 
 ### Ownership
 
 ```mermaid
 flowchart LR
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     AlicepositionNFT[("Alice position NFT")]:::state
     system["system"]:::program
     Alice[("Alice")]:::state
-    CoRE -->|owns| AlicepositionNFT
+    mplCoreProgram -->|owns| AlicepositionNFT
     system --> Alice
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -756,7 +754,7 @@ flowchart LR
 ```
 
 Alice (9074cu)
-└─ CoRE…::Transfer ✓ 9074cu
+└─ mplCoreProgram::Transfer ✓ 9074cu
 ```
 
 </details>
@@ -798,11 +796,11 @@ flowchart LR
     Vesting --> userAtaAliceTokeMint
     Vesting --> AlicepositionNFT
     Vesting --> n5yfA
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0 stroke:#82b366
-    linkStyle 1,2,3,4,5 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -811,7 +809,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Alice[("Alice")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
@@ -820,15 +818,15 @@ flowchart LR
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaAliceTokeMint
-    CoRE --> AlicepositionNFT
+    mplCoreProgram --> AlicepositionNFT
     Vesting --> n5yfA
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -880,11 +878,11 @@ flowchart LR
     Vesting --> userAtaAliceTokeMint
     Vesting --> AlicepositionNFT
     Vesting --> n5yfA
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0 stroke:#82b366
-    linkStyle 1,2,3,4,5 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -893,7 +891,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Alice[("Alice")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
@@ -902,15 +900,15 @@ flowchart LR
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaAliceTokeMint
-    CoRE --> AlicepositionNFT
+    mplCoreProgram --> AlicepositionNFT
     Vesting --> n5yfA
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -943,7 +941,7 @@ sequenceDiagram
     participant p2 as splAssociatedTokenAccount
     participant p3 as token
     participant p4 as system
-    participant p5 as CoRE…
+    participant p5 as mplCoreProgram
     Note over p0: 🧐 never whitelisted  claims through Alice's transferred position
     p0->>p1: Claim
     activate p1
@@ -997,7 +995,7 @@ flowchart LR
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     Campaign(["Campaign"]):::signer
     Bob -->|signs| Vesting
@@ -1012,17 +1010,17 @@ flowchart LR
     userAtaBobTokeMint --> system
     token --> userAtaBobTokeMint
     BPGT --> system
-    CoRE --> AlicepositionNFT
-    CoRE --> Collection
-    Bob --> CoRE
-    updateAuthorityCollection --> CoRE
+    mplCoreProgram --> AlicepositionNFT
+    mplCoreProgram --> Collection
+    Bob --> mplCoreProgram
+    updateAuthorityCollection --> mplCoreProgram
     token --> campaignAtacampaignCollectionTokeMint
     Campaign --> token
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,8,9,11,14,15,17 stroke:#82b366
-    linkStyle 1,2,3,4,5,7,10,12,13,16 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,6,8,9,11,14,15,17 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5,7,10,12,13,16 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -1031,7 +1029,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Bob[("Bob")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
@@ -1040,15 +1038,15 @@ flowchart LR
     Vesting["Vesting"]:::program
     BPGT[("BPGT…")]:::state
     system -->|owns| Bob
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaBobTokeMint
-    CoRE --> AlicepositionNFT
+    mplCoreProgram --> AlicepositionNFT
     Vesting --> BPGT
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -1063,7 +1061,7 @@ Bob (96243cu)
    │  ├─ token::initializeImmutableOwner ✓ 38cu
    │  └─ token::initializeAccount3 ✓ 235cu
    ├─ system::createAccount ✓
-   ├─ CoRE…::UpdatePlugin ✓ 20791cu
+   ├─ mplCoreProgram::UpdatePlugin ✓ 20791cu
    └─ token::transferChecked ✓ 105cu
 ```
 
@@ -1086,7 +1084,7 @@ Bob (96243cu)
 sequenceDiagram
     participant p0 as Charlie
     participant p1 as Vesting
-    participant p2 as CoRE…
+    participant p2 as mplCoreProgram
     participant p3 as token
     p0->>p1: Claim
     activate p1
@@ -1113,7 +1111,7 @@ flowchart LR
     userAtaCharlieTokeMint[("userAta(Charlie, Toke…, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     C49G[("C49G…")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     token["token"]:::program
     Campaign(["Campaign"]):::signer
@@ -1123,18 +1121,18 @@ flowchart LR
     Vesting --> userAtaCharlieTokeMint
     Vesting --> CharliepositionNFT
     Vesting --> C49G
-    CoRE --> CharliepositionNFT
-    CoRE --> Collection
-    Charlie --> CoRE
-    updateAuthorityCollection --> CoRE
+    mplCoreProgram --> CharliepositionNFT
+    mplCoreProgram --> Collection
+    Charlie --> mplCoreProgram
+    updateAuthorityCollection --> mplCoreProgram
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaCharlieTokeMint
     Campaign --> token
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,8,9,12 stroke:#82b366
-    linkStyle 1,2,3,4,5,6,7,10,11 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,8,9,12 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5,6,7,10,11 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -1143,7 +1141,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Charlie[("Charlie")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
@@ -1152,15 +1150,15 @@ flowchart LR
     Vesting["Vesting"]:::program
     C49G[("C49G…")]:::state
     system -->|owns| Charlie
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaCharlieTokeMint
-    CoRE --> CharliepositionNFT
+    mplCoreProgram --> CharliepositionNFT
     Vesting --> C49G
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -1169,7 +1167,7 @@ flowchart LR
 
 Charlie (94214cu)
 └─ Vesting::Claim ✓ 94214cu
-   ├─ CoRE…::UpdatePlugin ✓ 20727cu
+   ├─ mplCoreProgram::UpdatePlugin ✓ 20727cu
    └─ token::transferChecked ✓ 105cu
 ```
 
@@ -1185,7 +1183,7 @@ Charlie (94214cu)
 ```mermaid
 sequenceDiagram
     participant p0 as Charlie
-    participant p1 as CoRE…
+    participant p1 as mplCoreProgram
     p0->>p1: Transfer
     activate p1
     p1-->>p0: ✓ 9074cu
@@ -1196,32 +1194,32 @@ sequenceDiagram
 
 ```mermaid
 flowchart LR
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     CharliepositionNFT[("Charlie position NFT")]:::state
     Charlie(["Charlie"]):::signer
-    CoRE -->|writes| CharliepositionNFT
-    Charlie -->|signs| CoRE
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0 stroke:#d79b00
-    linkStyle 1 stroke:#82b366
+    mplCoreProgram -->|writes| CharliepositionNFT
+    Charlie -->|signs| mplCoreProgram
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0 stroke:#b87800,stroke-width:2px
+    linkStyle 1 stroke:#5f913f,stroke-width:2px
 ```
 
 ### Ownership
 
 ```mermaid
 flowchart LR
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     CharliepositionNFT[("Charlie position NFT")]:::state
     system["system"]:::program
     Charlie[("Charlie")]:::state
-    CoRE -->|owns| CharliepositionNFT
+    mplCoreProgram -->|owns| CharliepositionNFT
     system --> Charlie
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -1229,7 +1227,7 @@ flowchart LR
 ```
 
 Charlie (9074cu)
-└─ CoRE…::Transfer ✓ 9074cu
+└─ mplCoreProgram::Transfer ✓ 9074cu
 ```
 
 </details>
@@ -1271,11 +1269,11 @@ flowchart LR
     Vesting --> userAtaCharlieTokeMint
     Vesting --> CharliepositionNFT
     Vesting --> C49G
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0 stroke:#82b366
-    linkStyle 1,2,3,4,5 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -1284,7 +1282,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Charlie[("Charlie")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
@@ -1293,15 +1291,15 @@ flowchart LR
     Vesting["Vesting"]:::program
     C49G[("C49G…")]:::state
     system -->|owns| Charlie
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaCharlieTokeMint
-    CoRE --> CharliepositionNFT
+    mplCoreProgram --> CharliepositionNFT
     Vesting --> C49G
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -1332,7 +1330,7 @@ Charlie (42198cu)
 sequenceDiagram
     participant p0 as Alice
     participant p1 as Vesting
-    participant p2 as CoRE…
+    participant p2 as mplCoreProgram
     participant p3 as token
     p0->>p1: Claim
     activate p1
@@ -1359,7 +1357,7 @@ flowchart LR
     userAtaAliceTokeMint[("userAta(Alice, Toke…, Mint)")]:::state
     CharliepositionNFT[("Charlie position NFT")]:::state
     n5yfA[("5yfA…")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     token["token"]:::program
     Campaign(["Campaign"]):::signer
@@ -1369,18 +1367,18 @@ flowchart LR
     Vesting --> userAtaAliceTokeMint
     Vesting --> CharliepositionNFT
     Vesting --> n5yfA
-    CoRE --> CharliepositionNFT
-    CoRE --> Collection
-    Alice --> CoRE
-    updateAuthorityCollection --> CoRE
+    mplCoreProgram --> CharliepositionNFT
+    mplCoreProgram --> Collection
+    Alice --> mplCoreProgram
+    updateAuthorityCollection --> mplCoreProgram
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaAliceTokeMint
     Campaign --> token
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,8,9,12 stroke:#82b366
-    linkStyle 1,2,3,4,5,6,7,10,11 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,8,9,12 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5,6,7,10,11 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -1389,7 +1387,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Alice[("Alice")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
@@ -1398,15 +1396,15 @@ flowchart LR
     Vesting["Vesting"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| Alice
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> campaignAtacampaignCollectionTokeMint
     token --> userAtaAliceTokeMint
-    CoRE --> CharliepositionNFT
+    mplCoreProgram --> CharliepositionNFT
     Vesting --> n5yfA
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -1415,7 +1413,7 @@ flowchart LR
 
 Alice (76214cu)
 └─ Vesting::Claim ✓ 76214cu
-   ├─ CoRE…::UpdatePlugin ✓ 20727cu
+   ├─ mplCoreProgram::UpdatePlugin ✓ 20727cu
    └─ token::transferChecked ✓ 105cu
 ```
 

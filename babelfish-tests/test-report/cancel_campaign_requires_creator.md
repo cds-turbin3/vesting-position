@@ -1,6 +1,6 @@
 # cancel_campaign_requires_creator
 
-**Source:** [`tests/clawback.rs` L341](https://github.com/cds-turbin3/vesting-position/blob/c89b5ba9f2140371af02754735f2eed3bb87d0ec/babelfish-tests/tests/clawback.rs#L341)
+**Source:** [`tests/clawback.rs` L341](https://github.com/cds-turbin3/vesting-position/blob/28dc8ede57427d32d19572b56334ba5ee4d73e8b/babelfish-tests/tests/clawback.rs#L341)
 
 Over 0 days: 2 moments.
 
@@ -19,7 +19,6 @@ Over 0 days: 2 moments.
 | creatorAta(Creator, Toke…, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
 | updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
 | 4wQQ… | 4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P |
-| CoRE… | CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d |
 
 </details>
 
@@ -49,7 +48,7 @@ sequenceDiagram
     participant p2 as system
     participant p3 as splAssociatedTokenAccount
     participant p4 as token
-    participant p5 as CoRE…
+    participant p5 as mplCoreProgram
     p0->>p1: Initialize
     activate p1
     p1->>p2: createAccount
@@ -118,7 +117,7 @@ flowchart LR
     system["system"]:::program
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions --> Mint
@@ -131,17 +130,17 @@ flowchart LR
     splAssociatedTokenAccount --> campaignAtacampaignCollectionTokeMint
     campaignAtacampaignCollectionTokeMint --> system
     token --> campaignAtacampaignCollectionTokeMint
-    Collection --> CoRE
-    Creator --> CoRE
+    Collection --> mplCoreProgram
+    Creator --> mplCoreProgram
     Collection --> system
     system --> Collection
     token --> creatorAtaCreatorTokeMint
     Creator --> token
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366
-    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -150,7 +149,7 @@ flowchart LR
 flowchart LR
     system["system"]:::program
     Creator[("Creator")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     Mint[("Mint")]:::state
@@ -159,15 +158,15 @@ flowchart LR
     campaignCollection[("campaign(Collection)")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     system -->|owns| Creator
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     token --> Mint
     token --> creatorAtaCreatorTokeMint
     VestingPositions --> campaignCollection
     token --> campaignAtacampaignCollectionTokeMint
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree
@@ -182,7 +181,7 @@ Creator (89713cu)
    │  ├─ system::createAccount ✓
    │  ├─ token::initializeImmutableOwner ✓ 38cu
    │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
+   ├─ mplCoreProgram::CreateCollectionV2 ✓ 19976cu
    │  ├─ system::createAccount ✓
    │  ├─ system::transferSol ✓
    │  ├─ system::transferSol ✓
@@ -260,11 +259,11 @@ flowchart LR
     n4wQQ --> system
     creatorAta4wQQTokeMint --> system
     token --> creatorAta4wQQTokeMint
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,6,8,9 stroke:#82b366
-    linkStyle 1,2,3,4,5,7,10 stroke:#d79b00
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,6,8,9 stroke:#5f913f,stroke-width:2px
+    linkStyle 1,2,3,4,5,7,10 stroke:#b87800,stroke-width:2px
 ```
 
 ### Ownership
@@ -275,7 +274,7 @@ flowchart LR
     n4wQQ[("4wQQ…")]:::state
     VestingPositions["VestingPositions"]:::program
     campaignCollection[("campaign(Collection)")]:::state
-    CoRE["CoRE…"]:::program
+    mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     updateAuthorityCollection[("updateAuthority(Collection)")]:::state
     token["token"]:::program
@@ -283,14 +282,14 @@ flowchart LR
     creatorAta4wQQTokeMint[("creatorAta(4wQQ…, Toke…, Mint)")]:::state
     system -->|owns| n4wQQ
     VestingPositions --> campaignCollection
-    CoRE --> Collection
+    mplCoreProgram --> Collection
     system --> updateAuthorityCollection
     token --> campaignAtacampaignCollectionTokeMint
     token --> creatorAta4wQQTokeMint
-    classDef program fill:#dae8fc,stroke:#6c8ebf;
-    classDef signer fill:#d5e8d4,stroke:#82b366;
-    classDef state fill:#ffe6cc,stroke:#d79b00;
-    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf
+    classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
+    classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
+    classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
+    linkStyle 0,1,2,3,4,5 stroke:#456ea1,stroke-width:2px
 ```
 
 ### Tree

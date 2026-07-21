@@ -1,6 +1,6 @@
 # compute_units_profile
 
-**Source:** [`tests/compute_units.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/c89b5ba9f2140371af02754735f2eed3bb87d0ec/babelfish-tests/tests/compute_units.rs#L16)
+**Source:** [`tests/compute_units.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/28dc8ede57427d32d19572b56334ba5ee4d73e8b/babelfish-tests/tests/compute_units.rs#L16)
 
 Over 31 days: 2 moments.
 
@@ -20,7 +20,7 @@ sequenceDiagram
     participant p2 as system
     participant p3 as splAssociatedTokenAccount
     participant p4 as token
-    participant p5 as CoRE…
+    participant p5 as mplCoreProgram
     p0->>p1: Initialize
     activate p1
     p1->>p2: createAccount
@@ -88,7 +88,7 @@ Creator (89713cu)
    │  ├─ system::createAccount ✓
    │  ├─ token::initializeImmutableOwner ✓ 38cu
    │  └─ token::initializeAccount3 ✓ 235cu
-   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu
+   ├─ mplCoreProgram::CreateCollectionV2 ✓ 19976cu
    │  ├─ system::createAccount ✓
    │  ├─ system::transferSol ✓
    │  ├─ system::transferSol ✓
@@ -111,13 +111,13 @@ Creator (89713cu)
 ```mermaid
 sequenceDiagram
     participant p0 as 4wQQ…
-    participant p1 as Comp…
+    participant p1 as computeBudget
     participant p2 as VestingPositions
     participant p3 as splAssociatedTokenAccount
     participant p4 as token
     participant p5 as system
-    participant p6 as CoRE…
-    p0->>p1: ?
+    participant p6 as mplCoreProgram
+    p0->>p1: setComputeUnitLimit
     activate p1
     p1-->>p0: ✓
     deactivate p1
@@ -189,7 +189,7 @@ sequenceDiagram
 ```
 
 4wQQ… (186830cu)
-├─ Comp…::? ✓
+├─ computeBudget::setComputeUnitLimit ✓
 └─ VestingPositions::Claim ✓ 186680cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu
@@ -197,14 +197,14 @@ sequenceDiagram
    │  ├─ token::initializeImmutableOwner ✓ 38cu
    │  └─ token::initializeAccount3 ✓ 235cu
    ├─ system::createAccount ✓
-   ├─ CoRE…::CreateV2 ✓ 29342cu
+   ├─ mplCoreProgram::CreateV2 ✓ 29342cu
    │  ├─ system::createAccount ✓
    │  ├─ system::transferSol ✓
    │  ├─ system::transferSol ✓
    │  ├─ system::transferSol ✓
    │  └─ system::transferSol ✓
    ├─ token::transferChecked ✓ 105cu
-   └─ CoRE…::UpdatePlugin ✓ 13574cu
+   └─ mplCoreProgram::UpdatePlugin ✓ 13574cu
 ```
 
 </details>
