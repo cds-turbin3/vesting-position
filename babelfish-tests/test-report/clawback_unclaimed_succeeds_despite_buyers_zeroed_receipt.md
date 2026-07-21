@@ -1,6 +1,6 @@
 # clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt
 
-**Source:** [`tests/clawback.rs` L165](https://github.com/cds-turbin3/vesting-position/blob/873a8a9165959219e522b5cdb1d614516d9f6a10/babelfish-tests/tests/clawback.rs#L165)
+**Source:** [`tests/clawback.rs` L165](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/clawback.rs#L165)
 
 Over 38 days: 5 moments.
 

@@ -1,6 +1,6 @@
 # scenario_10_claim_before_start_fails
 
-**Source:** [`tests/claim.rs` L268](https://github.com/cds-turbin3/vesting-position/blob/873a8a9165959219e522b5cdb1d614516d9f6a10/babelfish-tests/tests/claim.rs#L268)
+**Source:** [`tests/claim.rs` L268](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/claim.rs#L268)
 
 Over 0 days: 2 moments.
 
