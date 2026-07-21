@@ -173,6 +173,13 @@ pub struct CampaignConfig {
     pub is_transferable: bool,
     pub grace_period: u64,
     pub total_deposit: u64,
+    /// The campaign's name, and the one source for both places a name goes:
+    /// the on-chain `InitializeArgs.name` the program stores, and the
+    /// report alias the campaign PDA renders under (set in `base`, so it
+    /// wins over the auto-composed `campaign(Collection)`). A test that
+    /// wants the two to diverge (a hostile on-chain name, a readable
+    /// report) sets the alias itself after construction.
+    pub name: &'static str,
 }
 
 impl Default for CampaignConfig {
@@ -188,6 +195,7 @@ impl Default for CampaignConfig {
             is_transferable: true,
             grace_period: 604_800,
             total_deposit: TOTAL_DEPOSIT,
+            name: "Vesting campaign",
         }
     }
 }
@@ -306,6 +314,10 @@ impl VestingWorld {
         // (PDA + mint), and `token_balance` reads 0 for an absent account, so
         // the very first moment already carries a meaningful sample.
         let campaign_address = campaign_pda(&collection).0;
+        // The config's name labels the campaign PDA in every diagram and
+        // table; authored aliases win over auto-composition, so this must
+        // land before the first transaction resolves the PDA.
+        story.alias(campaign_address, config.name);
         let vault_ata = story.ata(&campaign_address, &mint);
         let vault_obs = story.observe("Vault balance", move |s| {
             Value::U64(s.token_balance(&vault_ata))
@@ -367,7 +379,7 @@ impl VestingWorld {
             is_transferable: self.config.is_transferable,
             grace_period: self.config.grace_period,
             total_deposit: self.config.total_deposit,
-            name: "Vesting campaign".to_string(),
+            name: self.config.name.to_string(),
             uri: "https://example.com/collection.json".to_string(),
         }
     }
