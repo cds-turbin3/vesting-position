@@ -19,8 +19,8 @@ publish = false
 # typed report standard (ReportConfig::of, declared in world.rs, which
 # replaced test-report.toml). Swap to a crates.io release once frood is
 # published.
-frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "cd418bce5db1205d8f6a1b58d54415abb7b33295" }
-frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "cd418bce5db1205d8f6a1b58d54415abb7b33295" }
+frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "83ea7abbfed5d2289c5dd160d68d98a00b6903da" }
+frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "83ea7abbfed5d2289c5dd160d68d98a00b6903da" }
 # The `Account` the plugin helper rebuilds into an `AccountInfo` for
 # mpl-core's `fetch_plugin` (litesvm's `get_account` hands one back).
 solana-account = "3"
