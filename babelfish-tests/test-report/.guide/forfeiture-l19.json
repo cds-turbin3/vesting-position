@@ -94,7 +94,7 @@
           [
             {
               "type": "text",
-              "value": "campaignAta(campaign(Collection), Toke…, Mint)"
+              "value": "campaignAta(campaign(Collection), token, Mint)"
             },
             {
               "type": "addr",
@@ -104,7 +104,7 @@
           [
             {
               "type": "text",
-              "value": "creatorAta(Creator, Toke…, Mint)"
+              "value": "creatorAta(Creator, token, Mint)"
             },
             {
               "type": "addr",
@@ -124,7 +124,7 @@
           [
             {
               "type": "text",
-              "value": "userAta(Alice, Toke…, Mint)"
+              "value": "userAta(Alice, token, Mint)"
             },
             {
               "type": "addr",
@@ -540,7 +540,7 @@
             "role": "state"
           },
           {
-            "name": "creatorAta(Creator, Toke…, Mint)",
+            "name": "creatorAta(Creator, token, Mint)",
             "role": "state"
           },
           {
@@ -548,7 +548,7 @@
             "role": "authority"
           },
           {
-            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "name": "campaignAta(campaign(Collection), token, Mint)",
             "role": "authority"
           },
           {
@@ -587,7 +587,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "creatorAta(Creator, Toke…, Mint)"
+            "to": "creatorAta(Creator, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -597,7 +597,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "Creator",
@@ -617,17 +617,17 @@
           {
             "from": "splAssociatedTokenAccount",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
-            "from": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "from": "campaignAta(campaign(Collection), token, Mint)",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "Collection",
@@ -652,7 +652,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "creatorAta(Creator, Toke…, Mint)"
+            "to": "creatorAta(Creator, token, Mint)"
           },
           {
             "from": "Creator",
@@ -698,7 +698,7 @@
             "role": "state"
           },
           {
-            "name": "creatorAta(Creator, Toke…, Mint)",
+            "name": "creatorAta(Creator, token, Mint)",
             "role": "state"
           },
           {
@@ -710,7 +710,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "name": "campaignAta(campaign(Collection), token, Mint)",
             "role": "state"
           }
         ],
@@ -733,7 +733,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "creatorAta(Creator, Toke…, Mint)"
+            "to": "creatorAta(Creator, token, Mint)"
           },
           {
             "from": "VestingPositions",
@@ -743,7 +743,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           }
         ]
       }
@@ -1026,7 +1026,7 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "name": "campaignAta(campaign(Collection), token, Mint)",
             "role": "state"
           },
           {
@@ -1080,7 +1080,7 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "Vesting",
@@ -1160,7 +1160,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "Campaign",
@@ -1202,7 +1202,7 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "name": "campaignAta(campaign(Collection), token, Mint)",
             "role": "state"
           },
           {
@@ -1236,7 +1236,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "token",
@@ -1447,11 +1447,11 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "name": "campaignAta(campaign(Collection), token, Mint)",
             "role": "state"
           },
           {
-            "name": "creatorAta(Creator, Toke…, Mint)",
+            "name": "creatorAta(Creator, token, Mint)",
             "role": "state"
           },
           {
@@ -1490,12 +1490,12 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "creatorAta(Creator, Toke…, Mint)"
+            "to": "creatorAta(Creator, token, Mint)"
           },
           {
             "from": "mplCoreProgram",
@@ -1520,12 +1520,12 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "token",
             "verb": "writes",
-            "to": "creatorAta(Creator, Toke…, Mint)"
+            "to": "creatorAta(Creator, token, Mint)"
           },
           {
             "from": "Campaign",
@@ -1571,11 +1571,11 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "name": "campaignAta(campaign(Collection), token, Mint)",
             "role": "state"
           },
           {
-            "name": "creatorAta(Creator, Toke…, Mint)",
+            "name": "creatorAta(Creator, token, Mint)",
             "role": "state"
           }
         ],
@@ -1598,12 +1598,12 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "token",
             "verb": "owns",
-            "to": "creatorAta(Creator, Toke…, Mint)"
+            "to": "creatorAta(Creator, token, Mint)"
           }
         ]
       }
@@ -1707,11 +1707,11 @@
             "role": "state"
           },
           {
-            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "name": "campaignAta(campaign(Collection), token, Mint)",
             "role": "state"
           },
           {
-            "name": "userAta(Alice, Toke…, Mint)",
+            "name": "userAta(Alice, token, Mint)",
             "role": "state"
           },
           {
@@ -1737,12 +1737,12 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "userAta(Alice, Toke…, Mint)"
+            "to": "userAta(Alice, token, Mint)"
           },
           {
             "from": "Vesting",
@@ -1789,11 +1789,11 @@
             "role": "program"
           },
           {
-            "name": "campaignAta(campaign(Collection), Toke…, Mint)",
+            "name": "campaignAta(campaign(Collection), token, Mint)",
             "role": "state"
           },
           {
-            "name": "userAta(Alice, Toke…, Mint)",
+            "name": "userAta(Alice, token, Mint)",
             "role": "state"
           },
           {
@@ -1823,12 +1823,12 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "campaignAta(campaign(Collection), Toke…, Mint)"
+            "to": "campaignAta(campaign(Collection), token, Mint)"
           },
           {
             "from": "token",
             "verb": "owns",
-            "to": "userAta(Alice, Toke…, Mint)"
+            "to": "userAta(Alice, token, Mint)"
           },
           {
             "from": "mplCoreProgram",

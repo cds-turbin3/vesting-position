@@ -1,6 +1,6 @@
 # claims_at_linear_checkpoints
 
-**Source:** [`tests/vesting_schedule.rs` L181](https://github.com/cds-turbin3/vesting-position/blob/28dc8ede57427d32d19572b56334ba5ee4d73e8b/babelfish-tests/tests/vesting_schedule.rs#L181)
+**Source:** [`tests/vesting_schedule.rs` L181](https://github.com/cds-turbin3/vesting-position/blob/a73490430ef5c43423e4370c61364fdf961e7484/babelfish-tests/tests/vesting_schedule.rs#L181)
 
 <details>
 <summary>Over 31 days: 16 moments; 1/1 law held.</summary>
@@ -21,10 +21,10 @@ Invariants (laws):
 | Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
 | VestingPositions | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
 | campaign(Collection) | G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G |
-| campaignAta(campaign(Collection), Toke…, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
-| creatorAta(Creator, Toke…, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
+| campaignAta(campaign(Collection), token, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
+| creatorAta(Creator, token, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
 | updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
-| userAta(4wQQ…, Toke…, Mint) | C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW |
+| userAta(4wQQ…, token, Mint) | C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW |
 | 4wQQ… | 4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P |
 | 5yfA… | 5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB |
 | 6hhA… | 6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK |
@@ -138,9 +138,9 @@ flowchart LR
     Creator(["Creator"]):::signer
     Collection(["Collection"]):::signer
     Mint[("Mint")]:::state
-    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
+    creatorAtaCreatortokenMint[("creatorAta(Creator, token, Mint)")]:::state
     campaignCollection(["campaign(Collection)"]):::signer
-    campaignAtacampaignCollectionTokeMint(["campaignAta(campaign(Collection), Toke…, Mint)"]):::signer
+    campaignAtacampaignCollectiontokenMint(["campaignAta(campaign(Collection), token, Mint)"]):::signer
     system["system"]:::program
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
@@ -148,20 +148,20 @@ flowchart LR
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions --> Mint
-    VestingPositions --> creatorAtaCreatorTokeMint
+    VestingPositions --> creatorAtaCreatortokenMint
     VestingPositions --> campaignCollection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
     Creator --> system
     campaignCollection --> system
     Creator --> splAssociatedTokenAccount
-    splAssociatedTokenAccount --> campaignAtacampaignCollectionTokeMint
-    campaignAtacampaignCollectionTokeMint --> system
-    token --> campaignAtacampaignCollectionTokeMint
+    splAssociatedTokenAccount --> campaignAtacampaignCollectiontokenMint
+    campaignAtacampaignCollectiontokenMint --> system
+    token --> campaignAtacampaignCollectiontokenMint
     Collection --> mplCoreProgram
     Creator --> mplCoreProgram
     Collection --> system
     system --> Collection
-    token --> creatorAtaCreatorTokeMint
+    token --> creatorAtaCreatortokenMint
     Creator --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -180,16 +180,16 @@ flowchart LR
     Collection[("Collection")]:::state
     token["token"]:::program
     Mint[("Mint")]:::state
-    creatorAtaCreatorTokeMint[("creatorAta(Creator, Toke…, Mint)")]:::state
+    creatorAtaCreatortokenMint[("creatorAta(Creator, token, Mint)")]:::state
     VestingPositions["VestingPositions"]:::program
     campaignCollection[("campaign(Collection)")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
     system -->|owns| Creator
     mplCoreProgram --> Collection
     token --> Mint
-    token --> creatorAtaCreatorTokeMint
+    token --> creatorAtaCreatortokenMint
     VestingPositions --> campaignCollection
-    token --> campaignAtacampaignCollectionTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -311,7 +311,7 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
     C7Pg(["C7Pg…"]):::signer
     n6hhA(["6hhA…"]):::signer
     n5yfA(["5yfA…"]):::signer
@@ -323,7 +323,7 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
     VestingPositions --> C7Pg
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
@@ -339,7 +339,7 @@ flowchart LR
     n4wQQ --> mplCoreProgram
     n6hhA --> system
     system --> n6hhA
-    token --> campaignAtacampaignCollectionTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -357,14 +357,14 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
     C7Pg[("C7Pg…")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
     token --> C7Pg
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
@@ -440,8 +440,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -450,16 +450,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -477,15 +477,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -548,8 +548,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -558,16 +558,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -585,15 +585,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -656,8 +656,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -666,16 +666,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -693,15 +693,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -764,8 +764,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -774,16 +774,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -801,15 +801,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -872,8 +872,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -882,16 +882,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -909,15 +909,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -980,8 +980,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -990,16 +990,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1017,15 +1017,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1088,8 +1088,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -1098,16 +1098,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1125,15 +1125,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1196,8 +1196,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -1206,16 +1206,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1233,15 +1233,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1304,8 +1304,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -1314,16 +1314,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1341,15 +1341,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1412,8 +1412,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -1422,16 +1422,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1449,15 +1449,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1520,8 +1520,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -1530,16 +1530,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1557,15 +1557,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1628,8 +1628,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -1638,16 +1638,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1665,15 +1665,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1736,8 +1736,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -1746,16 +1746,16 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
     mplCoreProgram --> Collection
     n4wQQ --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1773,15 +1773,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
@@ -1853,8 +1853,8 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     n4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     n5yfA[("5yfA…")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -1864,8 +1864,8 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     n4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> campaignAtacampaignCollectionTokeMint
-    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> campaignAtacampaignCollectiontokenMint
+    VestingPositions --> userAta4wQQtokenMint
     VestingPositions --> n6hhA
     VestingPositions --> n5yfA
     mplCoreProgram --> n6hhA
@@ -1874,8 +1874,8 @@ flowchart LR
     updateAuthorityCollection --> mplCoreProgram
     n4wQQ --> system
     system --> n6hhA
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
@@ -1893,15 +1893,15 @@ flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
-    campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
+    campaignAtacampaignCollectiontokenMint[("campaignAta(campaign(Collection), token, Mint)")]:::state
+    userAta4wQQtokenMint[("userAta(4wQQ…, token, Mint)")]:::state
     n6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
     n5yfA[("5yfA…")]:::state
     system -->|owns| n4wQQ
     mplCoreProgram --> Collection
-    token --> campaignAtacampaignCollectionTokeMint
-    token --> userAta4wQQTokeMint
+    token --> campaignAtacampaignCollectiontokenMint
+    token --> userAta4wQQtokenMint
     mplCoreProgram --> n6hhA
     VestingPositions --> n5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
