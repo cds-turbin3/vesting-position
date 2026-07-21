@@ -15,7 +15,26 @@
     },
     {
       "kind": "prose",
-      "data": "Over 28 days: 12 moments; 2/2 law(s) held; 3/3 finally check(s) passed."
+      "data": "Invariants (laws):"
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "claimed + vault conserves the total deposit ✓ across 12 moment(s)",
+        "receipt claimer is constant ✓ across 12 moment(s)"
+      ]
+    },
+    {
+      "kind": "prose",
+      "data": "Final state checks:"
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "six Claim-labeled transactions settled (subsequent claims, success or refusal) ✓",
+        "the campaign vault still holds an unclaimed remainder (no clawback ran) ✓",
+        "the receipt-claimer binding never broke ✓"
+      ]
     },
     {
       "kind": "table",
@@ -4796,31 +4815,25 @@
         "lang": null,
         "text": "\nAlice (71714cu)\n└─ Vesting::Claim ✓ 71714cu\n   ├─ CoRE…::UpdatePlugin ✓ 20727cu\n   └─ token::transferChecked ✓ 105cu\n"
       }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        2,
-        "Conclusion"
-      ]
-    },
-    {
-      "kind": "bullet_list",
-      "data": [
-        "claimed + vault conserves the total deposit ✓ across 12 moment(s)",
-        "receipt claimer is constant ✓ across 12 moment(s)",
-        "finally: six Claim-labeled transactions settled (subsequent claims, success or refusal) ✓",
-        "finally: the campaign vault still holds an unclaimed remainder (no clawback ran) ✓",
-        "finally: the receipt-claimer binding never broke ✓"
-      ]
     }
   ],
   "arrange": [
     {
       "op": "fold",
+      "label": "Over 28 days: 12 moments; 2/2 laws held; 3/3 final checks passed.",
+      "blocks": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
       "label": "Cast",
       "blocks": [
-        3
+        6
       ],
       "open": false
     },
@@ -4828,14 +4841,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        9,
-        10,
-        11,
         12,
         13,
         14,
         15,
-        16
+        16,
+        17,
+        18,
+        19
       ],
       "open": false
     },
@@ -4843,14 +4856,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        20,
-        21,
-        22,
         23,
         24,
         25,
         26,
-        27
+        27,
+        28,
+        29,
+        30
       ],
       "open": false
     },
@@ -4858,14 +4871,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        31,
-        32,
-        33,
         34,
         35,
         36,
         37,
-        38
+        38,
+        39,
+        40,
+        41
       ],
       "open": false
     },
@@ -4873,14 +4886,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        42,
-        43,
-        44,
         45,
         46,
         47,
         48,
-        49
+        49,
+        50,
+        51,
+        52
       ],
       "open": false
     },
@@ -4888,14 +4901,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        52,
-        53,
-        54,
         55,
         56,
         57,
         58,
-        59
+        59,
+        60,
+        61,
+        62
       ],
       "open": false
     },
@@ -4903,14 +4916,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        62,
-        63,
-        64,
         65,
         66,
         67,
         68,
-        69
+        69,
+        70,
+        71,
+        72
       ],
       "open": false
     },
@@ -4918,14 +4931,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        73,
-        74,
-        75,
         76,
         77,
         78,
         79,
-        80
+        80,
+        81,
+        82,
+        83
       ],
       "open": false
     },
@@ -4933,14 +4946,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        84,
-        85,
-        86,
         87,
         88,
         89,
         90,
-        91
+        91,
+        92,
+        93,
+        94
       ],
       "open": false
     },
@@ -4948,14 +4961,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        94,
-        95,
-        96,
         97,
         98,
         99,
         100,
-        101
+        101,
+        102,
+        103,
+        104
       ],
       "open": false
     },
@@ -4963,14 +4976,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        103,
-        104,
-        105,
         106,
         107,
         108,
         109,
-        110
+        110,
+        111,
+        112,
+        113
       ],
       "open": false
     },
@@ -4978,14 +4991,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        113,
-        114,
-        115,
         116,
         117,
         118,
         119,
-        120
+        120,
+        121,
+        122,
+        123
       ],
       "open": false
     },
@@ -4993,14 +5006,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        124,
-        125,
-        126,
         127,
         128,
         129,
         130,
-        131
+        131,
+        132,
+        133,
+        134
       ],
       "open": false
     }

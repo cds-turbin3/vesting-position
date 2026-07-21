@@ -7,7 +7,23 @@
   "blocks": [
     {
       "kind": "prose",
-      "data": "Over 31 days: 4 moments; 1/1 law(s) held; 1/1 finally check(s) passed."
+      "data": "Invariants (laws):"
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "asset frozen latches true ✓ across 4 moment(s)"
+      ]
+    },
+    {
+      "kind": "prose",
+      "data": "Final state checks:"
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "the loyalty-badge freeze latch held ✓"
+      ]
     },
     {
       "kind": "table",
@@ -1726,28 +1742,25 @@
         "lang": null,
         "text": "\n4wQQ… (9049cu)\n└─ CoRE…::Transfer ✗ 9049cu\n"
       }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        2,
-        "Conclusion"
-      ]
-    },
-    {
-      "kind": "bullet_list",
-      "data": [
-        "asset frozen latches true ✓ across 4 moment(s)",
-        "finally: the loyalty-badge freeze latch held ✓"
-      ]
     }
   ],
   "arrange": [
     {
       "op": "fold",
+      "label": "Over 31 days: 4 moments; 1/1 law held; 1/1 final check passed.",
+      "blocks": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
       "label": "Cast",
       "blocks": [
-        1
+        4
       ],
       "open": false
     },
@@ -1755,14 +1768,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        6,
-        7,
-        8,
         9,
         10,
         11,
         12,
-        13
+        13,
+        14,
+        15,
+        16
       ],
       "open": false
     },
@@ -1770,14 +1783,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        16,
-        17,
-        18,
         19,
         20,
         21,
         22,
-        23
+        23,
+        24,
+        25,
+        26
       ],
       "open": false
     },
@@ -1785,14 +1798,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        27,
-        28,
-        29,
         30,
         31,
         32,
         33,
-        34
+        34,
+        35,
+        36,
+        37
       ],
       "open": false
     },
@@ -1800,14 +1813,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        37,
-        38,
-        39,
         40,
         41,
         42,
         43,
-        44
+        44,
+        45,
+        46,
+        47
       ],
       "open": false
     }

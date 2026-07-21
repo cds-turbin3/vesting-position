@@ -1,12 +1,26 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/1a7ceef2d99e574860e959cc0f6c79bfbc7fbb95/babelfish-tests/tests/full_lifecycle.rs#L24)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/3e6571dde7b989ae353cd0a141b35da0171e1a57/babelfish-tests/tests/full_lifecycle.rs#L24)
 
 > Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
 > Given: Bob, never whitelisted, now holds Alice's position NFT
 
-Over 28 days: 12 moments; 2/2 law(s) held; 3/3 finally check(s) passed.
+<details>
+<summary>Over 28 days: 12 moments; 2/2 laws held; 3/3 final checks passed.</summary>
+
+Invariants (laws):
+
+- claimed + vault conserves the total deposit ✓ across 12 moment(s)
+- receipt claimer is constant ✓ across 12 moment(s)
+
+Final state checks:
+
+- six Claim-labeled transactions settled (subsequent claims, success or refusal) ✓
+- the campaign vault still holds an unclaimed remainder (no clawback ran) ✓
+- the receipt-claimer binding never broke ✓
+
+</details>
 
 <details>
 <summary>Cast</summary>
@@ -1365,11 +1379,3 @@ Alice (71714cu)
 ```
 
 </details>
-
-## Conclusion
-
-- claimed + vault conserves the total deposit ✓ across 12 moment(s)
-- receipt claimer is constant ✓ across 12 moment(s)
-- finally: six Claim-labeled transactions settled (subsequent claims, success or refusal) ✓
-- finally: the campaign vault still holds an unclaimed remainder (no clawback ran) ✓
-- finally: the receipt-claimer binding never broke ✓

@@ -1,6 +1,6 @@
 # mid_schedule_cliff_plus_linear
 
-**Source:** [`tests/vesting_schedule.rs` L67](https://github.com/cds-turbin3/vesting-position/blob/1a7ceef2d99e574860e959cc0f6c79bfbc7fbb95/babelfish-tests/tests/vesting_schedule.rs#L67)
+**Source:** [`tests/vesting_schedule.rs` L67](https://github.com/cds-turbin3/vesting-position/blob/3e6571dde7b989ae353cd0a141b35da0171e1a57/babelfish-tests/tests/vesting_schedule.rs#L67)
 
 Over 16 days: 2 moments.
 

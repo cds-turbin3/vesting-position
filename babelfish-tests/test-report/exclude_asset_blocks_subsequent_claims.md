@@ -1,6 +1,6 @@
 # exclude_asset_blocks_subsequent_claims
 
-**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/1a7ceef2d99e574860e959cc0f6c79bfbc7fbb95/babelfish-tests/tests/freeze.rs#L187)
+**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/3e6571dde7b989ae353cd0a141b35da0171e1a57/babelfish-tests/tests/freeze.rs#L187)
 
 Over 31 days: 5 moments.
 

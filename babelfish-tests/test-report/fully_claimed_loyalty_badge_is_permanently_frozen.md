@@ -1,8 +1,19 @@
 # fully_claimed_loyalty_badge_is_permanently_frozen
 
-**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/1a7ceef2d99e574860e959cc0f6c79bfbc7fbb95/babelfish-tests/tests/freeze.rs#L123)
+**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/3e6571dde7b989ae353cd0a141b35da0171e1a57/babelfish-tests/tests/freeze.rs#L123)
 
-Over 31 days: 4 moments; 1/1 law(s) held; 1/1 finally check(s) passed.
+<details>
+<summary>Over 31 days: 4 moments; 1/1 law held; 1/1 final check passed.</summary>
+
+Invariants (laws):
+
+- asset frozen latches true ✓ across 4 moment(s)
+
+Final state checks:
+
+- the loyalty-badge freeze latch held ✓
+
+</details>
 
 <details>
 <summary>Cast</summary>
@@ -530,8 +541,3 @@ flowchart LR
 ```
 
 </details>
-
-## Conclusion
-
-- asset frozen latches true ✓ across 4 moment(s)
-- finally: the loyalty-badge freeze latch held ✓

@@ -1,6 +1,6 @@
 # freeze_asset_blocks_transfer_and_unfreeze_restores
 
-**Source:** [`tests/freeze.rs` L275](https://github.com/cds-turbin3/vesting-position/blob/1a7ceef2d99e574860e959cc0f6c79bfbc7fbb95/babelfish-tests/tests/freeze.rs#L275)
+**Source:** [`tests/freeze.rs` L275](https://github.com/cds-turbin3/vesting-position/blob/3e6571dde7b989ae353cd0a141b35da0171e1a57/babelfish-tests/tests/freeze.rs#L275)
 
 Over 1 day: 6 moments.
 
