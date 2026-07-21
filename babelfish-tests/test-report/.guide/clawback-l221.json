@@ -2,12 +2,12 @@
   "guide": "0.2",
   "provenance": {
     "file": "tests/clawback.rs",
-    "line": 321
+    "line": 221
   },
   "blocks": [
     {
       "kind": "prose",
-      "data": "Over 1 day: 3 moments."
+      "data": "Over 0 days: 2 moments."
     },
     {
       "kind": "table",
@@ -96,46 +96,6 @@
               "type": "addr",
               "value": "CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p"
             }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "4wQQ…"
-            },
-            {
-              "type": "addr",
-              "value": "4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "5yfA…"
-            },
-            {
-              "type": "addr",
-              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "6hhA…"
-            },
-            {
-              "type": "addr",
-              "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "C7Pg…"
-            },
-            {
-              "type": "addr",
-              "value": "C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW"
-            }
           ]
         ]
       }
@@ -155,8 +115,6 @@
           "Vault balance",
           "Δ",
           "Creator balance",
-          "Δ",
-          "Alice balance",
           "Δ",
           "comment"
         ],
@@ -181,13 +139,6 @@
             {
               "type": "delta",
               "value": "0"
-            },
-            {
-              "type": "empty"
-            },
-            {
-              "type": "text",
-              "value": ""
             },
             {
               "type": "text",
@@ -216,49 +167,8 @@
               "value": "0"
             },
             {
-              "type": "empty"
-            },
-            {
               "type": "text",
-              "value": ""
-            },
-            {
-              "type": "text",
-              "value": "FirstClaim (day 1)"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "T2"
-            },
-            {
-              "type": "int",
-              "value": "10000000000000"
-            },
-            {
-              "type": "delta",
-              "value": "0"
-            },
-            {
-              "type": "int",
-              "value": "0"
-            },
-            {
-              "type": "delta",
-              "value": "0"
-            },
-            {
-              "type": "int",
-              "value": "0"
-            },
-            {
-              "type": "delta",
-              "value": "0"
-            },
-            {
-              "type": "text",
-              "value": "CancelCampaign (day 1)"
+              "value": "CloseCampaign (day 0)"
             }
           ]
         ]
@@ -721,489 +631,16 @@
       }
     },
     {
-      "kind": "prose",
-      "data": "*1 day pass.*"
-    },
-    {
       "kind": "heading",
       "data": [
         3,
-        "T1: FirstClaim (day 1)"
+        "T1: CloseCampaign (day 0)"
       ]
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Sequence"
-      ]
-    },
-    {
-      "kind": "sequence",
-      "data": {
-        "participants": [
-          {
-            "id": "p0",
-            "label": "4wQQ…",
-            "role": "authority"
-          },
-          {
-            "id": "p1",
-            "label": "computeBudget",
-            "role": "program"
-          },
-          {
-            "id": "p2",
-            "label": "VestingPositions",
-            "role": "program"
-          },
-          {
-            "id": "p3",
-            "label": "splAssociatedTokenAccount",
-            "role": "program"
-          },
-          {
-            "id": "p4",
-            "label": "token",
-            "role": "program"
-          },
-          {
-            "id": "p5",
-            "label": "system",
-            "role": "program"
-          },
-          {
-            "id": "p6",
-            "label": "mplCoreProgram",
-            "role": "program"
-          }
-        ],
-        "lanes": false,
-        "lifelines": true,
-        "leading_notes": [],
-        "frames": [
-          {
-            "open_bands": [],
-            "root": {
-              "caller": "p0",
-              "program": "p1",
-              "call_label": "setComputeUnitLimit",
-              "failure": null,
-              "return_label": "✓",
-              "children": []
-            },
-            "notes": [],
-            "close": []
-          },
-          {
-            "open_bands": [],
-            "root": {
-              "caller": "p0",
-              "program": "p2",
-              "call_label": "Claim",
-              "failure": null,
-              "return_label": "✓ 164909cu",
-              "children": [
-                {
-                  "caller": "p2",
-                  "program": "p3",
-                  "call_label": "create",
-                  "failure": null,
-                  "return_label": "✓ 13416cu",
-                  "children": [
-                    {
-                      "caller": "p3",
-                      "program": "p4",
-                      "call_label": "getAccountDataSize",
-                      "failure": null,
-                      "return_label": "✓ 183cu",
-                      "children": []
-                    },
-                    {
-                      "caller": "p3",
-                      "program": "p5",
-                      "call_label": "createAccount",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p3",
-                      "program": "p4",
-                      "call_label": "initializeImmutableOwner",
-                      "failure": null,
-                      "return_label": "✓ 38cu",
-                      "children": []
-                    },
-                    {
-                      "caller": "p3",
-                      "program": "p4",
-                      "call_label": "initializeAccount3",
-                      "failure": null,
-                      "return_label": "✓ 235cu",
-                      "children": []
-                    }
-                  ]
-                },
-                {
-                  "caller": "p2",
-                  "program": "p5",
-                  "call_label": "createAccount",
-                  "failure": null,
-                  "return_label": "✓",
-                  "children": []
-                },
-                {
-                  "caller": "p2",
-                  "program": "p6",
-                  "call_label": "CreateV2",
-                  "failure": null,
-                  "return_label": "✓ 29413cu",
-                  "children": [
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "createAccount",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "transferSol",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "transferSol",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "transferSol",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "transferSol",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    }
-                  ]
-                }
-              ]
-            },
-            "notes": [],
-            "close": []
-          }
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Authority"
-      ]
-    },
-    {
-      "kind": "graph",
-      "data": {
-        "nodes": [
-          {
-            "name": "computeBudget",
-            "role": "program"
-          },
-          {
-            "name": "VestingPositions",
-            "role": "program"
-          },
-          {
-            "name": "4wQQ…",
-            "role": "authority"
-          },
-          {
-            "name": "Collection",
-            "role": "state"
-          },
-          {
-            "name": "campaignAta(Vesting campaign, token, Mint)",
-            "role": "state"
-          },
-          {
-            "name": "C7Pg…",
-            "role": "authority"
-          },
-          {
-            "name": "6hhA…",
-            "role": "authority"
-          },
-          {
-            "name": "5yfA…",
-            "role": "authority"
-          },
-          {
-            "name": "splAssociatedTokenAccount",
-            "role": "program"
-          },
-          {
-            "name": "token",
-            "role": "program"
-          },
-          {
-            "name": "system",
-            "role": "program"
-          },
-          {
-            "name": "mplCoreProgram",
-            "role": "program"
-          },
-          {
-            "name": "updateAuthority(Collection)",
-            "role": "authority"
-          }
-        ],
-        "edges": [
-          {
-            "from": "4wQQ…",
-            "verb": "signs",
-            "to": "VestingPositions"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "Collection"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "campaignAta(Vesting campaign, token, Mint)"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "C7Pg…"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "6hhA…"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "5yfA…"
-          },
-          {
-            "from": "4wQQ…",
-            "verb": "signs",
-            "to": "splAssociatedTokenAccount"
-          },
-          {
-            "from": "splAssociatedTokenAccount",
-            "verb": "writes",
-            "to": "C7Pg…"
-          },
-          {
-            "from": "4wQQ…",
-            "verb": "signs",
-            "to": "system"
-          },
-          {
-            "from": "C7Pg…",
-            "verb": "signs",
-            "to": "system"
-          },
-          {
-            "from": "token",
-            "verb": "writes",
-            "to": "C7Pg…"
-          },
-          {
-            "from": "5yfA…",
-            "verb": "signs",
-            "to": "system"
-          },
-          {
-            "from": "6hhA…",
-            "verb": "signs",
-            "to": "mplCoreProgram"
-          },
-          {
-            "from": "mplCoreProgram",
-            "verb": "writes",
-            "to": "Collection"
-          },
-          {
-            "from": "updateAuthority(Collection)",
-            "verb": "signs",
-            "to": "mplCoreProgram"
-          },
-          {
-            "from": "4wQQ…",
-            "verb": "signs",
-            "to": "mplCoreProgram"
-          },
-          {
-            "from": "6hhA…",
-            "verb": "signs",
-            "to": "system"
-          },
-          {
-            "from": "system",
-            "verb": "writes",
-            "to": "6hhA…"
-          }
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Ownership"
-      ]
-    },
-    {
-      "kind": "graph",
-      "data": {
-        "nodes": [
-          {
-            "name": "system",
-            "role": "program"
-          },
-          {
-            "name": "4wQQ…",
-            "role": "state"
-          },
-          {
-            "name": "mplCoreProgram",
-            "role": "program"
-          },
-          {
-            "name": "Collection",
-            "role": "state"
-          },
-          {
-            "name": "token",
-            "role": "program"
-          },
-          {
-            "name": "campaignAta(Vesting campaign, token, Mint)",
-            "role": "state"
-          },
-          {
-            "name": "C7Pg…",
-            "role": "state"
-          },
-          {
-            "name": "6hhA…",
-            "role": "state"
-          },
-          {
-            "name": "VestingPositions",
-            "role": "program"
-          },
-          {
-            "name": "5yfA…",
-            "role": "state"
-          }
-        ],
-        "edges": [
-          {
-            "from": "system",
-            "verb": "owns",
-            "to": "4wQQ…"
-          },
-          {
-            "from": "mplCoreProgram",
-            "verb": "owns",
-            "to": "Collection"
-          },
-          {
-            "from": "token",
-            "verb": "owns",
-            "to": "campaignAta(Vesting campaign, token, Mint)"
-          },
-          {
-            "from": "token",
-            "verb": "owns",
-            "to": "C7Pg…"
-          },
-          {
-            "from": "mplCoreProgram",
-            "verb": "owns",
-            "to": "6hhA…"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "owns",
-            "to": "5yfA…"
-          }
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Tree"
-      ]
-    },
-    {
-      "kind": "fenced",
-      "data": {
-        "lang": null,
-        "text": "\n4wQQ… (165059cu)\n├─ computeBudget::setComputeUnitLimit ✓\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ mplCoreProgram::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "T2: CancelCampaign (day 1)"
-      ]
-    },
-    {
-      "kind": "table",
-      "data": {
-        "headers": [
-          "observation",
-          "before",
-          "after"
-        ],
-        "rows": [
-          [
-            {
-              "type": "text",
-              "value": "Alice balance"
-            },
-            {
-              "type": "empty"
-            },
-            {
-              "type": "int",
-              "value": "0"
-            }
-          ]
-        ]
-      }
     },
     {
       "kind": "bullet_list",
       "data": [
-        "[x] refused: CampaignHasPositions — InstructionError(0, Custom(6024))"
+        "[x] refused: VaultNotEmpty — InstructionError(0, Custom(6023))"
       ]
     },
     {
@@ -1237,9 +674,9 @@
             "root": {
               "caller": "p0",
               "program": "p1",
-              "call_label": "CancelCampaign",
-              "failure": "custom program error  0x1788",
-              "return_label": "✗ 21233cu",
+              "call_label": "CloseCampaign",
+              "failure": "custom program error  0x1787",
+              "return_label": "✗ 12552cu",
               "children": []
             },
             "notes": [],
@@ -1272,19 +709,7 @@
             "role": "state"
           },
           {
-            "name": "Collection",
-            "role": "state"
-          },
-          {
-            "name": "updateAuthority(Collection)",
-            "role": "state"
-          },
-          {
             "name": "campaignAta(Vesting campaign, token, Mint)",
-            "role": "state"
-          },
-          {
-            "name": "creatorAta(Creator, token, Mint)",
             "role": "state"
           }
         ],
@@ -1302,22 +727,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "Collection"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "updateAuthority(Collection)"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
             "to": "campaignAta(Vesting campaign, token, Mint)"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "creatorAta(Creator, token, Mint)"
           }
         ]
       }
@@ -1350,27 +760,11 @@
             "role": "state"
           },
           {
-            "name": "mplCoreProgram",
-            "role": "program"
-          },
-          {
-            "name": "Collection",
-            "role": "state"
-          },
-          {
-            "name": "updateAuthority(Collection)",
-            "role": "state"
-          },
-          {
             "name": "token",
             "role": "program"
           },
           {
             "name": "campaignAta(Vesting campaign, token, Mint)",
-            "role": "state"
-          },
-          {
-            "name": "creatorAta(Creator, token, Mint)",
             "role": "state"
           }
         ],
@@ -1386,24 +780,9 @@
             "to": "Vesting campaign"
           },
           {
-            "from": "mplCoreProgram",
-            "verb": "owns",
-            "to": "Collection"
-          },
-          {
-            "from": "system",
-            "verb": "owns",
-            "to": "updateAuthority(Collection)"
-          },
-          {
             "from": "token",
             "verb": "owns",
             "to": "campaignAta(Vesting campaign, token, Mint)"
-          },
-          {
-            "from": "token",
-            "verb": "owns",
-            "to": "creatorAta(Creator, token, Mint)"
           }
         ]
       }
@@ -1419,7 +798,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (21233cu)\n└─ VestingPositions::CancelCampaign ✗ 21233cu\n"
+        "text": "\nCreator (12552cu)\n└─ VestingPositions::CloseCampaign ✗ 12552cu\n"
       }
     }
   ],
@@ -1459,21 +838,6 @@
         21,
         22,
         23
-      ],
-      "open": false
-    },
-    {
-      "op": "fold",
-      "label": "diagrams",
-      "blocks": [
-        27,
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        34
       ],
       "open": false
     }

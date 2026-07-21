@@ -1,6 +1,6 @@
 # clawback_unclaimed_rejects_invalid_proof
 
-**Source:** [`tests/clawback.rs` L130](https://github.com/cds-turbin3/vesting-position/blob/a210de493b6e165b24bb8cfd74a4b811ba639232/babelfish-tests/tests/clawback.rs#L130)
+**Source:** [`tests/clawback.rs` L131](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/clawback.rs#L131)
 
 Over 38 days: 2 moments.
 
@@ -9,6 +9,9 @@ Over 38 days: 2 moments.
 
 | name | address |
 | --- | --- |
+| Bob | H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg |
+| Bob's position NFT | 5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC |
+| Bob's receipt | C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9 |
 | Collection | 9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW |
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
 | Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
@@ -17,7 +20,6 @@ Over 38 days: 2 moments.
 | campaignAta(Vesting campaign, token, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
 | creatorAta(Creator, token, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
 | updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
-| C49G… | C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9 |
 
 </details>
 
@@ -223,16 +225,16 @@ sequenceDiagram
 flowchart LR
     VestingPositions["VestingPositions"]:::program
     Creator(["Creator"]):::signer
-    C49G(["C49G…"]):::signer
+    Bobsreceipt(["Bob's receipt"]):::signer
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     creatorAtaCreatortokenMint[("creatorAta(Creator, token, Mint)")]:::state
     system["system"]:::program
     Creator -->|signs| VestingPositions
-    VestingPositions -->|writes| C49G
+    VestingPositions -->|writes| Bobsreceipt
     VestingPositions --> campaignAtaVestingcampaigntokenMint
     VestingPositions --> creatorAtaCreatortokenMint
     Creator --> system
-    C49G --> system
+    Bobsreceipt --> system
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -247,12 +249,12 @@ flowchart LR
     system["system"]:::program
     Creator[("Creator")]:::state
     VestingPositions["VestingPositions"]:::program
-    C49G[("C49G…")]:::state
+    Bobsreceipt[("Bob's receipt")]:::state
     token["token"]:::program
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     creatorAtaCreatortokenMint[("creatorAta(Creator, token, Mint)")]:::state
     system -->|owns| Creator
-    VestingPositions --> C49G
+    VestingPositions --> Bobsreceipt
     token --> campaignAtaVestingcampaigntokenMint
     token --> creatorAtaCreatortokenMint
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;

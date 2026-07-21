@@ -57,11 +57,21 @@
           [
             {
               "type": "text",
-              "value": "Alice position NFT"
+              "value": "Alice's position NFT"
             },
             {
               "type": "addr",
               "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
             }
           ],
           [
@@ -72,6 +82,26 @@
             {
               "type": "addr",
               "value": "ErV63ApqLgh1Je5PdiVj6kzwkKJmLjKV41QoN9U4BNag"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Bob's position NFT"
+            },
+            {
+              "type": "addr",
+              "value": "5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Bob's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
             }
           ],
           [
@@ -92,16 +122,6 @@
             {
               "type": "addr",
               "value": "H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "Charlie position NFT"
-            },
-            {
-              "type": "addr",
-              "value": "5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC"
             }
           ],
           [
@@ -207,31 +227,11 @@
           [
             {
               "type": "text",
-              "value": "5yfA…"
-            },
-            {
-              "type": "addr",
-              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
-            }
-          ],
-          [
-            {
-              "type": "text",
               "value": "BPGT…"
             },
             {
               "type": "addr",
               "value": "BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "C49G…"
-            },
-            {
-              "type": "addr",
-              "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
             }
           ]
         ]
@@ -1621,11 +1621,11 @@
             "role": "authority"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "authority"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "authority"
           },
           {
@@ -1677,12 +1677,12 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           },
           {
             "from": "Alice",
@@ -1710,12 +1710,12 @@
             "to": "Alice/ATA(Mint)"
           },
           {
-            "from": "5yfA…",
+            "from": "Alice's receipt",
             "verb": "signs",
             "to": "system"
           },
           {
-            "from": "Alice position NFT",
+            "from": "Alice's position NFT",
             "verb": "signs",
             "to": "mplCoreProgram"
           },
@@ -1735,14 +1735,14 @@
             "to": "mplCoreProgram"
           },
           {
-            "from": "Alice position NFT",
+            "from": "Alice's position NFT",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "system",
             "verb": "writes",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "token",
@@ -1797,7 +1797,7 @@
             "role": "state"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -1805,7 +1805,7 @@
             "role": "program"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -1833,12 +1833,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -2021,11 +2021,11 @@
             "role": "state"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           },
           {
@@ -2069,17 +2069,17 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           },
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "mplCoreProgram",
@@ -2154,7 +2154,7 @@
             "role": "state"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -2162,7 +2162,7 @@
             "role": "program"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -2190,12 +2190,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -2477,11 +2477,11 @@
             "role": "authority"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "authority"
           },
           {
-            "name": "C49G…",
+            "name": "Bob's receipt",
             "role": "authority"
           },
           {
@@ -2533,12 +2533,12 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "C49G…"
+            "to": "Bob's receipt"
           },
           {
             "from": "Charlie",
@@ -2566,12 +2566,12 @@
             "to": "Charlie/ATA(Mint)"
           },
           {
-            "from": "C49G…",
+            "from": "Bob's receipt",
             "verb": "signs",
             "to": "system"
           },
           {
-            "from": "Charlie position NFT",
+            "from": "Bob's position NFT",
             "verb": "signs",
             "to": "mplCoreProgram"
           },
@@ -2591,14 +2591,14 @@
             "to": "mplCoreProgram"
           },
           {
-            "from": "Charlie position NFT",
+            "from": "Bob's position NFT",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "system",
             "verb": "writes",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "token",
@@ -2653,7 +2653,7 @@
             "role": "state"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "state"
           },
           {
@@ -2661,7 +2661,7 @@
             "role": "program"
           },
           {
-            "name": "C49G…",
+            "name": "Bob's receipt",
             "role": "state"
           }
         ],
@@ -2689,12 +2689,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "C49G…"
+            "to": "Bob's receipt"
           }
         ]
       }
@@ -2803,7 +2803,7 @@
             "role": "program"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -2815,7 +2815,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Alice",
@@ -2841,7 +2841,7 @@
             "role": "program"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -2857,7 +2857,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "system",
@@ -2968,11 +2968,11 @@
             "role": "state"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -3000,12 +3000,12 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -3050,7 +3050,7 @@
             "role": "state"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -3058,7 +3058,7 @@
             "role": "program"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -3086,12 +3086,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -3204,11 +3204,11 @@
             "role": "state"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -3236,12 +3236,12 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -3286,7 +3286,7 @@
             "role": "state"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -3294,7 +3294,7 @@
             "role": "program"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -3322,12 +3322,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -3549,7 +3549,7 @@
             "role": "authority"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -3605,7 +3605,7 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
@@ -3645,7 +3645,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "mplCoreProgram",
@@ -3715,7 +3715,7 @@
             "role": "state"
           },
           {
-            "name": "Alice position NFT",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -3751,7 +3751,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Alice position NFT"
+            "to": "Alice's position NFT"
           },
           {
             "from": "Vesting",
@@ -3936,11 +3936,11 @@
             "role": "state"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "state"
           },
           {
-            "name": "C49G…",
+            "name": "Bob's receipt",
             "role": "state"
           },
           {
@@ -3984,17 +3984,17 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "C49G…"
+            "to": "Bob's receipt"
           },
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "mplCoreProgram",
@@ -4069,7 +4069,7 @@
             "role": "state"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "state"
           },
           {
@@ -4077,7 +4077,7 @@
             "role": "program"
           },
           {
-            "name": "C49G…",
+            "name": "Bob's receipt",
             "role": "state"
           }
         ],
@@ -4105,12 +4105,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "C49G…"
+            "to": "Bob's receipt"
           }
         ]
       }
@@ -4194,7 +4194,7 @@
             "role": "program"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "state"
           },
           {
@@ -4206,7 +4206,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "Charlie",
@@ -4232,7 +4232,7 @@
             "role": "program"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "state"
           },
           {
@@ -4248,7 +4248,7 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "system",
@@ -4359,11 +4359,11 @@
             "role": "state"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "state"
           },
           {
-            "name": "C49G…",
+            "name": "Bob's receipt",
             "role": "state"
           }
         ],
@@ -4391,12 +4391,12 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "C49G…"
+            "to": "Bob's receipt"
           }
         ]
       }
@@ -4441,7 +4441,7 @@
             "role": "state"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "state"
           },
           {
@@ -4449,7 +4449,7 @@
             "role": "program"
           },
           {
-            "name": "C49G…",
+            "name": "Bob's receipt",
             "role": "state"
           }
         ],
@@ -4477,12 +4477,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "C49G…"
+            "to": "Bob's receipt"
           }
         ]
       }
@@ -4653,11 +4653,11 @@
             "role": "state"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "state"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           },
           {
@@ -4701,17 +4701,17 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           },
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "mplCoreProgram",
@@ -4786,7 +4786,7 @@
             "role": "state"
           },
           {
-            "name": "Charlie position NFT",
+            "name": "Bob's position NFT",
             "role": "state"
           },
           {
@@ -4794,7 +4794,7 @@
             "role": "program"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -4822,12 +4822,12 @@
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "Charlie position NFT"
+            "to": "Bob's position NFT"
           },
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }

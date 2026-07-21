@@ -2,7 +2,7 @@
   "guide": "0.2",
   "provenance": {
     "file": "tests/compute_units.rs",
-    "line": 23
+    "line": 22
   },
   "blocks": [
     {
@@ -246,7 +246,7 @@
         "participants": [
           {
             "id": "p0",
-            "label": "4wQQ…",
+            "label": "Alice",
             "role": "authority"
           },
           {
@@ -398,7 +398,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (164909cu)\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ mplCoreProgram::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
+        "text": "\nAlice (164909cu)\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ mplCoreProgram::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
       }
     },
     {
@@ -421,7 +421,7 @@
         "participants": [
           {
             "id": "p0",
-            "label": "4wQQ…",
+            "label": "Alice",
             "role": "authority"
           },
           {
@@ -454,7 +454,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (37030cu)\n└─ VestingPositions::Claim ✓ 37030cu\n"
+        "text": "\nAlice (37030cu)\n└─ VestingPositions::Claim ✓ 37030cu\n"
       }
     }
   ],

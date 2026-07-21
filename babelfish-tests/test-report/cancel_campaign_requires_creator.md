@@ -1,6 +1,6 @@
 # cancel_campaign_requires_creator
 
-**Source:** [`tests/clawback.rs` L341](https://github.com/cds-turbin3/vesting-position/blob/a210de493b6e165b24bb8cfd74a4b811ba639232/babelfish-tests/tests/clawback.rs#L341)
+**Source:** [`tests/clawback.rs` L343](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/clawback.rs#L343)
 
 Over 0 days: 2 moments.
 
@@ -9,16 +9,18 @@ Over 0 days: 2 moments.
 
 | name | address |
 | --- | --- |
+| Alice | 4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P |
+| Alice's position NFT | 6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK |
+| Alice's receipt | 5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB |
 | Collection | 9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW |
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
 | Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
 | Vesting campaign | G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G |
 | VestingPositions | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
 | campaignAta(Vesting campaign, token, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
-| creatorAta(4wQQ…, token, Mint) | C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW |
+| creatorAta(Alice, token, Mint) | C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW |
 | creatorAta(Creator, token, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
 | updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
-| 4wQQ… | 4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P |
 
 </details>
 
@@ -202,7 +204,7 @@ Creator (89713cu)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as 4wQQ…
+    participant p0 as Alice
     participant p1 as VestingPositions
     participant p2 as splAssociatedTokenAccount
     participant p3 as token
@@ -239,26 +241,26 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     VestingPositions["VestingPositions"]:::program
-    n4wQQ(["4wQQ…"]):::signer
+    Alice(["Alice"]):::signer
     Vestingcampaign[("Vesting campaign")]:::state
     Collection[("Collection")]:::state
     updateAuthorityCollection[("updateAuthority(Collection)")]:::state
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
-    creatorAta4wQQtokenMint(["creatorAta(4wQQ…, token, Mint)"]):::signer
+    creatorAtaAlicetokenMint(["creatorAta(Alice, token, Mint)"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
-    n4wQQ -->|signs| VestingPositions
+    Alice -->|signs| VestingPositions
     VestingPositions -->|writes| Vestingcampaign
     VestingPositions --> Collection
     VestingPositions --> updateAuthorityCollection
     VestingPositions --> campaignAtaVestingcampaigntokenMint
-    VestingPositions --> creatorAta4wQQtokenMint
-    n4wQQ --> splAssociatedTokenAccount
-    splAssociatedTokenAccount --> creatorAta4wQQtokenMint
-    n4wQQ --> system
-    creatorAta4wQQtokenMint --> system
-    token --> creatorAta4wQQtokenMint
+    VestingPositions --> creatorAtaAlicetokenMint
+    Alice --> splAssociatedTokenAccount
+    splAssociatedTokenAccount --> creatorAtaAlicetokenMint
+    Alice --> system
+    creatorAtaAlicetokenMint --> system
+    token --> creatorAtaAlicetokenMint
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -271,7 +273,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     system["system"]:::program
-    n4wQQ[("4wQQ…")]:::state
+    Alice[("Alice")]:::state
     VestingPositions["VestingPositions"]:::program
     Vestingcampaign[("Vesting campaign")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
@@ -279,13 +281,13 @@ flowchart LR
     updateAuthorityCollection[("updateAuthority(Collection)")]:::state
     token["token"]:::program
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
-    creatorAta4wQQtokenMint[("creatorAta(4wQQ…, token, Mint)")]:::state
-    system -->|owns| n4wQQ
+    creatorAtaAlicetokenMint[("creatorAta(Alice, token, Mint)")]:::state
+    system -->|owns| Alice
     VestingPositions --> Vestingcampaign
     mplCoreProgram --> Collection
     system --> updateAuthorityCollection
     token --> campaignAtaVestingcampaigntokenMint
-    token --> creatorAta4wQQtokenMint
+    token --> creatorAtaAlicetokenMint
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -296,7 +298,7 @@ flowchart LR
 
 ```
 
-4wQQ… (26432cu)
+Alice (26432cu)
 └─ VestingPositions::CancelCampaign ✗ 26432cu
    └─ splAssociatedTokenAccount::create ✓ 13416cu
       ├─ token::getAccountDataSize ✓ 183cu

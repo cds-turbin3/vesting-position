@@ -2,12 +2,12 @@
   "guide": "0.2",
   "provenance": {
     "file": "tests/clawback.rs",
-    "line": 91
+    "line": 344
   },
   "blocks": [
     {
       "kind": "prose",
-      "data": "Over 38 days: 3 moments."
+      "data": "Over 0 days: 2 moments."
     },
     {
       "kind": "table",
@@ -17,6 +17,36 @@
           "address"
         ],
         "rows": [
+          [
+            {
+              "type": "text",
+              "value": "Alice"
+            },
+            {
+              "type": "addr",
+              "value": "4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice's position NFT"
+            },
+            {
+              "type": "addr",
+              "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
+            }
+          ],
           [
             {
               "type": "text",
@@ -80,7 +110,7 @@
           [
             {
               "type": "text",
-              "value": "creatorAta(4wQQ…, token, Mint)"
+              "value": "creatorAta(Alice, token, Mint)"
             },
             {
               "type": "addr",
@@ -106,36 +136,6 @@
               "type": "addr",
               "value": "CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p"
             }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "4wQQ…"
-            },
-            {
-              "type": "addr",
-              "value": "4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "5yfA…"
-            },
-            {
-              "type": "addr",
-              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "6hhA…"
-            },
-            {
-              "type": "addr",
-              "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
-            }
           ]
         ]
       }
@@ -157,7 +157,6 @@
           "Creator balance",
           "Δ",
           "Alice balance",
-          "Δ",
           "comment"
         ],
         "rows": [
@@ -184,10 +183,6 @@
             },
             {
               "type": "empty"
-            },
-            {
-              "type": "text",
-              "value": ""
             },
             {
               "type": "text",
@@ -220,45 +215,7 @@
             },
             {
               "type": "text",
-              "value": ""
-            },
-            {
-              "type": "text",
-              "value": "FirstClaim (day 1)"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "T2"
-            },
-            {
-              "type": "int",
-              "value": "10000000000000"
-            },
-            {
-              "type": "delta",
-              "value": "0"
-            },
-            {
-              "type": "int",
-              "value": "0"
-            },
-            {
-              "type": "delta",
-              "value": "0"
-            },
-            {
-              "type": "int",
-              "value": "0"
-            },
-            {
-              "type": "delta",
-              "value": "0"
-            },
-            {
-              "type": "text",
-              "value": "Clawback (day 38)"
+              "value": "CancelCampaign (day 0)"
             }
           ]
         ]
@@ -721,14 +678,16 @@
       }
     },
     {
-      "kind": "prose",
-      "data": "*1 day pass.*"
-    },
-    {
       "kind": "heading",
       "data": [
         3,
-        "T1: FirstClaim (day 1)"
+        "T1: CancelCampaign (day 0)"
+      ]
+    },
+    {
+      "kind": "bullet_list",
+      "data": [
+        "[x] refused: Unauthorized — InstructionError(0, Custom(6008))"
       ]
     },
     {
@@ -744,37 +703,27 @@
         "participants": [
           {
             "id": "p0",
-            "label": "4wQQ…",
+            "label": "Alice",
             "role": "authority"
           },
           {
             "id": "p1",
-            "label": "computeBudget",
-            "role": "program"
-          },
-          {
-            "id": "p2",
             "label": "VestingPositions",
             "role": "program"
           },
           {
-            "id": "p3",
+            "id": "p2",
             "label": "splAssociatedTokenAccount",
             "role": "program"
           },
           {
-            "id": "p4",
+            "id": "p3",
             "label": "token",
             "role": "program"
           },
           {
-            "id": "p5",
+            "id": "p4",
             "label": "system",
-            "role": "program"
-          },
-          {
-            "id": "p6",
-            "label": "mplCoreProgram",
             "role": "program"
           }
         ],
@@ -787,117 +736,47 @@
             "root": {
               "caller": "p0",
               "program": "p1",
-              "call_label": "setComputeUnitLimit",
-              "failure": null,
-              "return_label": "✓",
-              "children": []
-            },
-            "notes": [],
-            "close": []
-          },
-          {
-            "open_bands": [],
-            "root": {
-              "caller": "p0",
-              "program": "p2",
-              "call_label": "Claim",
-              "failure": null,
-              "return_label": "✓ 164909cu",
+              "call_label": "CancelCampaign",
+              "failure": "custom program error  0x1778",
+              "return_label": "✗ 26432cu",
               "children": [
                 {
-                  "caller": "p2",
-                  "program": "p3",
+                  "caller": "p1",
+                  "program": "p2",
                   "call_label": "create",
                   "failure": null,
                   "return_label": "✓ 13416cu",
                   "children": [
                     {
-                      "caller": "p3",
-                      "program": "p4",
+                      "caller": "p2",
+                      "program": "p3",
                       "call_label": "getAccountDataSize",
                       "failure": null,
                       "return_label": "✓ 183cu",
                       "children": []
                     },
                     {
-                      "caller": "p3",
-                      "program": "p5",
+                      "caller": "p2",
+                      "program": "p4",
                       "call_label": "createAccount",
                       "failure": null,
                       "return_label": "✓",
                       "children": []
                     },
                     {
-                      "caller": "p3",
-                      "program": "p4",
+                      "caller": "p2",
+                      "program": "p3",
                       "call_label": "initializeImmutableOwner",
                       "failure": null,
                       "return_label": "✓ 38cu",
                       "children": []
                     },
                     {
-                      "caller": "p3",
-                      "program": "p4",
+                      "caller": "p2",
+                      "program": "p3",
                       "call_label": "initializeAccount3",
                       "failure": null,
                       "return_label": "✓ 235cu",
-                      "children": []
-                    }
-                  ]
-                },
-                {
-                  "caller": "p2",
-                  "program": "p5",
-                  "call_label": "createAccount",
-                  "failure": null,
-                  "return_label": "✓",
-                  "children": []
-                },
-                {
-                  "caller": "p2",
-                  "program": "p6",
-                  "call_label": "CreateV2",
-                  "failure": null,
-                  "return_label": "✓ 29413cu",
-                  "children": [
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "createAccount",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "transferSol",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "transferSol",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "transferSol",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p6",
-                      "program": "p5",
-                      "call_label": "transferSol",
-                      "failure": null,
-                      "return_label": "✓",
                       "children": []
                     }
                   ]
@@ -922,19 +801,23 @@
       "data": {
         "nodes": [
           {
-            "name": "computeBudget",
-            "role": "program"
-          },
-          {
             "name": "VestingPositions",
             "role": "program"
           },
           {
-            "name": "4wQQ…",
+            "name": "Alice",
             "role": "authority"
           },
           {
+            "name": "Vesting campaign",
+            "role": "state"
+          },
+          {
             "name": "Collection",
+            "role": "state"
+          },
+          {
+            "name": "updateAuthority(Collection)",
             "role": "state"
           },
           {
@@ -942,15 +825,7 @@
             "role": "state"
           },
           {
-            "name": "C7Pg…",
-            "role": "authority"
-          },
-          {
-            "name": "6hhA…",
-            "role": "authority"
-          },
-          {
-            "name": "5yfA…",
+            "name": "creatorAta(Alice, token, Mint)",
             "role": "authority"
           },
           {
@@ -964,21 +839,18 @@
           {
             "name": "system",
             "role": "program"
-          },
-          {
-            "name": "mplCoreProgram",
-            "role": "program"
-          },
-          {
-            "name": "updateAuthority(Collection)",
-            "role": "authority"
           }
         ],
         "edges": [
           {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "VestingPositions"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "writes",
+            "to": "Vesting campaign"
           },
           {
             "from": "VestingPositions",
@@ -988,82 +860,42 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
+            "to": "updateAuthority(Collection)"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "writes",
             "to": "campaignAta(Vesting campaign, token, Mint)"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "C7Pg…"
+            "to": "creatorAta(Alice, token, Mint)"
           },
           {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "6hhA…"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "5yfA…"
-          },
-          {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "splAssociatedTokenAccount"
           },
           {
             "from": "splAssociatedTokenAccount",
             "verb": "writes",
-            "to": "C7Pg…"
+            "to": "creatorAta(Alice, token, Mint)"
           },
           {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "system"
           },
           {
-            "from": "C7Pg…",
+            "from": "creatorAta(Alice, token, Mint)",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "token",
             "verb": "writes",
-            "to": "C7Pg…"
-          },
-          {
-            "from": "5yfA…",
-            "verb": "signs",
-            "to": "system"
-          },
-          {
-            "from": "6hhA…",
-            "verb": "signs",
-            "to": "mplCoreProgram"
-          },
-          {
-            "from": "mplCoreProgram",
-            "verb": "writes",
-            "to": "Collection"
-          },
-          {
-            "from": "updateAuthority(Collection)",
-            "verb": "signs",
-            "to": "mplCoreProgram"
-          },
-          {
-            "from": "4wQQ…",
-            "verb": "signs",
-            "to": "mplCoreProgram"
-          },
-          {
-            "from": "6hhA…",
-            "verb": "signs",
-            "to": "system"
-          },
-          {
-            "from": "system",
-            "verb": "writes",
-            "to": "6hhA…"
+            "to": "creatorAta(Alice, token, Mint)"
           }
         ]
       }
@@ -1084,7 +916,15 @@
             "role": "program"
           },
           {
-            "name": "4wQQ…",
+            "name": "Alice",
+            "role": "state"
+          },
+          {
+            "name": "VestingPositions",
+            "role": "program"
+          },
+          {
+            "name": "Vesting campaign",
             "role": "state"
           },
           {
@@ -1096,6 +936,10 @@
             "role": "state"
           },
           {
+            "name": "updateAuthority(Collection)",
+            "role": "state"
+          },
+          {
             "name": "token",
             "role": "program"
           },
@@ -1104,19 +948,7 @@
             "role": "state"
           },
           {
-            "name": "C7Pg…",
-            "role": "state"
-          },
-          {
-            "name": "6hhA…",
-            "role": "state"
-          },
-          {
-            "name": "VestingPositions",
-            "role": "program"
-          },
-          {
-            "name": "5yfA…",
+            "name": "creatorAta(Alice, token, Mint)",
             "role": "state"
           }
         ],
@@ -1124,12 +956,22 @@
           {
             "from": "system",
             "verb": "owns",
-            "to": "4wQQ…"
+            "to": "Alice"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "owns",
+            "to": "Vesting campaign"
           },
           {
             "from": "mplCoreProgram",
             "verb": "owns",
             "to": "Collection"
+          },
+          {
+            "from": "system",
+            "verb": "owns",
+            "to": "updateAuthority(Collection)"
           },
           {
             "from": "token",
@@ -1139,17 +981,7 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "C7Pg…"
-          },
-          {
-            "from": "mplCoreProgram",
-            "verb": "owns",
-            "to": "6hhA…"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "owns",
-            "to": "5yfA…"
+            "to": "creatorAta(Alice, token, Mint)"
           }
         ]
       }
@@ -1165,243 +997,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (165059cu)\n├─ computeBudget::setComputeUnitLimit ✓\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ mplCoreProgram::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
-      }
-    },
-    {
-      "kind": "prose",
-      "data": "*3196801 seconds pass.*"
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "T2: Clawback (day 38)"
-      ]
-    },
-    {
-      "kind": "table",
-      "data": {
-        "headers": [
-          "observation",
-          "before",
-          "after"
-        ],
-        "rows": [
-          [
-            {
-              "type": "text",
-              "value": "Alice balance"
-            },
-            {
-              "type": "empty"
-            },
-            {
-              "type": "int",
-              "value": "0"
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "kind": "bullet_list",
-      "data": [
-        "[x] refused: Unauthorized — InstructionError(0, Custom(6008))"
-      ]
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Sequence"
-      ]
-    },
-    {
-      "kind": "sequence",
-      "data": {
-        "participants": [
-          {
-            "id": "p0",
-            "label": "4wQQ…",
-            "role": "authority"
-          },
-          {
-            "id": "p1",
-            "label": "VestingPositions",
-            "role": "program"
-          }
-        ],
-        "lanes": false,
-        "lifelines": true,
-        "leading_notes": [],
-        "frames": [
-          {
-            "open_bands": [],
-            "root": {
-              "caller": "p0",
-              "program": "p1",
-              "call_label": "Clawback",
-              "failure": "custom program error  0x1778",
-              "return_label": "✗ 9358cu",
-              "children": []
-            },
-            "notes": [],
-            "close": []
-          }
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Authority"
-      ]
-    },
-    {
-      "kind": "graph",
-      "data": {
-        "nodes": [
-          {
-            "name": "VestingPositions",
-            "role": "program"
-          },
-          {
-            "name": "4wQQ…",
-            "role": "authority"
-          },
-          {
-            "name": "Collection",
-            "role": "state"
-          },
-          {
-            "name": "6hhA…",
-            "role": "state"
-          },
-          {
-            "name": "campaignAta(Vesting campaign, token, Mint)",
-            "role": "state"
-          },
-          {
-            "name": "creatorAta(4wQQ…, token, Mint)",
-            "role": "state"
-          }
-        ],
-        "edges": [
-          {
-            "from": "4wQQ…",
-            "verb": "signs",
-            "to": "VestingPositions"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "Collection"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "6hhA…"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "campaignAta(Vesting campaign, token, Mint)"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "creatorAta(4wQQ…, token, Mint)"
-          }
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Ownership"
-      ]
-    },
-    {
-      "kind": "graph",
-      "data": {
-        "nodes": [
-          {
-            "name": "system",
-            "role": "program"
-          },
-          {
-            "name": "4wQQ…",
-            "role": "state"
-          },
-          {
-            "name": "mplCoreProgram",
-            "role": "program"
-          },
-          {
-            "name": "Collection",
-            "role": "state"
-          },
-          {
-            "name": "6hhA…",
-            "role": "state"
-          },
-          {
-            "name": "token",
-            "role": "program"
-          },
-          {
-            "name": "campaignAta(Vesting campaign, token, Mint)",
-            "role": "state"
-          },
-          {
-            "name": "creatorAta(4wQQ…, token, Mint)",
-            "role": "state"
-          }
-        ],
-        "edges": [
-          {
-            "from": "system",
-            "verb": "owns",
-            "to": "4wQQ…"
-          },
-          {
-            "from": "mplCoreProgram",
-            "verb": "owns",
-            "to": "Collection"
-          },
-          {
-            "from": "mplCoreProgram",
-            "verb": "owns",
-            "to": "6hhA…"
-          },
-          {
-            "from": "token",
-            "verb": "owns",
-            "to": "campaignAta(Vesting campaign, token, Mint)"
-          },
-          {
-            "from": "token",
-            "verb": "owns",
-            "to": "creatorAta(4wQQ…, token, Mint)"
-          }
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Tree"
-      ]
-    },
-    {
-      "kind": "fenced",
-      "data": {
-        "lang": null,
-        "text": "\n4wQQ… (9358cu)\n└─ VestingPositions::Clawback ✗ 9358cu\n"
+        "text": "\nAlice (26432cu)\n└─ VestingPositions::CancelCampaign ✗ 26432cu\n   └─ splAssociatedTokenAccount::create ✓ 13416cu\n      ├─ token::getAccountDataSize ✓ 183cu\n      ├─ system::createAccount ✓\n      ├─ token::initializeImmutableOwner ✓ 38cu\n      └─ token::initializeAccount3 ✓ 235cu\n"
       }
     }
   ],
@@ -1441,21 +1037,6 @@
         21,
         22,
         23
-      ],
-      "open": false
-    },
-    {
-      "op": "fold",
-      "label": "diagrams",
-      "blocks": [
-        28,
-        29,
-        30,
-        31,
-        32,
-        33,
-        34,
-        35
       ],
       "open": false
     }

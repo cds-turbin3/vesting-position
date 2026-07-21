@@ -2,7 +2,7 @@
   "guide": "0.2",
   "provenance": {
     "file": "tests/clawback.rs",
-    "line": 131
+    "line": 132
   },
   "blocks": [
     {
@@ -17,6 +17,36 @@
           "address"
         ],
         "rows": [
+          [
+            {
+              "type": "text",
+              "value": "Bob"
+            },
+            {
+              "type": "addr",
+              "value": "H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Bob's position NFT"
+            },
+            {
+              "type": "addr",
+              "value": "5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Bob's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
+            }
+          ],
           [
             {
               "type": "text",
@@ -95,16 +125,6 @@
             {
               "type": "addr",
               "value": "CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "C49G…"
-            },
-            {
-              "type": "addr",
-              "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
             }
           ]
         ]
@@ -733,7 +753,7 @@
             "role": "authority"
           },
           {
-            "name": "C49G…",
+            "name": "Bob's receipt",
             "role": "authority"
           },
           {
@@ -758,7 +778,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "C49G…"
+            "to": "Bob's receipt"
           },
           {
             "from": "VestingPositions",
@@ -776,7 +796,7 @@
             "to": "system"
           },
           {
-            "from": "C49G…",
+            "from": "Bob's receipt",
             "verb": "signs",
             "to": "system"
           }
@@ -807,7 +827,7 @@
             "role": "program"
           },
           {
-            "name": "C49G…",
+            "name": "Bob's receipt",
             "role": "state"
           },
           {
@@ -832,7 +852,7 @@
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "C49G…"
+            "to": "Bob's receipt"
           },
           {
             "from": "token",

@@ -2,12 +2,12 @@
   "guide": "0.2",
   "provenance": {
     "file": "tests/clawback.rs",
-    "line": 165
+    "line": 368
   },
   "blocks": [
     {
       "kind": "prose",
-      "data": "Over 38 days: 5 moments."
+      "data": "Over 31 days: 5 moments."
     },
     {
       "kind": "table",
@@ -17,6 +17,36 @@
           "address"
         ],
         "rows": [
+          [
+            {
+              "type": "text",
+              "value": "Alice"
+            },
+            {
+              "type": "addr",
+              "value": "4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice's position NFT"
+            },
+            {
+              "type": "addr",
+              "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
+            }
+          ],
           [
             {
               "type": "text",
@@ -100,71 +130,11 @@
           [
             {
               "type": "text",
-              "value": "userAta(H87x…, token, Mint)"
-            },
-            {
-              "type": "addr",
-              "value": "DiZfCmUXMWffwHP4eus9hwgnvTVbiZL7ZGGTBjJ9vc68"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "4wQQ…"
-            },
-            {
-              "type": "addr",
-              "value": "4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "5yfA…"
-            },
-            {
-              "type": "addr",
-              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "6hhA…"
-            },
-            {
-              "type": "addr",
-              "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "C49G…"
-            },
-            {
-              "type": "addr",
-              "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "C7Pg…"
+              "value": "userAta(Alice, token, Mint)"
             },
             {
               "type": "addr",
               "value": "C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "H87x…"
-            },
-            {
-              "type": "addr",
-              "value": "H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg"
             }
           ]
         ]
@@ -188,8 +158,6 @@
           "Δ",
           "Alice balance",
           "Δ",
-          "Bob balance",
-          "Δ",
           "comment"
         ],
         "rows": [
@@ -200,11 +168,11 @@
             },
             {
               "type": "int",
-              "value": "10000000000000"
+              "value": "1000000000000"
             },
             {
               "type": "delta",
-              "value": "10000000000000"
+              "value": "1000000000000"
             },
             {
               "type": "int",
@@ -213,13 +181,6 @@
             {
               "type": "delta",
               "value": "0"
-            },
-            {
-              "type": "empty"
-            },
-            {
-              "type": "text",
-              "value": ""
             },
             {
               "type": "empty"
@@ -240,7 +201,7 @@
             },
             {
               "type": "int",
-              "value": "10000000000000"
+              "value": "1000000000000"
             },
             {
               "type": "delta",
@@ -253,13 +214,6 @@
             {
               "type": "delta",
               "value": "0"
-            },
-            {
-              "type": "empty"
-            },
-            {
-              "type": "text",
-              "value": ""
             },
             {
               "type": "empty"
@@ -280,11 +234,11 @@
             },
             {
               "type": "int",
-              "value": "10000000000000"
+              "value": "0"
             },
             {
               "type": "delta",
-              "value": "0"
+              "value": "-1000000000000"
             },
             {
               "type": "int",
@@ -296,22 +250,15 @@
             },
             {
               "type": "int",
-              "value": "0"
+              "value": "1000000000000"
             },
             {
               "type": "delta",
-              "value": "0"
-            },
-            {
-              "type": "empty"
+              "value": "1000000000000"
             },
             {
               "type": "text",
-              "value": ""
-            },
-            {
-              "type": "text",
-              "value": "TransferPosition (day 1)"
+              "value": "Claim (day 31)"
             }
           ],
           [
@@ -321,14 +268,6 @@
             },
             {
               "type": "int",
-              "value": "9450000000000"
-            },
-            {
-              "type": "delta",
-              "value": "-550000000000"
-            },
-            {
-              "type": "int",
               "value": "0"
             },
             {
@@ -344,15 +283,16 @@
               "value": "0"
             },
             {
-              "type": "empty"
+              "type": "int",
+              "value": "1000000000000"
+            },
+            {
+              "type": "delta",
+              "value": "0"
             },
             {
               "type": "text",
-              "value": ""
-            },
-            {
-              "type": "text",
-              "value": "Claim (day 16)"
+              "value": "CloseCampaign (day 31)"
             }
           ],
           [
@@ -362,19 +302,11 @@
             },
             {
               "type": "int",
-              "value": "7450000000000"
+              "value": "0"
             },
             {
               "type": "delta",
-              "value": "-2000000000000"
-            },
-            {
-              "type": "int",
-              "value": "2000000000000"
-            },
-            {
-              "type": "delta",
-              "value": "2000000000000"
+              "value": "0"
             },
             {
               "type": "int",
@@ -386,15 +318,15 @@
             },
             {
               "type": "int",
-              "value": "550000000000"
+              "value": "1000000000000"
             },
             {
               "type": "delta",
-              "value": "550000000000"
+              "value": "0"
             },
             {
               "type": "text",
-              "value": "ClawbackUnclaimed (day 38)"
+              "value": "CloseReceipt (day 31)"
             }
           ]
         ]
@@ -426,7 +358,7 @@
             },
             {
               "type": "int",
-              "value": "10000000000000"
+              "value": "1000000000000"
             }
           ],
           [
@@ -880,7 +812,7 @@
         "participants": [
           {
             "id": "p0",
-            "label": "4wQQ…",
+            "label": "Alice",
             "role": "authority"
           },
           {
@@ -1066,7 +998,7 @@
             "role": "program"
           },
           {
-            "name": "4wQQ…",
+            "name": "Alice",
             "role": "authority"
           },
           {
@@ -1078,15 +1010,15 @@
             "role": "state"
           },
           {
-            "name": "C7Pg…",
+            "name": "Alice/ATA(Mint)",
             "role": "authority"
           },
           {
-            "name": "6hhA…",
+            "name": "Alice's position NFT",
             "role": "authority"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "authority"
           },
           {
@@ -1112,7 +1044,7 @@
         ],
         "edges": [
           {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "VestingPositions"
           },
@@ -1129,50 +1061,50 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "C7Pg…"
+            "to": "Alice/ATA(Mint)"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "6hhA…"
+            "to": "Alice's position NFT"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           },
           {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "splAssociatedTokenAccount"
           },
           {
             "from": "splAssociatedTokenAccount",
             "verb": "writes",
-            "to": "C7Pg…"
+            "to": "Alice/ATA(Mint)"
           },
           {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "system"
           },
           {
-            "from": "C7Pg…",
+            "from": "Alice/ATA(Mint)",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "token",
             "verb": "writes",
-            "to": "C7Pg…"
+            "to": "Alice/ATA(Mint)"
           },
           {
-            "from": "5yfA…",
+            "from": "Alice's receipt",
             "verb": "signs",
             "to": "system"
           },
           {
-            "from": "6hhA…",
+            "from": "Alice's position NFT",
             "verb": "signs",
             "to": "mplCoreProgram"
           },
@@ -1187,19 +1119,19 @@
             "to": "mplCoreProgram"
           },
           {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "mplCoreProgram"
           },
           {
-            "from": "6hhA…",
+            "from": "Alice's position NFT",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "system",
             "verb": "writes",
-            "to": "6hhA…"
+            "to": "Alice's position NFT"
           }
         ]
       }
@@ -1220,7 +1152,7 @@
             "role": "program"
           },
           {
-            "name": "4wQQ…",
+            "name": "Alice",
             "role": "state"
           },
           {
@@ -1240,11 +1172,11 @@
             "role": "state"
           },
           {
-            "name": "C7Pg…",
+            "name": "Alice/ATA(Mint)",
             "role": "state"
           },
           {
-            "name": "6hhA…",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -1252,7 +1184,7 @@
             "role": "program"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -1260,7 +1192,7 @@
           {
             "from": "system",
             "verb": "owns",
-            "to": "4wQQ…"
+            "to": "Alice"
           },
           {
             "from": "mplCoreProgram",
@@ -1275,17 +1207,17 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "C7Pg…"
+            "to": "Alice/ATA(Mint)"
           },
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "6hhA…"
+            "to": "Alice's position NFT"
           },
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -1301,186 +1233,18 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (165059cu)\n├─ computeBudget::setComputeUnitLimit ✓\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ mplCoreProgram::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "T2: TransferPosition (day 1)"
-      ]
-    },
-    {
-      "kind": "table",
-      "data": {
-        "headers": [
-          "observation",
-          "before",
-          "after"
-        ],
-        "rows": [
-          [
-            {
-              "type": "text",
-              "value": "Alice balance"
-            },
-            {
-              "type": "empty"
-            },
-            {
-              "type": "int",
-              "value": "0"
-            }
-          ]
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Sequence"
-      ]
-    },
-    {
-      "kind": "sequence",
-      "data": {
-        "participants": [
-          {
-            "id": "p0",
-            "label": "4wQQ…",
-            "role": "authority"
-          },
-          {
-            "id": "p1",
-            "label": "mplCoreProgram",
-            "role": "program"
-          }
-        ],
-        "lanes": false,
-        "lifelines": true,
-        "leading_notes": [],
-        "frames": [
-          {
-            "open_bands": [],
-            "root": {
-              "caller": "p0",
-              "program": "p1",
-              "call_label": "Transfer",
-              "failure": null,
-              "return_label": "✓ 9074cu",
-              "children": []
-            },
-            "notes": [],
-            "close": []
-          }
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Authority"
-      ]
-    },
-    {
-      "kind": "graph",
-      "data": {
-        "nodes": [
-          {
-            "name": "mplCoreProgram",
-            "role": "program"
-          },
-          {
-            "name": "6hhA…",
-            "role": "state"
-          },
-          {
-            "name": "4wQQ…",
-            "role": "authority"
-          }
-        ],
-        "edges": [
-          {
-            "from": "mplCoreProgram",
-            "verb": "writes",
-            "to": "6hhA…"
-          },
-          {
-            "from": "4wQQ…",
-            "verb": "signs",
-            "to": "mplCoreProgram"
-          }
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Ownership"
-      ]
-    },
-    {
-      "kind": "graph",
-      "data": {
-        "nodes": [
-          {
-            "name": "mplCoreProgram",
-            "role": "program"
-          },
-          {
-            "name": "6hhA…",
-            "role": "state"
-          },
-          {
-            "name": "system",
-            "role": "program"
-          },
-          {
-            "name": "4wQQ…",
-            "role": "state"
-          }
-        ],
-        "edges": [
-          {
-            "from": "mplCoreProgram",
-            "verb": "owns",
-            "to": "6hhA…"
-          },
-          {
-            "from": "system",
-            "verb": "owns",
-            "to": "4wQQ…"
-          }
-        ]
-      }
-    },
-    {
-      "kind": "heading",
-      "data": [
-        3,
-        "Tree"
-      ]
-    },
-    {
-      "kind": "fenced",
-      "data": {
-        "lang": null,
-        "text": "\n4wQQ… (9074cu)\n└─ mplCoreProgram::Transfer ✓ 9074cu\n"
+        "text": "\nAlice (165059cu)\n├─ computeBudget::setComputeUnitLimit ✓\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ mplCoreProgram::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
       }
     },
     {
       "kind": "prose",
-      "data": "*1339200 seconds pass.*"
+      "data": "*2592001 seconds pass.*"
     },
     {
       "kind": "heading",
       "data": [
         3,
-        "T3: Claim (day 16)"
+        "T2: Claim (day 31)"
       ]
     },
     {
@@ -1499,11 +1263,24 @@
             },
             {
               "type": "int",
-              "value": "10000000000000"
+              "value": "1000000000000"
             },
             {
               "type": "int",
-              "value": "9450000000000"
+              "value": "0"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice balance"
+            },
+            {
+              "type": "empty"
+            },
+            {
+              "type": "int",
+              "value": "1000000000000"
             }
           ]
         ]
@@ -1522,7 +1299,7 @@
         "participants": [
           {
             "id": "p0",
-            "label": "H87x…",
+            "label": "Alice",
             "role": "authority"
           },
           {
@@ -1532,22 +1309,17 @@
           },
           {
             "id": "p2",
-            "label": "splAssociatedTokenAccount",
+            "label": "mplCoreProgram",
             "role": "program"
           },
           {
             "id": "p3",
-            "label": "token",
-            "role": "program"
-          },
-          {
-            "id": "p4",
             "label": "system",
             "role": "program"
           },
           {
-            "id": "p5",
-            "label": "mplCoreProgram",
+            "id": "p4",
+            "label": "token",
             "role": "program"
           }
         ],
@@ -1562,67 +1334,18 @@
               "program": "p1",
               "call_label": "Claim",
               "failure": null,
-              "return_label": "✓ 115304cu",
+              "return_label": "✓ 95977cu",
               "children": [
                 {
                   "caller": "p1",
                   "program": "p2",
-                  "call_label": "create",
-                  "failure": null,
-                  "return_label": "✓ 13416cu",
-                  "children": [
-                    {
-                      "caller": "p2",
-                      "program": "p3",
-                      "call_label": "getAccountDataSize",
-                      "failure": null,
-                      "return_label": "✓ 183cu",
-                      "children": []
-                    },
-                    {
-                      "caller": "p2",
-                      "program": "p4",
-                      "call_label": "createAccount",
-                      "failure": null,
-                      "return_label": "✓",
-                      "children": []
-                    },
-                    {
-                      "caller": "p2",
-                      "program": "p3",
-                      "call_label": "initializeImmutableOwner",
-                      "failure": null,
-                      "return_label": "✓ 38cu",
-                      "children": []
-                    },
-                    {
-                      "caller": "p2",
-                      "program": "p3",
-                      "call_label": "initializeAccount3",
-                      "failure": null,
-                      "return_label": "✓ 235cu",
-                      "children": []
-                    }
-                  ]
-                },
-                {
-                  "caller": "p1",
-                  "program": "p4",
-                  "call_label": "createAccount",
-                  "failure": null,
-                  "return_label": "✓",
-                  "children": []
-                },
-                {
-                  "caller": "p1",
-                  "program": "p5",
                   "call_label": "UpdatePlugin",
                   "failure": null,
-                  "return_label": "✓ 22502cu",
+                  "return_label": "✓ 22492cu",
                   "children": [
                     {
-                      "caller": "p5",
-                      "program": "p4",
+                      "caller": "p2",
+                      "program": "p3",
                       "call_label": "transferSol",
                       "failure": null,
                       "return_label": "✓",
@@ -1632,10 +1355,18 @@
                 },
                 {
                   "caller": "p1",
-                  "program": "p3",
+                  "program": "p4",
                   "call_label": "transferChecked",
                   "failure": null,
                   "return_label": "✓ 105cu",
+                  "children": []
+                },
+                {
+                  "caller": "p1",
+                  "program": "p2",
+                  "call_label": "UpdatePlugin",
+                  "failure": null,
+                  "return_label": "✓ 13574cu",
                   "children": []
                 }
               ]
@@ -1662,7 +1393,7 @@
             "role": "program"
           },
           {
-            "name": "H87x…",
+            "name": "Alice",
             "role": "authority"
           },
           {
@@ -1674,28 +1405,16 @@
             "role": "state"
           },
           {
-            "name": "userAta(H87x…, token, Mint)",
-            "role": "authority"
-          },
-          {
-            "name": "6hhA…",
+            "name": "userAta(Alice, token, Mint)",
             "role": "state"
           },
           {
-            "name": "C49G…",
-            "role": "authority"
+            "name": "Alice's position NFT",
+            "role": "state"
           },
           {
-            "name": "splAssociatedTokenAccount",
-            "role": "program"
-          },
-          {
-            "name": "token",
-            "role": "program"
-          },
-          {
-            "name": "system",
-            "role": "program"
+            "name": "Alice's receipt",
+            "role": "state"
           },
           {
             "name": "mplCoreProgram",
@@ -1706,13 +1425,21 @@
             "role": "authority"
           },
           {
+            "name": "system",
+            "role": "program"
+          },
+          {
+            "name": "token",
+            "role": "program"
+          },
+          {
             "name": "Vesting campaign",
             "role": "authority"
           }
         ],
         "edges": [
           {
-            "from": "H87x…",
+            "from": "Alice",
             "verb": "signs",
             "to": "VestingPositions"
           },
@@ -1729,52 +1456,22 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "userAta(H87x…, token, Mint)"
+            "to": "userAta(Alice, token, Mint)"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "6hhA…"
+            "to": "Alice's position NFT"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "C49G…"
-          },
-          {
-            "from": "H87x…",
-            "verb": "signs",
-            "to": "splAssociatedTokenAccount"
-          },
-          {
-            "from": "splAssociatedTokenAccount",
-            "verb": "writes",
-            "to": "userAta(H87x…, token, Mint)"
-          },
-          {
-            "from": "H87x…",
-            "verb": "signs",
-            "to": "system"
-          },
-          {
-            "from": "userAta(H87x…, token, Mint)",
-            "verb": "signs",
-            "to": "system"
-          },
-          {
-            "from": "token",
-            "verb": "writes",
-            "to": "userAta(H87x…, token, Mint)"
-          },
-          {
-            "from": "C49G…",
-            "verb": "signs",
-            "to": "system"
+            "to": "Alice's receipt"
           },
           {
             "from": "mplCoreProgram",
             "verb": "writes",
-            "to": "6hhA…"
+            "to": "Alice's position NFT"
           },
           {
             "from": "mplCoreProgram",
@@ -1782,7 +1479,7 @@
             "to": "Collection"
           },
           {
-            "from": "H87x…",
+            "from": "Alice",
             "verb": "signs",
             "to": "mplCoreProgram"
           },
@@ -1792,14 +1489,24 @@
             "to": "mplCoreProgram"
           },
           {
+            "from": "Alice",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
             "from": "system",
             "verb": "writes",
-            "to": "6hhA…"
+            "to": "Alice's position NFT"
           },
           {
             "from": "token",
             "verb": "writes",
             "to": "campaignAta(Vesting campaign, token, Mint)"
+          },
+          {
+            "from": "token",
+            "verb": "writes",
+            "to": "userAta(Alice, token, Mint)"
           },
           {
             "from": "Vesting campaign",
@@ -1825,7 +1532,7 @@
             "role": "program"
           },
           {
-            "name": "H87x…",
+            "name": "Alice",
             "role": "state"
           },
           {
@@ -1845,11 +1552,11 @@
             "role": "state"
           },
           {
-            "name": "userAta(H87x…, token, Mint)",
+            "name": "userAta(Alice, token, Mint)",
             "role": "state"
           },
           {
-            "name": "6hhA…",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -1857,7 +1564,7 @@
             "role": "program"
           },
           {
-            "name": "C49G…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -1865,7 +1572,7 @@
           {
             "from": "system",
             "verb": "owns",
-            "to": "H87x…"
+            "to": "Alice"
           },
           {
             "from": "mplCoreProgram",
@@ -1880,17 +1587,17 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "userAta(H87x…, token, Mint)"
+            "to": "userAta(Alice, token, Mint)"
           },
           {
             "from": "mplCoreProgram",
             "verb": "owns",
-            "to": "6hhA…"
+            "to": "Alice's position NFT"
           },
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "C49G…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -1906,72 +1613,15 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nH87x… (115304cu)\n└─ VestingPositions::Claim ✓ 115304cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   ├─ mplCoreProgram::UpdatePlugin ✓ 22502cu\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nAlice (95977cu)\n└─ VestingPositions::Claim ✓ 95977cu\n   ├─ mplCoreProgram::UpdatePlugin ✓ 22492cu\n   │  └─ system::transferSol ✓\n   ├─ token::transferChecked ✓ 105cu\n   └─ mplCoreProgram::UpdatePlugin ✓ 13574cu\n"
       }
-    },
-    {
-      "kind": "prose",
-      "data": "*1857601 seconds pass.*"
     },
     {
       "kind": "heading",
       "data": [
         3,
-        "T4: ClawbackUnclaimed (day 38)"
+        "T3: CloseCampaign (day 31)"
       ]
-    },
-    {
-      "kind": "table",
-      "data": {
-        "headers": [
-          "observation",
-          "before",
-          "after"
-        ],
-        "rows": [
-          [
-            {
-              "type": "text",
-              "value": "Vault balance"
-            },
-            {
-              "type": "int",
-              "value": "9450000000000"
-            },
-            {
-              "type": "int",
-              "value": "7450000000000"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "Creator balance"
-            },
-            {
-              "type": "int",
-              "value": "0"
-            },
-            {
-              "type": "int",
-              "value": "2000000000000"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "Bob balance"
-            },
-            {
-              "type": "empty"
-            },
-            {
-              "type": "int",
-              "value": "550000000000"
-            }
-          ]
-        ]
-      }
     },
     {
       "kind": "heading",
@@ -2009,16 +1659,16 @@
             "root": {
               "caller": "p0",
               "program": "p1",
-              "call_label": "ClawbackUnclaimed",
+              "call_label": "CloseCampaign",
               "failure": null,
-              "return_label": "✓ 116625cu",
+              "return_label": "✓ 14378cu",
               "children": [
                 {
                   "caller": "p1",
                   "program": "p2",
-                  "call_label": "transferChecked",
+                  "call_label": "closeAccount",
                   "failure": null,
-                  "return_label": "✓ 105cu",
+                  "return_label": "✓ 118cu",
                   "children": []
                 }
               ]
@@ -2049,24 +1699,16 @@
             "role": "authority"
           },
           {
-            "name": "C49G…",
-            "role": "state"
+            "name": "Vesting campaign",
+            "role": "authority"
           },
           {
             "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
           },
           {
-            "name": "creatorAta(Creator, token, Mint)",
-            "role": "state"
-          },
-          {
             "name": "token",
             "role": "program"
-          },
-          {
-            "name": "Vesting campaign",
-            "role": "authority"
           }
         ],
         "edges": [
@@ -2078,17 +1720,12 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "C49G…"
+            "to": "Vesting campaign"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
             "to": "campaignAta(Vesting campaign, token, Mint)"
-          },
-          {
-            "from": "VestingPositions",
-            "verb": "writes",
-            "to": "creatorAta(Creator, token, Mint)"
           },
           {
             "from": "token",
@@ -2098,7 +1735,7 @@
           {
             "from": "token",
             "verb": "writes",
-            "to": "creatorAta(Creator, token, Mint)"
+            "to": "Creator"
           },
           {
             "from": "Vesting campaign",
@@ -2128,23 +1765,11 @@
             "role": "state"
           },
           {
-            "name": "VestingPositions",
-            "role": "program"
-          },
-          {
-            "name": "C49G…",
+            "name": "Vesting campaign",
             "role": "state"
-          },
-          {
-            "name": "token",
-            "role": "program"
           },
           {
             "name": "campaignAta(Vesting campaign, token, Mint)",
-            "role": "state"
-          },
-          {
-            "name": "creatorAta(Creator, token, Mint)",
             "role": "state"
           }
         ],
@@ -2155,19 +1780,14 @@
             "to": "Creator"
           },
           {
-            "from": "VestingPositions",
+            "from": "system",
             "verb": "owns",
-            "to": "C49G…"
+            "to": "Vesting campaign"
           },
           {
-            "from": "token",
+            "from": "system",
             "verb": "owns",
             "to": "campaignAta(Vesting campaign, token, Mint)"
-          },
-          {
-            "from": "token",
-            "verb": "owns",
-            "to": "creatorAta(Creator, token, Mint)"
           }
         ]
       }
@@ -2183,7 +1803,146 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (116625cu)\n└─ VestingPositions::ClawbackUnclaimed ✓ 116625cu\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCreator (14378cu)\n└─ VestingPositions::CloseCampaign ✓ 14378cu\n   └─ token::closeAccount ✓ 118cu\n"
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "T4: CloseReceipt (day 31)"
+      ]
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Sequence"
+      ]
+    },
+    {
+      "kind": "sequence",
+      "data": {
+        "participants": [
+          {
+            "id": "p0",
+            "label": "Alice",
+            "role": "authority"
+          },
+          {
+            "id": "p1",
+            "label": "VestingPositions",
+            "role": "program"
+          }
+        ],
+        "lanes": false,
+        "lifelines": true,
+        "leading_notes": [],
+        "frames": [
+          {
+            "open_bands": [],
+            "root": {
+              "caller": "p0",
+              "program": "p1",
+              "call_label": "CloseReceipt",
+              "failure": null,
+              "return_label": "✓ 3258cu",
+              "children": []
+            },
+            "notes": [],
+            "close": []
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Authority"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "VestingPositions",
+            "role": "program"
+          },
+          {
+            "name": "Alice",
+            "role": "authority"
+          },
+          {
+            "name": "Alice's receipt",
+            "role": "state"
+          }
+        ],
+        "edges": [
+          {
+            "from": "Alice",
+            "verb": "signs",
+            "to": "VestingPositions"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "writes",
+            "to": "Alice's receipt"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Ownership"
+      ]
+    },
+    {
+      "kind": "graph",
+      "data": {
+        "nodes": [
+          {
+            "name": "system",
+            "role": "program"
+          },
+          {
+            "name": "Alice",
+            "role": "state"
+          },
+          {
+            "name": "Alice's receipt",
+            "role": "state"
+          }
+        ],
+        "edges": [
+          {
+            "from": "system",
+            "verb": "owns",
+            "to": "Alice"
+          },
+          {
+            "from": "system",
+            "verb": "owns",
+            "to": "Alice's receipt"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Tree"
+      ]
+    },
+    {
+      "kind": "fenced",
+      "data": {
+        "lang": null,
+        "text": "\nAlice (3258cu)\n└─ VestingPositions::CloseReceipt ✓ 3258cu\n"
       }
     }
   ],
@@ -2230,14 +1989,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        26,
         27,
         28,
         29,
         30,
         31,
         32,
-        33
+        33,
+        34
       ],
       "open": false
     },
@@ -2245,14 +2004,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
+        36,
         37,
         38,
         39,
         40,
         41,
         42,
-        43,
-        44
+        43
       ],
       "open": false
     },
@@ -2260,14 +2019,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
+        45,
+        46,
+        47,
         48,
         49,
         50,
         51,
-        52,
-        53,
-        54,
-        55
+        52
       ],
       "open": false
     }

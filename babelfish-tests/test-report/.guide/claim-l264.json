@@ -20,6 +20,36 @@
           [
             {
               "type": "text",
+              "value": "Alice"
+            },
+            {
+              "type": "addr",
+              "value": "4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice's position NFT"
+            },
+            {
+              "type": "addr",
+              "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Alice's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
+            }
+          ],
+          [
+            {
+              "type": "text",
               "value": "Collection"
             },
             {
@@ -95,46 +125,6 @@
             {
               "type": "addr",
               "value": "CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "4wQQ…"
-            },
-            {
-              "type": "addr",
-              "value": "4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "5yfA…"
-            },
-            {
-              "type": "addr",
-              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "6hhA…"
-            },
-            {
-              "type": "addr",
-              "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "C7Pg…"
-            },
-            {
-              "type": "addr",
-              "value": "C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW"
             }
           ]
         ]
@@ -703,7 +693,7 @@
         "participants": [
           {
             "id": "p0",
-            "label": "4wQQ…",
+            "label": "Alice",
             "role": "authority"
           },
           {
@@ -813,7 +803,7 @@
             "role": "program"
           },
           {
-            "name": "4wQQ…",
+            "name": "Alice",
             "role": "authority"
           },
           {
@@ -825,15 +815,15 @@
             "role": "state"
           },
           {
-            "name": "C7Pg…",
+            "name": "Alice/ATA(Mint)",
             "role": "authority"
           },
           {
-            "name": "6hhA…",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "authority"
           },
           {
@@ -851,7 +841,7 @@
         ],
         "edges": [
           {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "VestingPositions"
           },
@@ -868,45 +858,45 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "C7Pg…"
+            "to": "Alice/ATA(Mint)"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "6hhA…"
+            "to": "Alice's position NFT"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           },
           {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "splAssociatedTokenAccount"
           },
           {
             "from": "splAssociatedTokenAccount",
             "verb": "writes",
-            "to": "C7Pg…"
+            "to": "Alice/ATA(Mint)"
           },
           {
-            "from": "4wQQ…",
+            "from": "Alice",
             "verb": "signs",
             "to": "system"
           },
           {
-            "from": "C7Pg…",
+            "from": "Alice/ATA(Mint)",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "token",
             "verb": "writes",
-            "to": "C7Pg…"
+            "to": "Alice/ATA(Mint)"
           },
           {
-            "from": "5yfA…",
+            "from": "Alice's receipt",
             "verb": "signs",
             "to": "system"
           }
@@ -929,7 +919,7 @@
             "role": "program"
           },
           {
-            "name": "4wQQ…",
+            "name": "Alice",
             "role": "state"
           },
           {
@@ -949,11 +939,11 @@
             "role": "state"
           },
           {
-            "name": "C7Pg…",
+            "name": "Alice/ATA(Mint)",
             "role": "state"
           },
           {
-            "name": "6hhA…",
+            "name": "Alice's position NFT",
             "role": "state"
           },
           {
@@ -961,7 +951,7 @@
             "role": "program"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -969,7 +959,7 @@
           {
             "from": "system",
             "verb": "owns",
-            "to": "4wQQ…"
+            "to": "Alice"
           },
           {
             "from": "mplCoreProgram",
@@ -984,17 +974,17 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "C7Pg…"
+            "to": "Alice/ATA(Mint)"
           },
           {
             "from": "system",
             "verb": "owns",
-            "to": "6hhA…"
+            "to": "Alice's position NFT"
           },
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -1010,7 +1000,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (43740cu)\n└─ VestingPositions::Claim ✗ 43740cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   └─ system::createAccount ✓\n"
+        "text": "\nAlice (43740cu)\n└─ VestingPositions::Claim ✗ 43740cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   └─ system::createAccount ✓\n"
       }
     }
   ],

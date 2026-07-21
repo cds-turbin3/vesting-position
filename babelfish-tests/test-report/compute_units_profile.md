@@ -1,6 +1,6 @@
 # compute_units_profile
 
-**Source:** [`tests/compute_units.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/a210de493b6e165b24bb8cfd74a4b811ba639232/babelfish-tests/tests/compute_units.rs#L16)
+**Source:** [`tests/compute_units.rs` L16](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/compute_units.rs#L16)
 
 Over 31 days: 2 moments.
 
@@ -110,7 +110,7 @@ Creator (89713cu)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as 4wQQ…
+    participant p0 as Alice
     participant p1 as computeBudget
     participant p2 as VestingPositions
     participant p3 as splAssociatedTokenAccount
@@ -188,7 +188,7 @@ sequenceDiagram
 
 ```
 
-4wQQ… (186830cu)
+Alice (186830cu)
 ├─ computeBudget::setComputeUnitLimit ✓
 └─ VestingPositions::Claim ✓ 186680cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu

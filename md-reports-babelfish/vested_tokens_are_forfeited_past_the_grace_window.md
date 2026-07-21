@@ -1,6 +1,6 @@
 # vested_tokens_are_forfeited_past_the_grace_window
 
-**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/a210de493b6e165b24bb8cfd74a4b811ba639232/babelfish-tests/tests/forfeiture.rs#L17)
+**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/forfeiture.rs#L17)
 
 > Given: Alice is whitelisted in a live campaign with a grace window past end
 
@@ -13,6 +13,7 @@ Over 38 days: 4 moments.
 | --- | --- |
 | Alice | 4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P |
 | Alice's position NFT | 6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK |
+| Alice's receipt | 5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB |
 | Campaign | G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G |
 | Collection | 9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW |
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
@@ -22,7 +23,6 @@ Over 38 days: 4 moments.
 | creatorAta(Creator, token, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
 | updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
 | userAta(Alice, token, Mint) | C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW |
-| 5yfA… | 5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB |
 
 </details>
 
@@ -298,7 +298,7 @@ flowchart LR
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     AliceATAMint(["Alice/ATA(Mint)"]):::signer
     AlicespositionNFT(["Alice's position NFT"]):::signer
-    n5yfA(["5yfA…"]):::signer
+    Alicesreceipt(["Alice's receipt"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
@@ -310,13 +310,13 @@ flowchart LR
     Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> AliceATAMint
     Vesting --> AlicespositionNFT
-    Vesting --> n5yfA
+    Vesting --> Alicesreceipt
     Alice --> splAssociatedTokenAccount
     splAssociatedTokenAccount --> AliceATAMint
     Alice --> system
     AliceATAMint --> system
     token --> AliceATAMint
-    n5yfA --> system
+    Alicesreceipt --> system
     AlicespositionNFT --> mplCoreProgram
     mplCoreProgram --> Collection
     updateAuthorityCollection --> mplCoreProgram
@@ -345,13 +345,13 @@ flowchart LR
     AliceATAMint[("Alice/ATA(Mint)")]:::state
     AlicespositionNFT[("Alice's position NFT")]:::state
     Vesting["Vesting"]:::program
-    n5yfA[("5yfA…")]:::state
+    Alicesreceipt[("Alice's receipt")]:::state
     system -->|owns| Alice
     mplCoreProgram --> Collection
     token --> campaignAtaVestingcampaigntokenMint
     token --> AliceATAMint
     mplCoreProgram --> AlicespositionNFT
-    Vesting --> n5yfA
+    Vesting --> Alicesreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -523,13 +523,13 @@ flowchart LR
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     AlicespositionNFT[("Alice's position NFT")]:::state
-    n5yfA[("5yfA…")]:::state
+    Alicesreceipt[("Alice's receipt")]:::state
     Alice -->|signs| Vesting
     Vesting -->|writes| Collection
     Vesting --> campaignAtaVestingcampaigntokenMint
     Vesting --> userAtaAlicetokenMint
     Vesting --> AlicespositionNFT
-    Vesting --> n5yfA
+    Vesting --> Alicesreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -550,13 +550,13 @@ flowchart LR
     userAtaAlicetokenMint[("userAta(Alice, token, Mint)")]:::state
     AlicespositionNFT[("Alice's position NFT")]:::state
     Vesting["Vesting"]:::program
-    n5yfA[("5yfA…")]:::state
+    Alicesreceipt[("Alice's receipt")]:::state
     system -->|owns| Alice
     mplCoreProgram --> Collection
     token --> campaignAtaVestingcampaigntokenMint
     token --> userAtaAlicetokenMint
     mplCoreProgram --> AlicespositionNFT
-    Vesting --> n5yfA
+    Vesting --> Alicesreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;

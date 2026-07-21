@@ -2,12 +2,12 @@
   "guide": "0.2",
   "provenance": {
     "file": "tests/clawback.rs",
-    "line": 220
+    "line": 203
   },
   "blocks": [
     {
       "kind": "prose",
-      "data": "Over 0 days: 2 moments."
+      "data": "Over 31 days: 2 moments."
     },
     {
       "kind": "table",
@@ -17,6 +17,36 @@
           "address"
         ],
         "rows": [
+          [
+            {
+              "type": "text",
+              "value": "Bob"
+            },
+            {
+              "type": "addr",
+              "value": "H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Bob's position NFT"
+            },
+            {
+              "type": "addr",
+              "value": "5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Bob's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
+            }
+          ],
           [
             {
               "type": "text",
@@ -168,7 +198,7 @@
             },
             {
               "type": "text",
-              "value": "CloseCampaign (day 0)"
+              "value": "ClawbackUnclaimed (day 31)"
             }
           ]
         ]
@@ -631,16 +661,20 @@
       }
     },
     {
+      "kind": "prose",
+      "data": "*2678401 seconds pass.*"
+    },
+    {
       "kind": "heading",
       "data": [
         3,
-        "T1: CloseCampaign (day 0)"
+        "T1: ClawbackUnclaimed (day 31)"
       ]
     },
     {
       "kind": "bullet_list",
       "data": [
-        "[x] refused: VaultNotEmpty — InstructionError(0, Custom(6023))"
+        "[x] refused: GracePeriodNotOver — InstructionError(0, Custom(6022))"
       ]
     },
     {
@@ -663,6 +697,11 @@
             "id": "p1",
             "label": "VestingPositions",
             "role": "program"
+          },
+          {
+            "id": "p2",
+            "label": "system",
+            "role": "program"
           }
         ],
         "lanes": false,
@@ -674,10 +713,19 @@
             "root": {
               "caller": "p0",
               "program": "p1",
-              "call_label": "CloseCampaign",
-              "failure": "custom program error  0x1787",
-              "return_label": "✗ 12552cu",
-              "children": []
+              "call_label": "ClawbackUnclaimed",
+              "failure": "custom program error  0x1786",
+              "return_label": "✗ 43127cu",
+              "children": [
+                {
+                  "caller": "p1",
+                  "program": "p2",
+                  "call_label": "createAccount",
+                  "failure": null,
+                  "return_label": "✓",
+                  "children": []
+                }
+              ]
             },
             "notes": [],
             "close": []
@@ -705,12 +753,20 @@
             "role": "authority"
           },
           {
-            "name": "Vesting campaign",
-            "role": "state"
+            "name": "Bob's receipt",
+            "role": "authority"
           },
           {
             "name": "campaignAta(Vesting campaign, token, Mint)",
             "role": "state"
+          },
+          {
+            "name": "creatorAta(Creator, token, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "system",
+            "role": "program"
           }
         ],
         "edges": [
@@ -722,12 +778,27 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "Vesting campaign"
+            "to": "Bob's receipt"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
             "to": "campaignAta(Vesting campaign, token, Mint)"
+          },
+          {
+            "from": "VestingPositions",
+            "verb": "writes",
+            "to": "creatorAta(Creator, token, Mint)"
+          },
+          {
+            "from": "Creator",
+            "verb": "signs",
+            "to": "system"
+          },
+          {
+            "from": "Bob's receipt",
+            "verb": "signs",
+            "to": "system"
           }
         ]
       }
@@ -756,7 +827,7 @@
             "role": "program"
           },
           {
-            "name": "Vesting campaign",
+            "name": "Bob's receipt",
             "role": "state"
           },
           {
@@ -765,6 +836,10 @@
           },
           {
             "name": "campaignAta(Vesting campaign, token, Mint)",
+            "role": "state"
+          },
+          {
+            "name": "creatorAta(Creator, token, Mint)",
             "role": "state"
           }
         ],
@@ -777,12 +852,17 @@
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "Vesting campaign"
+            "to": "Bob's receipt"
           },
           {
             "from": "token",
             "verb": "owns",
             "to": "campaignAta(Vesting campaign, token, Mint)"
+          },
+          {
+            "from": "token",
+            "verb": "owns",
+            "to": "creatorAta(Creator, token, Mint)"
           }
         ]
       }
@@ -798,7 +878,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (12552cu)\n└─ VestingPositions::CloseCampaign ✗ 12552cu\n"
+        "text": "\nCreator (43127cu)\n└─ VestingPositions::ClawbackUnclaimed ✗ 43127cu\n   └─ system::createAccount ✓\n"
       }
     }
   ],
@@ -830,14 +910,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        16,
         17,
         18,
         19,
         20,
         21,
         22,
-        23
+        23,
+        24
       ],
       "open": false
     }

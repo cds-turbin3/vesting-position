@@ -1,6 +1,6 @@
 # freeze_asset_blocks_transfer_and_unfreeze_restores
 
-**Source:** [`tests/freeze.rs` L275](https://github.com/cds-turbin3/vesting-position/blob/a210de493b6e165b24bb8cfd74a4b811ba639232/babelfish-tests/tests/freeze.rs#L275)
+**Source:** [`tests/freeze.rs` L275](https://github.com/cds-turbin3/vesting-position/blob/70f317227be8c993c3d0c9def30edc147bb5a28a/babelfish-tests/tests/freeze.rs#L275)
 
 Over 1 day: 6 moments.
 
@@ -9,6 +9,12 @@ Over 1 day: 6 moments.
 
 | name | address |
 | --- | --- |
+| Alice | 4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P |
+| Alice's position NFT | 6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK |
+| Alice's receipt | 5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB |
+| Bob | H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg |
+| Bob's position NFT | 5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC |
+| Bob's receipt | C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9 |
 | Collection | 9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW |
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
 | Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
@@ -17,10 +23,6 @@ Over 1 day: 6 moments.
 | campaignAta(Vesting campaign, token, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
 | creatorAta(Creator, token, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
 | updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
-| 4wQQ… | 4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P |
-| 5yfA… | 5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB |
-| 6hhA… | 6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK |
-| C7Pg… | C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW |
 
 </details>
 
@@ -208,7 +210,7 @@ Creator (89713cu)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as 4wQQ…
+    participant p0 as Alice
     participant p1 as computeBudget
     participant p2 as VestingPositions
     participant p3 as splAssociatedTokenAccount
@@ -279,35 +281,35 @@ sequenceDiagram
 flowchart LR
     computeBudget["computeBudget"]:::program
     VestingPositions["VestingPositions"]:::program
-    n4wQQ(["4wQQ…"]):::signer
+    Alice(["Alice"]):::signer
     Collection[("Collection")]:::state
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
-    C7Pg(["C7Pg…"]):::signer
-    n6hhA(["6hhA…"]):::signer
-    n5yfA(["5yfA…"]):::signer
+    AliceATAMint(["Alice/ATA(Mint)"]):::signer
+    AlicespositionNFT(["Alice's position NFT"]):::signer
+    Alicesreceipt(["Alice's receipt"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
     mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
-    n4wQQ -->|signs| VestingPositions
+    Alice -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
     VestingPositions --> campaignAtaVestingcampaigntokenMint
-    VestingPositions --> C7Pg
-    VestingPositions --> n6hhA
-    VestingPositions --> n5yfA
-    n4wQQ --> splAssociatedTokenAccount
-    splAssociatedTokenAccount --> C7Pg
-    n4wQQ --> system
-    C7Pg --> system
-    token --> C7Pg
-    n5yfA --> system
-    n6hhA --> mplCoreProgram
+    VestingPositions --> AliceATAMint
+    VestingPositions --> AlicespositionNFT
+    VestingPositions --> Alicesreceipt
+    Alice --> splAssociatedTokenAccount
+    splAssociatedTokenAccount --> AliceATAMint
+    Alice --> system
+    AliceATAMint --> system
+    token --> AliceATAMint
+    Alicesreceipt --> system
+    AlicespositionNFT --> mplCoreProgram
     mplCoreProgram --> Collection
     updateAuthorityCollection --> mplCoreProgram
-    n4wQQ --> mplCoreProgram
-    n6hhA --> system
-    system --> n6hhA
+    Alice --> mplCoreProgram
+    AlicespositionNFT --> system
+    system --> AlicespositionNFT
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -320,21 +322,21 @@ flowchart LR
 ```mermaid
 flowchart LR
     system["system"]:::program
-    n4wQQ[("4wQQ…")]:::state
+    Alice[("Alice")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtaVestingcampaigntokenMint[("campaignAta(Vesting campaign, token, Mint)")]:::state
-    C7Pg[("C7Pg…")]:::state
-    n6hhA[("6hhA…")]:::state
+    AliceATAMint[("Alice/ATA(Mint)")]:::state
+    AlicespositionNFT[("Alice's position NFT")]:::state
     VestingPositions["VestingPositions"]:::program
-    n5yfA[("5yfA…")]:::state
-    system -->|owns| n4wQQ
+    Alicesreceipt[("Alice's receipt")]:::state
+    system -->|owns| Alice
     mplCoreProgram --> Collection
     token --> campaignAtaVestingcampaigntokenMint
-    token --> C7Pg
-    mplCoreProgram --> n6hhA
-    VestingPositions --> n5yfA
+    token --> AliceATAMint
+    mplCoreProgram --> AlicespositionNFT
+    VestingPositions --> Alicesreceipt
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -345,7 +347,7 @@ flowchart LR
 
 ```
 
-4wQQ… (165059cu)
+Alice (165059cu)
 ├─ computeBudget::setComputeUnitLimit ✓
 └─ VestingPositions::Claim ✓ 164909cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
@@ -397,13 +399,13 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     Creator(["Creator"]):::signer
     Collection[("Collection")]:::state
-    n6hhA[("6hhA…")]:::state
+    AlicespositionNFT[("Alice's position NFT")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> n6hhA
-    mplCoreProgram --> n6hhA
+    VestingPositions --> AlicespositionNFT
+    mplCoreProgram --> AlicespositionNFT
     mplCoreProgram --> Collection
     Creator --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
@@ -422,10 +424,10 @@ flowchart LR
     Creator[("Creator")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
-    n6hhA[("6hhA…")]:::state
+    AlicespositionNFT[("Alice's position NFT")]:::state
     system -->|owns| Creator
     mplCoreProgram --> Collection
-    mplCoreProgram --> n6hhA
+    mplCoreProgram --> AlicespositionNFT
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -454,7 +456,7 @@ Creator (26331cu)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as 4wQQ…
+    participant p0 as Alice
     participant p1 as mplCoreProgram
     p0->>p1: Transfer
     activate p1
@@ -468,10 +470,10 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
-    n6hhA[("6hhA…")]:::state
-    n4wQQ(["4wQQ…"]):::signer
-    mplCoreProgram -->|writes| n6hhA
-    n4wQQ -->|signs| mplCoreProgram
+    AlicespositionNFT[("Alice's position NFT")]:::state
+    Alice(["Alice"]):::signer
+    mplCoreProgram -->|writes| AlicespositionNFT
+    Alice -->|signs| mplCoreProgram
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -484,11 +486,11 @@ flowchart LR
 ```mermaid
 flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
-    n6hhA[("6hhA…")]:::state
+    AlicespositionNFT[("Alice's position NFT")]:::state
     system["system"]:::program
-    n4wQQ[("4wQQ…")]:::state
-    mplCoreProgram -->|owns| n6hhA
-    system --> n4wQQ
+    Alice[("Alice")]:::state
+    mplCoreProgram -->|owns| AlicespositionNFT
+    system --> Alice
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -499,7 +501,7 @@ flowchart LR
 
 ```
 
-4wQQ… (9049cu)
+Alice (9049cu)
 └─ mplCoreProgram::Transfer ✗ 9049cu
 ```
 
@@ -534,13 +536,13 @@ flowchart LR
     VestingPositions["VestingPositions"]:::program
     Creator(["Creator"]):::signer
     Collection[("Collection")]:::state
-    n6hhA[("6hhA…")]:::state
+    AlicespositionNFT[("Alice's position NFT")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions --> n6hhA
-    mplCoreProgram --> n6hhA
+    VestingPositions --> AlicespositionNFT
+    mplCoreProgram --> AlicespositionNFT
     mplCoreProgram --> Collection
     Creator --> mplCoreProgram
     updateAuthorityCollection --> mplCoreProgram
@@ -559,10 +561,10 @@ flowchart LR
     Creator[("Creator")]:::state
     mplCoreProgram["mplCoreProgram"]:::program
     Collection[("Collection")]:::state
-    n6hhA[("6hhA…")]:::state
+    AlicespositionNFT[("Alice's position NFT")]:::state
     system -->|owns| Creator
     mplCoreProgram --> Collection
-    mplCoreProgram --> n6hhA
+    mplCoreProgram --> AlicespositionNFT
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -589,7 +591,7 @@ Creator (26331cu)
 
 ```mermaid
 sequenceDiagram
-    participant p0 as 4wQQ…
+    participant p0 as Alice
     participant p1 as mplCoreProgram
     p0->>p1: Transfer
     activate p1
@@ -602,10 +604,10 @@ sequenceDiagram
 ```mermaid
 flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
-    n6hhA[("6hhA…")]:::state
-    n4wQQ(["4wQQ…"]):::signer
-    mplCoreProgram -->|writes| n6hhA
-    n4wQQ -->|signs| mplCoreProgram
+    AlicespositionNFT[("Alice's position NFT")]:::state
+    Alice(["Alice"]):::signer
+    mplCoreProgram -->|writes| AlicespositionNFT
+    Alice -->|signs| mplCoreProgram
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -618,11 +620,11 @@ flowchart LR
 ```mermaid
 flowchart LR
     mplCoreProgram["mplCoreProgram"]:::program
-    n6hhA[("6hhA…")]:::state
+    AlicespositionNFT[("Alice's position NFT")]:::state
     system["system"]:::program
-    n4wQQ[("4wQQ…")]:::state
-    mplCoreProgram -->|owns| n6hhA
-    system --> n4wQQ
+    Alice[("Alice")]:::state
+    mplCoreProgram -->|owns| AlicespositionNFT
+    system --> Alice
     classDef program fill:#dae8fc,stroke:#6c8ebf,color:#17202a;
     classDef signer fill:#d5e8d4,stroke:#82b366,color:#17202a;
     classDef state fill:#ffe6cc,stroke:#d79b00,color:#17202a;
@@ -633,7 +635,7 @@ flowchart LR
 
 ```
 
-4wQQ… (9074cu)
+Alice (9074cu)
 └─ mplCoreProgram::Transfer ✓ 9074cu
 ```
 

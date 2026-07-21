@@ -44,6 +44,16 @@
           [
             {
               "type": "text",
+              "value": "Alice's receipt"
+            },
+            {
+              "type": "addr",
+              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
+            }
+          ],
+          [
+            {
+              "type": "text",
               "value": "Campaign"
             },
             {
@@ -129,16 +139,6 @@
             {
               "type": "addr",
               "value": "C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW"
-            }
-          ],
-          [
-            {
-              "type": "text",
-              "value": "5yfA…"
-            },
-            {
-              "type": "addr",
-              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
             }
           ]
         ]
@@ -1038,7 +1038,7 @@
             "role": "authority"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "authority"
           },
           {
@@ -1095,7 +1095,7 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           },
           {
             "from": "Alice",
@@ -1123,7 +1123,7 @@
             "to": "Alice/ATA(Mint)"
           },
           {
-            "from": "5yfA…",
+            "from": "Alice's receipt",
             "verb": "signs",
             "to": "system"
           },
@@ -1218,7 +1218,7 @@
             "role": "program"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -1251,7 +1251,7 @@
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -1719,7 +1719,7 @@
             "role": "state"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -1752,7 +1752,7 @@
           {
             "from": "Vesting",
             "verb": "writes",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
@@ -1805,7 +1805,7 @@
             "role": "program"
           },
           {
-            "name": "5yfA…",
+            "name": "Alice's receipt",
             "role": "state"
           }
         ],
@@ -1838,7 +1838,7 @@
           {
             "from": "Vesting",
             "verb": "owns",
-            "to": "5yfA…"
+            "to": "Alice's receipt"
           }
         ]
       }
