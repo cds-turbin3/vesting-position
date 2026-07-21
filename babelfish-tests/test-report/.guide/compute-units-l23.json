@@ -107,7 +107,7 @@
               "program": "p1",
               "call_label": "Initialize",
               "failure": null,
-              "return_label": "✓ 85369cu",
+              "return_label": "✓ 89713cu",
               "children": [
                 {
                   "caller": "p1",
@@ -122,7 +122,7 @@
                   "program": "p3",
                   "call_label": "create",
                   "failure": null,
-                  "return_label": "✓ 13517cu",
+                  "return_label": "✓ 18017cu",
                   "children": [
                     {
                       "caller": "p3",
@@ -219,7 +219,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (85369cu)\n└─ VestingPositions::Initialize ✓ 85369cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 13517cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -286,7 +286,7 @@
               "program": "p1",
               "call_label": "Claim",
               "failure": null,
-              "return_label": "✓ 160409cu",
+              "return_label": "✓ 164909cu",
               "children": [
                 {
                   "caller": "p1",
@@ -398,7 +398,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (160409cu)\n└─ VestingPositions::Claim ✓ 160409cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ CoRE…::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
+        "text": "\n4wQQ… (164909cu)\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ CoRE…::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
       }
     },
     {
@@ -441,7 +441,7 @@
               "program": "p1",
               "call_label": "Claim",
               "failure": null,
-              "return_label": "✓ 32530cu",
+              "return_label": "✓ 37030cu",
               "children": []
             },
             "notes": [],
@@ -454,7 +454,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (32530cu)\n└─ VestingPositions::Claim ✓ 32530cu\n"
+        "text": "\n4wQQ… (37030cu)\n└─ VestingPositions::Claim ✓ 37030cu\n"
       }
     }
   ],

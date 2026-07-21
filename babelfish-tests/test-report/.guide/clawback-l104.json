@@ -24,7 +24,7 @@
             },
             {
               "type": "addr",
-              "value": "DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9"
+              "value": "9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW"
             }
           ],
           [
@@ -44,7 +44,7 @@
             },
             {
               "type": "addr",
-              "value": "J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N"
+              "value": "4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk"
             }
           ],
           [
@@ -64,7 +64,7 @@
             },
             {
               "type": "addr",
-              "value": "2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC"
+              "value": "G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G"
             }
           ],
           [
@@ -74,7 +74,7 @@
             },
             {
               "type": "addr",
-              "value": "BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ"
+              "value": "3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn"
             }
           ],
           [
@@ -84,7 +84,7 @@
             },
             {
               "type": "addr",
-              "value": "7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43"
+              "value": "AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ"
             }
           ],
           [
@@ -94,7 +94,57 @@
             },
             {
               "type": "addr",
-              "value": "vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs"
+              "value": "CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "5fjL…"
+            },
+            {
+              "type": "addr",
+              "value": "5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "C49G…"
+            },
+            {
+              "type": "addr",
+              "value": "C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "CoRE…"
+            },
+            {
+              "type": "addr",
+              "value": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "DiZf…"
+            },
+            {
+              "type": "addr",
+              "value": "DiZfCmUXMWffwHP4eus9hwgnvTVbiZL7ZGGTBjJ9vc68"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "H87x…"
+            },
+            {
+              "type": "addr",
+              "value": "H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg"
             }
           ]
         ]
@@ -308,7 +358,7 @@
               "program": "p1",
               "call_label": "Initialize",
               "failure": null,
-              "return_label": "✓ 85369cu",
+              "return_label": "✓ 89713cu",
               "children": [
                 {
                   "caller": "p1",
@@ -323,7 +373,7 @@
                   "program": "p3",
                   "call_label": "create",
                   "failure": null,
-                  "return_label": "✓ 13517cu",
+                  "return_label": "✓ 18017cu",
                   "children": [
                     {
                       "caller": "p3",
@@ -663,7 +713,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (85369cu)\n└─ VestingPositions::Initialize ✓ 85369cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 13517cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -760,7 +810,7 @@
               "program": "p1",
               "call_label": "ClawbackUnclaimed",
               "failure": null,
-              "return_label": "✓ 95434cu",
+              "return_label": "✓ 119434cu",
               "children": [
                 {
                   "caller": "p1",
@@ -806,7 +856,7 @@
             "role": "authority"
           },
           {
-            "name": "6vT5…",
+            "name": "C49G…",
             "role": "authority"
           },
           {
@@ -839,7 +889,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "6vT5…"
+            "to": "C49G…"
           },
           {
             "from": "VestingPositions",
@@ -857,7 +907,7 @@
             "to": "system"
           },
           {
-            "from": "6vT5…",
+            "from": "C49G…",
             "verb": "signs",
             "to": "system"
           },
@@ -903,7 +953,7 @@
             "role": "program"
           },
           {
-            "name": "6vT5…",
+            "name": "C49G…",
             "role": "state"
           },
           {
@@ -928,7 +978,7 @@
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "6vT5…"
+            "to": "C49G…"
           },
           {
             "from": "token",
@@ -954,7 +1004,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (95434cu)\n└─ VestingPositions::ClawbackUnclaimed ✓ 95434cu\n   ├─ system::createAccount ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCreator (119434cu)\n└─ VestingPositions::ClawbackUnclaimed ✓ 119434cu\n   ├─ system::createAccount ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -1018,7 +1068,7 @@
               "program": "p1",
               "call_label": "Claim",
               "failure": "custom program error  0x1789",
-              "return_label": "✗ 36421cu",
+              "return_label": "✗ 58921cu",
               "children": [
                 {
                   "caller": "p1",
@@ -1097,15 +1147,15 @@
             "role": "state"
           },
           {
-            "name": "7NWR…",
+            "name": "DiZf…",
             "role": "authority"
           },
           {
-            "name": "3oY2…",
+            "name": "5fjL…",
             "role": "state"
           },
           {
-            "name": "6vT5…",
+            "name": "C49G…",
             "role": "state"
           },
           {
@@ -1140,17 +1190,17 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "7NWR…"
+            "to": "DiZf…"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "3oY2…"
+            "to": "5fjL…"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "6vT5…"
+            "to": "C49G…"
           },
           {
             "from": "H87x…",
@@ -1160,7 +1210,7 @@
           {
             "from": "splAssociatedTokenAccount",
             "verb": "writes",
-            "to": "7NWR…"
+            "to": "DiZf…"
           },
           {
             "from": "H87x…",
@@ -1168,14 +1218,14 @@
             "to": "system"
           },
           {
-            "from": "7NWR…",
+            "from": "DiZf…",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "token",
             "verb": "writes",
-            "to": "7NWR…"
+            "to": "DiZf…"
           }
         ]
       }
@@ -1216,11 +1266,11 @@
             "role": "state"
           },
           {
-            "name": "7NWR…",
+            "name": "DiZf…",
             "role": "state"
           },
           {
-            "name": "3oY2…",
+            "name": "5fjL…",
             "role": "state"
           },
           {
@@ -1228,7 +1278,7 @@
             "role": "program"
           },
           {
-            "name": "6vT5…",
+            "name": "C49G…",
             "role": "state"
           }
         ],
@@ -1251,17 +1301,17 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "7NWR…"
+            "to": "DiZf…"
           },
           {
             "from": "system",
             "verb": "owns",
-            "to": "3oY2…"
+            "to": "5fjL…"
           },
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "6vT5…"
+            "to": "C49G…"
           }
         ]
       }
@@ -1277,7 +1327,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nH87x… (36421cu)\n└─ VestingPositions::Claim ✗ 36421cu\n   └─ splAssociatedTokenAccount::create ✓ 13416cu\n      ├─ token::getAccountDataSize ✓ 183cu\n      ├─ system::createAccount ✓\n      ├─ token::initializeImmutableOwner ✓ 38cu\n      └─ token::initializeAccount3 ✓ 235cu\n"
+        "text": "\nH87x… (58921cu)\n└─ VestingPositions::Claim ✗ 58921cu\n   └─ splAssociatedTokenAccount::create ✓ 13416cu\n      ├─ token::getAccountDataSize ✓ 183cu\n      ├─ system::createAccount ✓\n      ├─ token::initializeImmutableOwner ✓ 38cu\n      └─ token::initializeAccount3 ✓ 235cu\n"
       }
     }
   ],

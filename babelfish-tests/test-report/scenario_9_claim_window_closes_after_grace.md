@@ -1,6 +1,6 @@
 # scenario_9_claim_window_closes_after_grace
 
-**Source:** [`tests/claim.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/3e6571dde7b989ae353cd0a141b35da0171e1a57/babelfish-tests/tests/claim.rs#L232)
+**Source:** [`tests/claim.rs` L232](https://github.com/cds-turbin3/vesting-position/blob/b53ae11528330be9e19c3e4b327a7dc3572aac7e/babelfish-tests/tests/claim.rs#L232)
 
 Over 38 days: 4 moments.
 
@@ -9,15 +9,24 @@ Over 38 days: 4 moments.
 
 | name | address |
 | --- | --- |
-| Collection | DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9 |
+| Collection | 9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW |
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
-| Mint | J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N |
+| Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
 | VestingPositions | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
-| campaign(Collection) | 2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC |
-| campaignAta(campaign(Collection), Toke…, Mint) | BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ |
-| creatorAta(Creator, Toke…, Mint) | 7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43 |
-| updateAuthority(Collection) | vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs |
-| userAta(4wQQ…, Toke…, Mint) | 45PBE5WDayGKEeGHvaLP5VfqXSS5JoGVewXyVbSE8JSq |
+| campaign(Collection) | G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G |
+| campaignAta(campaign(Collection), Toke…, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
+| creatorAta(Creator, Toke…, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
+| updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
+| userAta(4wQQ…, Toke…, Mint) | C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW |
+| 4wQQ… | 4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P |
+| 5fjL… | 5fjLQR7cXnkBzwud4xAzHaxWKbTiQMJyrNe72RXUtieC |
+| 5yfA… | 5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB |
+| 6hhA… | 6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK |
+| C49G… | C49GR57waDzt1nFUvxKPDs1HVAKF694inGJeB2KGRPM9 |
+| CoRE… | CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d |
+| Comp… | ComputeBudget111111111111111111111111111111 |
+| DiZf… | DiZfCmUXMWffwHP4eus9hwgnvTVbiZL7ZGGTBjJ9vc68 |
+| H87x… | H87xi4CUqrUPXzppV3jotTmre6DyR5pCaMk5bKQQBFTg |
 
 </details>
 
@@ -74,7 +83,7 @@ sequenceDiagram
     activate p4
     p4-->>p3: ✓ 235cu
     deactivate p4
-    p3-->>p1: ✓ 13517cu
+    p3-->>p1: ✓ 18017cu
     deactivate p3
     p1->>p5: CreateCollectionV2
     activate p5
@@ -100,7 +109,7 @@ sequenceDiagram
     activate p4
     p4-->>p1: ✓ 105cu
     deactivate p4
-    p1-->>p0: ✓ 85369cu
+    p1-->>p0: ✓ 89713cu
     deactivate p1
 ```
 
@@ -121,25 +130,27 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions -->|writes| Mint
-    VestingPositions -->|writes| creatorAtaCreatorTokeMint
-    VestingPositions -->|writes| campaignCollection
-    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
-    Creator -->|signs| system
-    campaignCollection -->|signs| system
-    Creator -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| campaignAtacampaignCollectionTokeMint
-    campaignAtacampaignCollectionTokeMint -->|signs| system
-    token -->|writes| campaignAtacampaignCollectionTokeMint
-    Collection -->|signs| CoRE
-    Creator -->|signs| CoRE
-    Collection -->|signs| system
-    system -->|writes| Collection
-    token -->|writes| creatorAtaCreatorTokeMint
-    Creator -->|signs| token
+    VestingPositions --> Mint
+    VestingPositions --> creatorAtaCreatorTokeMint
+    VestingPositions --> campaignCollection
+    VestingPositions --> campaignAtacampaignCollectionTokeMint
+    Creator --> system
+    campaignCollection --> system
+    Creator --> splAssociatedTokenAccount
+    splAssociatedTokenAccount --> campaignAtacampaignCollectionTokeMint
+    campaignAtacampaignCollectionTokeMint --> system
+    token --> campaignAtacampaignCollectionTokeMint
+    Collection --> CoRE
+    Creator --> CoRE
+    Collection --> system
+    system --> Collection
+    token --> creatorAtaCreatorTokeMint
+    Creator --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366;
+    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00;
 ```
 
 ### Ownership
@@ -157,24 +168,25 @@ flowchart LR
     campaignCollection[("campaign(Collection)")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     system -->|owns| Creator
-    CoRE -->|owns| Collection
-    token -->|owns| Mint
-    token -->|owns| creatorAtaCreatorTokeMint
-    VestingPositions -->|owns| campaignCollection
-    token -->|owns| campaignAtacampaignCollectionTokeMint
+    CoRE --> Collection
+    token --> Mint
+    token --> creatorAtaCreatorTokeMint
+    VestingPositions --> campaignCollection
+    token --> campaignAtacampaignCollectionTokeMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
 ```
 
 ### Tree
 
 ```
 
-Creator (85369cu)
-└─ VestingPositions::Initialize ✓ 85369cu
+Creator (89713cu)
+└─ VestingPositions::Initialize ✓ 89713cu
    ├─ system::createAccount ✓
-   ├─ splAssociatedTokenAccount::create ✓ 13517cu
+   ├─ splAssociatedTokenAccount::create ✓ 18017cu
    │  ├─ token::getAccountDataSize ✓ 183cu
    │  ├─ system::createAccount ✓
    │  ├─ token::initializeImmutableOwner ✓ 38cu
@@ -261,7 +273,7 @@ sequenceDiagram
     deactivate p5
     p6-->>p2: ✓ 29413cu
     deactivate p6
-    p2-->>p0: ✓ 160409cu
+    p2-->>p0: ✓ 164909cu
     deactivate p2
 ```
 
@@ -274,9 +286,9 @@ flowchart LR
     4wQQ(["4wQQ…"]):::signer
     Collection[("Collection")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    45PB(["45PB…"]):::signer
-    4QVs(["4QVs…"]):::signer
-    7kmN(["7kmN…"]):::signer
+    C7Pg(["C7Pg…"]):::signer
+    6hhA(["6hhA…"]):::signer
+    5yfA(["5yfA…"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
@@ -284,25 +296,27 @@ flowchart LR
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
-    VestingPositions -->|writes| 45PB
-    VestingPositions -->|writes| 4QVs
-    VestingPositions -->|writes| 7kmN
-    4wQQ -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| 45PB
-    4wQQ -->|signs| system
-    45PB -->|signs| system
-    token -->|writes| 45PB
-    7kmN -->|signs| system
-    4QVs -->|signs| CoRE
-    CoRE -->|writes| Collection
-    updateAuthorityCollection -->|signs| CoRE
-    4wQQ -->|signs| CoRE
-    4QVs -->|signs| system
-    system -->|writes| 4QVs
+    VestingPositions --> campaignAtacampaignCollectionTokeMint
+    VestingPositions --> C7Pg
+    VestingPositions --> 6hhA
+    VestingPositions --> 5yfA
+    4wQQ --> splAssociatedTokenAccount
+    splAssociatedTokenAccount --> C7Pg
+    4wQQ --> system
+    C7Pg --> system
+    token --> C7Pg
+    5yfA --> system
+    6hhA --> CoRE
+    CoRE --> Collection
+    updateAuthorityCollection --> CoRE
+    4wQQ --> CoRE
+    6hhA --> system
+    system --> 6hhA
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,6,8,9,11,12,14,15,16 stroke:#82b366;
+    linkStyle 1,2,3,4,5,7,10,13,17 stroke:#d79b00;
 ```
 
 ### Ownership
@@ -315,28 +329,29 @@ flowchart LR
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    45PB[("45PB…")]:::state
-    4QVs[("4QVs…")]:::state
+    C7Pg[("C7Pg…")]:::state
+    6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
-    7kmN[("7kmN…")]:::state
+    5yfA[("5yfA…")]:::state
     system -->|owns| 4wQQ
-    CoRE -->|owns| Collection
-    token -->|owns| campaignAtacampaignCollectionTokeMint
-    token -->|owns| 45PB
-    CoRE -->|owns| 4QVs
-    VestingPositions -->|owns| 7kmN
+    CoRE --> Collection
+    token --> campaignAtacampaignCollectionTokeMint
+    token --> C7Pg
+    CoRE --> 6hhA
+    VestingPositions --> 5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
 ```
 
 ### Tree
 
 ```
 
-4wQQ… (160559cu)
+4wQQ… (165059cu)
 ├─ Comp…::? ✓
-└─ VestingPositions::Claim ✓ 160409cu
+└─ VestingPositions::Claim ✓ 164909cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu
    │  ├─ system::createAccount ✓
@@ -392,7 +407,7 @@ sequenceDiagram
     activate p2
     p2-->>p1: ✓ 13574cu
     deactivate p2
-    p1-->>p0: ✓ 91477cu
+    p1-->>p0: ✓ 95977cu
     deactivate p1
 ```
 
@@ -405,8 +420,8 @@ flowchart LR
     Collection[("Collection")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
-    4QVs[("4QVs…")]:::state
-    7kmN[("7kmN…")]:::state
+    6hhA[("6hhA…")]:::state
+    5yfA[("5yfA…")]:::state
     CoRE["CoRE…"]:::program
     updateAuthorityCollection(["updateAuthority(Collection)"]):::signer
     system["system"]:::program
@@ -414,22 +429,24 @@ flowchart LR
     campaignCollection(["campaign(Collection)"]):::signer
     4wQQ -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
-    VestingPositions -->|writes| userAta4wQQTokeMint
-    VestingPositions -->|writes| 4QVs
-    VestingPositions -->|writes| 7kmN
-    CoRE -->|writes| 4QVs
-    CoRE -->|writes| Collection
-    4wQQ -->|signs| CoRE
-    updateAuthorityCollection -->|signs| CoRE
-    4wQQ -->|signs| system
-    system -->|writes| 4QVs
-    token -->|writes| campaignAtacampaignCollectionTokeMint
-    token -->|writes| userAta4wQQTokeMint
-    campaignCollection -->|signs| token
+    VestingPositions --> campaignAtacampaignCollectionTokeMint
+    VestingPositions --> userAta4wQQTokeMint
+    VestingPositions --> 6hhA
+    VestingPositions --> 5yfA
+    CoRE --> 6hhA
+    CoRE --> Collection
+    4wQQ --> CoRE
+    updateAuthorityCollection --> CoRE
+    4wQQ --> system
+    system --> 6hhA
+    token --> campaignAtacampaignCollectionTokeMint
+    token --> userAta4wQQTokeMint
+    campaignCollection --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,8,9,10,14 stroke:#82b366;
+    linkStyle 1,2,3,4,5,6,7,11,12,13 stroke:#d79b00;
 ```
 
 ### Ownership
@@ -443,26 +460,27 @@ flowchart LR
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     userAta4wQQTokeMint[("userAta(4wQQ…, Toke…, Mint)")]:::state
-    4QVs[("4QVs…")]:::state
+    6hhA[("6hhA…")]:::state
     VestingPositions["VestingPositions"]:::program
-    7kmN[("7kmN…")]:::state
+    5yfA[("5yfA…")]:::state
     system -->|owns| 4wQQ
-    CoRE -->|owns| Collection
-    token -->|owns| campaignAtacampaignCollectionTokeMint
-    token -->|owns| userAta4wQQTokeMint
-    CoRE -->|owns| 4QVs
-    VestingPositions -->|owns| 7kmN
+    CoRE --> Collection
+    token --> campaignAtacampaignCollectionTokeMint
+    token --> userAta4wQQTokeMint
+    CoRE --> 6hhA
+    VestingPositions --> 5yfA
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
 ```
 
 ### Tree
 
 ```
 
-4wQQ… (91477cu)
-└─ VestingPositions::Claim ✓ 91477cu
+4wQQ… (95977cu)
+└─ VestingPositions::Claim ✓ 95977cu
    ├─ CoRE…::UpdatePlugin ✓ 22492cu
    │  └─ system::transferSol ✓
    ├─ token::transferChecked ✓ 105cu
@@ -516,7 +534,7 @@ sequenceDiagram
     p4-->>p1: ✓
     deactivate p4
     note over p1: 🚩 custom program error  0x1789
-    p1-->>p0: ✗ 39244cu
+    p1-->>p0: ✗ 61744cu
     deactivate p1
 ```
 
@@ -528,27 +546,29 @@ flowchart LR
     H87x(["H87x…"]):::signer
     Collection[("Collection")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    7NWR(["7NWR…"]):::signer
-    3oY2[("3oY2…")]:::state
-    6vT5(["6vT5…"]):::signer
+    DiZf(["DiZf…"]):::signer
+    5fjL[("5fjL…")]:::state
+    C49G(["C49G…"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
     H87x -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
-    VestingPositions -->|writes| 7NWR
-    VestingPositions -->|writes| 3oY2
-    VestingPositions -->|writes| 6vT5
-    H87x -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| 7NWR
-    H87x -->|signs| system
-    7NWR -->|signs| system
-    token -->|writes| 7NWR
-    6vT5 -->|signs| system
+    VestingPositions --> campaignAtacampaignCollectionTokeMint
+    VestingPositions --> DiZf
+    VestingPositions --> 5fjL
+    VestingPositions --> C49G
+    H87x --> splAssociatedTokenAccount
+    splAssociatedTokenAccount --> DiZf
+    H87x --> system
+    DiZf --> system
+    token --> DiZf
+    C49G --> system
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,6,8,9,11 stroke:#82b366;
+    linkStyle 1,2,3,4,5,7,10 stroke:#d79b00;
 ```
 
 ### Ownership
@@ -561,27 +581,28 @@ flowchart LR
     Collection[("Collection")]:::state
     token["token"]:::program
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
-    7NWR[("7NWR…")]:::state
-    3oY2[("3oY2…")]:::state
+    DiZf[("DiZf…")]:::state
+    5fjL[("5fjL…")]:::state
     VestingPositions["VestingPositions"]:::program
-    6vT5[("6vT5…")]:::state
+    C49G[("C49G…")]:::state
     system -->|owns| H87x
-    CoRE -->|owns| Collection
-    token -->|owns| campaignAtacampaignCollectionTokeMint
-    token -->|owns| 7NWR
-    system -->|owns| 3oY2
-    VestingPositions -->|owns| 6vT5
+    CoRE --> Collection
+    token --> campaignAtacampaignCollectionTokeMint
+    token --> DiZf
+    system --> 5fjL
+    VestingPositions --> C49G
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
 ```
 
 ### Tree
 
 ```
 
-H87x… (39244cu)
-└─ VestingPositions::Claim ✗ 39244cu
+H87x… (61744cu)
+└─ VestingPositions::Claim ✗ 61744cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu
    │  ├─ system::createAccount ✓

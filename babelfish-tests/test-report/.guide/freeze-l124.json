@@ -40,7 +40,7 @@
             },
             {
               "type": "addr",
-              "value": "DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9"
+              "value": "9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW"
             }
           ],
           [
@@ -60,7 +60,7 @@
             },
             {
               "type": "addr",
-              "value": "J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N"
+              "value": "4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk"
             }
           ],
           [
@@ -80,7 +80,7 @@
             },
             {
               "type": "addr",
-              "value": "2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC"
+              "value": "G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G"
             }
           ],
           [
@@ -90,7 +90,7 @@
             },
             {
               "type": "addr",
-              "value": "BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ"
+              "value": "3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn"
             }
           ],
           [
@@ -100,7 +100,7 @@
             },
             {
               "type": "addr",
-              "value": "7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43"
+              "value": "AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ"
             }
           ],
           [
@@ -110,7 +110,7 @@
             },
             {
               "type": "addr",
-              "value": "vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs"
+              "value": "CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p"
             }
           ],
           [
@@ -120,7 +120,57 @@
             },
             {
               "type": "addr",
-              "value": "45PBE5WDayGKEeGHvaLP5VfqXSS5JoGVewXyVbSE8JSq"
+              "value": "C7PguAKs34J4WkXRRp762bPFhzhmFBYKdLuHQYBrVmAW"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "4wQQ…"
+            },
+            {
+              "type": "addr",
+              "value": "4wQQJM9LNuhinieNAqmHuPCm8LXDTVfhx84P32nAVE9P"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "5yfA…"
+            },
+            {
+              "type": "addr",
+              "value": "5yfASCcX25V4fzBgdfixtXgS2JrvpWdwX27JQXpVyuHB"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "6hhA…"
+            },
+            {
+              "type": "addr",
+              "value": "6hhAjXPGt41Y6oPH6mATnAqMECdaHrKaAGbE4SFuARXK"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "CoRE…"
+            },
+            {
+              "type": "addr",
+              "value": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "Comp…"
+            },
+            {
+              "type": "addr",
+              "value": "ComputeBudget111111111111111111111111111111"
             }
           ]
         ]
@@ -397,7 +447,7 @@
               "program": "p1",
               "call_label": "Initialize",
               "failure": null,
-              "return_label": "✓ 85369cu",
+              "return_label": "✓ 89713cu",
               "children": [
                 {
                   "caller": "p1",
@@ -412,7 +462,7 @@
                   "program": "p3",
                   "call_label": "create",
                   "failure": null,
-                  "return_label": "✓ 13517cu",
+                  "return_label": "✓ 18017cu",
                   "children": [
                     {
                       "caller": "p3",
@@ -752,7 +802,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (85369cu)\n└─ VestingPositions::Initialize ✓ 85369cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 13517cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -837,7 +887,7 @@
               "program": "p2",
               "call_label": "Claim",
               "failure": null,
-              "return_label": "✓ 160409cu",
+              "return_label": "✓ 164909cu",
               "children": [
                 {
                   "caller": "p2",
@@ -977,15 +1027,15 @@
             "role": "state"
           },
           {
-            "name": "45PB…",
+            "name": "C7Pg…",
             "role": "authority"
           },
           {
-            "name": "4QVs…",
+            "name": "6hhA…",
             "role": "authority"
           },
           {
-            "name": "7kmN…",
+            "name": "5yfA…",
             "role": "authority"
           },
           {
@@ -1028,17 +1078,17 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "45PB…"
+            "to": "C7Pg…"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "4QVs…"
+            "to": "6hhA…"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "7kmN…"
+            "to": "5yfA…"
           },
           {
             "from": "4wQQ…",
@@ -1048,7 +1098,7 @@
           {
             "from": "splAssociatedTokenAccount",
             "verb": "writes",
-            "to": "45PB…"
+            "to": "C7Pg…"
           },
           {
             "from": "4wQQ…",
@@ -1056,22 +1106,22 @@
             "to": "system"
           },
           {
-            "from": "45PB…",
+            "from": "C7Pg…",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "token",
             "verb": "writes",
-            "to": "45PB…"
+            "to": "C7Pg…"
           },
           {
-            "from": "7kmN…",
+            "from": "5yfA…",
             "verb": "signs",
             "to": "system"
           },
           {
-            "from": "4QVs…",
+            "from": "6hhA…",
             "verb": "signs",
             "to": "CoRE…"
           },
@@ -1091,14 +1141,14 @@
             "to": "CoRE…"
           },
           {
-            "from": "4QVs…",
+            "from": "6hhA…",
             "verb": "signs",
             "to": "system"
           },
           {
             "from": "system",
             "verb": "writes",
-            "to": "4QVs…"
+            "to": "6hhA…"
           }
         ]
       }
@@ -1139,11 +1189,11 @@
             "role": "state"
           },
           {
-            "name": "45PB…",
+            "name": "C7Pg…",
             "role": "state"
           },
           {
-            "name": "4QVs…",
+            "name": "6hhA…",
             "role": "state"
           },
           {
@@ -1151,7 +1201,7 @@
             "role": "program"
           },
           {
-            "name": "7kmN…",
+            "name": "5yfA…",
             "role": "state"
           }
         ],
@@ -1174,17 +1224,17 @@
           {
             "from": "token",
             "verb": "owns",
-            "to": "45PB…"
+            "to": "C7Pg…"
           },
           {
             "from": "CoRE…",
             "verb": "owns",
-            "to": "4QVs…"
+            "to": "6hhA…"
           },
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "7kmN…"
+            "to": "5yfA…"
           }
         ]
       }
@@ -1200,7 +1250,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (160559cu)\n├─ Comp…::? ✓\n└─ VestingPositions::Claim ✓ 160409cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ CoRE…::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
+        "text": "\n4wQQ… (165059cu)\n├─ Comp…::? ✓\n└─ VestingPositions::Claim ✓ 164909cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ system::createAccount ✓\n   └─ CoRE…::CreateV2 ✓ 29413cu\n      ├─ system::createAccount ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      ├─ system::transferSol ✓\n      └─ system::transferSol ✓\n"
       }
     },
     {
@@ -1314,7 +1364,7 @@
               "program": "p1",
               "call_label": "Claim",
               "failure": null,
-              "return_label": "✓ 91477cu",
+              "return_label": "✓ 95977cu",
               "children": [
                 {
                   "caller": "p1",
@@ -1389,11 +1439,11 @@
             "role": "state"
           },
           {
-            "name": "4QVs…",
+            "name": "6hhA…",
             "role": "state"
           },
           {
-            "name": "7kmN…",
+            "name": "5yfA…",
             "role": "state"
           },
           {
@@ -1441,17 +1491,17 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "4QVs…"
+            "to": "6hhA…"
           },
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "7kmN…"
+            "to": "5yfA…"
           },
           {
             "from": "CoRE…",
             "verb": "writes",
-            "to": "4QVs…"
+            "to": "6hhA…"
           },
           {
             "from": "CoRE…",
@@ -1476,7 +1526,7 @@
           {
             "from": "system",
             "verb": "writes",
-            "to": "4QVs…"
+            "to": "6hhA…"
           },
           {
             "from": "token",
@@ -1536,7 +1586,7 @@
             "role": "state"
           },
           {
-            "name": "4QVs…",
+            "name": "6hhA…",
             "role": "state"
           },
           {
@@ -1544,7 +1594,7 @@
             "role": "program"
           },
           {
-            "name": "7kmN…",
+            "name": "5yfA…",
             "role": "state"
           }
         ],
@@ -1572,12 +1622,12 @@
           {
             "from": "CoRE…",
             "verb": "owns",
-            "to": "4QVs…"
+            "to": "6hhA…"
           },
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "7kmN…"
+            "to": "5yfA…"
           }
         ]
       }
@@ -1593,7 +1643,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\n4wQQ… (91477cu)\n└─ VestingPositions::Claim ✓ 91477cu\n   ├─ CoRE…::UpdatePlugin ✓ 22492cu\n   │  └─ system::transferSol ✓\n   ├─ token::transferChecked ✓ 105cu\n   └─ CoRE…::UpdatePlugin ✓ 13574cu\n"
+        "text": "\n4wQQ… (95977cu)\n└─ VestingPositions::Claim ✓ 95977cu\n   ├─ CoRE…::UpdatePlugin ✓ 22492cu\n   │  └─ system::transferSol ✓\n   ├─ token::transferChecked ✓ 105cu\n   └─ CoRE…::UpdatePlugin ✓ 13574cu\n"
       }
     },
     {
@@ -1665,7 +1715,7 @@
             "role": "program"
           },
           {
-            "name": "4QVs…",
+            "name": "6hhA…",
             "role": "state"
           },
           {
@@ -1677,7 +1727,7 @@
           {
             "from": "CoRE…",
             "verb": "writes",
-            "to": "4QVs…"
+            "to": "6hhA…"
           },
           {
             "from": "4wQQ…",
@@ -1703,7 +1753,7 @@
             "role": "program"
           },
           {
-            "name": "4QVs…",
+            "name": "6hhA…",
             "role": "state"
           },
           {
@@ -1719,7 +1769,7 @@
           {
             "from": "CoRE…",
             "verb": "owns",
-            "to": "4QVs…"
+            "to": "6hhA…"
           },
           {
             "from": "system",

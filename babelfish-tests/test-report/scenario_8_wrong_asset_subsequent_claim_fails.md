@@ -1,6 +1,6 @@
 # scenario_8_wrong_asset_subsequent_claim_fails
 
-**Source:** [`tests/claim.rs` L216](https://github.com/cds-turbin3/vesting-position/blob/3e6571dde7b989ae353cd0a141b35da0171e1a57/babelfish-tests/tests/claim.rs#L216)
+**Source:** [`tests/claim.rs` L216](https://github.com/cds-turbin3/vesting-position/blob/b53ae11528330be9e19c3e4b327a7dc3572aac7e/babelfish-tests/tests/claim.rs#L216)
 
 Over 1 day: 2 moments.
 
@@ -9,15 +9,19 @@ Over 1 day: 2 moments.
 
 | name | address |
 | --- | --- |
-| Collection | DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9 |
+| Collection | 9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW |
 | Creator | 2ZBYuwtWiRzk7CwiCYTv5MQhQHDEaN4B8xhw4L7L3RY5 |
-| Mint | J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N |
+| Mint | 4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk |
 | VestingPositions | 7DkU9TQhcN87f2djZDd2MjjPZoXLfnZZj8HhybeZswX1 |
-| campaign(Collection) | 2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC |
-| campaignAta(campaign(Collection), Toke…, Mint) | BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ |
-| creatorAta(Creator, Toke…, Mint) | 7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43 |
-| updateAuthority(Collection) | vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs |
-| userAta(ErV6…, Toke…, Mint) | DP7csyre1YNuKdteez1puQMtq7kbgzhLKJabPePoNc39 |
+| campaign(Collection) | G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G |
+| campaignAta(campaign(Collection), Toke…, Mint) | 3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn |
+| creatorAta(Creator, Toke…, Mint) | AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ |
+| updateAuthority(Collection) | CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p |
+| userAta(ErV6…, Toke…, Mint) | A8Eu8FarK5CxvYkBoYeJ9bsoA4mFZFvH9dqgH56TZQnf |
+| 1115… | 11157t3sqMV725NVRLrVQbAu98Jjfk1uCKehJnXXQs |
+| BPGT… | BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj |
+| CoRE… | CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d |
+| ErV6… | ErV63ApqLgh1Je5PdiVj6kzwkKJmLjKV41QoN9U4BNag |
 
 </details>
 
@@ -72,7 +76,7 @@ sequenceDiagram
     activate p4
     p4-->>p3: ✓ 235cu
     deactivate p4
-    p3-->>p1: ✓ 13517cu
+    p3-->>p1: ✓ 18017cu
     deactivate p3
     p1->>p5: CreateCollectionV2
     activate p5
@@ -98,7 +102,7 @@ sequenceDiagram
     activate p4
     p4-->>p1: ✓ 105cu
     deactivate p4
-    p1-->>p0: ✓ 85369cu
+    p1-->>p0: ✓ 89713cu
     deactivate p1
 ```
 
@@ -119,25 +123,27 @@ flowchart LR
     CoRE["CoRE…"]:::program
     Creator -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions -->|writes| Mint
-    VestingPositions -->|writes| creatorAtaCreatorTokeMint
-    VestingPositions -->|writes| campaignCollection
-    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
-    Creator -->|signs| system
-    campaignCollection -->|signs| system
-    Creator -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| campaignAtacampaignCollectionTokeMint
-    campaignAtacampaignCollectionTokeMint -->|signs| system
-    token -->|writes| campaignAtacampaignCollectionTokeMint
-    Collection -->|signs| CoRE
-    Creator -->|signs| CoRE
-    Collection -->|signs| system
-    system -->|writes| Collection
-    token -->|writes| creatorAtaCreatorTokeMint
-    Creator -->|signs| token
+    VestingPositions --> Mint
+    VestingPositions --> creatorAtaCreatorTokeMint
+    VestingPositions --> campaignCollection
+    VestingPositions --> campaignAtacampaignCollectionTokeMint
+    Creator --> system
+    campaignCollection --> system
+    Creator --> splAssociatedTokenAccount
+    splAssociatedTokenAccount --> campaignAtacampaignCollectionTokeMint
+    campaignAtacampaignCollectionTokeMint --> system
+    token --> campaignAtacampaignCollectionTokeMint
+    Collection --> CoRE
+    Creator --> CoRE
+    Collection --> system
+    system --> Collection
+    token --> creatorAtaCreatorTokeMint
+    Creator --> token
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,6,7,8,10,12,13,14,17 stroke:#82b366;
+    linkStyle 1,2,3,4,5,9,11,15,16 stroke:#d79b00;
 ```
 
 ### Ownership
@@ -155,24 +161,25 @@ flowchart LR
     campaignCollection[("campaign(Collection)")]:::state
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     system -->|owns| Creator
-    CoRE -->|owns| Collection
-    token -->|owns| Mint
-    token -->|owns| creatorAtaCreatorTokeMint
-    VestingPositions -->|owns| campaignCollection
-    token -->|owns| campaignAtacampaignCollectionTokeMint
+    CoRE --> Collection
+    token --> Mint
+    token --> creatorAtaCreatorTokeMint
+    VestingPositions --> campaignCollection
+    token --> campaignAtacampaignCollectionTokeMint
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
 ```
 
 ### Tree
 
 ```
 
-Creator (85369cu)
-└─ VestingPositions::Initialize ✓ 85369cu
+Creator (89713cu)
+└─ VestingPositions::Initialize ✓ 89713cu
    ├─ system::createAccount ✓
-   ├─ splAssociatedTokenAccount::create ✓ 13517cu
+   ├─ splAssociatedTokenAccount::create ✓ 18017cu
    │  ├─ token::getAccountDataSize ✓ 183cu
    │  ├─ system::createAccount ✓
    │  ├─ token::initializeImmutableOwner ✓ 38cu
@@ -232,7 +239,7 @@ sequenceDiagram
     p4-->>p1: ✓
     deactivate p4
     note over p1: 🚩 custom program error  0x177f
-    p1-->>p0: ✗ 41219cu
+    p1-->>p0: ✗ 45719cu
     deactivate p1
 ```
 
@@ -246,25 +253,27 @@ flowchart LR
     campaignAtacampaignCollectionTokeMint[("campaignAta(campaign(Collection), Toke…, Mint)")]:::state
     userAtaErV6TokeMint(["userAta(ErV6…, Toke…, Mint)"]):::signer
     1115[("1115…")]:::state
-    C6G6(["C6G6…"]):::signer
+    BPGT(["BPGT…"]):::signer
     splAssociatedTokenAccount["splAssociatedTokenAccount"]:::program
     token["token"]:::program
     system["system"]:::program
     ErV6 -->|signs| VestingPositions
     VestingPositions -->|writes| Collection
-    VestingPositions -->|writes| campaignAtacampaignCollectionTokeMint
-    VestingPositions -->|writes| userAtaErV6TokeMint
-    VestingPositions -->|writes| 1115
-    VestingPositions -->|writes| C6G6
-    ErV6 -->|signs| splAssociatedTokenAccount
-    splAssociatedTokenAccount -->|writes| userAtaErV6TokeMint
-    ErV6 -->|signs| system
-    userAtaErV6TokeMint -->|signs| system
-    token -->|writes| userAtaErV6TokeMint
-    C6G6 -->|signs| system
+    VestingPositions --> campaignAtacampaignCollectionTokeMint
+    VestingPositions --> userAtaErV6TokeMint
+    VestingPositions --> 1115
+    VestingPositions --> BPGT
+    ErV6 --> splAssociatedTokenAccount
+    splAssociatedTokenAccount --> userAtaErV6TokeMint
+    ErV6 --> system
+    userAtaErV6TokeMint --> system
+    token --> userAtaErV6TokeMint
+    BPGT --> system
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,6,8,9,11 stroke:#82b366;
+    linkStyle 1,2,3,4,5,7,10 stroke:#d79b00;
 ```
 
 ### Ownership
@@ -280,24 +289,25 @@ flowchart LR
     userAtaErV6TokeMint[("userAta(ErV6…, Toke…, Mint)")]:::state
     1115[("1115…")]:::state
     VestingPositions["VestingPositions"]:::program
-    C6G6[("C6G6…")]:::state
+    BPGT[("BPGT…")]:::state
     system -->|owns| ErV6
-    CoRE -->|owns| Collection
-    token -->|owns| campaignAtacampaignCollectionTokeMint
-    token -->|owns| userAtaErV6TokeMint
-    system -->|owns| 1115
-    VestingPositions -->|owns| C6G6
+    CoRE --> Collection
+    token --> campaignAtacampaignCollectionTokeMint
+    token --> userAtaErV6TokeMint
+    system --> 1115
+    VestingPositions --> BPGT
     classDef program fill:#dae8fc,stroke:#6c8ebf;
     classDef signer fill:#d5e8d4,stroke:#82b366;
     classDef state fill:#ffe6cc,stroke:#d79b00;
+    linkStyle 0,1,2,3,4,5 stroke:#6c8ebf;
 ```
 
 ### Tree
 
 ```
 
-ErV6… (41219cu)
-└─ VestingPositions::Claim ✗ 41219cu
+ErV6… (45719cu)
+└─ VestingPositions::Claim ✗ 45719cu
    ├─ splAssociatedTokenAccount::create ✓ 13416cu
    │  ├─ token::getAccountDataSize ✓ 183cu
    │  ├─ system::createAccount ✓

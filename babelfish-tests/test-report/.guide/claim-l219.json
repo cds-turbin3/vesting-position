@@ -24,7 +24,7 @@
             },
             {
               "type": "addr",
-              "value": "DZ9SxyoirUd6SJtqTyLzGjyRuQjmxcs1ySPeuZqzmAA9"
+              "value": "9HbgSnRdBeYKzrjr9DYtcT6oKYrcTVB8NWUoU7JVKuWW"
             }
           ],
           [
@@ -44,7 +44,7 @@
             },
             {
               "type": "addr",
-              "value": "J6WtRQHtRxemkWECcNq1wQAfgyJtsx7ZUT7Xpb53vo2N"
+              "value": "4Kr8ypueV83MddH54fZXLkKFKRd7eWFcejQ8HtynfJRk"
             }
           ],
           [
@@ -64,7 +64,7 @@
             },
             {
               "type": "addr",
-              "value": "2rbEagbB2s6tm4BWjcCmYnPxEi8cmF6CqCYPK6WhKZrC"
+              "value": "G4GWLHr4aHZoxWra82eRc111wRJ9aDiXsSuk3bWoys2G"
             }
           ],
           [
@@ -74,7 +74,7 @@
             },
             {
               "type": "addr",
-              "value": "BXgRMbNU5GHfjUAEUL4gc4dkK47Kbd26uZfbunemQyjQ"
+              "value": "3kKwPKo9z6XQWrZxuo75c36vm9ChMgGDAMBV7cFEhjSn"
             }
           ],
           [
@@ -84,7 +84,7 @@
             },
             {
               "type": "addr",
-              "value": "7RKXPrw2SRFrpVR7h81dMPhHdaVV7y57tEYmDraizX43"
+              "value": "AvzkuSUEzjhXyboXRyfQcsjzKLBqeP9FeoExRBWkXjdJ"
             }
           ],
           [
@@ -94,7 +94,7 @@
             },
             {
               "type": "addr",
-              "value": "vGh5gMbD7AsVatTVNDo3pC7hveLFKdXbZ3eNt17chDs"
+              "value": "CYBwE6G2RjrsFYbwy5pUVVDVL5UR5g5VaRcWBPbzby1p"
             }
           ],
           [
@@ -104,7 +104,47 @@
             },
             {
               "type": "addr",
-              "value": "DP7csyre1YNuKdteez1puQMtq7kbgzhLKJabPePoNc39"
+              "value": "A8Eu8FarK5CxvYkBoYeJ9bsoA4mFZFvH9dqgH56TZQnf"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "1115…"
+            },
+            {
+              "type": "addr",
+              "value": "11157t3sqMV725NVRLrVQbAu98Jjfk1uCKehJnXXQs"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "BPGT…"
+            },
+            {
+              "type": "addr",
+              "value": "BPGTo3tYBXeY4XK6hNXkHKXP4DvNd6dgiU66GapJTtFj"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "CoRE…"
+            },
+            {
+              "type": "addr",
+              "value": "CoREENxT6tW1HoK8ypY1SxRMZTcVPm7R94rH4PZNhX7d"
+            }
+          ],
+          [
+            {
+              "type": "text",
+              "value": "ErV6…"
+            },
+            {
+              "type": "addr",
+              "value": "ErV63ApqLgh1Je5PdiVj6kzwkKJmLjKV41QoN9U4BNag"
             }
           ]
         ]
@@ -289,7 +329,7 @@
               "program": "p1",
               "call_label": "Initialize",
               "failure": null,
-              "return_label": "✓ 85369cu",
+              "return_label": "✓ 89713cu",
               "children": [
                 {
                   "caller": "p1",
@@ -304,7 +344,7 @@
                   "program": "p3",
                   "call_label": "create",
                   "failure": null,
-                  "return_label": "✓ 13517cu",
+                  "return_label": "✓ 18017cu",
                   "children": [
                     {
                       "caller": "p3",
@@ -644,7 +684,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nCreator (85369cu)\n└─ VestingPositions::Initialize ✓ 85369cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 13517cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
+        "text": "\nCreator (89713cu)\n└─ VestingPositions::Initialize ✓ 89713cu\n   ├─ system::createAccount ✓\n   ├─ splAssociatedTokenAccount::create ✓ 18017cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   ├─ CoRE…::CreateCollectionV2 ✓ 19976cu\n   │  ├─ system::createAccount ✓\n   │  ├─ system::transferSol ✓\n   │  ├─ system::transferSol ✓\n   │  └─ system::transferSol ✓\n   └─ token::transferChecked ✓ 105cu\n"
       }
     },
     {
@@ -712,7 +752,7 @@
               "program": "p1",
               "call_label": "Claim",
               "failure": "custom program error  0x177f",
-              "return_label": "✗ 41219cu",
+              "return_label": "✗ 45719cu",
               "children": [
                 {
                   "caller": "p1",
@@ -807,7 +847,7 @@
             "role": "state"
           },
           {
-            "name": "C6G6…",
+            "name": "BPGT…",
             "role": "authority"
           },
           {
@@ -852,7 +892,7 @@
           {
             "from": "VestingPositions",
             "verb": "writes",
-            "to": "C6G6…"
+            "to": "BPGT…"
           },
           {
             "from": "ErV6…",
@@ -880,7 +920,7 @@
             "to": "userAta(ErV6…, Toke…, Mint)"
           },
           {
-            "from": "C6G6…",
+            "from": "BPGT…",
             "verb": "signs",
             "to": "system"
           }
@@ -935,7 +975,7 @@
             "role": "program"
           },
           {
-            "name": "C6G6…",
+            "name": "BPGT…",
             "role": "state"
           }
         ],
@@ -968,7 +1008,7 @@
           {
             "from": "VestingPositions",
             "verb": "owns",
-            "to": "C6G6…"
+            "to": "BPGT…"
           }
         ]
       }
@@ -984,7 +1024,7 @@
       "kind": "fenced",
       "data": {
         "lang": null,
-        "text": "\nErV6… (41219cu)\n└─ VestingPositions::Claim ✗ 41219cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   └─ system::createAccount ✓\n"
+        "text": "\nErV6… (45719cu)\n└─ VestingPositions::Claim ✗ 45719cu\n   ├─ splAssociatedTokenAccount::create ✓ 13416cu\n   │  ├─ token::getAccountDataSize ✓ 183cu\n   │  ├─ system::createAccount ✓\n   │  ├─ token::initializeImmutableOwner ✓ 38cu\n   │  └─ token::initializeAccount3 ✓ 235cu\n   └─ system::createAccount ✓\n"
       }
     }
   ],
