@@ -13,15 +13,17 @@ publish = false
 
 [dependencies]
 # Pinned to pan-galactic/sol-babelfish main: the chart block (schema 0.3;
-# Block::Chart paints the numeric observations as a mermaid xychart, the
-# report standard opts in with chart(ChartKind::Line)), on top of the
+# Block::Chart paints the numeric observations as a mermaid xychart with a
+# pinned palette, the legend names each series' color, single-sample
+# stories skip the block; the report standard opts in with
+# chart(ChartKind::Line).collapsed()), on top of the
 # client-feedback batch (unaliased-participant diagnostics + cast stub
 # tail, edge colors by verb, Actor Display = label, compose_key), the
 # typed report standard (ReportConfig::of in world.rs) and
 # #[derive(FromValue)]. Swap to a crates.io release once frood is
 # published.
-frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "e78c78006d369f434535e4ae33ff847bf25870b7" }
-frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "e78c78006d369f434535e4ae33ff847bf25870b7" }
+frood = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "7334d2d704e68a8a07337941018cffb9787c4949" }
+frood-idl = { git = "https://github.com/pan-galactic/sol-babelfish", rev = "7334d2d704e68a8a07337941018cffb9787c4949" }
 # The `Account` the plugin helper rebuilds into an `AccountInfo` for
 # mpl-core's `fetch_plugin` (litesvm's `get_account` hands one back).
 solana-account = "3"

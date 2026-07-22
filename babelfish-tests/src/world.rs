@@ -235,7 +235,7 @@ pub fn report_standard() -> ReportConfig {
     ReportConfig::of([
         cast().collapsed(),
         timeline(),
-        chart(ChartKind::Line),
+        chart(ChartKind::Line).collapsed(),
         folder(
             "diagrams",
             [sequence(Lifelines), authority(), ownership(), tree()],
