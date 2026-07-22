@@ -236,6 +236,9 @@ pub fn report_standard() -> ReportConfig {
         cast().collapsed(),
         timeline(),
         chart(ChartKind::Line).collapsed(),
+        // The same samples re-based to change-since-first-sample: the flows
+        // of the campaign on one axis, net per series in the legend.
+        chart(ChartKind::Delta).collapsed(),
         folder(
             "diagrams",
             [sequence(Lifelines), authority(), ownership(), tree()],
