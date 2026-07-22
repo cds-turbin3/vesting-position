@@ -1,6 +1,6 @@
 # clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt
 
-**Source:** [`tests/clawback.rs` L165](https://github.com/cds-turbin3/vesting-position/blob/69d00d66a7e25c04d9832542697b24089dd0f39c/babelfish-tests/tests/clawback.rs#L165)
+**Source:** [`tests/clawback.rs` L165](https://github.com/cds-turbin3/vesting-position/blob/224988d3d01f31b53ad59dd7eef07040a56230e5/babelfish-tests/tests/clawback.rs#L165)
 
 Over 38 days: 5 moments.
 
@@ -46,11 +46,19 @@ xychart-beta
     x-axis ["d0", "d1", "d1", "d16", "d38"]
     line [10000000000000, 10000000000000, 10000000000000, 9450000000000, 7450000000000]
     line [0, 0, 0, 0, 2000000000000]
+```
+
+*🟠 Vault balance · 🔵 Creator balance*
+
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
+xychart-beta
+    x-axis ["d0", "d1", "d1", "d16", "d38"]
     line [0, 0, 0, 0, 0]
     line [0, 0, 0, 0, 550000000000]
 ```
 
-*🟠 Vault balance · 🔵 Creator balance · 🟢 Alice balance · 🟣 Bob balance*
+*🟠 Alice balance · 🔵 Bob balance*
 
 </details>
 

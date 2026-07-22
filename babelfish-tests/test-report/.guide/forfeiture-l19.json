@@ -333,7 +333,33 @@
               "9000000000000",
               "9000000000000"
             ]
+          }
+        ]
+      }
+    },
+    {
+      "kind": "chart",
+      "data": {
+        "kind": "line",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
           },
+          {
+            "label": "d2",
+            "clock": 1700172800
+          },
+          {
+            "label": "d38",
+            "clock": 1703283201
+          },
+          {
+            "label": "d38",
+            "clock": 1703283201
+          }
+        ],
+        "series": [
           {
             "name": "Creator balance",
             "points": [
@@ -1924,7 +1950,8 @@
       "op": "fold",
       "label": "Chart",
       "blocks": [
-        5
+        5,
+        6
       ],
       "open": false
     },
@@ -1932,14 +1959,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        9,
         10,
         11,
         12,
         13,
         14,
         15,
-        16
+        16,
+        17
       ],
       "open": false
     },
@@ -1947,14 +1974,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        22,
         23,
         24,
         25,
         26,
         27,
         28,
-        29
+        29,
+        30
       ],
       "open": false
     },
@@ -1962,14 +1989,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        36,
         37,
         38,
         39,
         40,
         41,
         42,
-        43
+        43,
+        44
       ],
       "open": false
     },
@@ -1977,14 +2004,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        47,
         48,
         49,
         50,
         51,
         52,
         53,
-        54
+        54,
+        55
       ],
       "open": false
     }

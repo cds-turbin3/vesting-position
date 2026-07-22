@@ -1,6 +1,6 @@
 # unfreeze_collection_restores_transfer_for_non_transferable_campaign
 
-**Source:** [`tests/freeze.rs` L97](https://github.com/cds-turbin3/vesting-position/blob/69d00d66a7e25c04d9832542697b24089dd0f39c/babelfish-tests/tests/freeze.rs#L97)
+**Source:** [`tests/freeze.rs` L97](https://github.com/cds-turbin3/vesting-position/blob/224988d3d01f31b53ad59dd7eef07040a56230e5/babelfish-tests/tests/freeze.rs#L97)
 
 Over 1 day: 5 moments.
 

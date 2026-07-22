@@ -1,6 +1,6 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/69d00d66a7e25c04d9832542697b24089dd0f39c/babelfish-tests/tests/full_lifecycle.rs#L24)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/224988d3d01f31b53ad59dd7eef07040a56230e5/babelfish-tests/tests/full_lifecycle.rs#L24)
 
 > Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
@@ -74,13 +74,21 @@ Final state checks:
 xychart-beta
     x-axis ["d0", "d2", "d16", "d16", "d16", "d16", "d16", "d23", "d23", "d23", "d23", "d28"]
     line [10000000000000, 9900000000000, 9450000000000, 8350000000000, 8350000000000, 8350000000000, 8350000000000, 8125000000000, 7675000000000, 7675000000000, 7675000000000, 7405000000000]
+    line [0, 0, 0, 0, 1100000000000, 1100000000000, 1100000000000, 1100000000000, 1550000000000, 1550000000000, 1550000000000, 1550000000000]
+```
+
+*🟠 Vault balance · 🔵 Charlie balance*
+
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
+xychart-beta
+    x-axis ["d0", "d2", "d16", "d16", "d16", "d16", "d16", "d23", "d23", "d23", "d23", "d28"]
     line [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     line [0, 0, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 820000000000]
-    line [0, 0, 0, 0, 1100000000000, 1100000000000, 1100000000000, 1100000000000, 1550000000000, 1550000000000, 1550000000000, 1550000000000]
     line [0, 0, 0, 0, 0, 0, 0, 0, 225000000000, 225000000000, 225000000000, 225000000000]
 ```
 
-*🟠 Vault balance · 🔵 Creator balance · 🟢 Alice balance · 🟣 Charlie balance · 🔴 Bob balance*
+*🟠 Creator balance · 🔵 Alice balance · 🟢 Bob balance*
 
 </details>
 

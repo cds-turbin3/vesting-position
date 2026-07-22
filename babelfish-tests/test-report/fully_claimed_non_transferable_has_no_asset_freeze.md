@@ -1,6 +1,6 @@
 # fully_claimed_non_transferable_has_no_asset_freeze
 
-**Source:** [`tests/freeze.rs` L159](https://github.com/cds-turbin3/vesting-position/blob/69d00d66a7e25c04d9832542697b24089dd0f39c/babelfish-tests/tests/freeze.rs#L159)
+**Source:** [`tests/freeze.rs` L159](https://github.com/cds-turbin3/vesting-position/blob/224988d3d01f31b53ad59dd7eef07040a56230e5/babelfish-tests/tests/freeze.rs#L159)
 
 Over 31 days: 3 moments.
 

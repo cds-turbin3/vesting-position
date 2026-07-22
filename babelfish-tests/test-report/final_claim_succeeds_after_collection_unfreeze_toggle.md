@@ -1,6 +1,6 @@
 # final_claim_succeeds_after_collection_unfreeze_toggle
 
-**Source:** [`tests/freeze.rs` L323](https://github.com/cds-turbin3/vesting-position/blob/69d00d66a7e25c04d9832542697b24089dd0f39c/babelfish-tests/tests/freeze.rs#L323)
+**Source:** [`tests/freeze.rs` L323](https://github.com/cds-turbin3/vesting-position/blob/224988d3d01f31b53ad59dd7eef07040a56230e5/babelfish-tests/tests/freeze.rs#L323)
 
 Over 31 days: 4 moments.
 
