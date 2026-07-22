@@ -1,5 +1,5 @@
 {
-  "guide": "0.3",
+  "guide": "0.4",
   "provenance": {
     "file": "tests/vesting_schedule.rs",
     "line": 150
@@ -268,6 +268,52 @@
       "kind": "chart",
       "data": {
         "kind": "line",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
+          },
+          {
+            "label": "d2",
+            "clock": 1700172800
+          },
+          {
+            "label": "d31",
+            "clock": 1702678401
+          }
+        ],
+        "series": [
+          {
+            "name": "Vault balance",
+            "points": [
+              "10000000000000",
+              "9000000000000",
+              "9000000000000"
+            ]
+          },
+          {
+            "name": "Creator balance",
+            "points": [
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          {
+            "name": "Alice balance",
+            "points": [
+              null,
+              null,
+              "1000000000000"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "kind": "chart",
+      "data": {
+        "kind": "delta",
         "ticks": [
           {
             "label": "d0",
@@ -1553,16 +1599,24 @@
     },
     {
       "op": "fold",
+      "label": "Flows",
+      "blocks": [
+        5
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
       "label": "diagrams",
       "blocks": [
-        7,
         8,
         9,
         10,
         11,
         12,
         13,
-        14
+        14,
+        15
       ],
       "open": false
     },
@@ -1570,14 +1624,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        18,
         19,
         20,
         21,
         22,
         23,
         24,
-        25
+        25,
+        26
       ],
       "open": false
     },
@@ -1585,14 +1639,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        30,
         31,
         32,
         33,
         34,
         35,
         36,
-        37
+        37,
+        38
       ],
       "open": false
     }

@@ -1,5 +1,5 @@
 {
-  "guide": "0.3",
+  "guide": "0.4",
   "provenance": {
     "file": "tests/clawback.rs",
     "line": 368
@@ -336,6 +336,66 @@
       "kind": "chart",
       "data": {
         "kind": "line",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
+          },
+          {
+            "label": "d1",
+            "clock": 1700086400
+          },
+          {
+            "label": "d31",
+            "clock": 1702678401
+          },
+          {
+            "label": "d31",
+            "clock": 1702678401
+          },
+          {
+            "label": "d31",
+            "clock": 1702678401
+          }
+        ],
+        "series": [
+          {
+            "name": "Vault balance",
+            "points": [
+              "1000000000000",
+              "1000000000000",
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          {
+            "name": "Creator balance",
+            "points": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          {
+            "name": "Alice balance",
+            "points": [
+              null,
+              null,
+              "1000000000000",
+              "1000000000000",
+              "1000000000000"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "kind": "chart",
+      "data": {
+        "kind": "delta",
         "ticks": [
           {
             "label": "d0",
@@ -2025,16 +2085,24 @@
     },
     {
       "op": "fold",
+      "label": "Flows",
+      "blocks": [
+        5
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
       "label": "diagrams",
       "blocks": [
-        7,
         8,
         9,
         10,
         11,
         12,
         13,
-        14
+        14,
+        15
       ],
       "open": false
     },
@@ -2042,14 +2110,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        17,
         18,
         19,
         20,
         21,
         22,
         23,
-        24
+        24,
+        25
       ],
       "open": false
     },
@@ -2057,14 +2125,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        28,
         29,
         30,
         31,
         32,
         33,
         34,
-        35
+        35,
+        36
       ],
       "open": false
     },
@@ -2072,14 +2140,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        37,
         38,
         39,
         40,
         41,
         42,
         43,
-        44
+        44,
+        45
       ],
       "open": false
     },
@@ -2087,14 +2155,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        46,
         47,
         48,
         49,
         50,
         51,
         52,
-        53
+        53,
+        54
       ],
       "open": false
     }

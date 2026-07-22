@@ -1,6 +1,6 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/224988d3d01f31b53ad59dd7eef07040a56230e5/babelfish-tests/tests/full_lifecycle.rs#L24)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/7c9fb3a609fc786de731fb5d2ea82919f4974b08/babelfish-tests/tests/full_lifecycle.rs#L24)
 
 > Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
@@ -89,6 +89,25 @@ xychart-beta
 ```
 
 *🟠 Creator balance · 🔵 Alice balance · 🟢 Bob balance*
+
+</details>
+
+<details>
+<summary>Flows</summary>
+
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
+xychart-beta
+    x-axis ["d0", "d2", "d16", "d16", "d16", "d16", "d16", "d23", "d23", "d23", "d23", "d28"]
+    y-axis "change since first sample"
+    line [0, -100000000000, -550000000000, -1650000000000, -1650000000000, -1650000000000, -1650000000000, -1875000000000, -2325000000000, -2325000000000, -2325000000000, -2595000000000]
+    line [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    line [0, 0, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 820000000000]
+    line [0, 0, 0, 0, 1100000000000, 1100000000000, 1100000000000, 1100000000000, 1550000000000, 1550000000000, 1550000000000, 1550000000000]
+    line [0, 0, 0, 0, 0, 0, 0, 0, 225000000000, 225000000000, 225000000000, 225000000000]
+```
+
+*🟠 Vault balance (-2.5T) · 🔵 Creator balance (0) · 🟢 Alice balance (+820B) · 🟣 Charlie balance (+1.5T) · 🔴 Bob balance (+225B)*
 
 </details>
 

@@ -1,5 +1,5 @@
 {
-  "guide": "0.3",
+  "guide": "0.4",
   "provenance": {
     "file": "tests/compute_units.rs",
     "line": 67

@@ -1,5 +1,5 @@
 {
-  "guide": "0.3",
+  "guide": "0.4",
   "provenance": {
     "file": "tests/vesting_schedule.rs",
     "line": 68
@@ -215,6 +215,38 @@
       "kind": "chart",
       "data": {
         "kind": "line",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
+          },
+          {
+            "label": "d16",
+            "clock": 1701425600
+          }
+        ],
+        "series": [
+          {
+            "name": "Vault balance",
+            "points": [
+              "10000000000000",
+              "9450000000000"
+            ]
+          },
+          {
+            "name": "Creator balance",
+            "points": [
+              "0",
+              "0"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "kind": "chart",
+      "data": {
+        "kind": "delta",
         "ticks": [
           {
             "label": "d0",
@@ -1229,16 +1261,9 @@
     },
     {
       "op": "fold",
-      "label": "diagrams",
+      "label": "Flows",
       "blocks": [
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15
+        5
       ],
       "open": false
     },
@@ -1246,14 +1271,29 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        21,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
+      "label": "diagrams",
+      "blocks": [
         22,
         23,
         24,
         25,
         26,
         27,
-        28
+        28,
+        29
       ],
       "open": false
     }

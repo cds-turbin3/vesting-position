@@ -1,6 +1,6 @@
 # before_cliff_transfers_zero
 
-**Source:** [`tests/vesting_schedule.rs` L28](https://github.com/cds-turbin3/vesting-position/blob/224988d3d01f31b53ad59dd7eef07040a56230e5/babelfish-tests/tests/vesting_schedule.rs#L28)
+**Source:** [`tests/vesting_schedule.rs` L28](https://github.com/cds-turbin3/vesting-position/blob/7c9fb3a609fc786de731fb5d2ea82919f4974b08/babelfish-tests/tests/vesting_schedule.rs#L28)
 
 Over 1 day: 2 moments.
 
@@ -42,6 +42,22 @@ xychart-beta
 ```
 
 *🟠 Vault balance · 🔵 Creator balance*
+
+</details>
+
+<details>
+<summary>Flows</summary>
+
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
+xychart-beta
+    x-axis ["d0", "d1"]
+    y-axis "change since first sample"
+    line [0, 0]
+    line [0, 0]
+```
+
+*🟠 Vault balance (0) · 🔵 Creator balance (0)*
 
 </details>
 

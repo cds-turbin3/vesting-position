@@ -1,6 +1,6 @@
 # clawback_unclaimed_recovers_allocation_and_blocks_claim
 
-**Source:** [`tests/clawback.rs` L104](https://github.com/cds-turbin3/vesting-position/blob/224988d3d01f31b53ad59dd7eef07040a56230e5/babelfish-tests/tests/clawback.rs#L104)
+**Source:** [`tests/clawback.rs` L104](https://github.com/cds-turbin3/vesting-position/blob/7c9fb3a609fc786de731fb5d2ea82919f4974b08/babelfish-tests/tests/clawback.rs#L104)
 
 Over 38 days: 3 moments.
 
@@ -43,6 +43,22 @@ xychart-beta
 ```
 
 *🟠 Vault balance · 🔵 Creator balance*
+
+</details>
+
+<details>
+<summary>Flows</summary>
+
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
+xychart-beta
+    x-axis ["d0", "d38", "d38"]
+    y-axis "change since first sample"
+    line [0, -2000000000000, -2000000000000]
+    line [0, 2000000000000, 2000000000000]
+```
+
+*🟠 Vault balance (-2T) · 🔵 Creator balance (+2T)*
 
 </details>
 

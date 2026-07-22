@@ -1,5 +1,5 @@
 {
-  "guide": "0.3",
+  "guide": "0.4",
   "provenance": {
     "file": "tests/clawback.rs",
     "line": 166
@@ -477,6 +477,76 @@
           }
         ],
         "series": [
+          {
+            "name": "Alice balance",
+            "points": [
+              null,
+              null,
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          {
+            "name": "Bob balance",
+            "points": [
+              null,
+              null,
+              null,
+              null,
+              "550000000000"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "kind": "chart",
+      "data": {
+        "kind": "delta",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
+          },
+          {
+            "label": "d1",
+            "clock": 1700086400
+          },
+          {
+            "label": "d1",
+            "clock": 1700086400
+          },
+          {
+            "label": "d16",
+            "clock": 1701425600
+          },
+          {
+            "label": "d38",
+            "clock": 1703283201
+          }
+        ],
+        "series": [
+          {
+            "name": "Vault balance",
+            "points": [
+              "10000000000000",
+              "10000000000000",
+              "10000000000000",
+              "9450000000000",
+              "7450000000000"
+            ]
+          },
+          {
+            "name": "Creator balance",
+            "points": [
+              "0",
+              "0",
+              "0",
+              "0",
+              "2000000000000"
+            ]
+          },
           {
             "name": "Alice balance",
             "points": [
@@ -2307,16 +2377,24 @@
     },
     {
       "op": "fold",
+      "label": "Flows",
+      "blocks": [
+        6
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
       "label": "diagrams",
       "blocks": [
-        8,
         9,
         10,
         11,
         12,
         13,
         14,
-        15
+        15,
+        16
       ],
       "open": false
     },
@@ -2324,14 +2402,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        18,
         19,
         20,
         21,
         22,
         23,
         24,
-        25
+        25,
+        26
       ],
       "open": false
     },
@@ -2339,14 +2417,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        28,
         29,
         30,
         31,
         32,
         33,
         34,
-        35
+        35,
+        36
       ],
       "open": false
     },
@@ -2354,14 +2432,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        39,
         40,
         41,
         42,
         43,
         44,
         45,
-        46
+        46,
+        47
       ],
       "open": false
     },
@@ -2369,14 +2447,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        50,
         51,
         52,
         53,
         54,
         55,
         56,
-        57
+        57,
+        58
       ],
       "open": false
     }

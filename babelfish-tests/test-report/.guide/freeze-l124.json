@@ -1,5 +1,5 @@
 {
-  "guide": "0.3",
+  "guide": "0.4",
   "provenance": {
     "file": "tests/freeze.rs",
     "line": 124
@@ -363,6 +363,59 @@
       "kind": "chart",
       "data": {
         "kind": "line",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
+          },
+          {
+            "label": "d1",
+            "clock": 1700086400
+          },
+          {
+            "label": "d31",
+            "clock": 1702678401
+          },
+          {
+            "label": "d31",
+            "clock": 1702678401
+          }
+        ],
+        "series": [
+          {
+            "name": "Vault balance",
+            "points": [
+              "10000000000000",
+              "10000000000000",
+              "9000000000000",
+              "9000000000000"
+            ]
+          },
+          {
+            "name": "Creator balance",
+            "points": [
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          {
+            "name": "Alice balance",
+            "points": [
+              null,
+              null,
+              "1000000000000",
+              "1000000000000"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "kind": "chart",
+      "data": {
+        "kind": "delta",
         "ticks": [
           {
             "label": "d0",
@@ -1887,16 +1940,24 @@
     },
     {
       "op": "fold",
+      "label": "Flows",
+      "blocks": [
+        8
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
       "label": "diagrams",
       "blocks": [
-        10,
         11,
         12,
         13,
         14,
         15,
         16,
-        17
+        17,
+        18
       ],
       "open": false
     },
@@ -1904,14 +1965,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        20,
         21,
         22,
         23,
         24,
         25,
         26,
-        27
+        27,
+        28
       ],
       "open": false
     },
@@ -1919,14 +1980,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        31,
         32,
         33,
         34,
         35,
         36,
         37,
-        38
+        38,
+        39
       ],
       "open": false
     },
@@ -1934,14 +1995,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        41,
         42,
         43,
         44,
         45,
         46,
         47,
-        48
+        48,
+        49
       ],
       "open": false
     }

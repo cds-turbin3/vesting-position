@@ -1,6 +1,6 @@
 # exclude_asset_blocks_subsequent_claims
 
-**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/224988d3d01f31b53ad59dd7eef07040a56230e5/babelfish-tests/tests/freeze.rs#L187)
+**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/7c9fb3a609fc786de731fb5d2ea82919f4974b08/babelfish-tests/tests/freeze.rs#L187)
 
 Over 31 days: 5 moments.
 
@@ -55,6 +55,23 @@ xychart-beta
 ```
 
 *🟠 Creator balance · 🔵 Alice balance*
+
+</details>
+
+<details>
+<summary>Flows</summary>
+
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
+xychart-beta
+    x-axis ["d0", "d1", "d16", "d16", "d31"]
+    y-axis "change since first sample"
+    line [0, 0, -550000000000, -1000000000000, -1000000000000]
+    line [0, 0, 0, 450000000000, 450000000000]
+    line [0, 0, 550000000000, 550000000000, 550000000000]
+```
+
+*🟠 Vault balance (-1T) · 🔵 Creator balance (+450B) · 🟢 Alice balance (+550B)*
 
 </details>
 
