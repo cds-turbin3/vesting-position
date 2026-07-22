@@ -1,6 +1,6 @@
 # cancel_campaign_fails_after_position_burned
 
-**Source:** [`tests/clawback.rs` L332](https://github.com/cds-turbin3/vesting-position/blob/7172eb8fb4ae69b1e7af671b76095a6112c41e68/babelfish-tests/tests/clawback.rs#L332)
+**Source:** [`tests/clawback.rs` L332](https://github.com/cds-turbin3/vesting-position/blob/69d00d66a7e25c04d9832542697b24089dd0f39c/babelfish-tests/tests/clawback.rs#L332)
 
 Over 1 day: 4 moments.
 
@@ -36,7 +36,7 @@ Over 1 day: 4 moments.
 <summary>Chart</summary>
 
 ```mermaid
-%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3987e5, #d95926, #199e70, #c98500, #d55181, #2ca02c, #9085e9, #e66767"}}}}%%
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
 xychart-beta
     x-axis ["d0", "d1", "d1", "d1"]
     line [10000000000000, 10000000000000, 9000000000000, 9000000000000]
@@ -44,7 +44,7 @@ xychart-beta
     line [0, 0, 0, 0]
 ```
 
-*series: Vault balance (blue), Creator balance (orange), Alice balance (teal)*
+*🟠 Vault balance · 🔵 Creator balance · 🟢 Alice balance*
 
 </details>
 

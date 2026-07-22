@@ -1,6 +1,6 @@
 # fully_claimed_loyalty_badge_is_permanently_frozen
 
-**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/7172eb8fb4ae69b1e7af671b76095a6112c41e68/babelfish-tests/tests/freeze.rs#L123)
+**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/69d00d66a7e25c04d9832542697b24089dd0f39c/babelfish-tests/tests/freeze.rs#L123)
 
 <details>
 <summary>Over 31 days: 4 moments; 1/1 law held; 1/1 final check passed.</summary>
@@ -51,7 +51,7 @@ Final state checks:
 <summary>Chart</summary>
 
 ```mermaid
-%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3987e5, #d95926, #199e70, #c98500, #d55181, #2ca02c, #9085e9, #e66767"}}}}%%
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
 xychart-beta
     x-axis ["d0", "d1", "d31", "d31"]
     line [10000000000000, 10000000000000, 9000000000000, 9000000000000]
@@ -59,7 +59,7 @@ xychart-beta
     line [0, 0, 1000000000000, 1000000000000]
 ```
 
-*series: Vault balance (blue), Creator balance (orange), Alice balance (teal)*
+*🟠 Vault balance · 🔵 Creator balance · 🟢 Alice balance*
 
 </details>
 
