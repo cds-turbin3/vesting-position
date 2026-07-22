@@ -1,6 +1,6 @@
 # freeze_asset_blocks_transfer_and_unfreeze_restores
 
-**Source:** [`tests/freeze.rs` L275](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/freeze.rs#L275)
+**Source:** [`tests/freeze.rs` L275](https://github.com/cds-turbin3/vesting-position/blob/7172eb8fb4ae69b1e7af671b76095a6112c41e68/babelfish-tests/tests/freeze.rs#L275)
 
 Over 1 day: 6 moments.
 
@@ -37,9 +37,11 @@ Over 1 day: 6 moments.
 | T4 | 10,000,000,000,000 |  | 0 |  | 0 |  | FreezeAsset (day 1) |
 | T5 | 10,000,000,000,000 |  | 0 |  | 0 |  | TransferPosition (day 1) |
 
-### Chart
+<details>
+<summary>Chart</summary>
 
 ```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3987e5, #d95926, #199e70, #c98500, #d55181, #2ca02c, #9085e9, #e66767"}}}}%%
 xychart-beta
     x-axis ["d0", "d1", "d1", "d1", "d1", "d1"]
     line [10000000000000, 10000000000000, 10000000000000, 10000000000000, 10000000000000, 10000000000000]
@@ -47,7 +49,9 @@ xychart-beta
     line [0, 0, 0, 0, 0, 0]
 ```
 
-*series: Vault balance, Creator balance, Alice balance*
+*series: Vault balance (blue), Creator balance (orange), Alice balance (teal)*
+
+</details>
 
 ### T0: Initialize (day 0)
 

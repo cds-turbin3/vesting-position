@@ -1,6 +1,6 @@
 # vested_tokens_are_forfeited_past_the_grace_window
 
-**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/forfeiture.rs#L17)
+**Source:** [`tests/forfeiture.rs` L17](https://github.com/cds-turbin3/vesting-position/blob/7172eb8fb4ae69b1e7af671b76095a6112c41e68/babelfish-tests/tests/forfeiture.rs#L17)
 
 > Given: Alice is whitelisted in a live campaign with a grace window past end
 
@@ -35,9 +35,11 @@ Over 38 days: 4 moments.
 | T2 | 9,000,000,000,000 | -900,000,000,000 | 900,000,000,000 | +900,000,000,000 | 100,000,000,000 | +100,000,000,000 | Clawback (day 38) |
 | T3 | 9,000,000,000,000 |  | 900,000,000,000 |  | 100,000,000,000 |  | Claim (day 38) |
 
-### Chart
+<details>
+<summary>Chart</summary>
 
 ```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3987e5, #d95926, #199e70, #c98500, #d55181, #2ca02c, #9085e9, #e66767"}}}}%%
 xychart-beta
     x-axis ["d0", "d2", "d38", "d38"]
     line [10000000000000, 9900000000000, 9000000000000, 9000000000000]
@@ -45,7 +47,9 @@ xychart-beta
     line [0, 0, 100000000000, 100000000000]
 ```
 
-*series: Vault balance, Creator balance, Alice balance*
+*series: Vault balance (blue), Creator balance (orange), Alice balance (teal)*
+
+</details>
 
 ### T0: Initialize (day 0)
 

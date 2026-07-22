@@ -1,6 +1,6 @@
 # claims_at_linear_checkpoints
 
-**Source:** [`tests/vesting_schedule.rs` L181](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/vesting_schedule.rs#L181)
+**Source:** [`tests/vesting_schedule.rs` L181](https://github.com/cds-turbin3/vesting-position/blob/7172eb8fb4ae69b1e7af671b76095a6112c41e68/babelfish-tests/tests/vesting_schedule.rs#L181)
 
 <details>
 <summary>Over 31 days: 16 moments; 1/1 law held.</summary>
@@ -52,9 +52,11 @@ Invariants (laws):
 | T14 | 9,009,000,000,000 | -72,000,000,000 | 0 |  | 991,000,000,000 | +72,000,000,000 | 991,000,000,000 | +72,000,000,000 | Claim (day 30) |
 | T15 | 9,000,000,000,000 | -9,000,000,000 | 0 |  | 1,000,000,000,000 | +9,000,000,000 | 1,000,000,000,000 | +9,000,000,000 | Claim (day 31) |
 
-### Chart
+<details>
+<summary>Chart</summary>
 
 ```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3987e5, #d95926, #199e70, #c98500, #d55181, #2ca02c, #9085e9, #e66767"}}}}%%
 xychart-beta
     x-axis ["d0", "d2", "d2", "d4", "d5", "d7", "d11", "d15", "d16", "d18", "d21", "d23", "d26", "d28", "d30", "d31"]
     line [10000000000000, 9900000000000, 9891000000000, 9837000000000, 9783000000000, 9720000000000, 9603000000000, 9495000000000, 9450000000000, 9387000000000, 9297000000000, 9225000000000, 9153000000000, 9081000000000, 9009000000000, 9000000000000]
@@ -63,7 +65,9 @@ xychart-beta
     line [0, 100000000000, 109000000000, 163000000000, 217000000000, 280000000000, 397000000000, 505000000000, 550000000000, 613000000000, 703000000000, 775000000000, 847000000000, 919000000000, 991000000000, 1000000000000]
 ```
 
-*series: Vault balance, Creator balance, Alice claimable (schedule ceiling), Alice balance*
+*series: Vault balance (blue), Creator balance (orange), Alice claimable (schedule ceiling) (teal), Alice balance (gold)*
+
+</details>
 
 ### T0: Initialize (day 0)
 

@@ -1,6 +1,6 @@
 # cancel_campaign_requires_creator
 
-**Source:** [`tests/clawback.rs` L343](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/clawback.rs#L343)
+**Source:** [`tests/clawback.rs` L343](https://github.com/cds-turbin3/vesting-position/blob/7172eb8fb4ae69b1e7af671b76095a6112c41e68/babelfish-tests/tests/clawback.rs#L343)
 
 Over 0 days: 2 moments.
 
@@ -31,16 +31,20 @@ Over 0 days: 2 moments.
 | T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — | Initialize (day 0) |
 | T1 | 10,000,000,000,000 |  | 0 |  | — | CancelCampaign (day 0) |
 
-### Chart
+<details>
+<summary>Chart</summary>
 
 ```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#3987e5, #d95926, #199e70, #c98500, #d55181, #2ca02c, #9085e9, #e66767"}}}}%%
 xychart-beta
     x-axis ["d0", "d0"]
     line [10000000000000, 10000000000000]
     line [0, 0]
 ```
 
-*series: Vault balance, Creator balance*
+*series: Vault balance (blue), Creator balance (orange)*
+
+</details>
 
 ### T0: Initialize (day 0)
 

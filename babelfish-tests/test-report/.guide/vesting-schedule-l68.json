@@ -212,13 +212,6 @@
       }
     },
     {
-      "kind": "heading",
-      "data": [
-        3,
-        "Chart"
-      ]
-    },
-    {
       "kind": "chart",
       "data": {
         "kind": "line",
@@ -1228,16 +1221,9 @@
     },
     {
       "op": "fold",
-      "label": "diagrams",
+      "label": "Chart",
       "blocks": [
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16
+        4
       ],
       "open": false
     },
@@ -1245,14 +1231,29 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
+      "label": "diagrams",
+      "blocks": [
+        21,
         22,
         23,
         24,
         25,
         26,
         27,
-        28,
-        29
+        28
       ],
       "open": false
     }

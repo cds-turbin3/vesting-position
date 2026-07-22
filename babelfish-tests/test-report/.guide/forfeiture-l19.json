@@ -303,13 +303,6 @@
       }
     },
     {
-      "kind": "heading",
-      "data": [
-        3,
-        "Chart"
-      ]
-    },
-    {
       "kind": "chart",
       "data": {
         "kind": "line",
@@ -1929,16 +1922,24 @@
     },
     {
       "op": "fold",
+      "label": "Chart",
+      "blocks": [
+        5
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
       "label": "diagrams",
       "blocks": [
+        9,
         10,
         11,
         12,
         13,
         14,
         15,
-        16,
-        17
+        16
       ],
       "open": false
     },
@@ -1946,14 +1947,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
+        22,
         23,
         24,
         25,
         26,
         27,
         28,
-        29,
-        30
+        29
       ],
       "open": false
     },
@@ -1961,14 +1962,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
+        36,
         37,
         38,
         39,
         40,
         41,
         42,
-        43,
-        44
+        43
       ],
       "open": false
     },
@@ -1976,14 +1977,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
+        47,
         48,
         49,
         50,
         51,
         52,
         53,
-        54,
-        55
+        54
       ],
       "open": false
     }
