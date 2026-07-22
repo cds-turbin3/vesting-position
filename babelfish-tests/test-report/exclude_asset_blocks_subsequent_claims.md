@@ -1,6 +1,6 @@
 # exclude_asset_blocks_subsequent_claims
 
-**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/freeze.rs#L187)
+**Source:** [`tests/freeze.rs` L187](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/freeze.rs#L187)
 
 Over 31 days: 5 moments.
 
@@ -33,6 +33,18 @@ Over 31 days: 5 moments.
 | T2 | 9,450,000,000,000 | -550,000,000,000 | 0 |  | 550,000,000,000 | +550,000,000,000 | Claim (day 16) |
 | T3 | 9,000,000,000,000 | -450,000,000,000 | 450,000,000,000 | +450,000,000,000 | 550,000,000,000 |  | ExcludeAsset (day 16) |
 | T4 | 9,000,000,000,000 |  | 450,000,000,000 |  | 550,000,000,000 |  | Claim (day 31) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d1", "d16", "d16", "d31"]
+    line [10000000000000, 10000000000000, 9450000000000, 9000000000000, 9000000000000]
+    line [0, 0, 0, 450000000000, 450000000000]
+    line [0, 0, 550000000000, 550000000000, 550000000000]
+```
+
+*series: Vault balance, Creator balance, Alice balance*
 
 ### T0: Initialize (day 0)
 

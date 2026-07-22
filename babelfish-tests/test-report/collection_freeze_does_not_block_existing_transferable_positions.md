@@ -1,6 +1,6 @@
 # collection_freeze_does_not_block_existing_transferable_positions
 
-**Source:** [`tests/freeze.rs` L73](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/freeze.rs#L73)
+**Source:** [`tests/freeze.rs` L73](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/freeze.rs#L73)
 
 Over 1 day: 4 moments.
 
@@ -34,6 +34,18 @@ Over 1 day: 4 moments.
 | T1 | 10,000,000,000,000 |  | 0 |  | — |  | FirstClaim (day 1) |
 | T2 | 10,000,000,000,000 |  | 0 |  | 0 |  | FreezeCollection (day 1) |
 | T3 | 10,000,000,000,000 |  | 0 |  | 0 |  | TransferPosition (day 1) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d1", "d1", "d1"]
+    line [10000000000000, 10000000000000, 10000000000000, 10000000000000]
+    line [0, 0, 0, 0]
+    line [0, 0, 0, 0]
+```
+
+*series: Vault balance, Creator balance, Alice balance*
 
 ### T0: Initialize (day 0)
 

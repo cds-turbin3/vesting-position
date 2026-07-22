@@ -1,6 +1,6 @@
 # clawback_after_grace_burns_asset_and_recovers_remainder
 
-**Source:** [`tests/clawback.rs` L37](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/clawback.rs#L37)
+**Source:** [`tests/clawback.rs` L37](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/clawback.rs#L37)
 
 Over 38 days: 5 moments.
 
@@ -33,6 +33,18 @@ Over 38 days: 5 moments.
 | T2 | 9,450,000,000,000 | -550,000,000,000 | 0 |  | 550,000,000,000 | +550,000,000,000 | Claim (day 16) |
 | T3 | 9,000,000,000,000 | -450,000,000,000 | 450,000,000,000 | +450,000,000,000 | 550,000,000,000 |  | Clawback (day 38) |
 | T4 | 9,000,000,000,000 |  | 450,000,000,000 |  | 550,000,000,000 |  | Claim (day 38) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d1", "d16", "d38", "d38"]
+    line [10000000000000, 10000000000000, 9450000000000, 9000000000000, 9000000000000]
+    line [0, 0, 0, 450000000000, 450000000000]
+    line [0, 0, 550000000000, 550000000000, 550000000000]
+```
+
+*series: Vault balance, Creator balance, Alice balance*
 
 ### T0: Initialize (day 0)
 

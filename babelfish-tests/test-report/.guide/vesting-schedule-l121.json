@@ -1,5 +1,5 @@
 {
-  "guide": "0.2",
+  "guide": "0.3",
   "provenance": {
     "file": "tests/vesting_schedule.rs",
     "line": 121
@@ -261,6 +261,59 @@
               "value": "Claim (day 31)"
             }
           ]
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Chart"
+      ]
+    },
+    {
+      "kind": "chart",
+      "data": {
+        "kind": "line",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
+          },
+          {
+            "label": "d2",
+            "clock": 1700172800
+          },
+          {
+            "label": "d31",
+            "clock": 1702678401
+          }
+        ],
+        "series": [
+          {
+            "name": "Vault balance",
+            "points": [
+              "10000000000000",
+              "10000000000000",
+              "9000000000000"
+            ]
+          },
+          {
+            "name": "Creator balance",
+            "points": [
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          {
+            "name": "Alice balance",
+            "points": [
+              null,
+              null,
+              "1000000000000"
+            ]
+          }
         ]
       }
     },
@@ -1562,14 +1615,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        6,
-        7,
         8,
         9,
         10,
         11,
         12,
-        13
+        13,
+        14,
+        15
       ],
       "open": false
     },
@@ -1577,14 +1630,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        16,
-        17,
         18,
         19,
         20,
         21,
         22,
-        23
+        23,
+        24,
+        25
       ],
       "open": false
     },
@@ -1592,14 +1645,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        27,
-        28,
         29,
         30,
         31,
         32,
         33,
-        34
+        34,
+        35,
+        36
       ],
       "open": false
     }

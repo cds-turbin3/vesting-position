@@ -1,6 +1,6 @@
 # fully_claimed_loyalty_badge_is_permanently_frozen
 
-**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/freeze.rs#L123)
+**Source:** [`tests/freeze.rs` L123](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/freeze.rs#L123)
 
 <details>
 <summary>Over 31 days: 4 moments; 1/1 law held; 1/1 final check passed.</summary>
@@ -46,6 +46,18 @@ Final state checks:
 | T1 | 10,000,000,000,000 |  | 0 |  | — |  | — | FirstClaim (day 1) |
 | T2 | 9,000,000,000,000 | -1,000,000,000,000 | 0 |  | 1,000,000,000,000 | +1,000,000,000,000 | true | Claim (day 31) |
 | T3 | 9,000,000,000,000 |  | 0 |  | 1,000,000,000,000 |  | true | TransferPosition (day 31) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d1", "d31", "d31"]
+    line [10000000000000, 10000000000000, 9000000000000, 9000000000000]
+    line [0, 0, 0, 0]
+    line [0, 0, 1000000000000, 1000000000000]
+```
+
+*series: Vault balance, Creator balance, Alice balance*
 
 ### T0: Initialize (day 0)
 

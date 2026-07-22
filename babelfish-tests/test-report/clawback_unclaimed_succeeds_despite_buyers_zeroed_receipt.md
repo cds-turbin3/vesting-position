@@ -1,6 +1,6 @@
 # clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt
 
-**Source:** [`tests/clawback.rs` L165](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/clawback.rs#L165)
+**Source:** [`tests/clawback.rs` L165](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/clawback.rs#L165)
 
 Over 38 days: 5 moments.
 
@@ -36,6 +36,19 @@ Over 38 days: 5 moments.
 | T2 | 10,000,000,000,000 |  | 0 |  | 0 |  | — |  | TransferPosition (day 1) |
 | T3 | 9,450,000,000,000 | -550,000,000,000 | 0 |  | 0 |  | — |  | Claim (day 16) |
 | T4 | 7,450,000,000,000 | -2,000,000,000,000 | 2,000,000,000,000 | +2,000,000,000,000 | 0 |  | 550,000,000,000 | +550,000,000,000 | ClawbackUnclaimed (day 38) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d1", "d1", "d16", "d38"]
+    line [10000000000000, 10000000000000, 10000000000000, 9450000000000, 7450000000000]
+    line [0, 0, 0, 0, 2000000000000]
+    line [0, 0, 0, 0, 0]
+    line [0, 0, 0, 0, 550000000000]
+```
+
+*series: Vault balance, Creator balance, Alice balance, Bob balance*
 
 ### T0: Initialize (day 0)
 

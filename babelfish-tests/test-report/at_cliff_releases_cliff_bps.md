@@ -1,6 +1,6 @@
 # at_cliff_releases_cliff_bps
 
-**Source:** [`tests/vesting_schedule.rs` L48](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/vesting_schedule.rs#L48)
+**Source:** [`tests/vesting_schedule.rs` L48](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/vesting_schedule.rs#L48)
 
 Over 2 days: 2 moments.
 
@@ -29,6 +29,17 @@ Over 2 days: 2 moments.
 | --- | --- | --- | --- | --- | --- | --- |
 | T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — | Initialize (day 0) |
 | T1 | 9,900,000,000,000 | -100,000,000,000 | 0 |  | — | FirstClaim (day 2) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d2"]
+    line [10000000000000, 9900000000000]
+    line [0, 0]
+```
+
+*series: Vault balance, Creator balance*
 
 ### T0: Initialize (day 0)
 

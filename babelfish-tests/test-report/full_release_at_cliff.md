@@ -1,6 +1,6 @@
 # full_release_at_cliff
 
-**Source:** [`tests/vesting_schedule.rs` L149](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/vesting_schedule.rs#L149)
+**Source:** [`tests/vesting_schedule.rs` L149](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/vesting_schedule.rs#L149)
 
 Over 31 days: 3 moments.
 
@@ -31,6 +31,18 @@ Over 31 days: 3 moments.
 | T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — |  | Initialize (day 0) |
 | T1 | 9,000,000,000,000 | -1,000,000,000,000 | 0 |  | — |  | FirstClaim (day 2) |
 | T2 | 9,000,000,000,000 |  | 0 |  | 1,000,000,000,000 | +1,000,000,000,000 | Claim (day 31) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d2", "d31"]
+    line [10000000000000, 9000000000000, 9000000000000]
+    line [0, 0, 0]
+    line [0, 0, 1000000000000]
+```
+
+*series: Vault balance, Creator balance, Alice balance*
 
 ### T0: Initialize (day 0)
 

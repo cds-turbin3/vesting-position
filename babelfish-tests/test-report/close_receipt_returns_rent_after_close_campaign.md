@@ -1,6 +1,6 @@
 # close_receipt_returns_rent_after_close_campaign
 
-**Source:** [`tests/clawback.rs` L364](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/clawback.rs#L364)
+**Source:** [`tests/clawback.rs` L364](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/clawback.rs#L364)
 
 Over 31 days: 5 moments.
 
@@ -33,6 +33,18 @@ Over 31 days: 5 moments.
 | T2 | 0 | -1,000,000,000,000 | 0 |  | 1,000,000,000,000 | +1,000,000,000,000 | Claim (day 31) |
 | T3 | 0 |  | 0 |  | 1,000,000,000,000 |  | CloseCampaign (day 31) |
 | T4 | 0 |  | 0 |  | 1,000,000,000,000 |  | CloseReceipt (day 31) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d1", "d31", "d31", "d31"]
+    line [1000000000000, 1000000000000, 0, 0, 0]
+    line [0, 0, 0, 0, 0]
+    line [0, 0, 1000000000000, 1000000000000, 1000000000000]
+```
+
+*series: Vault balance, Creator balance, Alice balance*
 
 ### T0: Initialize (day 0)
 

@@ -1,6 +1,6 @@
 # clawback_unclaimed_recovers_allocation_and_blocks_claim
 
-**Source:** [`tests/clawback.rs` L104](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/clawback.rs#L104)
+**Source:** [`tests/clawback.rs` L104](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/clawback.rs#L104)
 
 Over 38 days: 3 moments.
 
@@ -30,6 +30,17 @@ Over 38 days: 3 moments.
 | T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — | Initialize (day 0) |
 | T1 | 8,000,000,000,000 | -2,000,000,000,000 | 2,000,000,000,000 | +2,000,000,000,000 | — | ClawbackUnclaimed (day 38) |
 | T2 | 8,000,000,000,000 |  | 2,000,000,000,000 |  | — | FirstClaim (day 38) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d38", "d38"]
+    line [10000000000000, 8000000000000, 8000000000000]
+    line [0, 2000000000000, 2000000000000]
+```
+
+*series: Vault balance, Creator balance*
 
 ### T0: Initialize (day 0)
 

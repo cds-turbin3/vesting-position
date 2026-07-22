@@ -1,5 +1,5 @@
 {
-  "guide": "0.2",
+  "guide": "0.3",
   "provenance": {
     "file": "tests/clawback.rs",
     "line": 333
@@ -285,6 +285,66 @@
               "value": "CancelCampaign (day 1)"
             }
           ]
+        ]
+      }
+    },
+    {
+      "kind": "heading",
+      "data": [
+        3,
+        "Chart"
+      ]
+    },
+    {
+      "kind": "chart",
+      "data": {
+        "kind": "line",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
+          },
+          {
+            "label": "d1",
+            "clock": 1700086400
+          },
+          {
+            "label": "d1",
+            "clock": 1700086400
+          },
+          {
+            "label": "d1",
+            "clock": 1700086400
+          }
+        ],
+        "series": [
+          {
+            "name": "Vault balance",
+            "points": [
+              "10000000000000",
+              "10000000000000",
+              "9000000000000",
+              "9000000000000"
+            ]
+          },
+          {
+            "name": "Creator balance",
+            "points": [
+              "0",
+              "0",
+              "1000000000000",
+              "1000000000000"
+            ]
+          },
+          {
+            "name": "Alice balance",
+            "points": [
+              null,
+              null,
+              "0",
+              "0"
+            ]
+          }
         ]
       }
     },
@@ -1767,14 +1827,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        6,
-        7,
         8,
         9,
         10,
         11,
         12,
-        13
+        13,
+        14,
+        15
       ],
       "open": false
     },
@@ -1782,14 +1842,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        16,
-        17,
         18,
         19,
         20,
         21,
         22,
-        23
+        23,
+        24,
+        25
       ],
       "open": false
     },
@@ -1797,14 +1857,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        26,
-        27,
         28,
         29,
         30,
         31,
         32,
-        33
+        33,
+        34,
+        35
       ],
       "open": false
     },
@@ -1812,14 +1872,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        36,
-        37,
         38,
         39,
         40,
         41,
         42,
-        43
+        43,
+        44,
+        45
       ],
       "open": false
     }

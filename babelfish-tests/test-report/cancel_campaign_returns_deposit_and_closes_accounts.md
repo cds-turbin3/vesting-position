@@ -1,6 +1,6 @@
 # cancel_campaign_returns_deposit_and_closes_accounts
 
-**Source:** [`tests/clawback.rs` L276](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/clawback.rs#L276)
+**Source:** [`tests/clawback.rs` L276](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/clawback.rs#L276)
 
 Over 0 days: 2 moments.
 
@@ -26,6 +26,17 @@ Over 0 days: 2 moments.
 | --- | --- | --- | --- | --- | --- |
 | T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | Initialize (day 0) |
 | T1 | 0 | -10,000,000,000,000 | 10,000,000,000,000 | +10,000,000,000,000 | CancelCampaign (day 0) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d0"]
+    line [10000000000000, 0]
+    line [0, 10000000000000]
+```
+
+*series: Vault balance, Creator balance*
 
 ### T0: Initialize (day 0)
 

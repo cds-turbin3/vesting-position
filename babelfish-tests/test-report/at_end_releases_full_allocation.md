@@ -1,6 +1,6 @@
 # at_end_releases_full_allocation
 
-**Source:** [`tests/vesting_schedule.rs` L99](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/vesting_schedule.rs#L99)
+**Source:** [`tests/vesting_schedule.rs` L99](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/vesting_schedule.rs#L99)
 
 Over 31 days: 2 moments.
 
@@ -29,6 +29,17 @@ Over 31 days: 2 moments.
 | --- | --- | --- | --- | --- | --- | --- |
 | T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — | Initialize (day 0) |
 | T1 | 9,000,000,000,000 | -1,000,000,000,000 | 0 |  | — | FirstClaim (day 31) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d31"]
+    line [10000000000000, 9000000000000]
+    line [0, 0]
+```
+
+*series: Vault balance, Creator balance*
 
 ### T0: Initialize (day 0)
 

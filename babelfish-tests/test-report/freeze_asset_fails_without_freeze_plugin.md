@@ -1,6 +1,6 @@
 # freeze_asset_fails_without_freeze_plugin
 
-**Source:** [`tests/freeze.rs` L294](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/freeze.rs#L294)
+**Source:** [`tests/freeze.rs` L294](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/freeze.rs#L294)
 
 Over 1 day: 3 moments.
 
@@ -30,6 +30,18 @@ Over 1 day: 3 moments.
 | T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — |  | Initialize (day 0) |
 | T1 | 10,000,000,000,000 |  | 0 |  | — |  | FirstClaim (day 1) |
 | T2 | 10,000,000,000,000 |  | 0 |  | 0 |  | FreezeAsset (day 1) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d1", "d1"]
+    line [10000000000000, 10000000000000, 10000000000000]
+    line [0, 0, 0]
+    line [0, 0, 0]
+```
+
+*series: Vault balance, Creator balance, Alice balance*
 
 ### T0: Initialize (day 0)
 

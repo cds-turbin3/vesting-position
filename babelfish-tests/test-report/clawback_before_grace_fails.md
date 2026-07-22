@@ -1,6 +1,6 @@
 # clawback_before_grace_fails
 
-**Source:** [`tests/clawback.rs` L65](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/clawback.rs#L65)
+**Source:** [`tests/clawback.rs` L65](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/clawback.rs#L65)
 
 Over 31 days: 3 moments.
 
@@ -30,6 +30,18 @@ Over 31 days: 3 moments.
 | T0 | 10,000,000,000,000 | +10,000,000,000,000 | 0 |  | — |  | Initialize (day 0) |
 | T1 | 10,000,000,000,000 |  | 0 |  | — |  | FirstClaim (day 1) |
 | T2 | 10,000,000,000,000 |  | 0 |  | 0 |  | Clawback (day 31) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d1", "d31"]
+    line [10000000000000, 10000000000000, 10000000000000]
+    line [0, 0, 0]
+    line [0, 0, 0]
+```
+
+*series: Vault balance, Creator balance, Alice balance*
 
 ### T0: Initialize (day 0)
 

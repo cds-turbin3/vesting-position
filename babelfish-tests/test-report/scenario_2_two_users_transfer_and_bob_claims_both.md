@@ -1,6 +1,6 @@
 # scenario_2_two_users_transfer_and_bob_claims_both
 
-**Source:** [`tests/claim.rs` L61](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/claim.rs#L61)
+**Source:** [`tests/claim.rs` L61](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/claim.rs#L61)
 
 Over 1 day: 6 moments.
 
@@ -37,6 +37,19 @@ Over 1 day: 6 moments.
 | T3 | 10,000,000,000,000 |  | 0 |  | 0 |  | 0 |  | TransferPosition (day 1) |
 | T4 | 10,000,000,000,000 |  | 0 |  | 0 |  | 0 |  | Claim (day 1) |
 | T5 | 10,000,000,000,000 |  | 0 |  | 0 |  | 0 |  | Claim (day 1) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d1", "d1", "d1", "d1", "d1"]
+    line [10000000000000, 10000000000000, 10000000000000, 10000000000000, 10000000000000, 10000000000000]
+    line [0, 0, 0, 0, 0, 0]
+    line [0, 0, 0, 0, 0, 0]
+    line [0, 0, 0, 0, 0, 0]
+```
+
+*series: Vault balance, Creator balance, Alice balance, Bob balance*
 
 ### T0: Initialize (day 0)
 

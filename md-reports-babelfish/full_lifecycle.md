@@ -1,6 +1,6 @@
 # full_lifecycle
 
-**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/932c23856044d9b06abefcbda648838176349fe4/babelfish-tests/tests/full_lifecycle.rs#L24)
+**Source:** [`tests/full_lifecycle.rs` L24](https://github.com/cds-turbin3/vesting-position/blob/414788a7eaf024c312a712e22c69b20da7f9697d/babelfish-tests/tests/full_lifecycle.rs#L24)
 
 > Given: a live campaign; Alice and Charlie whitelisted, Bob not
 
@@ -65,6 +65,20 @@ Final state checks:
 | T9 | 7,675,000,000,000 |  | 0 |  | 550,000,000,000 |  | Alice | 1,550,000,000,000 |  | 225,000,000,000 |  | TransferPosition (day 23) |
 | T10 | 7,675,000,000,000 |  | 0 |  | 550,000,000,000 |  | Alice | 1,550,000,000,000 |  | 225,000,000,000 |  | Claim (day 23) |
 | T11 | 7,405,000,000,000 | -270,000,000,000 | 0 |  | 820,000,000,000 | +270,000,000,000 | Alice | 1,550,000,000,000 |  | 225,000,000,000 |  | Claim (day 28) |
+
+### Chart
+
+```mermaid
+xychart-beta
+    x-axis ["d0", "d2", "d16", "d16", "d16", "d16", "d16", "d23", "d23", "d23", "d23", "d28"]
+    line [10000000000000, 9900000000000, 9450000000000, 8350000000000, 8350000000000, 8350000000000, 8350000000000, 8125000000000, 7675000000000, 7675000000000, 7675000000000, 7405000000000]
+    line [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    line [0, 0, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 550000000000, 820000000000]
+    line [0, 0, 0, 0, 1100000000000, 1100000000000, 1100000000000, 1100000000000, 1550000000000, 1550000000000, 1550000000000, 1550000000000]
+    line [0, 0, 0, 0, 0, 0, 0, 0, 225000000000, 225000000000, 225000000000, 225000000000]
+```
+
+*series: Vault balance, Creator balance, Alice balance, Charlie balance, Bob balance*
 
 ### T0: Initialize (day 0)
 
