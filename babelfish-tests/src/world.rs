@@ -19,7 +19,8 @@
 use std::collections::HashMap;
 
 use frood::blocks::{
-    authority, cast, chart, folder, ownership, sequence, timeline, tree, ChartKind, Lifelines,
+    authority, cast, chart, folder, ownership, sequence, timeline, transfers, tree, ChartKind,
+    Lifelines,
 };
 use frood::{Actor, IntoBundle, Obs, Outcome, ReportConfig, ReportState, Reporter, Story};
 use frood_idl::types::Value;
@@ -239,6 +240,9 @@ pub fn report_standard() -> ReportConfig {
         // The same samples re-based to change-since-first-sample: the flows
         // of the campaign on one axis, net per series in the legend.
         chart(ChartKind::Delta).collapsed(),
+        // Attribution, not consequence: who paid whom, from the transfer
+        // instructions themselves (CPIs included, failed txs excluded).
+        transfers().collapsed(),
         folder(
             "diagrams",
             [sequence(Lifelines), authority(), ownership(), tree()],
