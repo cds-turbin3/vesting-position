@@ -1,6 +1,6 @@
 # clawback_unclaimed_succeeds_despite_buyers_zeroed_receipt
 
-**Source:** [`tests/clawback.rs` L165](https://github.com/cds-turbin3/vesting-position/blob/7c9fb3a609fc786de731fb5d2ea82919f4974b08/babelfish-tests/tests/clawback.rs#L165)
+**Source:** [`tests/clawback.rs` L165](https://github.com/cds-turbin3/vesting-position/blob/0b610d8142f4f1ce80bcda3fc16e184a127166b5/babelfish-tests/tests/clawback.rs#L165)
 
 Over 38 days: 5 moments.
 
@@ -77,6 +77,22 @@ xychart-beta
 ```
 
 *🟠 Vault balance (-2.5T) · 🔵 Creator balance (+2T) · 🟢 Alice balance (0) · 🟣 Bob balance (+550B)*
+
+</details>
+
+<details>
+<summary>Transfers</summary>
+
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
+xychart-beta
+    x-axis ["d0", "d1", "d1", "d16", "d38"]
+    line [10000000000000, 10000000000000, 10000000000000, 10000000000000, 10000000000000]
+    line [0, 0, 0, 550000000000, 550000000000]
+    line [0, 0, 0, 0, 2000000000000]
+```
+
+*🟠 creatorAta(Creator, token, Mint) → campaignAta(Vesting campaign, token, Mint) · 🔵 campaignAta(Vesting campaign, token, Mint) → userAta(Bob, token, Mint) · 🟢 campaignAta(Vesting campaign, token, Mint) → creatorAta(Creator, token, Mint)*
 
 </details>
 

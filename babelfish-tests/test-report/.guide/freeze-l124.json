@@ -466,6 +466,50 @@
       }
     },
     {
+      "kind": "chart",
+      "data": {
+        "kind": "line",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
+          },
+          {
+            "label": "d1",
+            "clock": 1700086400
+          },
+          {
+            "label": "d31",
+            "clock": 1702678401
+          },
+          {
+            "label": "d31",
+            "clock": 1702678401
+          }
+        ],
+        "series": [
+          {
+            "name": "creatorAta(Creator, token, Mint) → campaignAta(Vesting campaign, token, Mint)",
+            "points": [
+              "10000000000000",
+              "10000000000000",
+              "10000000000000",
+              "10000000000000"
+            ]
+          },
+          {
+            "name": "campaignAta(Vesting campaign, token, Mint) → userAta(Alice, token, Mint)",
+            "points": [
+              "0",
+              "0",
+              "1000000000000",
+              "1000000000000"
+            ]
+          }
+        ]
+      }
+    },
+    {
       "kind": "heading",
       "data": [
         3,
@@ -1948,16 +1992,24 @@
     },
     {
       "op": "fold",
+      "label": "Transfers",
+      "blocks": [
+        9
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
       "label": "diagrams",
       "blocks": [
-        11,
         12,
         13,
         14,
         15,
         16,
         17,
-        18
+        18,
+        19
       ],
       "open": false
     },
@@ -1965,14 +2017,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        21,
         22,
         23,
         24,
         25,
         26,
         27,
-        28
+        28,
+        29
       ],
       "open": false
     },
@@ -1980,14 +2032,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        32,
         33,
         34,
         35,
         36,
         37,
         38,
-        39
+        39,
+        40
       ],
       "open": false
     },
@@ -1995,14 +2047,14 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        42,
         43,
         44,
         45,
         46,
         47,
         48,
-        49
+        49,
+        50
       ],
       "open": false
     }

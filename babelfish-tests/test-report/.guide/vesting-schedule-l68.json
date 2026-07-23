@@ -276,6 +276,38 @@
       }
     },
     {
+      "kind": "chart",
+      "data": {
+        "kind": "line",
+        "ticks": [
+          {
+            "label": "d0",
+            "clock": 1700000000
+          },
+          {
+            "label": "d16",
+            "clock": 1701425600
+          }
+        ],
+        "series": [
+          {
+            "name": "creatorAta(Creator, token, Mint) → campaignAta(Vesting campaign, token, Mint)",
+            "points": [
+              "10000000000000",
+              "10000000000000"
+            ]
+          },
+          {
+            "name": "campaignAta(Vesting campaign, token, Mint) → Alice/ATA(Mint)",
+            "points": [
+              "0",
+              "550000000000"
+            ]
+          }
+        ]
+      }
+    },
+    {
       "kind": "heading",
       "data": [
         3,
@@ -1269,16 +1301,9 @@
     },
     {
       "op": "fold",
-      "label": "diagrams",
+      "label": "Transfers",
       "blocks": [
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16
+        6
       ],
       "open": false
     },
@@ -1286,14 +1311,29 @@
       "op": "fold",
       "label": "diagrams",
       "blocks": [
-        22,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "open": false
+    },
+    {
+      "op": "fold",
+      "label": "diagrams",
+      "blocks": [
         23,
         24,
         25,
         26,
         27,
         28,
-        29
+        29,
+        30
       ],
       "open": false
     }

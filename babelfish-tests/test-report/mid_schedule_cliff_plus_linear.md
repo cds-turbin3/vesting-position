@@ -1,6 +1,6 @@
 # mid_schedule_cliff_plus_linear
 
-**Source:** [`tests/vesting_schedule.rs` L67](https://github.com/cds-turbin3/vesting-position/blob/7c9fb3a609fc786de731fb5d2ea82919f4974b08/babelfish-tests/tests/vesting_schedule.rs#L67)
+**Source:** [`tests/vesting_schedule.rs` L67](https://github.com/cds-turbin3/vesting-position/blob/0b610d8142f4f1ce80bcda3fc16e184a127166b5/babelfish-tests/tests/vesting_schedule.rs#L67)
 
 Over 16 days: 2 moments.
 
@@ -58,6 +58,21 @@ xychart-beta
 ```
 
 *🟠 Vault balance (-550B) · 🔵 Creator balance (0)*
+
+</details>
+
+<details>
+<summary>Transfers</summary>
+
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
+xychart-beta
+    x-axis ["d0", "d16"]
+    line [10000000000000, 10000000000000]
+    line [0, 550000000000]
+```
+
+*🟠 creatorAta(Creator, token, Mint) → campaignAta(Vesting campaign, token, Mint) · 🔵 campaignAta(Vesting campaign, token, Mint) → Alice/ATA(Mint)*
 
 </details>
 

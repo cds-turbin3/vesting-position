@@ -1,6 +1,6 @@
 # scenario_9_claim_window_closes_after_grace
 
-**Source:** [`tests/claim.rs` L237](https://github.com/cds-turbin3/vesting-position/blob/7c9fb3a609fc786de731fb5d2ea82919f4974b08/babelfish-tests/tests/claim.rs#L237)
+**Source:** [`tests/claim.rs` L237](https://github.com/cds-turbin3/vesting-position/blob/0b610d8142f4f1ce80bcda3fc16e184a127166b5/babelfish-tests/tests/claim.rs#L237)
 
 Over 38 days: 4 moments.
 
@@ -66,6 +66,21 @@ xychart-beta
 ```
 
 *🟠 Vault balance (-1T) · 🔵 Creator balance (0) · 🟢 Alice balance (+1T)*
+
+</details>
+
+<details>
+<summary>Transfers</summary>
+
+```mermaid
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#e0641e, #3987e5, #2ca02c, #9a5ce0, #d9504f"}}}}%%
+xychart-beta
+    x-axis ["d0", "d1", "d37", "d38"]
+    line [10000000000000, 10000000000000, 10000000000000, 10000000000000]
+    line [0, 0, 1000000000000, 1000000000000]
+```
+
+*🟠 creatorAta(Creator, token, Mint) → campaignAta(Vesting campaign, token, Mint) · 🔵 campaignAta(Vesting campaign, token, Mint) → userAta(Alice, token, Mint)*
 
 </details>
 
